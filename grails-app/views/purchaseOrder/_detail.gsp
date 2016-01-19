@@ -30,7 +30,7 @@ if(actionName=='edit' || actionName=='show') {
                         	options:{
                         		precision:2,
                         		onChange: function(rec){
-                                	exchangeRate();
+                                	autoCalculate();
                             	}
                         	}
 
@@ -41,7 +41,7 @@ if(actionName=='edit' || actionName=='show') {
                         	options:{
                         		precision:2,
                         		onChange: function(rec){
-                                	exchangeRate();
+                                	autoCalculate();
                             	}
                         	}
 
@@ -264,7 +264,7 @@ if(actionName=='edit' || actionName=='show') {
                 
                 $("#totalPO").text(formatNumber(data.data));
                 $("#totalPO2").text(formatNumber(parseFloat(data.data)/parseFloat(rate)));
-                reloadPpp(pppNumber,data.data);
+                //reloadPpp(pppNumber,data.data);
             },
             dataType: 'json'
         });    
@@ -276,20 +276,18 @@ if(actionName=='edit' || actionName=='show') {
     	console.log(totalPO);
     	$.ajax({
             type: "POST",
-            url: "/${meta(name:'app.name')}/ppp/jlist",
+            url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
             data: {pppNumber:pppNumber},
             success: function(d){ 
             	var remain = d.remainCreditLimit2 - (totalPO/d.rate)
-                console.log("------ DATA ppp --------");
-                console.log(d);
-                console.log("------ DATA ppp--------");
+                
                 $("#table-ppp tbody").html("");	
 				var tr ="<tr>";
 					tr += "<td > "+  d.pppNumber +" </td>";
 					tr += "<td > "+  d.lobName +" </td>";
 					tr += "<td > "+  d.brandName +" </td>";
 					tr += "<td > "+  d.requestorName +" </td>";
-					tr += "<td style='text-align:right'> "+  formatNumber(d.amount2) +" </td>";
+					tr += "<td style='text-align:right'> "+  formatNumber(d.amount) +" </td>";
 					tr += "<td style='text-align:right'> "+  formatNumber(remain) +" </td>";
 					tr += "<td > "+  d.pppDate +" </td>";
 					tr += "</tr>";
@@ -300,6 +298,25 @@ if(actionName=='edit' || actionName=='show') {
             },
         });
     }
+
+    function autoCalculate(){
+		if(editIndex != undefined){
+			var qtyEd  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'qty'});
+			var qty = $(qtyEd.target).numberbox('getValue');
+
+			var unitPriceEd  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'unitPrice'});
+			var unitPrice = $(unitPriceEd.target).numberbox('getValue');
+
+			var totalCost = parseFloat(qty) * parseFloat(unitPrice);
+			var totalCost2 = totalCost/rate
+
+			var totalEd  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'totalCost'});
+			$(totalEd.target).numberbox('setValue',totalCost);
+
+			var total2Ed  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});	
+			$(total2Ed.target).numberbox('setValue',totalCost2);
+		}    	
+    }	
 
 </r:script>  
     

@@ -24,6 +24,19 @@
 						<tbody>
 						
 							<tr class="prop">
+								<td valign="top" class="name"><g:message code="approval.approvalDetails.label" default="Approval Details" /></td>
+								
+								<td valign="top" style="text-align: left;" class="value">
+									<ul>
+									<g:each in="${approvalInstance.approvalDetails}" var="a">
+										<li><g:link controller="approvalDetail" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
+									</g:each>
+									</ul>
+								</td>
+								
+							</tr>
+						
+							<tr class="prop">
 								<td valign="top" class="name"><g:message code="approval.description.label" default="Description" /></td>
 								
 								<td valign="top" class="value">${fieldValue(bean: approvalInstance, field: "description")}</td>

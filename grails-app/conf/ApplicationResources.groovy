@@ -7,6 +7,8 @@ modules = {
       //	resource url:'js/jquery-easyui/jquery.min.js'
         resource url:'js/jquery-easyui/jquery.easyui.min.js'
         resource url:'js/jquery-easyui/themes/bootstrap/easyui.css'
+        resource url:'js/jquery-easyui/datagrid-detailview.js'
+        
 
         resource url:'js/numeral/min/numeral.min.js'	
         

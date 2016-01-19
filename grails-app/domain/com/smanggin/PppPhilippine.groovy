@@ -51,5 +51,24 @@ class PppPhilippine {
 		version nullable:true	
     }
 	
-	
+	static transients =['remainCreditLimit']
+
+	Float getRemainCreditLimit() {
+		def poApp = PurchaseOrder.createCriteria().list(){
+			eq('pppNumber',number)
+			
+		}
+
+		def totalOrder = 0
+		//println "purchaseOrders" + purchaseOrders
+		if(poApp.size() > 0){
+			poApp.each{
+				totalOrder = totalOrder+(it.total/it.rate)
+			}
+		}
+		
+		def amount = pppCost?:0
+		//println " Grand total Order "+ totalOrder
+		return (amount-totalOrder)
+	}
 }

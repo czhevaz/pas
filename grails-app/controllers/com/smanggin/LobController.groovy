@@ -145,10 +145,12 @@ class LobController {
 
     def jlist() {
         if(params.masterField){
+
             def c = Lob.createCriteria()
             def results = c.list {
                 eq(params.masterField.name+'.name',params.masterField.id)    
             }
+            
             render results as JSON
 
         }

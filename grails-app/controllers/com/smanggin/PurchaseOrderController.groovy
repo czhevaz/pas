@@ -55,10 +55,9 @@ class PurchaseOrderController {
   			
         }
 
-        println " rate " +rate
 
         if(baseCurrency){
-        	def localCurrency = Currency.findByCodeAndActive(params.code,'Yes')
+        	def localCurrency = Currency.findByCodeAndActive(params.currency1?.code,'Yes')
         	purchaseOrderInstance.currency1=localCurrency
         	purchaseOrderInstance.currency2=baseCurrency
         	purchaseOrderInstance.rate = params.rate?params.rate.toFloat():1
@@ -130,6 +129,16 @@ class PurchaseOrderController {
         }
 
         purchaseOrderInstance.properties = params
+        
+        if(params.comment){
+        	
+        	def logChatInstance =new PurchaseOrderComment()
+        	logChatInstance.description=params.comment
+        	logChatInstance.createdBy = auth.user()
+        	logChatInstance.purchaseOrder =purchaseOrderInstance
+        	logChatInstance.save()
+        }
+
 
         if (!purchaseOrderInstance.save(flush: true)) {
             render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])

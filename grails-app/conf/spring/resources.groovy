@@ -13,7 +13,8 @@ beans = {
             new BrandMarshaller(),
             new LobMarshaller(),
             new PurchaseOrderDetailMarshaller(),
-            new PppPhilippineMarshaller()
+            new PppPhilippineMarshaller(),
+            new ApprovalDetailMarshaller(),
         ]
      }
 }
