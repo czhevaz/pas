@@ -7,6 +7,7 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'purchaseOrder.label', default: 'PurchaseOrder')}" />
 	<title><g:message code="default.create.label" args="[entityName]" /></title>
+	<g:set var="canCreate" value="true" scope="request" />
 </head>
 
 <body>

@@ -7,6 +7,8 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'transactionGroupUser.label', default: 'TransactionGroupUser')}" />
 	<title><g:message code="default.create.label" args="[entityName]" /></title>
+	<g:set var="canCreate" value="true" scope="request" />
+	
 </head>
 
 <body>
