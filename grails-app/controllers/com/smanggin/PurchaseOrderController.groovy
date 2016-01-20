@@ -380,15 +380,19 @@ class PurchaseOrderController {
         purchaseOrderInstance.approvedBy = auth.user()?.toString()
         purchaseOrderInstance.dateApproved = new Date()
         
-        purchaseOrderInstance.mustApprovedBy = globalService.getNextApprover(purchaseOrderInstance,user)
+        if(globalService.getNextApprover(purchaseOrderInstance,user)){
+            purchaseOrderInstance.mustApprovedBy = globalService.getNextApprover(purchaseOrderInstance,user)
+        }
 
         def countPoApp = purchaseOrderInstance.purchaseOrderApprovers?.size()
-        def countPOApproved= PurchaseOrderApprover.findAllByPurchaseOrderAndState(purchaseOrderInstance,1).size()+1
-
+        def countPOApproved= PurchaseOrderApprover.findAllByPurchaseOrderAndStatus(purchaseOrderInstance,1).size()+1
+    
         if(countPOApproved == countPoApp){
             purchaseOrderInstance.state = 'Approved'    
         }
         
+        
+
 
         if (!purchaseOrderInstance.save(flush: true)) {
             println purchaseOrderInstance.errors
@@ -396,12 +400,13 @@ class PurchaseOrderController {
             return
         }
 
-        
         def poApprover = PurchaseOrderApprover.findByPurchaseOrderAndApprover(purchaseOrderInstance,user)
         poApprover.status = 1
         poApprover.approverDate = new Date()
-        poApprover.save(flush:true)
-
+        if (!poApprover.save(flush:true)) {
+            println poApprover.errors
+        }    
+        
         flash.message = message(code: 'default.approved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }

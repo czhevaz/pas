@@ -1,5 +1,9 @@
 
 <%@ page import="com.smanggin.PurchaseOrder" %>
+<%@ page import="com.smanggin.GlobalService" %>
+<%
+    def globalService = grailsApplication.classLoader.loadClass('com.smanggin.GlobalService').newInstance()
+%>
 <!doctype html>
 <html>
 
@@ -37,7 +41,7 @@
 	                  			<g:each in="${purchaseOrderInstance.purchaseOrderApprovers}" status="i" var="approver">
 		                  			<tr>
 		                  				<td>${approver.noSeq} . ${approver.approver}</td>
-		                  				<td>${approver.status}</td>	
+		                  				<td>${globalService.approvalStatus(approver.status)}</td>	
 		                  			</tr>
 	                  			</g:each>	
 	                  		</tbody>
