@@ -25,10 +25,22 @@
 	                  	<table class="table table-bordered no-margin">
 	                  		<thead>
 	                  			<tr>
-	                  				<td><b>Approver</b> : CM Singapore / Pic LOB</td>
-	                  				<td><b>State</b> : ${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>
+	                  				<td colspan="2"><b>Document State</b> : ${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	
+	                  			</tr>	
+	                  			<tr>
+	                  				<td><b>Approver</b> : </td>
+	                  				<td><b>Approval State</b></td>
 	                  			</tr>
+	                  			
 	                  		</thead>
+	                  		<tbody>
+	                  			<g:each in="${purchaseOrderInstance.purchaseOrderApprovers}" status="i" var="approver">
+		                  			<tr>
+		                  				<td>${approver.noSeq} . ${approver.approver}</td>
+		                  				<td>${approver.status}</td>	
+		                  			</tr>
+	                  			</g:each>	
+	                  		</tbody>
 	                  	</table>
 	                  </div>
 	                 </div> 
@@ -122,10 +134,22 @@
 						<g:hiddenField name="version" value="${purchaseOrderInstance?.version}" />
 						<g:hiddenField name="updatedBy" value="${auth.user()}"/>
 						<div class="form-actions">
-							<g:if test="${purchaseOrderInstance?.state=='Draft'}">
-								<g:actionSubmit class="btn btn-primary btn-sm" action="actionApprove" value="${message(code: 'default.button.approve.label', default: 'Approve')}" />
+							<g:if test="${purchaseOrderInstance?.state=='Draft' || purchaseOrderInstance?.state=='Rejected'}">
+								<g:if test="${purchaseOrderInstance?.createdBy == auth.user().toString()}">
+									<g:actionSubmit class="btn btn-primary btn-sm" action="actionWaitingApprove" value="${message(code: 'default.button.approve.label', default: 'Send To Approver')}" />
+									
+								</g:if>	
 							</g:if>
-							<a href="${createLink(action:'writeOff',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
+							<g:if test="${purchaseOrderInstance?.state=='Waiting Approval'}">
+								<g:if test="${purchaseOrderInstance?.mustApprovedBy==auth.user().toString()}">
+									<g:actionSubmit class="btn btn-primary btn-sm" action="actionApprove" value="${message(code: 'default.button.approve.label', default: 'Approve')}" />
+									
+									<g:actionSubmit class="btn btn-primary btn-sm" action="actionRejected" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />
+
+									<a href="${createLink(action:'writeOff',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
+								</g:if>	
+							</g:if>
+							
 						</div>	
 					</g:form>	
 				</div><!--/.box-footer clearfix -->

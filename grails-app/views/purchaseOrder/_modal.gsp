@@ -74,6 +74,7 @@
 </style>
 
 <r:script>
+	var country = $("#country").val()
 	$("#search2").click(function(){
 		
 		var lobId = $("#lob").val();
@@ -84,12 +85,13 @@
 		
 		var postData = {
 			search:"true",	
-			countryId:"${session.country}",
+			countryId:country,
 			lobId:lobId,
 			brandId:brandId,
 			requestorId:requestorId,
 			year:year,
 			month:month,		
+			
 		}
 
 		$.ajax({
@@ -121,7 +123,7 @@
 		$("#pppNumber").val(pppNumber);	
 		$.ajax({
 			url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
-			data: {pppNumber:pppNumber},
+			data: {pppNumber:pppNumber,countryId:country},
 			success: function(d){
 				$("#table-ppp tbody").html("");	
 				var tr ="<tr onclick = addToPO(\'"+d.pppNumber+"\');>";

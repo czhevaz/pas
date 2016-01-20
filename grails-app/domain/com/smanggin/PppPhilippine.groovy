@@ -44,11 +44,12 @@ class PppPhilippine {
 		pppCost column:'PPP_Cost'
 		dateCreated column:'PPP_Created_Date'
 		state column:'PPP_Status'
-
+		sort pppDate:"desc"
     }
     
 	static	constraints = {
 		version nullable:true	
+		
     }
 	
 	static transients =['remainCreditLimit']

@@ -6,11 +6,16 @@ package com.smanggin
  */
 class ApprovalDetail {
 
-	Approval approval
+	
 	Country  country
-	String      lob
-	String    brand
-	Boolean  isSequential  
+	String   lob
+	String   brand
+	Long 	 noSeq
+	User 	 creator
+	User 	 approver
+	Boolean  isSequential
+	TransactionType transactionType 
+	String toString() { brand +" - "+approver }	
 
 	static	belongsTo	= [Approval]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping

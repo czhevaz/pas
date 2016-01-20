@@ -68,9 +68,9 @@
 
 								<th><g:message code="purchaseOrder.ppp.label" default="PPP Number" /></th>
 
-								<th><g:message code="ppp.amount.label" default="PPP Limit (USD)" /></th>
+								<th><g:message code="ppp.amount.label" default="PPP Limit (USD)" /> (USD)</th>
 
-								<th><g:message code="ppp.remain.label" default="PPP Limit Remaining (USD)" /></th>
+								<th><g:message code="ppp.remain.label" default="PPP Limit Remaining (USD)" /> (USD) </th>
 
 								<th><g:message code="ppp.country.label" default="Country" /></th>
 
@@ -100,9 +100,9 @@
 
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppNumber")}</td>	
 								
-								<td></td>	
+								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppCost")}</td>	
 
-								<td></td>	
+								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppCost")}</td>	
 
 								<td>${purchaseOrderInstance.country}</td>	
 								<td>${purchaseOrderInstance.lob}</td>	

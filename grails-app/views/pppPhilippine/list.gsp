@@ -70,7 +70,7 @@
 
 								<td>${fieldValue(bean: pppInstance, field: "pppCost")}</td>
 							
-								<td></td>
+								<td>${fieldValue(bean: pppInstance, field: "remainCreditLimit")}</td>
 							
 								<td><g:formatDate date="${pppInstance.pppDate}" /></td>
 								

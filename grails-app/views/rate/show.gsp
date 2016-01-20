@@ -24,32 +24,21 @@
 						<tbody>
 						
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="rate.endDate.label" default="End Date" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${rateInstance?.endDate}" /></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="rate.rateDetails.label" default="Rate Details" /></td>
-								
-								<td valign="top" style="text-align: left;" class="value">
-									<ul>
-									<g:each in="${rateInstance.rateDetails}" var="r">
-										<li><g:link controller="rateDetail" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
-									</g:each>
-									</ul>
-								</td>
-								
-							</tr>
-						
-							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rate.starDate.label" default="Star Date" /></td>
 								
 								<td valign="top" class="value"><g:formatDate date="${rateInstance?.starDate}" /></td>
 								
 							</tr>
 						
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="rate.endDate.label" default="End Date" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${rateInstance?.endDate}" /></td>
+								
+							</tr>
+						
+							
 						</tbody>
 					</table>
 				</div><!--/.row -->

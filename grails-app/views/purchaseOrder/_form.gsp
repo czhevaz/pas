@@ -1,5 +1,15 @@
 <%@ page import="com.smanggin.PurchaseOrder" %>
 
+			<div class="form-group  required">
+				<label for="country" class="col-sm-3 control-label"><g:message code="register.country.label" default="Country" /></label>
+				<div class="col-sm-3">
+				<!--	<p class="form-control-static">${session.country}</p>	
+					<g:hiddenField name="country" value="${session.country}"/> -->
+					<g:select id="country" name="country" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${purchaseOrderInstance?.country}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
+					<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'country', 'error')}</span>
+				</div>
+			</div>
+
 			<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'transactionGroup', 'error')} required">
 				<label for="transactionGroup" class="col-sm-3 control-label"><g:message code="purchaseOrder.transactionGroup.label" default="Transaction Group" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-3">
@@ -11,7 +21,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'number', 'error')} ">
 				<label for="number" class="col-sm-3 control-label"><g:message code="purchaseOrder.number.label" default="Number" /></label>
 				<div class="col-sm-4">
-					<g:textField name="number" class="form-control" value="${purchaseOrderInstance?.number}"/>
+					<g:textField name="number" class="form-control" value="${purchaseOrderInstance?.number}" readonly="true"/>
 					<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'number', 'error')}</span>
 				</div>
 			</div>
@@ -50,13 +60,7 @@
 					<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')}</span>
 				</div>
 			</div>
-			<div class="form-group  required">
-				<label for="country" class="col-sm-3 control-label"><g:message code="register.country.label" default="Country" /></label>
-				<div class="col-sm-9">
-					<p class="form-control-static">${session.country}</p>	
-					<g:hiddenField name="country" value="${session.country}"/>
-				</div>
-			</div>
+			
 
 
 <%

@@ -151,6 +151,24 @@ class TransactionTypeController {
             }
             render results as JSON
 
+        }else if(params.creator){
+            def approvalDetail = ApprovalDetail.createCriteria().list(){
+                country{
+                   eq('name',params.country)     
+                }
+                eq('lob',params.lob)
+                eq('brand',params.brand)
+                creator{
+                    eq('login',params.user)
+                }
+                projections{
+                    groupProperty('transactionType')        
+                }
+            }
+
+            println approvalDetail
+                
+            render approvalDetail as JSON
         }
         else
         {

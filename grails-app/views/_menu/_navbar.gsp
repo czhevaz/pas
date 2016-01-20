@@ -24,7 +24,7 @@
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Transaction<b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li class="controller">
-						<g:link controller="Ppp">
+						<g:link controller="pppPhilipine">
 							Ppp
 						</g:link>
 					</li>
@@ -65,11 +65,7 @@
 							Exchange Rate
 						</g:link>
 					</li>
-					<li class="controller">
-						<g:link controller="Approval">
-							Master Approval
-						</g:link>
-					</li>
+					
 					<li class="controller">
 						<g:link controller="TransactionGroup">
 							Transaction Group

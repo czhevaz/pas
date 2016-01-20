@@ -15,6 +15,7 @@ beans = {
             new PurchaseOrderDetailMarshaller(),
             new PppPhilippineMarshaller(),
             new ApprovalDetailMarshaller(),
+            new UserMarshaller(),
         ]
      }
 }

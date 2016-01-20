@@ -37,6 +37,7 @@ grails.project.dependency.resolution = {
 
         // runtime 'mysql:mysql-connector-java:5.1.22'
        // runtime 'com.microsoft.sqlserver:sqljdbc4:4.0'
+       compile 'com.microsoft.ews-java-api:ews-java-api:3.0-SNAPSHOT'
     }
 
     plugins {

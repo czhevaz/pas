@@ -111,6 +111,7 @@ class ApprovalDetailController {
     }
 
     def jsave() {
+        println params
         def approvalDetailInstance = (params.id) ? ApprovalDetail.get(params.id) : new ApprovalDetail()
         
         if (!approvalDetailInstance) {                     
@@ -135,9 +136,11 @@ class ApprovalDetailController {
         
         approvalDetailInstance.properties = params
         approvalDetailInstance.country = Country.findByName(params.countryName)
-        approvalDetailInstance.approval = Approval.get(params.approvalId)
+        approvalDetailInstance.transactionType = TransactionType.get(params.transactionTypeId)
         approvalDetailInstance.lob = params.lobCode
         approvalDetailInstance.brand = params.brandCode
+        approvalDetailInstance.creator = User.findByLogin(params.creatorId)
+        approvalDetailInstance.approver = User.findByLogin(params.approverId)
                        
         if (!approvalDetailInstance.save(flush: true)) {
             render([success: false, messages: approvalDetailInstance.errors] as JSON)
