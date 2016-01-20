@@ -24,7 +24,7 @@
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Transaction<b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li class="controller">
-						<g:link controller="pppPhilipine">
+						<g:link controller="pppPhilippine">
 							Ppp
 						</g:link>
 					</li>
@@ -42,6 +42,11 @@
 					<li class="controller">
 						<g:link controller="Brand">
 							Brand
+						</g:link>
+					</li>
+					<li class="controller">
+						<g:link controller="Country">
+							Country
 						</g:link>
 					</li>
 					<li class="controller">
@@ -71,31 +76,19 @@
 							Transaction Group
 						</g:link>
 					</li>
-					<li class="controller">
-						<g:link controller="TransactionGroupUser">
-							Transaction Group User
-						</g:link>
-					</li>
+				
 					<li class="controller">
 						<g:link controller="TransactionType">
 							Transaction Type
 						</g:link>
 					</li>
-					<li class="controller">
-						<g:link controller="Role">
-							Role
-						</g:link>
-					</li>
+					
 					<li class="controller">
 						<g:link controller="User">
 							User
 						</g:link>
 					</li>
-					<li class="controller">
-						<g:link controller="UserRole">
-							User Role
-						</g:link>
-					</li>
+					
 				</ul>
 			</li>
 		</ul>

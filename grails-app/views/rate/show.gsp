@@ -8,6 +8,8 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'rate.label', default: 'Rate')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
+	<g:set var="canCreate" value="true" scope="request" />
+	<g:set var="canEdit" value="true" scope="request" />
 </head>
 
 <body>
@@ -30,7 +32,7 @@
 								
 							</tr>
 						
-						
+
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rate.endDate.label" default="End Date" /></td>
 								
