@@ -56,4 +56,20 @@ class GlobalService {
     	}   
 
     }
+
+    def approvalStatus(val) {
+	    def result
+	    switch (val) {
+	        case 1:
+	            result = 'Approved'
+	            break
+	        case 2:
+	            result = 'Resjected'
+	            break
+	        default:
+	            result = 'Not Approved'
+	            break
+	    }    
+	   return result
+	}
 }

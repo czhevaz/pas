@@ -1,5 +1,6 @@
 
 <%@ page import="com.smanggin.PurchaseOrder" %>
+
 <!doctype html>
 <html>
 
@@ -8,6 +9,8 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'purchaseOrder.label', default: 'PurchaseOrder')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
+	<g:set var="canCreate" value="true" scope="request" />
+	<g:set var="canEdit" value="true" scope="request" />
 </head>
 
 <body>
@@ -16,35 +19,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box box-primary">
-				<div class="box-header with-border">
-					<div class="row">					
-	                  <div class="col-sm-8">
-	                  		<h3 class="box-title"><g:message code="default.show.label" args="[entityName]" /></h3>
-	                  </div>
-	                  <div class="col-sm-4">
-	                  	<table class="table table-bordered no-margin">
-	                  		<thead>
-	                  			<tr>
-	                  				<td colspan="2"><b>Document State</b> : ${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	
-	                  			</tr>	
-	                  			<tr>
-	                  				<td><b>Approver</b> : </td>
-	                  				<td><b>Approval State</b></td>
-	                  			</tr>
-	                  			
-	                  		</thead>
-	                  		<tbody>
-	                  			<g:each in="${purchaseOrderInstance.purchaseOrderApprovers}" status="i" var="approver">
-		                  			<tr>
-		                  				<td>${approver.noSeq} . ${approver.approver}</td>
-		                  				<td>${approver.status}</td>	
-		                  			</tr>
-	                  			</g:each>	
-	                  		</tbody>
-	                  	</table>
-	                  </div>
-	                 </div> 
-                </div><!--/.box-header with-border -->	
+				<g:render template="headerTittle"/> 				
                 <div class="box-body table-responsive ">
 					<table class="table table-striped">
 						<tbody>
