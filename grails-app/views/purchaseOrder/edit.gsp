@@ -17,24 +17,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box box-primary">
-				<div class="box-header with-border">
-                  <div class="row">					
-	                  <div class="col-sm-8">
-	                  		<h3 class="box-title"><g:message code="default.edit.label" args="[entityName]" /></h3>
-	                  </div>
-	                  <div class="col-sm-4">
-	                  	<table class="table table-bordered no-margin">
-	                  		<thead>
-	                  			<tr>
-	                  				<td><b>Approver</b> : CM Singapore / Pic LOB</td>
-	                  				<td><b>State</b> : ${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>
-	                  			</tr>
-	                  		</thead>
-	                  	</table>
-	                  </div>
-	                 </div>
-                </div><!--/.box-header with-border -->	
-
+				<g:render template="headerTittle"/> 				
 				<g:hasErrors bean="${purchaseOrderInstance}">
 				<div class="alert alert-error">
 					<g:renderErrors bean="${purchaseOrderInstance}" as="list" />
