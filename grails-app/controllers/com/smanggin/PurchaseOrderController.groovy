@@ -105,7 +105,7 @@ class PurchaseOrderController {
         /* update Po Balance*/
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
-        redirect(action: "show", id: purchaseOrderInstance.id)
+        redirect(action: "edit", id: purchaseOrderInstance.id)
     }
 
     def show() {
@@ -244,7 +244,7 @@ class PurchaseOrderController {
     }
 
     def jlist() {
-    	
+    	println params
         
         if(params.masterField){
             def c = PurchaseOrder.createCriteria()

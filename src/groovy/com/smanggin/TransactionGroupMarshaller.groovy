@@ -12,7 +12,7 @@ class TransactionGroupMarshaller {
     void register() {
         JSON.registerObjectMarshaller( TransactionGroup ) { TransactionGroup it ->
             return [
-				
+				id:it.id,
 				transactionTypeName : it.transactionType?.name,
 				description :it.description,
 				prefix :it.prefix,

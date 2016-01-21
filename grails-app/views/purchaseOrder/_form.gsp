@@ -13,7 +13,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'transactionGroup', 'error')} required">
 				<label for="transactionGroup" class="col-sm-3 control-label"><g:message code="purchaseOrder.transactionGroup.label" default="Transaction Group" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-3">
-					<g:select id="transactionGroup" name="transactionGroup.id" from="${com.smanggin.TransactionGroup.list()}" optionKey="id" required="" value="${purchaseOrderInstance?.transactionGroup?.id}" class="many-to-one form-control "/>
+					<g:select id="transactionGroup" name="transactionGroup.id" from="${com.smanggin.TransactionGroup.list()}" optionKey="id" required="" value="${purchaseOrderInstance?.transactionGroup?.id}" class="many-to-one form-control " noSelection="['null': '']"/>
 					<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'transactionGroup', 'error')}</span>
 				</div>
 			</div>
@@ -105,7 +105,15 @@ if(actionName=='edit') {
 	$(document).ready(function () {
 		$('#lob').empty();
 		$('#brand').empty();
+		
+		<%
+		if(actionName=='create') { 
+		%>
 		$('#transactionGroup').empty();
+		<% 
+		}
+		%>
+
 		//$('#currency1').empty();
 
 		$('#brand').chosen();
@@ -125,6 +133,7 @@ if(actionName=='edit') {
 	              	if(data.length > 0){
 	                    
 	                    $('#lob').chosen();
+
 	                    $.each(data, function(a, b){
 	                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
 	                        $('#lob').append(opt);
