@@ -208,6 +208,36 @@ class CurrencyController {
 	        }
 	        println value  
 	        render ([value:value]  as JSON)
+        }else if(params.country){
+            if(params.country == "Indonesia"){
+                params.country = "Head Office"
+            }
+            def value=1
+            def date = new Date()
+            def localCurrency = Currency.findByCountryAndActive(params.country,'Yes')
+            def rate = Rate.createCriteria().list(params){
+            
+                le('starDate',date)
+                ge('endDate',date)
+                maxResults(1)
+            }
+
+            
+            if(rate){
+                def rateDetail = RateDetail.createCriteria().list(){
+                    eq('rate.id',rate[0].id)
+                    eq('currency1',localCurrency)
+                    eq('currency2',baseCurrency)
+                    maxResults(1)
+                }
+            
+                
+                if(rateDetail){
+                    value = rateDetail[0]?.value
+                }   
+            }
+
+            render ([value:value,code:localCurrency?.code]  as JSON)    
         }
         else
         {

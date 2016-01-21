@@ -90,6 +90,7 @@ class PurchaseOrderController {
             return
         }
 
+        /* insert Po Approver*/    
         def approvals = globalService.getApprovals(purchaseOrderInstance)        
         approvals.each{
             def poApprover = new PurchaseOrderApprover()
@@ -101,8 +102,10 @@ class PurchaseOrderController {
             poApprover.save(flush:true)
         }
 
+        /* update Po Balance*/
+
 		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
-        redirect(action: "show", id: purchaseOrderInstance.id)
+        redirect(action: "edit", id: purchaseOrderInstance.id)
     }
 
     def show() {
@@ -176,6 +179,14 @@ class PurchaseOrderController {
             return
         }
 
+        def poBalance = new PurchaseOrderBalance()
+        poBalance.country = purchaseOrderInstance.country
+        poBalance.purchaseOrder = purchaseOrderInstance
+        poBalance.description =" Insert new PO state Draft"
+        poBalance.balance1 = purchaseOrderInstance.total?:0
+        poBalance.balance2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
+        poBalance.save(flush:true)
+
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
@@ -233,7 +244,7 @@ class PurchaseOrderController {
     }
 
     def jlist() {
-    	
+    	println params
         
         if(params.masterField){
             def c = PurchaseOrder.createCriteria()
@@ -391,8 +402,6 @@ class PurchaseOrderController {
             purchaseOrderInstance.state = 'Approved'    
         }
         
-        
-
 
         if (!purchaseOrderInstance.save(flush: true)) {
             println purchaseOrderInstance.errors
@@ -400,6 +409,7 @@ class PurchaseOrderController {
             return
         }
 
+        /* update Po Approver*/
         def poApprover = PurchaseOrderApprover.findByPurchaseOrderAndApprover(purchaseOrderInstance,user)
         poApprover.status = 1
         poApprover.approverDate = new Date()
@@ -441,6 +451,7 @@ class PurchaseOrderController {
             return
         }
 
+        /* update Po Approver*/
         def user = User.findByName(auth.user())
         def poApprover = PurchaseOrderApprover.findByPurchaseOrderAndApprover(purchaseOrderInstance,user)
         poApprover.status = 2

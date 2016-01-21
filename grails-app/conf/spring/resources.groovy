@@ -16,6 +16,7 @@ beans = {
             new PppPhilippineMarshaller(),
             new ApprovalDetailMarshaller(),
             new UserMarshaller(),
+            new TransactionGroupMarshaller(),
         ]
      }
 }
