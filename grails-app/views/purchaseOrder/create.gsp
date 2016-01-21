@@ -53,7 +53,7 @@
 						<div class="form-group  required">
 							<label for="requestor" class="col-sm-3 control-label"><g:message code="register.requestor.label" default="Requestor" /><span class="required-indicator">*</span></label>
 							<div class="col-sm-9">
-								<g:textField name="requestor" id="requestor" class="form-control" value="${params?.requestor}"/>
+								<g:textField name="requestor" id="requestor" class="form-control" value="${params?.requestor}" readonly="true"/>
 							</div>
 						</div>
 					
@@ -141,106 +141,7 @@
 	</div><!--/.row -->	
 <r:script>
 	
-                  
-	$(document).ready(function () {
-		$('#lob').empty();
-		$('#brand').empty();
-		$('#transactionGroup').empty();
-		//$('#currency1').empty();
 
-		$('#brand').chosen();
-		$('#lob').chosen();
-		$('#transactionGroup').chosen();
-		//$('#currency1').chosen();
-
-		$("#country").on('change', function() {
-			
-			$.ajax({
-	            url: "/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id="+$(this).val(),
-	            
-	            type: "POST",
-	            success: function (data) {
-
-	              	$('#lob').empty()
-	              	if(data.length > 0){
-	                    
-	                    $('#lob').chosen();
-	                    $.each(data, function(a, b){
-	                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
-	                        $('#lob').append(opt);
-	                        
-	                    });
-
-	                    $('#lob').trigger('chosen:updated');
-	                    $('#brand').empty();
-		               	$('#brand').chosen();
-	                }else{
-	                 
-	                    $('#lob').chosen();
-	                   
-	                }
-	                
-	              	
-	            },
-	            error: function (xhr, status, error) {
-	                alert("fail");
-	            }
-	        });
-
-	        $.ajax({
-	            url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+$(this).val(),
-	        
-	            type: "POST",
-	            success: function (data) {
-	            	console.log(data);
-	            	if(data.length > 0){
-	                    
-	                    //$('#lob').chosen();
-	                    $('#transactionGroup').empty();
-	                    $.each(data, function(a, b){
-	                         var opt = "<option value='"+b.id+"'> "+ b.description +" </option>";
-	                        $('#transactionGroup').append(opt);
-	                        
-	                    });
-
-	                    $('#transactionGroup').trigger('chosen:updated');
-	                    $('#transactionGroup').chosen();
-	                 
-	                }
-	            },
-	            error: function (xhr, status, error) {
-	                alert("fail");
-	            }
-	        });
-
-		});		
-		
-		
-        $("#lob").on('change', function() {
-        	$.ajax({
-	            url: "/${meta(name:'app.name')}/brand/jlist?country=${session.country}&masterField.name=lob&masterField.id="+$(this).val(),
-	            type: "POST",
-	            success: function (data) {
-	            	$('#brand').empty();
-	              	if(data.length > 0){
-	                   console.log("---data---");
-	                    console.log(data);
-	                    $.each(data, function(a, b){	
-	                        var opt = "<option value='"+b.code+"'> "+ b.code +"-"+ b.name  +" </option>";
-	                        $('#brand').append(opt);
-	                     });
-	                     $('#brand').trigger('chosen:updated');
-	                }
-	            },
-	            error: function (xhr, status, error) {
-	                alert("fail");
-	            }
-	        });
-        });
-
-        
-
-	});
 </r:script>	
 </section>
 

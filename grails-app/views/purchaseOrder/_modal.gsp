@@ -138,6 +138,7 @@
 				$("#table-ppp tbody").append(tr);										    
 				
 				$('#searchPpp').modal('hide');
+				$('#requestor').val(d.requestorName);
 			},
 		});	
 	}
