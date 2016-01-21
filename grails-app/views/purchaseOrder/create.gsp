@@ -143,38 +143,79 @@
 	
                   
 	$(document).ready(function () {
+		$('#lob').empty();
+		$('#brand').empty();
+		$('#transactionGroup').empty();
+		//$('#currency1').empty();
+
+		$('#brand').chosen();
+		$('#lob').chosen();
+		$('#transactionGroup').chosen();
+		//$('#currency1').chosen();
+
+		$("#country").on('change', function() {
+			
+			$.ajax({
+	            url: "/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id="+$(this).val(),
+	            
+	            type: "POST",
+	            success: function (data) {
+
+	              	$('#lob').empty()
+	              	if(data.length > 0){
+	                    
+	                    $('#lob').chosen();
+	                    $.each(data, function(a, b){
+	                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+	                        $('#lob').append(opt);
+	                        
+	                    });
+
+	                    $('#lob').trigger('chosen:updated');
+	                    $('#brand').empty();
+		               	$('#brand').chosen();
+	                }else{
+	                 
+	                    $('#lob').chosen();
+	                   
+	                }
+	                
+	              	
+	            },
+	            error: function (xhr, status, error) {
+	                alert("fail");
+	            }
+	        });
+
+	        $.ajax({
+	            url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+$(this).val(),
+	        
+	            type: "POST",
+	            success: function (data) {
+	            	console.log(data);
+	            	if(data.length > 0){
+	                    
+	                    //$('#lob').chosen();
+	                    $('#transactionGroup').empty();
+	                    $.each(data, function(a, b){
+	                         var opt = "<option value='"+b.id+"'> "+ b.description +" </option>";
+	                        $('#transactionGroup').append(opt);
+	                        
+	                    });
+
+	                    $('#transactionGroup').trigger('chosen:updated');
+	                    $('#transactionGroup').chosen();
+	                 
+	                }
+	            },
+	            error: function (xhr, status, error) {
+	                alert("fail");
+	            }
+	        });
+
+		});		
 		
-		$.ajax({
-            url: "/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id=${session.country}",
-            
-            type: "POST",
-            success: function (data) {
-
-              	$('#lob').empty()
-              	if(data.length > 0){
-                    
-                    $('#lob').chosen();
-                    $.each(data, function(a, b){
-                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
-                        $('#lob').append(opt);
-                        
-                     });
-                     $('#lob').trigger('chosen:updated');
-                     $('#brand').empty();
-	               	 $('#brand').chosen();
-                }else{
-                 
-                    $('#lob').chosen();
-                   
-                }
-                
-              	
-            },
-            error: function (xhr, status, error) {
-                alert("fail");
-            }
-        });
-
+		
         $("#lob").on('change', function() {
         	$.ajax({
 	            url: "/${meta(name:'app.name')}/brand/jlist?country=${session.country}&masterField.name=lob&masterField.id="+$(this).val(),

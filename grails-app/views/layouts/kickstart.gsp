@@ -48,18 +48,21 @@
 </head>
 
 <body style="background-color:#cce9ee">
+	<auth:ifLoggedIn>
 	<g:render template="/_menu/navbar"/>														
-
+	</auth:ifLoggedIn>
 	<!-- Enable to overwrite Header by individual page -->
 	<div id="wrapper">
 		
-		<g:if test="${ pageProperty(name:'page.header') }">
-	   		<g:pageProperty name="page.header" />
-		</g:if>
-		<g:else>
-			<g:render template="/layouts/header"/>														
-		</g:else>
 		
+			<g:if test="${ pageProperty(name:'page.header') }">
+		   		<g:pageProperty name="page.header" />
+			</g:if>
+			<g:else>
+				<g:render template="/layouts/header"/>														
+			</g:else>
+		
+
 		<g:render template="/layouts/content"/>														
 
 		<g:if test="${ pageProperty(name:'page.footer') }">
