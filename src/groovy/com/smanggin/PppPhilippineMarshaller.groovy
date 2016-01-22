@@ -23,7 +23,7 @@ class PppPhilippineMarshaller {
 				state:it.state,
 				amount: it.pppCost,
 				//amount2: it.amount2,
-				//remainCreditLimit:it.remainCreditLimit,
+				remainCreditLimit:it.remainCreditLimit,
 				//remainCreditLimit2:it.remainCreditLimit2,
 				version     : it.version,
 				

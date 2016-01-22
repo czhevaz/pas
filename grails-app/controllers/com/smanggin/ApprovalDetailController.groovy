@@ -141,13 +141,22 @@ class ApprovalDetailController {
         approvalDetailInstance.brand = params.brandCode
         approvalDetailInstance.creator = User.findByLogin(params.creatorId)
         approvalDetailInstance.approver = User.findByLogin(params.approverId)
-                       
-        if (!approvalDetailInstance.save(flush: true)) {
-            render([success: false, messages: approvalDetailInstance.errors] as JSON)
-            return
-        }
-                        
-        render([success: true] as JSON)
+        
+        if(checkApprover(params)){
+            if (!approvalDetailInstance.save(flush: true)) {
+                render([success: false, messages: approvalDetailInstance.errors] as JSON)
+                return
+            }
+                            
+            render([success: true] as JSON)    
+
+        }else{
+            approvalDetailInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                              [message(code: 'approvalDetail.label', default: 'ApprovalDetail')] as Object[],
+                              "Another user has updated this ApprovalDetail while you were editing")
+            render([success: false, messages: message] as JSON)
+        }               
+        
     }
 
     def jlist() {
@@ -168,7 +177,9 @@ class ApprovalDetailController {
     }   
 
     def jdelete(Long id) {
+        println params
         def approvalDetailInstance = ApprovalDetail.get(id)
+
         if (!approvalDetailInstance)
             render([success: false] as JSON)
         else {
@@ -191,6 +202,33 @@ class ApprovalDetailController {
         }
         else {
             render([approvalDetailInstance : approvalDetailInstance ] as JSON)
+        }
+    }
+
+    def checkApprover(params){
+        def approvalDetail = ApprovalDetail.createCriteria().list(){
+            and{
+                country{
+                    eq('name',params.countryName)
+                }
+                eq('lob',params.lob)
+                eq('brand',params.brand)
+                eq('noSeq',params.noSeq?.toLong())
+                approver{
+                    eq('login',params.approverId)
+                }
+                transactionType{
+                    eq('id',params.transactionTypeId?.toLong())
+                }    
+            }
+            
+        }
+
+        println '(approvalDetail)' + approvalDetail
+        if(approvalDetail){
+            return false
+        }else{
+            return true
         }
     }
 }

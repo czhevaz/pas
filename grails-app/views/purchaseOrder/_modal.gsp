@@ -46,7 +46,7 @@
 
 								<td>${fieldValue(bean: pppInstance, field: "amount")}</td>
 							
-								<td>${fieldValue(bean: pppInstance, field: "remain")}</td>
+								<td>${fieldValue(bean: pppInstance, field: "remainCreditLimit")}</td>
 							
 								<td><g:formatDate date="${pppInstance.pppDate}" /></td>
 
@@ -129,6 +129,7 @@
 			url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
 			data: {pppNumber:pppNumber,countryId:countryTes},
 			success: function(d){
+				console.log(d);
 				$("#table-ppp tbody").html("");	
 				var tr ="<tr onclick = addToPO(\'"+d.pppNumber+"\');>";
 					tr += "<td > "+  d.pppNumber +" </td>";
@@ -136,7 +137,7 @@
 					tr += "<td > "+  d.brandName +" </td>";
 					tr += "<td > "+  d.requestorName +" </td>";
 					tr += "<td > "+  formatNumber(d.amount) +" </td>";
-					tr += "<td > "+  formatNumber(d.remainCreditLimit2) +" </td>";
+					tr += "<td > "+  formatNumber(d.remainCreditLimit) +" </td>";
 					tr += "<td > "+  d.pppDate +" </td>";
 					tr += "</tr>";
 				$("#table-ppp tbody").append(tr);										    

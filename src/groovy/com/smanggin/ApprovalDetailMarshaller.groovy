@@ -12,6 +12,7 @@ class ApprovalDetailMarshaller {
     void register() {
         JSON.registerObjectMarshaller( ApprovalDetail ) { ApprovalDetail it ->
             return [
+            	id:it.id,
 				transactionTypeId : it.transactionType?.id,
 				countryName : it.country?.name,
 				lobCode :it.lob,

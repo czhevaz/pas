@@ -30,6 +30,7 @@ class ApprovalDetail {
 	static	constraints = {
 		version nullable: true
 		isSequential nullable: true
+		approver(unique: ['lob', 'brand','noSeq','approver','transactionType'])
     }
 	
 	/*

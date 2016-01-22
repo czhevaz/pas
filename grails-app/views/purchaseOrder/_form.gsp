@@ -1,6 +1,6 @@
 <%@ page import="com.smanggin.PurchaseOrder" %>
 
-			<div class="form-group  required">
+			<div class="form-group ${hasErrors(bean: purchaseOrderInstance, field: 'country', 'error')}  required">
 				<label for="country" class="col-sm-3 control-label"><g:message code="register.country.label" default="Country" /></label>
 				<div class="col-sm-3">
 				<!--	<p class="form-control-static">${session.country}</p>	
