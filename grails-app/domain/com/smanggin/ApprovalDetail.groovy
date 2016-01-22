@@ -30,6 +30,7 @@ class ApprovalDetail {
 	static	constraints = {
 		version nullable: true
 		isSequential nullable: true
+		noSeq(unique: ['lob', 'brand','approver','transactionType'])
 		approver(unique: ['lob', 'brand','noSeq','approver','transactionType'])
     }
 	

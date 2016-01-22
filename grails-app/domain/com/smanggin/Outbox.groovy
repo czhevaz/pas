@@ -1,5 +1,5 @@
 package com.smanggin
-
+import org.springframework.dao.DataIntegrityViolationException
 /**
  * Outbox
  * A domain class describes the data object and it's mapping to the database
@@ -55,11 +55,27 @@ class Outbox {
         retry nullable:true
     }
 	
-	/*
-	 * Methods of the Domain Class
-	 */
-//	@Override	// Override toString for a nicer / more descriptive UI 
-//	public String toString() {
-//		return "${name}";
-//	}
+	static newEmail(String subject, String msg, String sender, String receiver,  cc=null, bcc=null, attachFile=null, triggerDocClass=null, triggerDocId=null){
+        def out = new Outbox()	
+		out.properties = [
+            subject:subject,
+            message:msg,
+            sender:sender,
+            receiver:receiver,
+            channel:'email',
+            cc: cc,
+            bcc: bcc ,
+            triggerDocClass :triggerDocClass,
+            triggerDocId :triggerDocId ,
+        ]
+        try{
+        	if(!out.save(flush:true)){
+                println out.errors
+            }
+        }
+        catch(DataIntegrityViolationException e){
+        	println "erorr outbox save"
+        	println out.errors
+        }
+	}
 }

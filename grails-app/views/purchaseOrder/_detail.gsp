@@ -104,6 +104,8 @@ if(actionName=='edit' || actionName=='show') {
 
 </div>
 <g:render template="attachment"/> 
+
+<g:if test ="${purchaseOrderInstance.state=='Draft' || purchaseOrderInstance.state=='Rejected'}">
 <!-- Toolbar Attachment -->
 <div id="tb-attachment" style="height:auto">
     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false" onclick="attachmentsUpload()">upload</a>
@@ -117,7 +119,7 @@ if(actionName=='edit' || actionName=='show') {
     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:false" onclick="purchaseOrderDetailsAccept()">Save</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:false" onclick="purchaseOrderDetailsRefresh()">Refresh</a>
 </div><!-- /.tb-purchaseOrderDetails -->
-
+</g:if>
             
 <r:script>  
 	function attachmentsUpload(){

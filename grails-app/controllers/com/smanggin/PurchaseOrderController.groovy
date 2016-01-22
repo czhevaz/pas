@@ -261,15 +261,8 @@ class PurchaseOrderController {
         
             def brand = Brand.findByCode(params?.brandId)
            
-            //def requestor = User.get(params?.requestorId)
-            /*def sql = "FROM Ppp "
-            if(params.month!=''){
-                sql += "WHERE MONTH(pppDate)=?"+params.month
-            }
-
-            def tes = Ppp.executeQuery(sql)
-            println "tes" + tes*/
-            def results = domainClassInstance.createCriteria().list(){
+          
+          /*  def results = domainClassInstance.createCriteria().list(){
             	//eq("country",)
             	eq("country",country)
             	eq("lob",params?.lobId)    
@@ -279,8 +272,34 @@ class PurchaseOrderController {
                 }
                 
                 
+            }*/
+            def sql = " from PppPhilippine as p "
+            if(params.countryId){
+             sql += "where p.country LIKE '%${params.countryId}%'"   
             }
-  
+
+            if(params.lobId){
+             sql += " AND p.lob LIKE '%${params?.lobId}%' "   
+            }      
+
+            if(params.brandId){
+             sql += "AND p.brand LIKE'%${brand?.code}%' "   
+            }
+
+            if(params.year){
+               sql += "AND year(p.pppDate) = ${params.year} "     
+            }
+
+            if(params.month){
+               sql += "AND month(p.pppDate) = ${params.month} "     
+            }
+
+            sql += "order by p.pppDate"
+
+            println "sql >>>>>>>>>>> " + sql
+
+            def results= domainClassInstance.findAll(sql)
+            println results
             render results as JSON
         }else if(params.pppNumber){
             def country = Country.findByName(params.countryId)
@@ -422,7 +441,9 @@ class PurchaseOrderController {
     }
 
     def actionReject() {
+        println params
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
+        
         if (!purchaseOrderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
             redirect(action: "list")
@@ -440,25 +461,67 @@ class PurchaseOrderController {
             }
         }
         
-        purchaseOrderInstance.properties = params
+        
         purchaseOrderInstance.mustApprovedBy = null
+        
+        if(params.rejectNotes){
+            purchaseOrderInstance.rejectNotes = params.rejectNotes
+            purchaseOrderInstance.dateReject = new Date()
+            purchaseOrderInstance.rejectedBy = auth.user()
+        }
+        
         purchaseOrderInstance.state = 'Rejected'    
         
         
 
         if (!purchaseOrderInstance.save(flush: true)) {
+
             render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
             return
         }
 
         /* update Po Approver*/
-        def user = User.findByName(auth.user())
+        def user = User.findByLogin(auth.user()?.toString())
         def poApprover = PurchaseOrderApprover.findByPurchaseOrderAndApprover(purchaseOrderInstance,user)
-        poApprover.status = 2
-        poApprover.approverDate = new Date()
-        poApprover.save(flush:true)
+        println "poApprover" + poApprover
+        if(poApprover){
+            poApprover.status = 2
+            poApprover.approverDate = new Date()
+            poApprover.save(flush:true)
 
+        }
+        
         flash.message = message(code: 'default.rejected.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
+    }
+
+     /**
+    send approve email to logistic
+    **/       
+    def sendApproveEmail(salesOrderInstance){
+       
+        def now = new Date()
+        def msg = AppSetting.valueDefault('order_approve_email',
+            'default [order_approve_email] message, please set at AppSetting')
+        def subject = "SRR Approved By Supervisor Notification @" + salesOrderInstance
+        def user = User.createCriteria().list(){
+            userGroup{
+                eq('code', 'logistic')
+            }
+        }
+        def receiver = []
+
+        user.each{
+            receiver.push(it.email)
+        }
+
+        def authUser = User.findByLogin( auth.user() )
+        def sender = authUser.email 
+
+        Outbox.newEmail( subject,  msg,  sender,  receiver.join(','))
+
+        println ">>>>>>>>>>> SENDING APPROVED MAIL TO LOGISTIC"
+
+
     }
 }

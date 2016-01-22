@@ -57,19 +57,31 @@ class PppPhilippine {
 	Float getRemainCreditLimit() {
 		def poApp = PurchaseOrder.createCriteria().list(){
 			eq('pppNumber',number)
-			
+			ne('state','Rejected')	
 		}
 
-		def totalOrder = 0
+		def poReject = PurchaseOrder.createCriteria().list(){
+			eq('pppNumber',number)
+			eq('state','Rejected')	
+		}
+
+		def totalOrderApp = 0
 		//println "purchaseOrders" + purchaseOrders
 		if(poApp.size() > 0){
 			poApp.each{
-				totalOrder = totalOrder+(it.total/it.rate)
+				totalOrderApp = totalOrderApp+(it.total/it.rate)
+			}
+		}
+
+		def totalOrderReject = 0
+		if(poReject.size() > 0){
+			poReject.each{
+				totalOrderReject = totalOrderReject+(it.total/it.rate)
 			}
 		}
 		
 		def amount = pppCost?:0
 		//println " Grand total Order "+ totalOrder
-		return (amount-totalOrder)
+		return (amount-totalOrderApp)
 	}
 }

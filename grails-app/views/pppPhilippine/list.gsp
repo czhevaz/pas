@@ -21,7 +21,7 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
 								
@@ -45,11 +45,39 @@
 								
 								<g:sortableColumn property="pppDate" title="${message(code: 'ppp.pppDate.label', default: 'ppp Date')}" />
 
-								<th><g:message code="ppp.writeoff.label" default="write Off" /></th>		
+								
 								
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								
+								<th> No. </th>
+
+								<th><g:message code="ppp.number.label" default="Number" /></th>
+								
+								<th><g:message code="ppp.pppDescription.label" default="PPP Description" /></th>
+
+								<th><g:message code="ppp.country.label" default="Country" /></th>
+
+								<th><g:message code="ppp.lob.label" default="Lob" /></th>
+
+								<th><g:message code="ppp.brand.label" default="Brand" /></th>
+
+								<th><g:message code="ppp.requestor.label" default="Requestor" /></th>
+
+								<th><g:message code="ppp.amount.label" default="PPP LIMIT(USD)" /></th>
+
+								<th><g:message code="ppp.remain.label" default="PPP LIMIT REMAINING (USD)" /></th>
+								
+								<g:sortableColumn property="pppDate" title="${message(code: 'ppp.pppDate.label', default: 'ppp Date')}" />
+
+								
+								
+							
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${pppPhilippineInstanceList}" status="i" var="pppInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
@@ -74,11 +102,6 @@
 							
 								<td><g:formatDate date="${pppInstance.pppDate}" /></td>
 								
-								<td>
-								<g:if test="${pppInstance.state != 'Write Off'}">
-									<a href="${createLink(action:'writeOff',id:pppInstance?.id)}" class="btn btn-sm btn-danger col-xs-12"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
-								</g:if>	
-								</td>
 								
 							</tr>
 						</g:each>

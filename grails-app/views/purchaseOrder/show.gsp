@@ -108,6 +108,8 @@
 						<g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
 						<g:hiddenField name="version" value="${purchaseOrderInstance?.version}" />
 						<g:hiddenField name="updatedBy" value="${auth.user()}"/>
+						<g:hiddenField id ="rejectNotes" name="rejectNotes" value="${purchaseOrderInstance?.rejectNotes}" />
+
 						<div class="form-actions">
 							<g:if test="${purchaseOrderInstance?.state=='Draft' || purchaseOrderInstance?.state=='Rejected'}">
 								<g:if test="${purchaseOrderInstance?.createdBy == auth.user().toString()}">
@@ -119,7 +121,7 @@
 								<g:if test="${purchaseOrderInstance?.mustApprovedBy==auth.user().toString()}">
 									<g:actionSubmit class="btn btn-primary btn-sm" action="actionApprove" value="${message(code: 'default.button.approve.label', default: 'Approve')}" />
 									
-									<g:actionSubmit class="btn btn-primary btn-sm" action="actionRejected" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />
+									<g:actionSubmit id="reject" class="btn btn-primary btn-sm" action="actionReject" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />
 
 									<a href="${createLink(action:'writeOff',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
 								</g:if>	
@@ -164,7 +166,12 @@
 			<g:render template="discussionArea"/>
 			<g:render template="acivityProposal"/>
 		</div>
-
+		<r:script>
+			$('#reject').on('click', function(){
+            	var r= prompt('note');
+            	$('#rejectNotes').val(r);        
+        	});
+		</r:script>
 	</div><!--/.row -->
 </section>
 

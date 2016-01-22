@@ -64,7 +64,7 @@ class GlobalService {
 	            result = 'Approved'
 	            break
 	        case 2:
-	            result = 'Resjected'
+	            result = 'Rejected'
 	            break
 	        default:
 	            result = 'Not Approved'

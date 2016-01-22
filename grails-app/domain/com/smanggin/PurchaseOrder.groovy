@@ -27,6 +27,10 @@ class PurchaseOrder {
 	Date dateWO
 	String woBy
 
+	String rejectNotes
+	Date dateReject
+	String rejectedBy
+
 	String	country
 	String	lob
 	String	brand
@@ -91,6 +95,10 @@ class PurchaseOrder {
 	 	approver1 nullable:true
 	 	approver2 nullable:true
 	 	mustApprovedBy nullable:true
+	 	rejectNotes nullable:true
+		dateReject nullable:true
+		rejectedBy nullable:true
+
     }
 
 	static transients =['total']
@@ -114,6 +122,8 @@ class PurchaseOrder {
 		Date now = new Date()
 		number = prefix+now.format(transactionGroup.format)+c
 	}
+
+
 
 	
 }
