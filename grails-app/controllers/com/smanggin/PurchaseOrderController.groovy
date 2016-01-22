@@ -54,7 +54,7 @@ class PurchaseOrderController {
         	def domainClassName = "com.smanggin." + domainPPP
     		def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
         	def ppp = domainClassInstance.findByNumber(params.pppNumber)
-        	purchaseOrderInstance.number = ppp.number
+        	purchaseOrderInstance.pppNumber = ppp.number
         	purchaseOrderInstance.country = ppp.country
         	purchaseOrderInstance.lob = ppp.lob
         	purchaseOrderInstance.brand = ppp.brand
@@ -104,8 +104,8 @@ class PurchaseOrderController {
 
         /* update Po Balance*/
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
-        redirect(action: "edit", id: purchaseOrderInstance.id)
+		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+        redirect(action: "show", id: purchaseOrderInstance.id)
     }
 
     def show() {
@@ -164,15 +164,7 @@ class PurchaseOrderController {
 
         purchaseOrderInstance.properties = params
         
-        if(params.comment){
-        	
-        	def logChatInstance =new PurchaseOrderComment()
-        	logChatInstance.description=params.comment
-        	logChatInstance.createdBy = auth.user()
-        	logChatInstance.purchaseOrder =purchaseOrderInstance
-        	logChatInstance.save()
-        }
-
+        savePoComment(purchaseOrderInstance,params)
 
         if (!purchaseOrderInstance.save(flush: true)) {
             render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
@@ -364,7 +356,7 @@ class PurchaseOrderController {
             }
         }
         
-        
+        purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
         purchaseOrderInstance.state = 'Waiting Approval'    
         def mustApprovedBy = globalService.getApprovalBySeq(purchaseOrderInstance,1)
         println "mustApprovedBy "+mustApprovedBy
@@ -380,7 +372,7 @@ class PurchaseOrderController {
             return
         }
 
-        
+        savePoComment(purchaseOrderInstance,params)
 
         flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
@@ -436,6 +428,8 @@ class PurchaseOrderController {
             println poApprover.errors
         }    
         
+        savePoComment(purchaseOrderInstance,params)
+
         flash.message = message(code: 'default.approved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
@@ -463,7 +457,7 @@ class PurchaseOrderController {
         
         
         purchaseOrderInstance.mustApprovedBy = null
-        
+
         if(params.rejectNotes){
             purchaseOrderInstance.rejectNotes = params.rejectNotes
             purchaseOrderInstance.dateReject = new Date()
@@ -472,7 +466,7 @@ class PurchaseOrderController {
         
         purchaseOrderInstance.state = 'Rejected'    
         
-        
+        savePoComment(purchaseOrderInstance,params)
 
         if (!purchaseOrderInstance.save(flush: true)) {
 
@@ -523,5 +517,17 @@ class PurchaseOrderController {
         println ">>>>>>>>>>> SENDING APPROVED MAIL TO LOGISTIC"
 
 
+    }
+
+
+    def savePoComment(purchaseOrderInstance,params){
+        if(params.comment){
+            
+            def logChatInstance =new PurchaseOrderComment()
+            logChatInstance.description=params.comment
+            logChatInstance.createdBy = auth.user()
+            logChatInstance.purchaseOrder =purchaseOrderInstance
+            logChatInstance.save()
+        }
     }
 }

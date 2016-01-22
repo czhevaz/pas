@@ -40,34 +40,42 @@
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Master Data<b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li class="controller">
-						<g:link controller="Brand">
-							Brand
-						</g:link>
-					</li>
-					<li class="controller">
 						<g:link controller="Country">
 							Country
 						</g:link>
 					</li>
-					<li class="controller">
-						<g:link controller="Currency">
-							Curreny
-						</g:link>
-					</li>
-					
 					<li class="controller">
 						<g:link controller="Lob">
 							Lob
 						</g:link>
 					</li>
 					<li class="controller">
+						<g:link controller="Brand">
+							Brand
+						</g:link>
+					</li>
+					
+					<li class="controller">
+						<g:link controller="Currency">
+							Currency
+						</g:link>
+					</li>
+					
+					<li class="controller">
+						<g:link controller="Rate">
+							Exchange Rate
+						</g:link>
+					</li>
+					
+					<li class="controller">
 						<g:link controller="Supplier">
 							Supplier
 						</g:link>
 					</li>
+					
 					<li class="controller">
-						<g:link controller="Rate">
-							Exchange Rate
+						<g:link controller="TransactionType">
+							Transaction Type
 						</g:link>
 					</li>
 					
@@ -77,12 +85,6 @@
 						</g:link>
 					</li>
 				
-					<li class="controller">
-						<g:link controller="TransactionType">
-							Transaction Type
-						</g:link>
-					</li>
-					
 					<li class="controller">
 						<g:link controller="User">
 							User

@@ -10,7 +10,7 @@
 	<g:set var="entityName" value="${message(code: 'purchaseOrder.label', default: 'PurchaseOrder')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
 	<g:set var="canCreate" value="true" scope="request" />
-	<g:set var="canEdit" value="true" scope="request" />
+
 </head>
 
 <body>
@@ -18,12 +18,12 @@
 <section id="show-purchaseOrder" class="first">
 	<div class="row">
 		<div class="col-lg-12">
+			<g:form method="post" class="form-horizontal" >
 			<div class="box box-primary">
 				<g:render template="headerTittle"/> 				
                 <div class="box-body table-responsive ">
 					<table class="table table-striped">
 						<tbody>
-						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="purchaseOrder.number.label" default="Number" /></td>
 								
@@ -31,11 +31,31 @@
 								
 							</tr>
 						
-							
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="purchaseOrder.purchaseOrderType.label" default="Purchase Order Type" /></td>
+								<td valign="top" class="name"><g:message code="purchaseOrder.country.label" default="Country" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "country")}</td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.transactionGroup.label" default="Purchase Order Type" /></td>
 								
 								<td valign="top" class="value"><g:link controller="transactionGroup" action="show" id="${purchaseOrderInstance?.transactionGroup?.id}">${purchaseOrderInstance?.transactionGroup?.encodeAsHTML()}</g:link></td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.currency1.label" default="Local Currency" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "currency1")}</td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.rate.label" default="Exchange Rate" /></td>
+								
+								<td valign="top" class="value"><g:formatNumber number="${purchaseOrderInstance?.rate?:0}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" /></td>
 								
 							</tr>
 
@@ -52,50 +72,28 @@
 								<td valign="top" class="value"><g:link controller="supplier" action="show" id="${purchaseOrderInstance?.supplier?.id}">${purchaseOrderInstance?.supplier?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
-						
-
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="purchaseOrder.rate.label" default="Exchange Rate" /></td>
-								
-								<td valign="top" class="value"><g:formatNumber number="${purchaseOrderInstance?.rate?:0}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" /></td>
-								
-							</tr>
-
-
+							
+							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="purchaseOrder.reasonforInvestment.label" default="Reason for Investment" /></td>
 								
-								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "reasonforInvestment")}</td>
+								<td valign="top" class="value">
+								
+									<g:textArea class="form-control" name="reasonforInvestment" value="${purchaseOrderInstance?.reasonforInvestment}" rows="5" cols="40"/>
+									<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'reasonforInvestment', 'error')}</span>
+								</td>
+								
+							</tr>
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.comment.label" default="Feedback / Comment from Reviewers" /></td>
+								
+								<td valign="top" class="value">
+								
+									<g:textArea class="form-control" name="comment" value="" rows="5" cols="40"/>
+								</td>
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="purchaseOrder.createdBy.label" default="Created By" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "createdBy")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="purchaseOrder.dateCreated.label" default="Date Created" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${purchaseOrderInstance?.dateCreated}" /></td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="purchaseOrder.updatedBy.label" default="Updated By" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "updatedBy")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="purchaseOrder.lastUpdated.label" default="Last Updated" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${purchaseOrderInstance?.lastUpdated}" /></td>
-								
-							</tr>
 								
 						</tbody>
 					</table>
@@ -104,7 +102,7 @@
 
 
 				<div class="box-footer clearfix">
-					<g:form method="post" class="form-horizontal" >
+					
 						<g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
 						<g:hiddenField name="version" value="${purchaseOrderInstance?.version}" />
 						<g:hiddenField name="updatedBy" value="${auth.user()}"/>
@@ -128,10 +126,10 @@
 							</g:if>
 							
 						</div>	
-					</g:form>	
+					
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->
-
+			</g:form>	
 			<div class="box box-primary clearfix">
 				<div class="box-body clearfix">
 
@@ -167,10 +165,10 @@
 			<g:render template="acivityProposal"/>
 		</div>
 		<r:script>
-			$('#reject').on('click', function(){
+		/*	$('#reject').on('click', function(){
             	var r= prompt('note');
             	$('#rejectNotes').val(r);        
-        	});
+        	});*/
 		</r:script>
 	</div><!--/.row -->
 </section>

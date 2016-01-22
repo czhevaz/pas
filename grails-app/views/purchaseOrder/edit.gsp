@@ -44,8 +44,22 @@
 
 					<div class="box-footer">
 						<div class="form-actions">
-							<g:actionSubmit class="btn btn-primary" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
-							<g:actionSubmit class="btn btn-danger" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+							<g:if test="${purchaseOrderInstance?.state=='Draft' || purchaseOrderInstance?.state=='Rejected'}">
+								<g:if test="${purchaseOrderInstance?.createdBy == auth.user().toString()}">
+									<g:actionSubmit class="btn btn-primary btn-sm" action="actionWaitingApprove" value="${message(code: 'default.button.approve.label', default: 'Send To Approver')}" />
+									
+								</g:if>	
+							</g:if>
+							<g:if test="${purchaseOrderInstance?.state=='Waiting Approval'}">
+								<g:if test="${purchaseOrderInstance?.mustApprovedBy==auth.user().toString()}">
+									<g:actionSubmit class="btn btn-primary btn-sm" action="actionApprove" value="${message(code: 'default.button.approve.label', default: 'Approve')}" />
+									
+									<g:actionSubmit id="reject" class="btn btn-primary btn-sm" action="actionReject" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />
+
+									<a href="${createLink(action:'writeOff',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
+								</g:if>	
+							</g:if>
+							
 				            <button class="btn" type="reset"><g:message code="default.button.reset.label" default="Reset" /></button>
 						</div>
 					</div><!--/.box-footer -->	

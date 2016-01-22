@@ -73,6 +73,7 @@ class PurchaseOrder {
     }
     
 	static	constraints = {
+		number nullable:true	
 		updatedBy nullable:true	
 		reasonforInvestment nullable :true
 		currency1 nullable:true 
@@ -112,7 +113,7 @@ class PurchaseOrder {
 		return total
 	}
 	
-	def beforeValidate(){
+	def beforeInsert(){
 		Integer count= PurchaseOrder.countByTransactionGroup(transactionGroup)+1
 		Integer width= transactionGroup.width
 		String  prefix = transactionGroup.prefix

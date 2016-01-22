@@ -61,13 +61,7 @@
 								
 							</tr>
 
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="transactionGroup.approval.label" default="Approval" /></td>
-								
-								<td valign="top" class="value"><g:link controller="approval" action="show" id="${transactionGroupInstance?.approval?.id}">${transactionGroupInstance?.approval?.encodeAsHTML()}</g:link></td>
-								
-							</tr>
-
+							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="transactionGroup.dateCreated.label" default="Date Created" /></td>
 								

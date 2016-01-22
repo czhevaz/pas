@@ -20,7 +20,7 @@
       			
       		</thead>
       		<tbody>
-      			<g:each in="${purchaseOrderInstance.purchaseOrderApprovers}" status="i" var="approver">
+      			<g:each in="${purchaseOrderInstance.purchaseOrderApprovers.sort{ it.noSeq}}" status="i" var="approver">
           			<tr>
           				<td>${approver.noSeq} . ${approver.approver}</td>
           				<td>${globalService.approvalStatus(approver.status)}</td>	

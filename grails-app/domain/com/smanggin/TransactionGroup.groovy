@@ -19,7 +19,7 @@ class TransactionGroup {
 	String prefix
 	String format
 	Integer width
-	Approval approval
+	
 
 	String toString() { return description } 
 	static	belongsTo	= [TransactionType]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
@@ -34,7 +34,7 @@ class TransactionGroup {
     
 	static	constraints = {
 		version nullable: true
-		approval nullable:true
+	
     }
 	
 	/*
