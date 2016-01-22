@@ -148,7 +148,7 @@ class SupplierController {
         if(params.masterField){
             def c = Supplier.createCriteria()
             def results = c.list {
-                eq(params.masterField.name+'.id',params.masterField.id.toLong())    
+                eq(params.masterField.name+'.name',params.masterField.id)    
             }
             render results as JSON
 

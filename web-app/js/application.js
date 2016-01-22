@@ -8,8 +8,11 @@ if (typeof jQuery !== 'undefined') {
 	})(jQuery);
 }
 
+
 var table;
+
 $(document).ready(function () {
+
 
 	var config = {
 	'.chosen-select'           : {},
@@ -62,7 +65,6 @@ $(document).ready(function () {
 
 
 
-
 });
 
 function formatNumber(val,row){
@@ -73,4 +75,5 @@ function formatNumber(val,row){
         return numeral(val).format('0,0.00');
     }
 }
+
 

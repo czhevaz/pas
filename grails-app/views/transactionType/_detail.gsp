@@ -62,9 +62,9 @@ if(actionName=='edit' || actionName=='show') {
 
 	                                    var a = $('#dg-approvalDetails').datagrid('getEditor', {index:editIndex, field:'brandCode'});
 
-	                                    $(a.target).combobox('reload', '/${meta(name:'app.name')}/brand/jlist?lobCode='+rec.code+'&masterField.name=country&masterField.id='+country);                                    
-
-	                                }
+	                                    $(a.target).combobox('reload', '/${meta(name:'app.name')}/brand/jlist?country='+country+'&masterField.name=lob&masterField.id='+rec.code);                                    
+                                                
+	                                }  
                                 }
                         }">Lob</th>
                         
@@ -134,10 +134,6 @@ if(actionName=='edit' || actionName=='show') {
     
 </div>
 
-
-
-    
-
         <div id="tb-approvalDetails" style="height:auto">
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false" onclick="approvalDetailsAppend()">Add</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:false" onclick="approvalDetailsRemoveit()">Remove</a>
@@ -179,6 +175,7 @@ if(actionName=='edit' || actionName=='show') {
                     return false;
                 }
             }
+
             function approvalDetailsOnClickRow(index){
                 if (editIndex != index){
                     if (approvalDetailsEndEditing()){
@@ -190,6 +187,7 @@ if(actionName=='edit' || actionName=='show') {
                     }
                 }
             }
+
             function approvalDetailsAppend(){
                 if (approvalDetailsEndEditing()){
                     $('#dg-approvalDetails').datagrid('appendRow',
@@ -198,6 +196,7 @@ if(actionName=='edit' || actionName=='show') {
                     $('#dg-approvalDetails').datagrid('selectRow', editIndex).datagrid('beginEdit', editIndex);
                 }
             }
+
             function approvalDetailsRemoveit(){
                 if (editIndex == undefined){return}
                 if (!confirm('Are you sure to delete this record?')){ return }

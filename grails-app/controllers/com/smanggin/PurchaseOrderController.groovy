@@ -34,6 +34,9 @@ class PurchaseOrderController {
                     eq('mustApprovedBy',auth.user())    
                 }    
             }
+            if(params.state){
+                eq('state',params.state)
+            }
         }
 
         [purchaseOrderInstanceList: results, purchaseOrderInstanceTotal: results.totalCount]
@@ -109,7 +112,7 @@ class PurchaseOrderController {
     }
 
     def show() {
-        println params
+        
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
 
 
@@ -123,6 +126,9 @@ class PurchaseOrderController {
     	def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
         def pppInstance = domainClassInstance.findByNumber(purchaseOrderInstance.pppNumber)
 
+        if(params.notifId){
+            globalService.updateIsNewNotif(params.notifId)
+        }
         
         [purchaseOrderInstance: purchaseOrderInstance,pppInstance:pppInstance]
     }
@@ -236,8 +242,7 @@ class PurchaseOrderController {
     }
 
     def jlist() {
-    	println params
-        
+    	
         if(params.masterField){
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
@@ -250,49 +255,31 @@ class PurchaseOrderController {
             def country = Country.findByName(params?.countryId)
             def domainClassName = "com.smanggin." + country?.domainPPP
             def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
-        
+    
             def brand = Brand.findByCode(params?.brandId)
-           
-          
-          /*  def results = domainClassInstance.createCriteria().list(){
-            	//eq("country",)
-            	eq("country",country)
-            	eq("lob",params?.lobId)    
-                eq("brand",brand?.code)  
-                if(params.requestor) {
-                    eq("requestor",params.requestor)    
-                }
-                
-                
-            }*/
+      
             def sql = " from PppPhilippine as p "
             if(params.countryId){
              sql += "where p.country LIKE '%${params.countryId}%'"   
             }
-
             if(params.lobId){
              sql += " AND p.lob LIKE '%${params?.lobId}%' "   
             }      
-
             if(params.brandId){
              sql += "AND p.brand LIKE'%${brand?.code}%' "   
             }
-
             if(params.year){
                sql += "AND year(p.pppDate) = ${params.year} "     
             }
-
             if(params.month){
                sql += "AND month(p.pppDate) = ${params.month} "     
             }
-
             sql += "order by p.pppDate"
 
-            println "sql >>>>>>>>>>> " + sql
-
             def results= domainClassInstance.findAll(sql)
-            println results
+            
             render results as JSON
+
         }else if(params.pppNumber){
             def country = Country.findByName(params.countryId)
             def domainClassName = "com.smanggin." + country?.domainPPP
@@ -300,6 +287,20 @@ class PurchaseOrderController {
         
         	def results = domainClassInstance.findByNumber(params.pppNumber)
 
+            render results as JSON
+        }else if(params.state){
+            def c = PurchaseOrder.createCriteria()
+            def results = c.list {
+                eq('state',params.state)
+
+                if(params.state == "Waiting Approval"){
+                    eq('mustApprovedBy',auth.user())
+                    
+                }
+                if(params.state == "Rejected"){
+                    eq('createdBy',auth.user())
+                }
+            }
             render results as JSON
         }
         else
@@ -359,7 +360,7 @@ class PurchaseOrderController {
         purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
         purchaseOrderInstance.state = 'Waiting Approval'    
         def mustApprovedBy = globalService.getApprovalBySeq(purchaseOrderInstance,1)
-        println "mustApprovedBy "+mustApprovedBy
+        
         if(mustApprovedBy){
             purchaseOrderInstance.mustApprovedBy = mustApprovedBy[0]?.approver
         }        
@@ -373,6 +374,8 @@ class PurchaseOrderController {
         }
 
         savePoComment(purchaseOrderInstance,params)
+
+        saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)
 
         flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
@@ -411,6 +414,7 @@ class PurchaseOrderController {
     
         if(countPOApproved == countPoApp){
             purchaseOrderInstance.state = 'Approved'    
+
         }
         
 
@@ -429,13 +433,17 @@ class PurchaseOrderController {
         }    
         
         savePoComment(purchaseOrderInstance,params)
+        
+        if(globalService.getNextApprover(purchaseOrderInstance,user)){
+            saveNotif(purchaseOrderInstance,purchaseOrderInstance.mustApprovedBy)
+        }
 
         flash.message = message(code: 'default.approved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
 
     def actionReject() {
-        println params
+        
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
         
         if (!purchaseOrderInstance) {
@@ -477,13 +485,16 @@ class PurchaseOrderController {
         /* update Po Approver*/
         def user = User.findByLogin(auth.user()?.toString())
         def poApprover = PurchaseOrderApprover.findByPurchaseOrderAndApprover(purchaseOrderInstance,user)
-        println "poApprover" + poApprover
+        
         if(poApprover){
             poApprover.status = 2
             poApprover.approverDate = new Date()
             poApprover.save(flush:true)
 
         }
+
+
+        saveNotif(purchaseOrderInstance,purchaseOrderInstance.createdBy)
         
         flash.message = message(code: 'default.rejected.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
@@ -529,5 +540,20 @@ class PurchaseOrderController {
             logChatInstance.purchaseOrder =purchaseOrderInstance
             logChatInstance.save()
         }
+    }
+
+
+    def saveNotif(purchaseOrderInstance,forUser){
+
+        def notif = new Notif()
+        notif.docName = "PurchaseOrder"
+        notif.docId = purchaseOrderInstance.id
+        notif.docNumber = purchaseOrderInstance.number
+        notif.state = purchaseOrderInstance.state
+        notif.forUser = forUser
+        notif.createdBy = auth.user()
+        notif.isNew = true
+        notif.save()
+        
     }
 }

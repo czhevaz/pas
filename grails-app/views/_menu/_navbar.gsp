@@ -120,13 +120,14 @@
 		-->
 
 	    	<ul class="nav navbar-nav navbar-right">
-    			<!-- <li class="dropdown messages-menu">
+    			<li class="dropdown messages-menu">
     				<a class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" href="#">
-						<!-- TODO: Only show menu items based on permissions (e.g., Guest has no account page) 
-						<i class="icon-envelope icon-white"></i>
-						<span class="label label-success">4</span>
+						<!-- TODO: Only show menu items based on permissions (e.g., Guest has no account page) -->
+						<i class="icon-bell icon-white"></i>
+						<span class="label label-danger" id="notifsize"></span>
 					</a>
-    			</li> -->
+					<ul class="dropdown-menu" role="menu" id="notifnuieu"></ul>
+    			</li>
 	 			<!-- <g:render template="/_menu/search"/> -->
 				<!-- <g:render template="/_menu/admin"/>														
 				<g:render template="/_menu/info"/> -->														
@@ -137,3 +138,34 @@
 		</div>
 	</div>
 </nav>
+
+<r:script>
+
+	checkNotif();
+
+	var timernotif;
+    var waitnotif = 20;
+    clearInterval(timernotif);
+    timernotif=setInterval("checkNotif()", 1000*waitnotif);
+
+	function checkNotif(){
+	    $.post('/${meta(name:"app.name")}/notif/checkNotif', function(data){
+	    	
+	        if(data.exist){
+	            var datasize = data.data.length;
+
+	            var list = "";
+	            $.each(data.data, function(k, v){
+	                list += "<li> <a id='notif-link' href='/${meta(name:"app.name")}/PurchaseOrder/show?id="+v.docId+"&isNew=false&notifId="+v.id+"' target='_blank'>"+v.docNumber+" ( "+v.state+" )</a></li>";
+	            });
+
+	            $('#notifnuieu').html("");
+	            $('#notifnuieu').html(list);
+	            $('#notifsize').text(datasize);
+	        }
+	    },"JSON");
+	}
+
+	
+	
+</r:script>

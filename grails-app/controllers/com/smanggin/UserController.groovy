@@ -200,9 +200,9 @@ class UserController {
 		println "postlogin >>>>>>>>>> " +auth.user()
 		def user = User.findByLogin( auth.user() )
 		session['email'] = user?.email
-		//session['country'] = user?.country
+		session['country'] = user?.country
 		//session['domainPPP'] = Country.findByName(user?.country).domainPPP 	
-		//session['country'] = user?.country
+		
         redirect(action: "index", controller:"home",params: params)
     }
 

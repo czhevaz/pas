@@ -72,4 +72,10 @@ class GlobalService {
 	    }    
 	   return result
 	}
+
+    def updateIsNewNotif(notifId){
+        def notif = Notif.get(notifId)
+        notif.isNew=false
+        notif.save()
+    }
 }

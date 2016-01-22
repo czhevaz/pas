@@ -87,7 +87,39 @@ if(actionName=='edit') {
 %>
 
 <r:script>
-	$("#currency1").on('change', function() {
+	
+	var country = $('#country').val();
+
+	$(document).ready(function () {
+		$('#lob').empty();
+		$('#brand').empty();
+		
+		<%
+		if(actionName=='create') { 
+		%>
+		$('#transactionGroup').empty();
+		<% 
+		}
+		%>
+
+		$('#brand').chosen();
+		$('#lob').chosen();
+		$('#transactionGroup').chosen();
+
+		<g:if test="${session.country}" >
+			country ='${session.country}';
+			$('#country').val(country);	
+			$('#country').trigger('chosen:updated');
+			getLob(country);
+			getCurrency(country);
+			getTrGroup(country);
+			getSupplier(country)
+		</g:if>
+		
+	});
+
+
+    $("#currency1").on('change', function() {
     	$.ajax({
             url: "/${meta(name:'app.name')}/currency/jlist?code="+$(this).val(),
             type: "POST",
@@ -102,129 +134,164 @@ if(actionName=='edit') {
     });
 
 
-	$(document).ready(function () {
-		$('#lob').empty();
-		$('#brand').empty();
-		
-		<%
-		if(actionName=='create') { 
-		%>
-		$('#transactionGroup').empty();
-		<% 
-		}
-		%>
-
-		//$('#currency1').empty();
-
-		$('#brand').chosen();
-		$('#lob').chosen();
-		$('#transactionGroup').chosen();
-		//$('#currency1').chosen();
-
-		$("#country").on('change', function() {
-			
-			$.ajax({
-	            url: "/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id="+$(this).val(),
-	            
-	            type: "POST",
-	            success: function (data) {
-
-	              	$('#lob').empty()
-	              	if(data.length > 0){
-	                    
-	                    $('#lob').chosen();
-
-	                    $.each(data, function(a, b){
-	                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
-	                        $('#lob').append(opt);
-	                        
-	                    });
-
-	                    $('#lob').trigger('chosen:updated');
-	                    $('#brand').empty();
-		               	$('#brand').chosen();
-	                }else{
-	                 
-	                    $('#lob').chosen();
-	                   
-	                }
-	                
-	              	
-	            },
-	            error: function (xhr, status, error) {
-	                alert("fail");
-	            }
-	        });
-
-	        $.ajax({
-	            url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+$(this).val(),
-	        
-	            type: "POST",
-	            success: function (data) {
-	            	console.log(data);
-	            	if(data.length > 0){
-	                    
-	                    //$('#lob').chosen();
-	                    $('#transactionGroup').empty();
-	                    $.each(data, function(a, b){
-	                         var opt = "<option value='"+b.id+"'> "+ b.description +" </option>";
-	                        $('#transactionGroup').append(opt);
-	                        
-	                    });
-
-	                    $('#transactionGroup').trigger('chosen:updated');
-	                    $('#transactionGroup').chosen();
-	                 
-	                }
-	            },
-	            error: function (xhr, status, error) {
-	                alert("fail");
-	            }
-	        });
-
-	        $.ajax({
-	            url: "/${meta(name:'app.name')}/currency/jlist?country="+$(this).val(),
-	        
-	            type: "POST",
-	            success: function (data) {
-	            	console.log(data);
-	            	$("#currency1").val(data.code);
-	            	$('#currency1').trigger('chosen:updated');
-	                   
-	           		$("#rate").val(data.value); 	
-	            },
-	            error: function (xhr, status, error) {
-	                alert("fail");
-	            }
-	        });
-
-		});		
-		
-		
-        $("#lob").on('change', function() {
-        	$.ajax({
-	            url: "/${meta(name:'app.name')}/brand/jlist?country=${session.country}&masterField.name=lob&masterField.id="+$(this).val(),
-	            type: "POST",
-	            success: function (data) {
-	            	$('#brand').empty();
-	              	if(data.length > 0){
-	                   console.log("---data---");
-	                    console.log(data);
-	                    $.each(data, function(a, b){	
-	                        var opt = "<option value='"+b.code+"'> "+ b.code +"-"+ b.name  +" </option>";
-	                        $('#brand').append(opt);
-	                     });
-	                     $('#brand').trigger('chosen:updated');
-	                }
-	            },
-	            error: function (xhr, status, error) {
-	                alert("fail");
-	            }
-	        });
+    $("#lob").on('change', function() {
+    	
+    	$.ajax({
+            url: "/${meta(name:'app.name')}/brand/jlist?country="+country+"&masterField.name=lob&masterField.id="+$(this).val(),
+            type: "POST",
+            success: function (data) {
+            	$('#brand').empty();
+              	if(data.length > 0){
+           
+                    $.each(data, function(a, b){	
+                        var opt = "<option value='"+b.code+"'> "+ b.code +"-"+ b.name  +" </option>";
+                        $('#brand').append(opt);
+                     });
+                     $('#brand').trigger('chosen:updated');
+                }else{
+                	$('#brand').chosen("destroy");
+                	$('#brand').chosen();
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
         });
 
-        
+    });
 
-	});
+
+	$("#country").on('change', function() {
+		country = $(this).val();
+		getLob(country);			
+		getTrGroup(country);			
+		getCurrency(country);
+		getSupplier(country);
+	});		
+
+	function getLob(country) {
+
+    	$.ajax({
+            url: "/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id="+country,
+            
+            type: "POST",
+            success: function (data) {
+
+              	$('#lob').empty()
+              	if(data.length > 0){
+                    
+                    $('#lob').chosen();
+
+                    $.each(data, function(a, b){
+                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+                        $('#lob').append(opt);
+                        
+                    });
+
+                    $('#lob').trigger('chosen:updated');
+                    $('#brand').empty();
+	               	$('#brand').chosen();
+                }else{
+                 
+                    $('#lob').chosen("destroy");
+            		$('#lob').chosen();   	
+                   
+                }
+                
+              	
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }/*-- end getlob  --*/
+
+
+    function getTrGroup(country){
+    	$.ajax({
+            url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+country,
+        
+            type: "POST",
+            success: function (data) {
+            	
+            	if(data.length > 0){
+                    
+                    $('#transactionGroup').empty();
+                    $.each(data, function(a, b){
+                         var opt = "<option value='"+b.id+"'> "+ b.description +" </option>";
+                        $('#transactionGroup').append(opt);
+                        
+                    });
+
+                    $('#transactionGroup').trigger('chosen:updated');
+                    $('#transactionGroup').chosen();
+                 
+                }else{
+             		$('#transactionGroup').chosen("destroy");
+            		$('#transactionGroup').chosen();   	
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }/*-- end getTrgroup  --*/
+
+
+    function getCurrency(country){
+    	$.ajax({
+            url: "/${meta(name:'app.name')}/currency/jlist?country="+country,
+        
+            type: "POST",
+            success: function (data) {
+            	console.log(data);
+            	$("#currency1").val(data.code);
+            	$('#currency1').trigger('chosen:updated');
+                   
+           		$("#rate").val(data.value); 	
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }/*-- end getCurrency  --*/
+
+    function getSupplier(country) {
+
+    	$.ajax({
+            url: "/${meta(name:'app.name')}/supplier/jlist?masterField.name=countryOwnerID&masterField.id="+country,
+            
+            type: "POST",
+            success: function (data) {
+
+              	$('#supplier').empty()
+              	if(data.length > 0){
+                    
+                    $('#supplier').chosen();
+
+                    $.each(data, function(a, b){
+                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+                        $('#supplier').append(opt);
+                        
+                    });
+
+                    $('#supplier').trigger('chosen:updated');
+	               	$('#supplier').chosen();
+                }else{
+                 
+                    $('#supplier').chosen('destroy');
+                    $('#supplier').chosen();
+                   
+                }
+                
+              	
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }/*-- end getlob  --*/
+
+		
 </r:script>	
 

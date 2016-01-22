@@ -78,7 +78,7 @@
 
 	$("#search2").click(function(){
 		
-		console.log(country);		
+			
 		var countryTes = $("#country").val();
 		var lobId = $("#lob").val();
 		var brandId =$("#brand").val(); 

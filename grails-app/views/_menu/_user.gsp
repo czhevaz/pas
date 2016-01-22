@@ -38,7 +38,7 @@
 			<!-- <g:message code="default.user.unknown.label" default="Guest"/> <b class="caret"></b> -->
 		</a>
 		<ul class="dropdown-menu" role="menu">
-			<!-- TODO: Only show menu items based on permissions -->
+			<!-- TODO: Only show menu items based on permissions 
 			<li class=""><a href="${createLink(uri: '/')}">
 				<i class="icon-user"></i>
 				<g:message code="user.show.label"/>
@@ -48,7 +48,7 @@
 				<g:message code="user.settings.change.label"/>
 			</a></li>
 			
-			<li class="divider"></li>
+			<li class="divider"></li>-->
 			<li class="">
 
 			<auth:logoutLink success="[controller:'login', action:'auth']"
@@ -73,3 +73,5 @@
 	</li>
 </ul>
 </noscript>
+
+
