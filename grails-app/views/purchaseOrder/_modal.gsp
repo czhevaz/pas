@@ -74,9 +74,12 @@
 </style>
 
 <r:script>
-	var country = $("#country").val()
+	
+
 	$("#search2").click(function(){
 		
+		console.log(country);		
+		var countryTes = $("#country").val();
 		var lobId = $("#lob").val();
 		var brandId =$("#brand").val(); 
 		var requestorId =$("#requestor").val(); 
@@ -85,7 +88,7 @@
 		
 		var postData = {
 			search:"true",	
-			countryId:country,
+			countryId:countryTes,
 			lobId:lobId,
 			brandId:brandId,
 			requestorId:requestorId,
@@ -120,10 +123,11 @@
 	});
 
 	function addToPO(pppNumber){
+		var countryTes = $("#country").val();
 		$("#pppNumber").val(pppNumber);	
 		$.ajax({
 			url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
-			data: {pppNumber:pppNumber,countryId:country},
+			data: {pppNumber:pppNumber,countryId:countryTes},
 			success: function(d){
 				$("#table-ppp tbody").html("");	
 				var tr ="<tr onclick = addToPO(\'"+d.pppNumber+"\');>";
@@ -138,6 +142,7 @@
 				$("#table-ppp tbody").append(tr);										    
 				
 				$('#searchPpp').modal('hide');
+				$('#requestor').val(d.requestorName);
 			},
 		});	
 	}

@@ -151,6 +151,27 @@ class TransactionGroupController {
             }
             render results as JSON
 
+        }else if(params.login){
+            def appDetailsTrType = ApprovalDetail.createCriteria().list(){
+                creator{
+                    eq('login',params.login)
+                }
+                country{
+                    eq('name',params.country)
+                }
+                projections{
+                    groupProperty('transactionType')
+                }
+            }
+
+            def results = []
+            if(appDetailsTrType){
+                results = TransactionGroup.createCriteria().list(){
+                'in'('transactionType', appDetailsTrType)
+                }  
+            }
+            
+            render results as JSON
         }
         else
         {

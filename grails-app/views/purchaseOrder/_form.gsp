@@ -13,7 +13,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'transactionGroup', 'error')} required">
 				<label for="transactionGroup" class="col-sm-3 control-label"><g:message code="purchaseOrder.transactionGroup.label" default="Transaction Group" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-3">
-					<g:select id="transactionGroup" name="transactionGroup.id" from="${com.smanggin.TransactionGroup.list()}" optionKey="id" required="" value="${purchaseOrderInstance?.transactionGroup?.id}" class="many-to-one form-control chosen-select"/>
+					<g:select id="transactionGroup" name="transactionGroup.id" from="${com.smanggin.TransactionGroup.list()}" optionKey="id" required="" value="${purchaseOrderInstance?.transactionGroup?.id}" class="many-to-one form-control " noSelection="['null': '']"/>
 					<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'transactionGroup', 'error')}</span>
 				</div>
 			</div>
@@ -100,5 +100,131 @@ if(actionName=='edit') {
             }
         });
     });
+
+
+	$(document).ready(function () {
+		$('#lob').empty();
+		$('#brand').empty();
+		
+		<%
+		if(actionName=='create') { 
+		%>
+		$('#transactionGroup').empty();
+		<% 
+		}
+		%>
+
+		//$('#currency1').empty();
+
+		$('#brand').chosen();
+		$('#lob').chosen();
+		$('#transactionGroup').chosen();
+		//$('#currency1').chosen();
+
+		$("#country").on('change', function() {
+			
+			$.ajax({
+	            url: "/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id="+$(this).val(),
+	            
+	            type: "POST",
+	            success: function (data) {
+
+	              	$('#lob').empty()
+	              	if(data.length > 0){
+	                    
+	                    $('#lob').chosen();
+
+	                    $.each(data, function(a, b){
+	                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+	                        $('#lob').append(opt);
+	                        
+	                    });
+
+	                    $('#lob').trigger('chosen:updated');
+	                    $('#brand').empty();
+		               	$('#brand').chosen();
+	                }else{
+	                 
+	                    $('#lob').chosen();
+	                   
+	                }
+	                
+	              	
+	            },
+	            error: function (xhr, status, error) {
+	                alert("fail");
+	            }
+	        });
+
+	        $.ajax({
+	            url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+$(this).val(),
+	        
+	            type: "POST",
+	            success: function (data) {
+	            	console.log(data);
+	            	if(data.length > 0){
+	                    
+	                    //$('#lob').chosen();
+	                    $('#transactionGroup').empty();
+	                    $.each(data, function(a, b){
+	                         var opt = "<option value='"+b.id+"'> "+ b.description +" </option>";
+	                        $('#transactionGroup').append(opt);
+	                        
+	                    });
+
+	                    $('#transactionGroup').trigger('chosen:updated');
+	                    $('#transactionGroup').chosen();
+	                 
+	                }
+	            },
+	            error: function (xhr, status, error) {
+	                alert("fail");
+	            }
+	        });
+
+	        $.ajax({
+	            url: "/${meta(name:'app.name')}/currency/jlist?country="+$(this).val(),
+	        
+	            type: "POST",
+	            success: function (data) {
+	            	console.log(data);
+	            	$("#currency1").val(data.code);
+	            	$('#currency1').trigger('chosen:updated');
+	                   
+	           		$("#rate").val(data.value); 	
+	            },
+	            error: function (xhr, status, error) {
+	                alert("fail");
+	            }
+	        });
+
+		});		
+		
+		
+        $("#lob").on('change', function() {
+        	$.ajax({
+	            url: "/${meta(name:'app.name')}/brand/jlist?country=${session.country}&masterField.name=lob&masterField.id="+$(this).val(),
+	            type: "POST",
+	            success: function (data) {
+	            	$('#brand').empty();
+	              	if(data.length > 0){
+	                   console.log("---data---");
+	                    console.log(data);
+	                    $.each(data, function(a, b){	
+	                        var opt = "<option value='"+b.code+"'> "+ b.code +"-"+ b.name  +" </option>";
+	                        $('#brand').append(opt);
+	                     });
+	                     $('#brand').trigger('chosen:updated');
+	                }
+	            },
+	            error: function (xhr, status, error) {
+	                alert("fail");
+	            }
+	        });
+        });
+
+        
+
+	});
 </r:script>	
 
