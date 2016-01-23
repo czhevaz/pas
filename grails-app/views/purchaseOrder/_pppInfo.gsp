@@ -42,12 +42,9 @@
 				</td>
 			
 				<td style="text-align:right">
-				<g:if test ="${purchaseOrderInstance.state=="Approved" }">
-						<g:formatNumber number="${(pppInstance?.remainCreditLimit)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
-				</g:if>
-				<g:if test ="${purchaseOrderInstance.state=="Draft" || purchaseOrderInstance.state=="Waiting Approval" || purchaseOrderInstance.state=="Rejected" }">
-					<g:formatNumber number="${(pppInstance.remainCreditLimit - (purchaseOrderInstance.total/(purchaseOrderInstance?.rate?:1)))}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
-				</g:if>
+				
+					<g:formatNumber number="${(pppInstance?.remainCreditLimit)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+				
 				</td>
 
 				<td><g:formatDate date="${pppInstance?.pppDate}" /></td>

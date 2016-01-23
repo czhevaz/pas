@@ -6,30 +6,44 @@ package com.smanggin
  */
 class AppSetting {
 
-	/* Default (injected) attributes of GORM */
-//	Long	id
-//	Long	version
-	
 	/* Automatic timestamping of GORM */
-//	Date	dateCreated
-//	Date	lastUpdated
+	Date	dateCreated
+	Date	lastUpdated
+
+	String code
+	String val
+	String unit 
+	String toString() { return "${code}" } 
+
+
 	
-//	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
-//	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
-//	static	hasMany		= []	// tells GORM to associate other domain objects for a 1-n or n-m mapping
-//	static	mappedBy	= []	// specifies which property should be used in a mapping 
-	
-    static	mapping = {
+    static mapping = {
+        version true
+		val type:'text'    	
     }
     
-	static	constraints = {
+	static constraints = {
+		code nullable: false, unique: true, blank: false
+		val nullable: false, blank: true
+		unit nullable: true
+    }	
+ 	
+ 	static valueDefault(String code, String defaultValue ){
+        def v = defaultValue
+        def c = findByCode(code )
+
+        if(!c){
+            println "*********** no AppSetting with code [" + code + "]. using default value=" + defaultValue
+            def newAppSetting = new AppSetting()
+            newAppSetting.code = code 
+            newAppSetting.val = defaultValue
+            newAppSetting.save()
+        }
+        else
+        {
+            v = c.val 
+        }
+
+        return v 
     }
-	
-	/*
-	 * Methods of the Domain Class
-	 */
-//	@Override	// Override toString for a nicer / more descriptive UI 
-//	public String toString() {
-//		return "${name}";
-//	}
 }

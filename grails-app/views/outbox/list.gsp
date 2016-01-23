@@ -21,10 +21,11 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
-							
+								<th>No</th>
+
 								<g:sortableColumn params="${filterParams}" property="subject" title="${message(code: 'outbox.subject.label', default: 'Subject')}" />
             
 				                <g:sortableColumn params="${filterParams}" property="receiver" title="${message(code: 'outbox.receiver.label', default: 'Receiver')}" />
@@ -39,10 +40,28 @@
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<th>No</th>
+
+								<g:sortableColumn params="${filterParams}" property="subject" title="${message(code: 'outbox.subject.label', default: 'Subject')}" />
+            
+				                <g:sortableColumn params="${filterParams}" property="receiver" title="${message(code: 'outbox.receiver.label', default: 'Receiver')}" />
+				            
+				                <g:sortableColumn params="${filterParams}" property="sender" title="${message(code: 'outbox.sender.label', default: 'Sender')}" />
+				            
+				                <g:sortableColumn params="${filterParams}" property="message" title="${message(code: 'outbox.message.label', default: 'Message')}" />
+				            
+				                <g:sortableColumn params="${filterParams}" property="channel" title="${message(code: 'outbox.channel.label', default: 'Channel')}" />
+				            
+				                <g:sortableColumn params="${filterParams}" property="dateCreated" title="${message(code: 'outbox.dateCreated.label', default: 'Date Created')}" />
+							
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${outboxInstanceList}" status="i" var="outboxInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
+								<td>${i+1}</td>
 								<td><g:link action="show" id="${outboxInstance.id}">${fieldValue(bean: outboxInstance, field: "subject")}</g:link></td>
             
 				                <td>${fieldValue(bean: outboxInstance, field: "receiver")}</td>
@@ -63,7 +82,7 @@
 				</div><!--/.box-body table-responsive -->
 
 				<div class="box-footer clearfix">
-					<bs:paginate total="${outboxInstanceTotal}" />
+				<!--	<bs:paginate total="${outboxInstanceTotal}" /> -->
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	

@@ -7,7 +7,7 @@ class SendMailJob {
  
     def execute() {
         // execute job
-        com.revengtest.Outbox.sendMail()
+        com.smanggin.Outbox.sendMail()
         /*def count = sendMail()
         println "send mail job executed. total sent : " + count */
     }

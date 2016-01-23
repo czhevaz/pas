@@ -110,7 +110,7 @@
 				</div><!--/.box-body table-responsive -->
 
 				<div class="box-footer clearfix">
-					<bs:paginate total="${pppPhilippineInstanceTotal}" />
+					<!-- <bs:paginate total="${pppPhilippineInstanceTotal}" />-->
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	

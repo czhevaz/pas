@@ -93,6 +93,29 @@
 					
 				</ul>
 			</li>
+
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Configuration<b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li class="controller">
+						<g:link controller="AppSetting">
+							System Setting
+						</g:link>
+					</li>
+					<li class="divider"></li>
+					<li class="controller">
+						<g:link controller="Outbox">
+							Outbox
+						</g:link>
+					</li>
+					<li class="controller">
+						<g:link controller="Send">
+							SentBox
+						</g:link>
+					</li>
+				</ul>	
+			</li>
+		
 		</ul>
 		<!-- <ul class="nav navbar-nav">
 			<li class="dropdown">

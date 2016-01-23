@@ -26,6 +26,10 @@ class BootStrap {
         /* Set Time Zone Server */
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Jakarta")) 
 
+        def sendInterval=AppSetting.valueDefault('sendmail_interval','60000')
+        println "sendInterval: " + sendInterval
+        
+        SendMailJob.schedule(sendInterval.toLong())
 
  
     }

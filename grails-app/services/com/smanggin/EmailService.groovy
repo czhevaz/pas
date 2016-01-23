@@ -14,17 +14,18 @@ import org.apache.commons.mail.EmailException
 class EmailService {
 
     static transactional = true
+    def grailsApplication
 
-    def sendEmail(Outbox outbox, addresses){
-        def usermail = decoderService.decrypt(grailsApplication.config.grails.key3)
-        def passmail = decoderService.decrypt(grailsApplication.config.grails.key4)
+    def sendEmail2(Outbox outbox){
+        def usermail = grailsApplication.config.grails.mail.username
+        def passmail = grailsApplication.config.grails.mail.password
             
         println "usermail" + usermail
         println "passmail" + passmail    
 
         MultiPartEmail  email = new MultiPartEmail()
-        email.setHostName(decoderService.decrypt(grailsApplication.config.grails.key1))
-        email.setSmtpPort(decoderService.decrypt(grailsApplication.config.grails.key2).toInteger())
+        email.setHostName(grailsApplication.config.grails.mail.host)
+        email.setSmtpPort(grailsApplication.config.grails.mail.outgoing.port.toInteger())
         email.setAuthentication(usermail,passmail)
         email.setCharset("ISO-8859-1")
         email.setFrom(usermail)

@@ -522,7 +522,9 @@ class PurchaseOrderController {
     def sendApproveEmail(purchaseOrderInstance){
        
         def now = new Date()
-        def msg = 'default [order_approve_email] message, please set at AppSetting'
+        def msg = AppSetting.valueDefault('order_approve_email',
+            'default [order_approve_email] message, please set at AppSetting')
+        
         def subject = "PO Approved Notification @" + purchaseOrderInstance.number
        
         def userReceiver = User.findByLogin(purchaseOrderInstance.mustApprovedBy)

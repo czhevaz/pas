@@ -90,24 +90,50 @@ class Outbox {
 	**/
 	static sendMail(){
 		def count = 0
-		def usermail = decoderService.decrypt(grailsApplication.config.grails.key3)
-        def passmail = decoderService.decrypt(grailsApplication.config.grails.key4)
-      
+		
         def outboxes = Outbox.withCriteria{
             eq('channel', 'email')
-            le('retry', 1)
+           // le('retry', 1)
         }
-
+        def check = false
         outboxes.each {
-        	def classObject = it.triggerDocClass
-            def classId = it.triggerDocId
-            def subject = it.subject
-            def message = it.message
-            def sender 	= it.sender
+        	
+    		def email= emailService.sendEmail2(it)    
     		
-    		def email= emailService.sendEmail2(it,addresses)    
+    		try {
+    			
+	    		if(email.send()){
+	    			check = true
+					println "=== OUTBOX sent : " +it.subject
+	    		}
+	    	}
+    		catch(Exception e) {
+    			println " === Failed Sent Email ===" + it.subject	
+    		}
 
+    		if(check){
+                def sent = new Send()
+                sent.subject = it.subject
+                sent.receiver = it.receiver
+                sent.sender = it.sender
+                sent.message = it.message
+                sent.channel = it.channel
+                sent.sentDate = new Date()
+                sent.cc = it.cc
+                sent.bcc = it.bcc
+                sent.retry = it.retry
+                sent.triggerDocClass = it.triggerDocClass 
+                sent.triggerDocId = it.triggerDocId
+                sent.save(validate: false)
+                Outbox.executeUpdate("DELETE Outbox o WHERE o.id=?", [it.id])
+            }
+	
+    		
+    		
         }
+
+        println "=== OUTBOX PROCESSED : " + outboxes.size()
+        return outboxes.size()
 
 	}
 }
