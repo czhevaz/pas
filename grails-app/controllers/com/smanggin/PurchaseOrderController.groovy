@@ -179,13 +179,13 @@ class PurchaseOrderController {
             return
         }
 
-        def poBalance = new PurchaseOrderBalance()
+/*        def poBalance = new PurchaseOrderBalance()
         poBalance.country = purchaseOrderInstance.country
         poBalance.purchaseOrder = purchaseOrderInstance
         poBalance.description =" Insert new PO state Draft"
         poBalance.balance1 = purchaseOrderInstance.total?:0
         poBalance.balance2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
-        poBalance.save(flush:true)
+        poBalance.save(flush:true)*/
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)

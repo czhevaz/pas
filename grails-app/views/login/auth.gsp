@@ -92,13 +92,20 @@
 		<div class='fheader'><g:message code="springSecurity.login.header"/></div>
 
 		<g:if test="${flash.authenticationFailure}">
-			<div class="alert alert-error">
-				Sorry but your login/signup failed - reason: <g:message code="authentication.failure.${flash.authenticationFailure.result}"/><br/>
+			<div class='login_message'>
+				Sorry, we were not able to find a user with that username and password.<br/>
 			</div>
 		</g:if>
-
+			<div class='login_message'>
+				<g:hasErrors bean="${flash.loginFormErrors}" field="login">
+					<g:renderErrors bean="${flash.loginFormErrors}" as="list" field="login"/>
+				</g:hasErrors>
+				<g:hasErrors bean="${flash.loginFormErrors}" field="password">
+					<g:renderErrors bean="${flash.loginFormErrors}" as="list" field="password"/>
+				</g:hasErrors>
+			</div>	
 		<auth:ifUnconfirmed>
-			<div class="alert alert-error">
+			<div class='login_message'>
 				You've registered but we're still waiting to confirm your account. <g:link action="reconfirm">Click here to send a new confirmation request</g:link> if you missed it the first time.
 			</div>
 		</auth:ifUnconfirmed>
@@ -109,17 +116,13 @@
 			<p>
 				<label for='username'><g:message code="springSecurity.login.username.label"/>:</label>
 				<input type='text' class='text_' name='login' id='username'/>
-				<g:hasErrors bean="${flash.loginFormErrors}" field="login">
-					<g:renderErrors bean="${flash.loginFormErrors}" as="list" field="login"/>
-				</g:hasErrors>
+			
 			</p>
 
 			<p>
 				<label for='password'><g:message code="springSecurity.login.password.label"/>:</label>
 				<input type='password' class='text_' name='password' id='password'/>
-				<g:hasErrors bean="${flash.loginFormErrors}" field="password">
-					<g:renderErrors bean="${flash.loginFormErrors}" as="list" field="password"/>
-				</g:hasErrors>
+				
 			</p>
 
 			<!--

@@ -1,0 +1,25 @@
+<plugin name='font-awesome-resources' version='3.2.1.2' grailsVersion='2.0 &gt; *'>
+  <author>Eamonn O'Connell</author>
+  <authorEmail>eamonnoconnell@gmail.com</authorEmail>
+  <title>Grails Font Awesome Resources Plugin</title>
+  <description>Like the jquery-resources plugin that pulls in the jquery javascript lib as a resource, this plugin pulls in Font Awesome. 
+Font Awesome is a very popular font based icon set. Font based icons are a very convenient means of incorporating icons into a web application and the technique is growing in popularity. 
+Font Awesome probably works best when used with the twitter bootstrap UI framework for which it was designed.
+</description>
+  <documentation>https://github.com/halfbaked/grails-font-awesome-resources</documentation>
+  <type>FontAwesomeResourcesGrailsPlugin</type>
+  <resources>
+    <resource>FontAwesomePluginResources</resource>
+    <resource>FontAwesomePluginResourceMapper</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://grails.org/plugins' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='http://grails.org/plugins' url='http://grails.org/plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
+  <dependencies />
+  <plugins />
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>

@@ -264,7 +264,7 @@ if(actionName=='edit' || actionName=='show') {
                 
                 $("#totalPO").text(formatNumber(data.data));
                 $("#totalPO2").text(formatNumber(parseFloat(data.data)/parseFloat(rate)));
-                //reloadPpp(pppNumber,data.data);
+                reloadPpp(pppNumber,data.data);
             },
             dataType: 'json'
         });    
@@ -277,18 +277,19 @@ if(actionName=='edit' || actionName=='show') {
     	$.ajax({
             type: "POST",
             url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
-            data: {pppNumber:pppNumber},
+            data: {pppNumber:pppNumber,countryId:'${purchaseOrderInstance?.country}'},
             success: function(d){ 
-            	var remain = d.remainCreditLimit2 - (totalPO/d.rate)
-                
+            	//var remain = d.remainCreditLimit - (totalPO/d.rate)
+                //console.log()
                 $("#table-ppp tbody").html("");	
 				var tr ="<tr>";
 					tr += "<td > "+  d.pppNumber +" </td>";
+                    tr += "<td > "+  d.pppDescription +" </td>";
 					tr += "<td > "+  d.lobName +" </td>";
 					tr += "<td > "+  d.brandName +" </td>";
 					tr += "<td > "+  d.requestorName +" </td>";
 					tr += "<td style='text-align:right'> "+  formatNumber(d.amount) +" </td>";
-					tr += "<td style='text-align:right'> "+  formatNumber(remain) +" </td>";
+					tr += "<td style='text-align:right'> "+  formatNumber(d.remainCreditLimit) +" </td>";
 					tr += "<td > "+  d.pppDate +" </td>";
 					tr += "</tr>";
 				$("#table-ppp tbody").append(tr);
