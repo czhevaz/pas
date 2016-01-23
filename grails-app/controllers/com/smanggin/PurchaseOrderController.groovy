@@ -338,6 +338,10 @@ class PurchaseOrderController {
         }
     }
 
+
+    /**
+    Action Waiting Approve
+    **/
     def actionWaitingApprove() {
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
         if (!purchaseOrderInstance) {
@@ -373,14 +377,20 @@ class PurchaseOrderController {
             return
         }
 
-        savePoComment(purchaseOrderInstance,params)
+        
+        savePoComment(purchaseOrderInstance,params)/* --insert TO PO comment */
 
-        saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)
+        saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
+
+        sendApproveEmail(purchaseOrderInstance)/* --Send Email */
 
         flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }    
 
+    /**
+    Action Approve
+    **/
     def actionApprove() {
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
         if (!purchaseOrderInstance) {
@@ -432,16 +442,22 @@ class PurchaseOrderController {
             println poApprover.errors
         }    
         
-        savePoComment(purchaseOrderInstance,params)
+        savePoComment(purchaseOrderInstance,params)/* --insert TO PO comment */
         
         if(globalService.getNextApprover(purchaseOrderInstance,user)){
-            saveNotif(purchaseOrderInstance,purchaseOrderInstance.mustApprovedBy)
+            saveNotif(purchaseOrderInstance,purchaseOrderInstance.mustApprovedBy)/* --insert TO Notif */
+            sendApproveEmail(purchaseOrderInstance)/* --Send Email */
         }
+
+        
 
         flash.message = message(code: 'default.approved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
 
+    /**
+    Action Reject
+    **/
     def actionReject() {
         
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
@@ -474,7 +490,7 @@ class PurchaseOrderController {
         
         purchaseOrderInstance.state = 'Rejected'    
         
-        savePoComment(purchaseOrderInstance,params)
+        savePoComment(purchaseOrderInstance,params) /* --insert TO PO comment */
 
         if (!purchaseOrderInstance.save(flush: true)) {
 
@@ -494,43 +510,37 @@ class PurchaseOrderController {
         }
 
 
-        saveNotif(purchaseOrderInstance,purchaseOrderInstance.createdBy)
+        saveNotif(purchaseOrderInstance,purchaseOrderInstance.createdBy) /* --insert TO Notif */
         
         flash.message = message(code: 'default.rejected.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
 
      /**
-    send approve email to logistic
+    send approve email 
     **/       
-    def sendApproveEmail(salesOrderInstance){
+    def sendApproveEmail(purchaseOrderInstance){
        
         def now = new Date()
-        def msg = AppSetting.valueDefault('order_approve_email',
-            'default [order_approve_email] message, please set at AppSetting')
-        def subject = "SRR Approved By Supervisor Notification @" + salesOrderInstance
-        def user = User.createCriteria().list(){
-            userGroup{
-                eq('code', 'logistic')
-            }
-        }
-        def receiver = []
-
-        user.each{
-            receiver.push(it.email)
-        }
+        def msg = 'default [order_approve_email] message, please set at AppSetting'
+        def subject = "PO Approved Notification @" + purchaseOrderInstance.number
+       
+        def userReceiver = User.findByLogin(purchaseOrderInstance.mustApprovedBy)
+        def receiver = userReceiver?.email
 
         def authUser = User.findByLogin( auth.user() )
-        def sender = authUser.email 
+        def sender = authUser?.email 
 
-        Outbox.newEmail( subject,  msg,  sender,  receiver.join(','))
+        Outbox.newEmail( subject,  msg,  sender,  receiver, null, null, null, 'PurchaseOrder',purchaseOrderInstance.id)
 
-        println ">>>>>>>>>>> SENDING APPROVED MAIL TO LOGISTIC"
+        println ">>>>>> SENDING APPROVED MAIL <<<"
+
+    }/* send approve email */
 
 
-    }
-
-
+    /**
+    save PoComment
+    **/  
     def savePoComment(purchaseOrderInstance,params){
         if(params.comment){
             
@@ -540,9 +550,12 @@ class PurchaseOrderController {
             logChatInstance.purchaseOrder =purchaseOrderInstance
             logChatInstance.save()
         }
-    }
+    }/* save PoComment */
 
 
+    /**
+    SaveNotif
+    **/  
     def saveNotif(purchaseOrderInstance,forUser){
 
         def notif = new Notif()
@@ -555,5 +568,5 @@ class PurchaseOrderController {
         notif.isNew = true
         notif.save()
         
-    }
+    }/* SaveNotif */
 }

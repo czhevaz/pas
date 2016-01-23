@@ -46,11 +46,6 @@ grails.project.dependency.resolution = {
         runtime ":jquery-ui:1.8.24"
         runtime ":resources:1.2"
 
-        //Uncomment these (or add new ones) to enable additional resources capabilities
-        //runtime ":zipped-resources:1.0"
-        //runtime ":cached-resources:1.0"
-        //runtime ":yui-minify-resources:0.1.5"
-
         build ":tomcat:$grailsVersion"
 
         runtime ":database-migration:1.3.2"
@@ -64,5 +59,7 @@ grails.project.dependency.resolution = {
        // compile ":spring-security-core:1.2.7.3"
         compile ":authentication:2.0.1"
         compile "org.grails.plugins:easyui:1.5"
+        compile ":quartz2:2.1.6.2"
+        compile ":mail:1.0.1"
     }
 }

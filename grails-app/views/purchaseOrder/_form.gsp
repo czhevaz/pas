@@ -270,7 +270,7 @@ if(actionName=='edit') {
                     $('#supplier').chosen();
 
                     $.each(data, function(a, b){
-                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+                         var opt = "<option value='"+b.id+"'> "+ b.code +" </option>";
                         $('#supplier').append(opt);
                         
                     });
@@ -290,7 +290,7 @@ if(actionName=='edit') {
                 alert("fail");
             }
         });
-    }/*-- end getlob  --*/
+    }/*-- end getSupplier  --*/
 
 		
 </r:script>	

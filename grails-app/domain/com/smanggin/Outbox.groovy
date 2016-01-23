@@ -54,7 +54,13 @@ class Outbox {
         triggerDocId nullable: true 
         retry nullable:true
     }
-	
+
+	static grailsApplication
+    static decoderService
+    static emailService	
+	/** 
+	constructtor new email 
+	**/
 	static newEmail(String subject, String msg, String sender, String receiver,  cc=null, bcc=null, attachFile=null, triggerDocClass=null, triggerDocId=null){
         def out = new Outbox()	
 		out.properties = [
@@ -77,5 +83,31 @@ class Outbox {
         	println "erorr outbox save"
         	println out.errors
         }
+	}
+
+/** 
+	constructtor Send email 
+	**/
+	static sendMail(){
+		def count = 0
+		def usermail = decoderService.decrypt(grailsApplication.config.grails.key3)
+        def passmail = decoderService.decrypt(grailsApplication.config.grails.key4)
+      
+        def outboxes = Outbox.withCriteria{
+            eq('channel', 'email')
+            le('retry', 1)
+        }
+
+        outboxes.each {
+        	def classObject = it.triggerDocClass
+            def classId = it.triggerDocId
+            def subject = it.subject
+            def message = it.message
+            def sender 	= it.sender
+    		
+    		def email= emailService.sendEmail2(it,addresses)    
+
+        }
+
 	}
 }
