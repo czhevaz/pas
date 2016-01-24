@@ -154,7 +154,7 @@ class PppPhilippineController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            //params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render PppPhilippine.list(params) as JSON           
         }
         

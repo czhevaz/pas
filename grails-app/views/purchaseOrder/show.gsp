@@ -62,7 +62,7 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="purchaseOrder.purchaseOrderDate.label" default="Purchase Order Date" /></td>
 								
-								<td valign="top" class="value"><g:formatDate date="${purchaseOrderInstance?.purchaseOrderDate}" /></td>
+								<td valign="top" class="value"><g:formatDate date="${purchaseOrderInstance?.purchaseOrderDate}" format="yyyy-MM-dd"/></td>
 								
 							</tr>
 
@@ -89,7 +89,7 @@
 								
 								<td valign="top" class="value">
 								
-									<g:textArea class="form-control" name="comment" value="" rows="5" cols="40"/>
+									<g:textArea class="form-control" name="comment" value="" rows="5" cols="40" placeholder="Type message..."/>
 								</td>
 								
 							</tr>

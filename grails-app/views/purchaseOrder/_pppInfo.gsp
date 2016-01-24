@@ -42,12 +42,12 @@
 				</td>
 			
 				<td style="text-align:right">
-				
+					<span id="remain">
 					<g:formatNumber number="${(pppInstance?.remainCreditLimit)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
-				
+					</span>
 				</td>
 
-				<td><g:formatDate date="${pppInstance?.pppDate}" /></td>
+				<td><g:formatDate date="${pppInstance?.pppDate}" format="yyyy-MM-dd"/></td>
 
 				
 			</tr>

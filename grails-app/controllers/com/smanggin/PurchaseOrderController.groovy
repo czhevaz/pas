@@ -286,7 +286,7 @@ class PurchaseOrderController {
             def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
         
         	def results = domainClassInstance.findByNumber(params.pppNumber)
-
+            println " PppPhilippine" + results
             render results as JSON
         }else if(params.state){
             def c = PurchaseOrder.createCriteria()
@@ -524,7 +524,7 @@ class PurchaseOrderController {
         def now = new Date()
         def msg = AppSetting.valueDefault('order_approve_email',
             'default [order_approve_email] message, please set at AppSetting')
-        
+
         def subject = "PO Approved Notification @" + purchaseOrderInstance.number
        
         def userReceiver = User.findByLogin(purchaseOrderInstance.mustApprovedBy)

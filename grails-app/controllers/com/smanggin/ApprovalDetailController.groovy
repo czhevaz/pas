@@ -151,10 +151,10 @@ class ApprovalDetailController {
             render([success: true] as JSON)    
 
         }else{
-            approvalDetailInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+            approvalDetailInstance.errors.rejectValue("version", "default.approvalDetail.unique.failure",
                               [message(code: 'approvalDetail.label', default: 'ApprovalDetail')] as Object[],
-                              "Another user has updated this ApprovalDetail while you were editing")
-            render([success: false, messages: message] as JSON)
+                              "Country , Lob, Brand , no Sequential, and Approver must be Unique")
+            render([success: false, messages: approvalDetailInstance.errors] as JSON)
         }               
         
     }
@@ -209,13 +209,13 @@ class ApprovalDetailController {
         def approvalDetail = ApprovalDetail.createCriteria().list(){
             and{
                 country{
-                    eq('name',params.countryName)
+                    like('name',params.countryName)
                 }
-                eq('lob',params.lob)
-                eq('brand',params.brand)
+                like('lob',params.lobCode)
+                like('brand',params.brandCode)
                 eq('noSeq',params.noSeq?.toLong())
                 approver{
-                    eq('login',params.approverId)
+                    like('login',params.approverId)
                 }
                 transactionType{
                     eq('id',params.transactionTypeId?.toLong())

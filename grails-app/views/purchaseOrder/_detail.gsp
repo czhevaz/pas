@@ -130,9 +130,6 @@ if(actionName=='edit' || actionName=='show') {
     function purchaseOrderDetailsEndEditing(){
         if (editIndex == undefined){return true}
         if ($('#dg-purchaseOrderDetails').datagrid('validateRow', editIndex)){
-
-
-
             $('#dg-purchaseOrderDetails').datagrid('endEdit', editIndex);
             var row = $('#dg-purchaseOrderDetails').datagrid('getRows')[editIndex]
             $.ajax({
@@ -140,18 +137,17 @@ if(actionName=='edit' || actionName=='show') {
               url: "/${meta(name:'app.name')}/purchaseOrderDetail/jsave",
               data: row,
               success: function(data){ 
-                    console.log(data.success);
+                 purchaseOrderDetailsRefresh();
                   if(!data.success)
                   {
                     if(data.limit){
-                        alert(data.messages)     
+                        alert(data.messages);     
                     }else{
-                        alert(data.messages.errors[0].message)
+                        alert(data.messages.errors[0].message);
                     }
                     
                   }
 
-                  purchaseOrderDetailsRefresh()
               },
               dataType: 'json'
             });
@@ -196,10 +192,10 @@ if(actionName=='edit' || actionName=='show') {
           url: "/${meta(name:'app.name')}/purchaseOrderDetail/jdelete/" + row['id'],
           data: row,
           success: function(data){ 
-          	purchaseOrderDetailsRefresh()
+          	purchaseOrderDetailsRefresh();
               if(!data.success)
               {
-                    alert(data.messages)
+                    alert(data.messages);
               }
           },
           dataType: 'json'
@@ -208,7 +204,7 @@ if(actionName=='edit' || actionName=='show') {
     }
 
     function purchaseOrderDetailsAccept(){
-    	reloadTotal(${purchaseOrderInstance.id? purchaseOrderInstance.id : 0});
+    	//reloadTotal(${purchaseOrderInstance.id? purchaseOrderInstance.id : 0});
         if (purchaseOrderDetailsEndEditing()){
             $('#dg-purchaseOrderDetails').datagrid('acceptChanges');
         }
@@ -282,8 +278,9 @@ if(actionName=='edit' || actionName=='show') {
             data: {pppNumber:pppNumber,countryId:'${purchaseOrderInstance?.country}'},
             success: function(d){ 
             	//var remain = d.remainCreditLimit - (totalPO/d.rate)
-                //console.log()
-                $("#table-ppp tbody").html("");	
+                console.log(d);
+                $('#remain').html('<span id="remain">'+formatNumber(d.remainCreditLimit)+'</span>');
+                /*$("#table-ppp tbody").html("");	
 				var tr ="<tr>";
 					tr += "<td > "+  d.pppNumber +" </td>";
                     tr += "<td > "+  d.pppDescription +" </td>";
@@ -294,7 +291,7 @@ if(actionName=='edit' || actionName=='show') {
 					tr += "<td style='text-align:right'> "+  formatNumber(d.remainCreditLimit) +" </td>";
 					tr += "<td > "+  d.pppDate +" </td>";
 					tr += "</tr>";
-				$("#table-ppp tbody").append(tr);
+				$("#table-ppp tbody").append(tr);*/
                 //$("#totalPO").text(parseFloat(data.data));
                 //$("#totalPO2").text(parseFloat(data.data)/parseFloat(rate));
                 

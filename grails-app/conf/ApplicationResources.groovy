@@ -11,7 +11,8 @@ modules = {
         
 
         resource url:'js/numeral/min/numeral.min.js'	
-        
+        resource url:'js/slimScroll/jquery.slimscroll.min.js'
+
     }
 
     fileUpload{
@@ -28,5 +29,8 @@ modules = {
         
         resource url:'addPlugins/datatables/jquery.dataTables.min.js'
         resource url:'addPlugins/datatables/dataTables.bootstrap.min.js'        
+
+        //resource url:'addPlugins/slimScroll/jquery.slimscroll.js'
+        
     }
 }

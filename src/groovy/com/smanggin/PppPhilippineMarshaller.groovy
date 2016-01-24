@@ -14,7 +14,7 @@ class PppPhilippineMarshaller {
             return [
 				
 				requestorName :it.requestor,
-				pppDate :it.pppDate,
+				pppDate :it.pppDate?.format('yyyy-MM-dd'),
 				pppNumber :it.number,
 				pppDescription :it.pppProgram,
 				countryName:it.country?.name,

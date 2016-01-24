@@ -8,6 +8,7 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'appSetting.label', default: 'AppSetting')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
+	<g:set var="canEdit" value="true" scope="request" />
 </head>
 
 <body>
