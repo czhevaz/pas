@@ -81,8 +81,33 @@ class CurrencyController {
         def currencyInstance = Currency.findByCode(params.code)
 
         
+        if(params.baseCurrency){
+            def baseCurrency = Currency.findAllByBaseCurrency(true)    
+            println "baseCurrency" +baseCurrency
+            baseCurrency.each{
+                it.baseCurrency =false
+                if(!it.save(validate:false)){
+                    println it.errors
+                }    
+
+            }
+        }else{
+            def baseCurrency = Currency.createCriteria().list(){
+                ne('code',params.code)
+                eq('baseCurrency',true)
+            }
+            println " false baseCurrency" + baseCurrency
+            if(baseCurrency.size() == 0){
+                currencyInstance.errors.rejectValue("baseCurrency", "default.baseCurrency.haveOne.failure",
+                          [message(code: 'currency.label', default: 'Currency')] as Object[],
+                          "Currency must have one Base Currency")
+                render(view: "edit", model: [currencyInstance: currencyInstance])
+                return
+            }
+        }
+        
         if (!currencyInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'currency.label', default: 'Currency'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'currency.label', default: 'Currency'), params.code])
             redirect(action: "list")
             return
         }
@@ -98,23 +123,18 @@ class CurrencyController {
             }
         }
 
+        
         currencyInstance.properties = params
         currencyInstance.active = (params.active=="on"?"Yes":"No")
-        if (!currencyInstance.save(flush: true)) {
+        currencyInstance.name = params.name
+       
+        if (!currencyInstance.save(validate:false)) {
+
             render(view: "edit", model: [currencyInstance: currencyInstance])
             return
         }
 
-        if(params.baseCurrency){
-            def currencys = Currency.createCriteria().list(){
-                ne('code',currencyInstance.code)
-            }
-
-            currencys.each{
-                it.baseCurrency = false
-                it.save()
-            }
-        }
+        
 
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'currency.label', default: 'Currency'), currencyInstance.code])

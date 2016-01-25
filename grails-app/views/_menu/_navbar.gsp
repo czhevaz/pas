@@ -33,6 +33,11 @@
 							Purchase Order
 						</g:link>
 					</li>
+					<li class="controller">
+						<g:link controller="Rfp">
+							RFP
+						</g:link>
+					</li>
 				</ul>	
 			</li>
 		

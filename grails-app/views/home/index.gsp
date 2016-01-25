@@ -41,7 +41,7 @@
 		$.post('/${meta(name:'app.name')}/purchaseOrder/jlist',{state:'Waiting Approval'}, function(data) {
 			
 				if(data.length){
-					var title = 'PO Waiting Approve';
+					var title = 'PO Waiting for Approval';
 					var count = data.length;
 					var icon = 'icon-folder';
 					var color = 'bg-green';

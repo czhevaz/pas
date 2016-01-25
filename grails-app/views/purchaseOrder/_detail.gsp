@@ -34,7 +34,10 @@ if(actionName=='edit' || actionName=='show') {
                             	}
                         	}
 
-                        }">Qty (${purchaseOrderInstance?.currency1?.code})</th>
+                        }">Qty </th>
+
+                        <th data-options="field:'pic',width:200,editor:'text'">Uom</th>
+
                         <th data-options="field:'unitPrice',align:'right',formatter:formatNumber,  width:100,
                         editor:{
                         	type:'numberbox',
@@ -64,6 +67,7 @@ if(actionName=='edit' || actionName=='show') {
                         <th data-options="field:'pic',width:200,editor:'text'">PIC</th>
                         
                         <th data-options="field:'purchaseOrderId',hidden:true">Purchase Order</th>
+                       
                        <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS'}">         
                         <th data-options="field:'startDate',width:200,editor:{type:'datebox',options:{formatter:myformatter,parser:myparser}}">Start Date</th>
 

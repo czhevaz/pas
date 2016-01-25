@@ -102,33 +102,33 @@ class Outbox {
     		
     		try {
     			
-	    		if(email.send()){
-	    			check = true
-					println "=== OUTBOX sent : " +it.subject
-	    		}
-	    	}
+		    		if(email.send()){
+		    			check = true
+						println "=== OUTBOX sent : " +it.subject
+		    		}
+		    	
+
+	    		if(check){
+	                def sent = new Send()
+	                sent.subject = it.subject
+	                sent.receiver = it.receiver
+	                sent.sender = it.sender
+	                sent.message = it.message
+	                sent.channel = it.channel
+	                sent.sentDate = new Date()
+	                sent.cc = it.cc
+	                sent.bcc = it.bcc
+	                sent.retry = it.retry
+	                sent.triggerDocClass = it.triggerDocClass 
+	                sent.triggerDocId = it.triggerDocId
+	                sent.save(validate: false)
+	                Outbox.executeUpdate("DELETE Outbox o WHERE o.id=?", [it.id])
+	            }
+	
+    		}
     		catch(Exception e) {
     			println " === Failed Sent Email ===" + it.subject	
     		}
-
-    		if(check){
-                def sent = new Send()
-                sent.subject = it.subject
-                sent.receiver = it.receiver
-                sent.sender = it.sender
-                sent.message = it.message
-                sent.channel = it.channel
-                sent.sentDate = new Date()
-                sent.cc = it.cc
-                sent.bcc = it.bcc
-                sent.retry = it.retry
-                sent.triggerDocClass = it.triggerDocClass 
-                sent.triggerDocId = it.triggerDocId
-                sent.save(validate: false)
-                Outbox.executeUpdate("DELETE Outbox o WHERE o.id=?", [it.id])
-            }
-	
-    		
     		
         }
 

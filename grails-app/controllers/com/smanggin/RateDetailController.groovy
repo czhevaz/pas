@@ -62,7 +62,7 @@ class RateDetailController {
     }
 
     def update() {
-        println params 
+        
         def rateDetailInstance = RateDetail.get(params.id)
         if (!rateDetailInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rateDetail.label', default: 'RateDetail'), params.id])
@@ -82,6 +82,8 @@ class RateDetailController {
         }
 
         rateDetailInstance.properties = params
+
+
 
         if (!rateDetailInstance.save(flush: true)) {
             render(view: "edit", model: [rateDetailInstance: rateDetailInstance])
@@ -120,6 +122,8 @@ class RateDetailController {
             render([success: false, messages: [errors:[error]] ] as JSON)       
             return
         }
+
+
         
         if (params.version)
         {
@@ -135,17 +139,31 @@ class RateDetailController {
             }            
         }
         
-        rateDetailInstance.properties = params
-        rateDetailInstance.currency1 = Currency.findByCode(params.currency1Code)
-        rateDetailInstance.currency2 = Currency.findByCode(params.currency2Code)
-        rateDetailInstance.rate = Rate.get(params.rateId)
-               
-        if (!rateDetailInstance.save(flush: true)) {
-            render([success: false, messages: rateDetailInstance.errors] as JSON)
-            return
+        def ratedetails = RateDetail.findByCurrency1(Currency.findByCode(params.currency1Code))
+        if(params.id){
+            ratedetails = false
         }
-                        
-        render([success: true] as JSON)
+        if(ratedetails){
+            rateDetailInstance.errors.rejectValue("currency1", "default.currency1.unique.failure",
+                      [message(code: 'rateDetail.label', default: 'RateDetail')] as Object[],
+                      "Currency1 must be Unique")
+            render([success: false, messages: rateDetailInstance.errors] as JSON)
+        }else{
+            rateDetailInstance.properties = params
+            rateDetailInstance.currency1 = Currency.findByCode(params.currency1Code)
+            rateDetailInstance.currency2 = Currency.findByCode(params.currency2Code)
+            rateDetailInstance.rate = Rate.get(params.rateId)
+            
+
+            if (!rateDetailInstance.save(flush: true)) {
+                render([success: false, messages: rateDetailInstance.errors] as JSON)
+                return
+            }
+                            
+            render([success: true] as JSON)
+        }
+
+        
     }
 
     def jlist() {

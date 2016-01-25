@@ -103,6 +103,7 @@ if(actionName=='edit' || actionName=='show') {
                       url: "/${meta(name:'app.name')}/rateDetail/jsave",
                       data: row,
                       success: function(data){ 
+                           $('#dg-rateDetails').datagrid('reload');  
                           if(!data.success)
                           {
                             alert(data.messages.errors[0].message)

@@ -5,7 +5,7 @@ package com.smanggin
  * A domain class describes the data object and it's mapping to the database
  */
 class PurchaseOrder {
-
+	def grailsApplication
 	/* Default (injected) attributes of GORM */
 //	Long	id
 //	Long	version
@@ -102,7 +102,7 @@ class PurchaseOrder {
 
     }
 
-	static transients =['total']
+	static transients =['total','pppRemain']
 
 	Float getTotal() {
 		def total = 0
@@ -125,6 +125,12 @@ class PurchaseOrder {
 	}
 
 
+	def getPppRemain(){
+		def domainClassName = "com.smanggin." + triggerDomain
+    	def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
+        def ppp = domainClassInstance.findByNumber(pppNumber)
 
+        return ppp.remainCreditLimit
+	}
 	
 }

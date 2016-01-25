@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PurchaseOrder" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f36334ec-2c28-4357-b7db-e3fe51051137">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="117"/>
+	<style name="table">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="c7252824-fac2-4397-a2df-c22863ff90a8"/>
+	<subDataset name="Table Dataset 2" uuid="2014285e-29b8-4617-80f7-c977b56f84b1"/>
+	<parameter name="poNumber" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     T_PAS_PO."id" AS T_PAS_PO_id,
+     T_PAS_PO."approved_by" AS T_PAS_PO_approved_by,
+     T_PAS_PO."brand" AS T_PAS_PO_brand,
+     T_PAS_PO."country" AS T_PAS_PO_country,
+     T_PAS_PO."created_by" AS T_PAS_PO_created_by,
+     T_PAS_PO."currency1_id" AS T_PAS_PO_currency1_id,
+     T_PAS_PO."currency2_id" AS T_PAS_PO_currency2_id,
+     T_PAS_PO."date_approved" AS T_PAS_PO_date_approved,
+     T_PAS_PO."date_created" AS T_PAS_PO_date_created,
+     T_PAS_PO."date_void" AS T_PAS_PO_date_void,
+     T_PAS_PO."datewo" AS T_PAS_PO_datewo,
+     T_PAS_PO."is_void" AS T_PAS_PO_is_void,
+     T_PAS_PO."is_write_off" AS T_PAS_PO_is_write_off,
+     T_PAS_PO."last_updated" AS T_PAS_PO_last_updated,
+     T_PAS_PO."lob" AS T_PAS_PO_lob,
+     T_PAS_PO."number" AS T_PAS_PO_number,
+     T_PAS_PO."ppp_number" AS T_PAS_PO_ppp_number,
+     T_PAS_PO."purchase_order_date" AS T_PAS_PO_purchase_order_date,
+     T_PAS_PO."rate" AS T_PAS_PO_rate,
+     T_PAS_PO."reasonfor_investment" AS T_PAS_PO_reasonfor_investment,
+     T_PAS_PO."state" AS T_PAS_PO_state,
+     T_PAS_PO."supplier_id" AS T_PAS_PO_supplier_id,
+     T_PAS_PO."updated_by" AS T_PAS_PO_updated_by,
+     T_PAS_PO."void_by" AS T_PAS_PO_void_by,
+     T_PAS_PO."wo_by" AS T_PAS_PO_wo_by,
+     T_PAS_PO."wo_value1" AS T_PAS_PO_wo_value1,
+     T_PAS_PO."wo_value2" AS T_PAS_PO_wo_value2,
+     T_PAS_PO."trigger_domain" AS T_PAS_PO_trigger_domain,
+     T_PAS_PO."ppp_cost" AS T_PAS_PO_ppp_cost,
+     T_PAS_PO."requestor" AS T_PAS_PO_requestor,
+     T_PAS_PO."approver1" AS T_PAS_PO_approver1,
+     T_PAS_PO."approver2" AS T_PAS_PO_approver2,
+     T_PAS_PO."must_approved_by" AS T_PAS_PO_must_approved_by,
+     T_PAS_PO."date_reject" AS T_PAS_PO_date_reject,
+     T_PAS_PO."reject_notes" AS T_PAS_PO_reject_notes,
+     T_PAS_PO."rejected_by" AS T_PAS_PO_rejected_by,
+     M_PAS_TR_Group."transaction_type_id" AS M_PAS_TR_Group_transaction_type_id,
+     M_PAS_TR_Group."description" AS M_PAS_TR_Group_description,
+     M_PAS_TR_Type."id" AS M_PAS_TR_Type_id,
+     M_PAS_TR_Type."name" AS M_PAS_TR_Type_name,
+     M_PAS_Supplier."name" AS M_PAS_Supplier_name
+FROM
+     "dbo"."M_PAS_TR_Group" M_PAS_TR_Group INNER JOIN "dbo"."T_PAS_PO" T_PAS_PO ON M_PAS_TR_Group."id" = T_PAS_PO."transaction_group_id"
+     INNER JOIN "dbo"."M_PAS_TR_Type" M_PAS_TR_Type ON M_PAS_TR_Group."transaction_type_id" = M_PAS_TR_Type."id"
+     INNER JOIN "dbo"."M_PAS_Supplier" M_PAS_Supplier ON T_PAS_PO."supplier_id" = M_PAS_Supplier."id"]]>
+	</queryString>
+	<field name="T_PAS_PO_id" class="java.math.BigDecimal"/>
+	<field name="T_PAS_PO_approved_by" class="java.lang.String"/>
+	<field name="T_PAS_PO_brand" class="java.lang.String"/>
+	<field name="T_PAS_PO_country" class="java.lang.String"/>
+	<field name="T_PAS_PO_created_by" class="java.lang.String"/>
+	<field name="T_PAS_PO_currency1_id" class="java.lang.String"/>
+	<field name="T_PAS_PO_currency2_id" class="java.lang.String"/>
+	<field name="T_PAS_PO_date_approved" class="java.sql.Timestamp"/>
+	<field name="T_PAS_PO_date_created" class="java.sql.Timestamp"/>
+	<field name="T_PAS_PO_date_void" class="java.sql.Timestamp"/>
+	<field name="T_PAS_PO_datewo" class="java.sql.Timestamp"/>
+	<field name="T_PAS_PO_is_void" class="java.lang.Short"/>
+	<field name="T_PAS_PO_is_write_off" class="java.lang.Short"/>
+	<field name="T_PAS_PO_last_updated" class="java.sql.Timestamp"/>
+	<field name="T_PAS_PO_lob" class="java.lang.String"/>
+	<field name="T_PAS_PO_number" class="java.lang.String"/>
+	<field name="T_PAS_PO_ppp_number" class="java.lang.String"/>
+	<field name="T_PAS_PO_purchase_order_date" class="java.sql.Timestamp"/>
+	<field name="T_PAS_PO_rate" class="java.lang.Double"/>
+	<field name="T_PAS_PO_reasonfor_investment" class="java.lang.String"/>
+	<field name="T_PAS_PO_state" class="java.lang.String"/>
+	<field name="T_PAS_PO_supplier_id" class="java.math.BigDecimal"/>
+	<field name="T_PAS_PO_updated_by" class="java.lang.String"/>
+	<field name="T_PAS_PO_void_by" class="java.lang.String"/>
+	<field name="T_PAS_PO_wo_by" class="java.lang.String"/>
+	<field name="T_PAS_PO_wo_value1" class="java.lang.Double"/>
+	<field name="T_PAS_PO_wo_value2" class="java.lang.Double"/>
+	<field name="T_PAS_PO_trigger_domain" class="java.lang.String"/>
+	<field name="T_PAS_PO_ppp_cost" class="java.lang.Double"/>
+	<field name="T_PAS_PO_requestor" class="java.lang.String"/>
+	<field name="T_PAS_PO_approver1" class="java.lang.String"/>
+	<field name="T_PAS_PO_approver2" class="java.lang.String"/>
+	<field name="T_PAS_PO_must_approved_by" class="java.lang.String"/>
+	<field name="T_PAS_PO_date_reject" class="java.sql.Timestamp"/>
+	<field name="T_PAS_PO_reject_notes" class="java.lang.String"/>
+	<field name="T_PAS_PO_rejected_by" class="java.lang.String"/>
+	<field name="M_PAS_TR_Group_transaction_type_id" class="java.math.BigDecimal"/>
+	<field name="M_PAS_TR_Group_description" class="java.lang.String"/>
+	<field name="M_PAS_TR_Type_id" class="java.math.BigDecimal"/>
+	<field name="M_PAS_TR_Type_name" class="java.lang.String"/>
+	<field name="M_PAS_Supplier_name" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="59" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="281" splitType="Stretch">
+			<textField>
+				<reportElement x="225" y="0" width="100" height="20" uuid="021dff50-ab2a-4b29-b332-eb7b0edbd14d"/>
+				<textFieldExpression><![CDATA[$F{M_PAS_TR_Group_description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="225" y="24" width="100" height="20" uuid="629ee16e-9c0b-4771-b4cb-87496f9d738b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T_PAS_PO_number}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="246" splitType="Stretch">
+			<elementGroup>
+				<staticText>
+					<reportElement x="14" y="-129" width="100" height="20" uuid="7acbadb8-37e8-4b5a-8109-c35e2a1484eb"/>
+					<text><![CDATA[Lob]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="320" y="-149" width="86" height="20" uuid="aebcebec-8f3a-4db2-b8b9-0754153adc7d"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Exchange Rate ]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="420" y="-169" width="100" height="20" uuid="ab526c19-1505-4c8e-b6d2-3cb6ac5ab61b"/>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_currency1_id}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="14" y="-56" width="100" height="20" backcolor="#CCCCCC" uuid="29f2089d-2f73-4968-bba4-9ee4b0c62399"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[PPP number]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="14" y="-36" width="100" height="20" uuid="ad330cdb-394d-46c9-8e0f-d179da8f504f"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_ppp_number}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="14" y="-169" width="100" height="20" uuid="5ae228aa-54f3-4ab3-9439-a82b6cd8c078"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Supplier :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="127" y="-129" width="100" height="20" uuid="a9792417-e13c-420f-9193-5b9bff5b2d30"/>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_brand}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="320" y="-169" width="86" height="20" uuid="e1ce3ab0-dcc2-433a-be87-ae8d30f630dc"/>
+					<text><![CDATA[Local Currency]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="420" y="-189" width="100" height="20" uuid="6c7d75ca-9630-4b9a-91f8-58d9b4e973cf"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_requestor}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="420" y="-149" width="100" height="20" uuid="1872c20f-ca94-46cc-b92c-e16917957a1e"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_rate}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="127" y="-169" width="100" height="20" uuid="6b124a16-5c31-40ff-a6c0-ca140aa1973f"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{M_PAS_Supplier_name}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="14" y="-189" width="100" height="20" uuid="c1f8ebfc-af3a-4e86-93ee-41821e14eae0"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+					<text><![CDATA[Country :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="127" y="-189" width="100" height="20" uuid="713913fc-423a-446b-a8a1-082f925c6224"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_country}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="336" y="-56" width="100" height="20" backcolor="#CCCCCC" uuid="f207426e-7c71-44de-b90c-12e336cad463"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true" isStrikeThrough="false"/>
+					</textElement>
+					<text><![CDATA[PPP Current Balance ()]]></text>
+				</staticText>
+				<textField pattern="dd MMMMM yyyy">
+					<reportElement x="127" y="-149" width="100" height="20" uuid="af43e024-2a55-414f-888f-2ad737cf9aeb"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_purchase_order_date}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="127" y="-109" width="100" height="20" uuid="a79b3c47-5c86-46fa-b650-c85a61d118ae"/>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_lob}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="320" y="-189" width="86" height="20" uuid="241d3178-d961-45fe-8f48-83264022d997"/>
+					<text><![CDATA[Requestor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="14" y="-109" width="100" height="20" uuid="f076ac25-4652-4986-9383-5f4094b35451"/>
+					<text><![CDATA[Brand]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="236" y="-56" width="100" height="20" backcolor="#CCCCCC" uuid="62a5bc4e-2638-4fb6-b937-dcfaba99f208"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[PPP Value (USD)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="114" y="-56" width="122" height="20" backcolor="#CCCCCC" uuid="cd085700-4a87-4c8b-a252-9511af3ba32a"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Description]]></text>
+				</staticText>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="236" y="-36" width="100" height="20" uuid="ff04898a-5daf-45ad-b524-227aa3fe75f0"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_ppp_cost}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="436" y="-56" width="78" height="20" backcolor="#CCCCCC" uuid="c2160fe0-ae29-4988-b7d8-59d73f0d5abe"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[PPP Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="14" y="-149" width="100" height="20" uuid="1d4c18a2-d9dd-45fb-a430-1af9ea7a126d"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Purchase Order Date]]></text>
+				</staticText>
+			</elementGroup>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

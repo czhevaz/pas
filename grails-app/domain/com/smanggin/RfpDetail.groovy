@@ -6,9 +6,6 @@ package com.smanggin
  */
 class RfpDetail {
 
-	/* Default (injected) attributes of GORM */
-//	Long	id
-//	Long	version
 	
 	/* Automatic timestamping of GORM */
 //	Date	dateCreated
@@ -21,6 +18,7 @@ class RfpDetail {
 	
     static	mapping = {
     	table 'T_PAS_RFP_Detail'
+    	version true
     }
     
 	static	constraints = {

@@ -98,7 +98,7 @@ if(actionName=='edit' || actionName=='show') {
                                 }
                         }">Creator</th>
 
-                        <th data-options="field:'noSeq',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:0}}">No Sequential</th>
+                        <th data-options="field:'noSeq',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:0}}">Sequential No</th>
                         	
                         <th data-options="field:'approverId',width:200,
                             formatter:function(value,row){

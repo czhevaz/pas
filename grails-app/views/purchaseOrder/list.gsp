@@ -102,7 +102,7 @@
 								
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppCost")}</td>	
 
-								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppCost")}</td>	
+								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppRemain")}</td>	
 
 								<td>${purchaseOrderInstance.country}</td>	
 								<td>${purchaseOrderInstance.lob}</td>	

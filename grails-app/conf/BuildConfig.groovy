@@ -61,5 +61,6 @@ grails.project.dependency.resolution = {
         compile "org.grails.plugins:easyui:1.5"
         compile ":quartz2:2.1.6.2"
         compile ":mail:1.0.1"
+        compile ":jasper:1.8.0"
     }
 }

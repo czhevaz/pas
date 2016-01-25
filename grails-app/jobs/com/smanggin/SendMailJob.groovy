@@ -7,7 +7,15 @@ class SendMailJob {
  
     def execute() {
         // execute job
-        com.smanggin.Outbox.sendMail()
+        try {
+            com.smanggin.Outbox.sendMail()    
+        }
+        catch(Exception e) {
+            println "=== send mail job failed === "     
+        }
+        
+        
+        
         /*def count = sendMail()
         println "send mail job executed. total sent : " + count */
     }

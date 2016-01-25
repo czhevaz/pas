@@ -384,7 +384,7 @@ class PurchaseOrderController {
 
         sendApproveEmail(purchaseOrderInstance)/* --Send Email */
 
-        flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
+        flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }    
 
@@ -451,7 +451,7 @@ class PurchaseOrderController {
 
         
 
-        flash.message = message(code: 'default.approved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
+        flash.message = message(code: 'default.approved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
 
@@ -512,7 +512,7 @@ class PurchaseOrderController {
 
         saveNotif(purchaseOrderInstance,purchaseOrderInstance.createdBy) /* --insert TO Notif */
         
-        flash.message = message(code: 'default.rejected.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
+        flash.message = message(code: 'default.rejected.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
 

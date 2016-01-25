@@ -10,7 +10,7 @@
 	<g:set var="entityName" value="${message(code: 'purchaseOrder.label', default: 'PurchaseOrder')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
 	<g:set var="canCreate" value="true" scope="request" />
-
+	<g:set var="canDelete" value="true" scope="request" />
 </head>
 
 <body>
@@ -39,7 +39,7 @@
 							</tr>
 
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="purchaseOrder.transactionGroup.label" default="Purchase Order Type" /></td>
+								<td valign="top" class="name"><g:message code="purchaseOrder.transactionGroup.label" default="Transaction Group" /></td>
 								
 								<td valign="top" class="value"><g:link controller="transactionGroup" action="show" id="${purchaseOrderInstance?.transactionGroup?.id}">${purchaseOrderInstance?.transactionGroup?.encodeAsHTML()}</g:link></td>
 								
