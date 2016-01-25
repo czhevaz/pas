@@ -15,6 +15,10 @@ class GlobalService {
             }
             eq('lob',purchaseOrder.lob)
             eq('brand',purchaseOrder.brand)
+            transactionType{
+                eq('code',purchaseOrder?.transactionGroup?.transactionType?.code)
+            }
+            
     	}
 
     	return appDetail	
