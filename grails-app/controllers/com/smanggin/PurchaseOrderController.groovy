@@ -1,9 +1,10 @@
 package com.smanggin
 
-
-
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.web.multipart.MultipartHttpServletRequest
+import org.springframework.web.multipart.commons.CommonsMultipartFile
+
 
 /**
  * PurchaseOrderController
@@ -12,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class PurchaseOrderController {
 
+    def fileUploadService
     def globalService       
     def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
 
@@ -571,4 +573,31 @@ class PurchaseOrderController {
         notif.save()
         
     }/* SaveNotif */
+
+
+    def upload(){
+        println "params" + params
+        
+        MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request
+        CommonsMultipartFile file =(CommonsMultipartFile) mpr.getFile("files")
+        def fileName = fileUploadService.uploadFileAjax(file,"tes","tesDIr")
+        
+        def auth = auth.user()        
+        int dot = fileName.lastIndexOf('.');
+        def ext = fileName.substring(dot + 1);
+
+        def attachment = new Attachment()
+        attachment.fileName = fileName
+        attachment.originalName = fileName
+        attachment.fileType = ext
+        attachment.purchaseOrder = PurchaseOrder.get(params.id)
+        attachment.updatedBy = auth
+        attachment.createdBy = auth
+
+        if(!attachment.save(flush:true)){
+            println "errors " + attachment.errors
+        } 
+        render([success: true] as JSON)
+    }
+
 }
