@@ -21,6 +21,8 @@ class ApprovalDetailMarshaller {
 				creatorId:it.creator?.login,
 				approverId:it.approver?.login,
 				isSequential : it.isSequential, 
+				inActive : it.inActive,
+				dateInActive : it.dateInActive,
 				version     : it.version?:0,
 			]
         }

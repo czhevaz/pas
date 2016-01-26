@@ -185,9 +185,15 @@ class RateDetailController {
 
     def jdelete(Long id) {
         def rateDetailInstance = RateDetail.get(id)
-        if (!rateDetailInstance)
+        def rateInPO = PurchaseOrder.findByRateDetail(rateDetailInstance)
+        println "rateInPO " +rateInPO
+        if (!rateDetailInstance){
             render([success: false] as JSON)
-        else {
+      
+        }else if(rateInPO){
+            def error = [message: message(code: 'default.cannot.delete.message', args: [message(code: 'rateDetail.label', default: 'RateDetail'), params.id])]
+            render([success: false, messages: error.message] as JSON)
+        }else {
             try {
                 rateDetailInstance.delete(flush: true)             
                 render([success: true] as JSON)

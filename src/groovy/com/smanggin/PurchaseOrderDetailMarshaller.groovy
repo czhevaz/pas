@@ -39,7 +39,9 @@ class PurchaseOrderDetailMarshaller {
 				createdBy   : it.createdBy,
 				updatedBy   : it.updatedBy,
 				dateCreated : it.dateCreated,
-				lastUpdated : it.lastUpdated
+				lastUpdated : it.lastUpdated,
+
+				currencyCode : it.currency1?.code
 			]
         }
     }

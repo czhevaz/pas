@@ -49,6 +49,7 @@ class PurchaseOrderController {
     }
 
     def save() {
+
         def purchaseOrderInstance = new PurchaseOrder(params)
         
         def country = Country.findByName(params.country)
@@ -83,6 +84,7 @@ class PurchaseOrderController {
         	purchaseOrderInstance.currency1=localCurrency
         	purchaseOrderInstance.currency2=baseCurrency
         	purchaseOrderInstance.rate = params.rate?params.rate.toFloat():1
+            purchaseOrderInstance.rateDetail = RateDetail.get(params.rateDetail?.id)
         }
 
         purchaseOrderInstance.triggerDomain = domainPPP

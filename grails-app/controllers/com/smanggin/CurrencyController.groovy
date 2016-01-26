@@ -233,6 +233,7 @@ class CurrencyController {
                 params.country = "Head Office"
             }
             def value=1
+            def rateDetailId
             def date = new Date()
             def localCurrency = Currency.findByCountryAndActive(params.country,'Yes')
             def rate = Rate.createCriteria().list(params){
@@ -254,10 +255,11 @@ class CurrencyController {
                 
                 if(rateDetail){
                     value = rateDetail[0]?.value
+                    rateDetailId = rateDetail[0]?.id
                 }   
             }
 
-            render ([value:value,code:localCurrency?.code]  as JSON)    
+            render ([value:value,code:localCurrency?.code,rateDetailId:rateDetailId]  as JSON)    
         }
         else
         {

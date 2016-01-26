@@ -23,7 +23,8 @@ if(actionName=='edit' || actionName=='show') {
                     	<th data-options="field:'coverageArea',width:200,editor:'text'">Coverage Area</th>	
                         
                         <th data-options="field:'outlet',width:200,editor:'text'">Outlet</th>
-                       <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POPF'}">
+                    
+                    <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POPF'}">
                         <th data-options="field:'qty',align:'right',formatter:formatNumber,  width:100,
                         editor:{
                         	type:'numberbox',
@@ -49,7 +50,26 @@ if(actionName=='edit' || actionName=='show') {
                         	}
 
                         }">Unit Price (${purchaseOrderInstance?.currency1?.code})</th>
-                       </g:if>
+                    </g:if>
+                        
+                        <th data-options="field:'currencyCode',width:200,
+                            formatter:function(value,row){
+                                return row.currencyCode;
+                            },
+                            editor:{
+                                type:'combobox',
+                                options:{
+                                    valueField:'name',
+                                    textField:'name',
+                                    url:'/${meta(name:'app.name')}/currency/jlist',
+                                    required:true,
+                                    onSelect: function(rec){
+                                        exchangeRate();    
+                                    }                                    
+
+                                }
+                        }">Local currency</th>
+
                         <th data-options="field:'totalCost',align:'right',formatter:formatNumber,  width:100,
                         editor:{
                         	type:'numberbox',
@@ -64,23 +84,28 @@ if(actionName=='edit' || actionName=='show') {
                         
                         <th data-options="field:'totalCost2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Total Cost (${purchaseOrderInstance.currency2?.code})</th>
 
-                        <th data-options="field:'pic',width:200,editor:'text'">PIC</th>
                         
-                        <th data-options="field:'purchaseOrderId',hidden:true">Purchase Order</th>
+                        
+                        
                        
-                       <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS'}">         
+                    <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS'}">         
+
+                        <th data-options="field:'pic',width:200,editor:'text'">PIC</th>
+
                         <th data-options="field:'startDate',width:200,editor:{type:'datebox',options:{formatter:myformatter,parser:myparser}}">Start Date</th>
 
                         <th data-options="field:'finishDate',width:200,editor:{type:'datebox',options:{formatter:myformatter,parser:myparser}}">Finish Date</th>
-                       </g:if>
+                       
+                    </g:if>
 
-                       <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP'}">
+                    <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP'}">
                        	 <th data-options="field:'transactionDate',width:200,editor:{type:'datebox',options:{formatter:myformatter,parser:myparser}}">Transaction Date</th>	
-					   </g:if>                       
+					</g:if>                       
                         <th data-options="field:'remark',width:200,editor:'text'">Remark</th>
 
                         <th data-options="field:'createdBy',hidden:true">Purchase Order</th>
-                                    
+
+                        <th data-options="field:'purchaseOrderId',hidden:true">Purchase Order</th>            
                     </tr>
                 </thead>
             </table>
@@ -186,7 +211,7 @@ if(actionName=='edit' || actionName=='show') {
         if (!confirm('Are you sure to delete this record?')){ return }
 
         var row = $('#dg-purchaseOrderDetails').datagrid('getRows')[editIndex]
-        console.log(row)
+        
 
         $('#dg-purchaseOrderDetails').datagrid('cancelEdit', editIndex)
                 .datagrid('deleteRow', editIndex);
@@ -245,13 +270,29 @@ if(actionName=='edit' || actionName=='show') {
 	var rate = ${purchaseOrderInstance?.rate?:1};
 	function exchangeRate(){
 		if(editIndex != undefined){
-			
-			var totalEd  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'totalCost'});
-			var totalCost = $(totalEd.target).numberbox('getValue');
+			var currEd  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'currencyCode'});
+            var currencyCode = $(currEd.target).numberbox('getValue');
 
-			var total2Ed  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
-			var totalCost2 = totalCost/rate
-			$(total2Ed.target).numberbox('setValue',totalCost2);
+            $.ajax({
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode,
+            type: "POST",
+                success: function (data) {
+     
+                    rate=data.value
+                    var totalEd  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'totalCost'});
+                    var totalCost = $(totalEd.target).numberbox('getValue');
+
+                    var total2Ed  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
+                    var totalCost2 = totalCost/rate
+
+                    $(total2Ed.target).numberbox('setValue',totalCost2);
+                },
+                error: function (xhr, status, error) {
+                    alert("fail");
+                }
+            });
+
+			
 		}	 
 	}
 	$(document).ready(function () {
@@ -275,14 +316,14 @@ if(actionName=='edit' || actionName=='show') {
     function reloadPpp(pppNumber,total){
     	var totalPO = parseFloat(total);
 
-    	console.log(totalPO);
+    	
     	$.ajax({
             type: "POST",
             url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
             data: {pppNumber:pppNumber,countryId:'${purchaseOrderInstance?.country}'},
             success: function(d){ 
             	//var remain = d.remainCreditLimit - (totalPO/d.rate)
-                console.log(d);
+                
                 $('#remain').html('<span id="remain">'+formatNumber(d.remainCreditLimit)+'</span>');
                 /*$("#table-ppp tbody").html("");	
 				var tr ="<tr>";

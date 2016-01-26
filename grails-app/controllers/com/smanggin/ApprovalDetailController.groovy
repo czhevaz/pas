@@ -142,6 +142,9 @@ class ApprovalDetailController {
         approvalDetailInstance.creator = User.findByLogin(params.creatorId)
         approvalDetailInstance.approver = User.findByLogin(params.approverId)
         
+        if(params.inActive){
+            approvalDetailInstance.dateInActive = new Date()
+        }
         if(checkApprover(params)){
             if (!approvalDetailInstance.save(flush: true)) {
                 render([success: false, messages: approvalDetailInstance.errors] as JSON)

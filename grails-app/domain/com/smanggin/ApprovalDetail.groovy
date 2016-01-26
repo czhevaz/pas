@@ -14,7 +14,9 @@ class ApprovalDetail {
 	User 	 creator
 	User 	 approver
 	Boolean  isSequential
-	TransactionType transactionType 
+	TransactionType transactionType
+	Boolean inActive 
+	Date dateInActive 
 	String toString() { brand +" - "+approver }	
 
 	static	belongsTo	= [Approval]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
@@ -30,7 +32,8 @@ class ApprovalDetail {
 	static	constraints = {
 		version nullable: true
 		isSequential nullable: true
-		
+		inActive nullable: true
+		dateInActive nullable: true
 		country(unique: ['lob', 'brand','noSeq','approver','transactionType'])
     }
 	

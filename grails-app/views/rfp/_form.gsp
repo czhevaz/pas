@@ -63,3 +63,31 @@
 
 
 
+<r:script>
+	var country = $('#country').val();
+
+	$(document).ready(function () {
+		
+		<%
+		if(actionName=='create') { 
+		%>
+		$('#transactionGroup').empty();
+		<% 
+		}
+		%>
+
+		$('#transactionGroup').chosen();
+
+		<g:if test="${session.country}" >
+			country ='${session.country}';
+			$('#country').val(country);	
+			$('#country option:not(:selected)').prop('disabled', true).trigger('chosen:updated');
+			
+			getCurrency(country);
+			getTrGroup(country);
+			getSupplier(country)
+		</g:if>
+		
+	});
+
+</r:script>

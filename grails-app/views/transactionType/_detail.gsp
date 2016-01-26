@@ -99,6 +99,8 @@ if(actionName=='edit' || actionName=='show') {
                         }">Creator</th>
 
                         <th data-options="field:'noSeq',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:0}}">Sequential No</th>
+
+
                         	
                         <th data-options="field:'approverId',width:200,
                             formatter:function(value,row){
@@ -117,6 +119,10 @@ if(actionName=='edit' || actionName=='show') {
                         
                         
                         <th data-options="field:'isSequential',align:'right', width:100,editor:{type:'checkbox',options:{on:'1',off:'0'}}">Is Sequential</th>
+
+                        <th data-options="field:'inActive',align:'right', width:100,editor:{type:'checkbox',options:{on:'1',off:'0'}}">InActive</th>
+
+                        <th data-options="field:'dateInActive',align:'right', width:100">Date InActive</th>
                    
                     	<th data-options="field:'transactionTypeId',hidden:true">transactionType</th>
 

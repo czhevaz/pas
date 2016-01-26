@@ -58,6 +58,7 @@ class PurchaseOrder {
 	Boolean isWriteOff//1= void, 0 = not written off. Default = 0
 
 	String triggerDomain
+	RateDetail rateDetail
 
 	static	belongsTo	= [TransactionGroup,Supplier,Currency]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -99,6 +100,7 @@ class PurchaseOrder {
 	 	rejectNotes nullable:true
 		dateReject nullable:true
 		rejectedBy nullable:true
+		rateDetail nullable:true
 
     }
 

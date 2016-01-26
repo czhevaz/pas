@@ -145,6 +145,10 @@ class PurchaseOrderDetailController {
         	purchaseOrderDetailInstance.supplier = Supplier.get(params.supplierId)
         }
 
+        if(params.currencyCode){
+            purchaseOrderDetailInstance.currency1 = Currency.findByCode(params.currencyCode)
+        }
+
         def check = checkLimit(purchaseOrderDetailInstance.purchaseOrder,params.totalCost)
 
         if(check){

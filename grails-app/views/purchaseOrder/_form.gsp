@@ -40,6 +40,7 @@
 			<label for="rate" class="col-sm-3 control-label"><g:message code="purchaseOrder.rate.label" default="Rate" /></label>
 			<div class="col-sm-4">
 				<g:field type="number" name="rate" class="form-control" step="any" value="${purchaseOrderInstance.rate}"/>
+				<g:field type="number" id ="rateDetailId" name="rateDetail.id" value="${purchaseOrderInstance.rateDetail}"/> 
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'rate', 'error')}</span>
 			</div>
 		</div>
@@ -163,10 +164,14 @@ if(actionName=='edit') {
 
 	$("#country").on('change', function() {
 		country = $(this).val();
+		urlGroup = "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+country;
+		urlCurrency = "/${meta(name:'app.name')}/currency/jlist?country="+country;
+		urlSupplier = "/${meta(name:'app.name')}/supplier/jlist?masterField.name=countryOwnerID&masterField.id="+country;
+
 		getLob(country);			
-		getTrGroup(country);			
-		getCurrency(country);
-		getSupplier(country);
+		getTrGroup(urlGroup);			
+		getCurrency(urlCurrency);
+		getSupplier(urlSupplier);
 	});		
 
 	function getLob(country) {
@@ -206,15 +211,14 @@ if(actionName=='edit') {
         });
     }/*-- end getlob  --*/
 
-
     function getTrGroup(country){
-    	$.ajax({
+        $.ajax({
             url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+country,
         
             type: "POST",
             success: function (data) {
-            	
-            	if(data.length > 0){
+                
+                if(data.length > 0){
                     
                     $('#transactionGroup').empty();
                     $.each(data, function(a, b){
@@ -227,8 +231,8 @@ if(actionName=='edit') {
                     $('#transactionGroup').chosen();
                  
                 }else{
-             		$('#transactionGroup').chosen("destroy");
-            		$('#transactionGroup').chosen();   	
+                    $('#transactionGroup').chosen("destroy");
+                    $('#transactionGroup').chosen();    
                 }
             },
             error: function (xhr, status, error) {
@@ -239,16 +243,17 @@ if(actionName=='edit') {
 
 
     function getCurrency(country){
-    	$.ajax({
+        $.ajax({
             url: "/${meta(name:'app.name')}/currency/jlist?country="+country,
         
             type: "POST",
             success: function (data) {
-            	console.log(data);
-            	$("#currency1").val(data.code);
-            	$('#currency1').trigger('chosen:updated');
+                console.log(data);
+                $("#currency1").val(data.code);
+                $('#currency1').trigger('chosen:updated');
                    
-           		$("#rate").val(data.value); 	
+                $("#rate").val(data.value);     
+                $("#rateDetailId").val(data.rateDetailId)
             },
             error: function (xhr, status, error) {
                 alert("fail");
@@ -258,14 +263,14 @@ if(actionName=='edit') {
 
     function getSupplier(country) {
 
-    	$.ajax({
+        $.ajax({
             url: "/${meta(name:'app.name')}/supplier/jlist?masterField.name=countryOwnerID&masterField.id="+country,
             
             type: "POST",
             success: function (data) {
 
-              	$('#supplier').empty()
-              	if(data.length > 0){
+                $('#supplier').empty()
+                if(data.length > 0){
                     
                     $('#supplier').chosen();
 
@@ -276,7 +281,7 @@ if(actionName=='edit') {
                     });
 
                     $('#supplier').trigger('chosen:updated');
-	               	$('#supplier').chosen();
+                    $('#supplier').chosen();
                 }else{
                  
                     $('#supplier').chosen('destroy');
@@ -284,13 +289,14 @@ if(actionName=='edit') {
                    
                 }
                 
-              	
+                
             },
             error: function (xhr, status, error) {
                 alert("fail");
             }
         });
     }/*-- end getSupplier  --*/
+    
 
 		
 </r:script>	
