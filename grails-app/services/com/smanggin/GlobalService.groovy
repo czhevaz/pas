@@ -18,7 +18,7 @@ class GlobalService {
             transactionType{
                 eq('code',purchaseOrder?.transactionGroup?.transactionType?.code)
             }
-            ne('inActive',true)
+            ne('inActive',false)
             
     	}
 

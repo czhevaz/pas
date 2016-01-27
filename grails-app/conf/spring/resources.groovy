@@ -18,7 +18,8 @@ beans = {
             new UserMarshaller(),
             new TransactionGroupMarshaller(),
             new ChartOfAccountMarshaller(),
-            new AttachmentMarshaller()
+            new AttachmentMarshaller(),
+            new PurchaseOrderCommentMarshaller(),
         ]
      }
 }

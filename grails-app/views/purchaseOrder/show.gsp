@@ -84,6 +84,7 @@
 								</td>
 								
 							</tr>
+							<!--
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="purchaseOrder.comment.label" default="Feedback / Comment from Reviewers" /></td>
 								
@@ -93,7 +94,7 @@
 								</td>
 								
 							</tr>
-						
+							-->
 								
 						</tbody>
 					</table>
