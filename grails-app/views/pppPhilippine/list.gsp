@@ -84,7 +84,7 @@
 								
 								<td> ${i+1} </td>
 
-								<td><g:link action="show" id="${pppInstance.id}">${fieldValue(bean: pppInstance, field: "number")}</g:link></td>
+								<td><g:link action="show" params="['number':pppInstance?.number]">${fieldValue(bean: pppInstance, field: "number")}</g:link></td>
 
 								<td>${fieldValue(bean: pppInstance, field: "pppProgram")}</td>	
 

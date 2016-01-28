@@ -112,7 +112,7 @@ if(actionName=='edit' || actionName=='show') {
         </div> 
 
         <!-- Attachment -->
-        <div title='<g:message code="transfer.attachMent.label" default="Attachment"/>'  style="padding:10px">
+        <div title='<g:message code="purchaseOrder.attachMent.label" default="Attachment"/>'  style="padding:10px">
 	       <table id="dg-attachment" class="easyui-datagrid"  style="height:240px"
 	                data-options="
 	                singleSelect:true, 

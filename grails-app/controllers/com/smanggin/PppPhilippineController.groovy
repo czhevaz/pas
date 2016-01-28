@@ -40,7 +40,8 @@ class PppPhilippineController {
     }
 
     def show() {
-        def pppPhilippineInstance = PppPhilippine.get(params.id)
+        //def pppPhilippineInstance = PppPhilippine.get(params.id)
+        def pppPhilippineInstance = PppPhilippine.findByNumber(params.number)
         if (!pppPhilippineInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'pppPhilippine.label', default: 'PppPhilippine'), params.id])
             redirect(action: "list")

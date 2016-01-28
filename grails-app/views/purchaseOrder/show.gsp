@@ -110,6 +110,7 @@
 						<g:hiddenField id ="rejectNotes" name="rejectNotes" value="${purchaseOrderInstance?.rejectNotes}" />
 
 						<div class="form-actions">
+						<!-- <a class="btn btn-primary" id="search2" href="#" role="button" data-toggle="modal" data-target="#allocation">${message(code: 'default.button.Search.label', default: 'allocation')}</a>-->	
 							<g:if test="${purchaseOrderInstance?.state=='Draft' || purchaseOrderInstance?.state=='Rejected'}">
 								<g:if test="${purchaseOrderInstance?.createdBy == auth.user().toString()}">
 									<g:actionSubmit class="btn btn-primary btn-sm" action="actionWaitingApprove" value="${message(code: 'default.button.approve.label', default: 'Send To Approver')}" />
@@ -164,6 +165,7 @@
 			</div><!--/.box box-primary --> 
 			<g:render template="discussionArea"/>
 			<g:render template="acivityProposal"/>
+			<g:render template="allocation"/>
 		</div>
 		<r:script>
 		/*	$('#reject').on('click', function(){

@@ -50,6 +50,7 @@ class PurchaseOrderDetail {
 		transactionDate nullable:true
 		uom nullable:true
 		currency1 nullable:true
+		pic nullable:true
     }
 	
 	/*

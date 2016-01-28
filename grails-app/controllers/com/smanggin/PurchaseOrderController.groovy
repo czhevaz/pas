@@ -109,6 +109,8 @@ class PurchaseOrderController {
             poApprover.save(flush:true)
         }
 
+        /* insert Po Allocation*/
+        insertPOAllocation(purchaseOrderInstance)
         /* update Po Balance*/
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
@@ -133,8 +135,11 @@ class PurchaseOrderController {
         if(params.notifId){
             globalService.updateIsNewNotif(params.notifId)
         }
-        
-        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:pppInstance]
+
+        def pppNumber=purchaseOrderInstance?.pppNumber
+        def pppDetails = PppDetail.findAllByPppNumber(pppNumber)
+
+        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:pppInstance,pppDetails:pppDetails]
     }
 
     def edit() {
@@ -577,6 +582,9 @@ class PurchaseOrderController {
     }/* SaveNotif */
 
 
+    /**
+    upload
+    **/  
     def upload(){
         println "params" + params
         
@@ -600,6 +608,20 @@ class PurchaseOrderController {
             println "errors " + attachment.errors
         } 
         render([success: true] as JSON)
+    }
+
+    def insertPOAllocation(purchaseOrderInstance){
+        def pppNumber=purchaseOrderInstance?.pppNumber
+        def pppDetail = PppDetail.findAllByPppNumber(pppNumber)
+        pppDetail.each{
+            def poAllocation = new PurchaseOrderAllocation()
+            poAllocation.purchaseOrder = purchaseOrderInstance
+            poAllocation.pppNumber = pppNumber
+            poAllocation.brand = it.brand
+            poAllocation.save(flush:true)
+
+        }
+
     }
 
 }

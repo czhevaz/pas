@@ -142,10 +142,12 @@ class ApprovalDetailController {
         approvalDetailInstance.creator = User.findByLogin(params.creatorId)
         approvalDetailInstance.approver = User.findByLogin(params.approverId)
         
-        if(params.inActive)
+        if(params.inActive == '1'){
             approvalDetailInstance.dateInActive = new Date()
-        else
+        }
+        else{
             approvalDetailInstance.dateInActive = null
+        }
             
         if(checkApprover(params)){
             if (!approvalDetailInstance.save(flush: true)) {

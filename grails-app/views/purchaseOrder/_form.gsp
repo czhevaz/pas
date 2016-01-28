@@ -40,7 +40,7 @@
 			<label for="rate" class="col-sm-3 control-label"><g:message code="purchaseOrder.rate.label" default="Rate" /></label>
 			<div class="col-sm-4">
 				<g:field type="number" name="rate" class="form-control" step="any" value="${purchaseOrderInstance.rate}"/>
-				<g:field type="number" id ="rateDetailId" name="rateDetail.id" value="${purchaseOrderInstance.rateDetail}"/> 
+				<g:field type="hidden" id ="rateDetailId" name="rateDetail.id" value="${purchaseOrderInstance.rateDetail}"/> 
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'rate', 'error')}</span>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')} required">
 			<label for="supplier" class="col-sm-3 control-label"><g:message code="purchaseOrder.supplier.label" default="Supplier" /><span class="required-indicator">*</span></label>
 			<div class="col-sm-3">
-				<g:select id="supplier" name="supplier.id" from="${com.smanggin.Supplier.list()}" optionKey="id" required="" value="${purchaseOrderInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
+				<g:select id="supplier" name="supplier.id" from="${com.smanggin.Supplier.list()}" optionKey="id" optionValue="name" required="" value="${purchaseOrderInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')}</span>
 			</div>
 		</div>
@@ -275,7 +275,7 @@ if(actionName=='edit') {
                     $('#supplier').chosen();
 
                     $.each(data, function(a, b){
-                         var opt = "<option value='"+b.id+"'> "+ b.code +" </option>";
+                         var opt = "<option value='"+b.id+"'> "+ b.name +" </option>";
                         $('#supplier').append(opt);
                         
                     });

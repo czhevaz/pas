@@ -4,12 +4,13 @@ package com.smanggin
  * PppDetail
  * A domain class describes the data object and it's mapping to the database
  */
-class PppDetail {
+class PppDetail implements Serializable{
 
 	String pppNumber
 	String brand
 	Float costDetail
-	Float committed
+	Float poCommitted //Nilai PO yang akan di generate dari system
+	Float balanceWriteOff //PPP_BalanceWriteoff = PPP_CostDetail - PPP_Comm_PO    (balance dari PPP yang akan di buang ke budget saat ada write off PPP)
 	
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -18,11 +19,13 @@ class PppDetail {
 	
     static	mapping = {
     	table 'T_Cost_Detail'
+    	id composite: ['pppNumber', 'brand']
     	version true
     	pppNumber column:'PPP_Number'
 		brand column:'PPP_Brand'
-		costDetail column:'PPP_CostDetail'
-		committed column:'PPP_Committed'
+		costDetail column:'PPP_CostDetail',defaultValue:0
+		balanceWriteOff column:'PPP_BalanceWriteoff',defaultValue:0
+		poCommitted column:'PPP_Comm_PO',defaultValue:0
     }
     
 	static	constraints = {

@@ -26,14 +26,14 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="pppPhilippine.brand.label" default="Brand" /></td>
 								
-								<td valign="top" class="value"><g:link controller="brand" action="show" id="${pppPhilippineInstance?.brand?.id}">${pppPhilippineInstance?.brand?.encodeAsHTML()}</g:link></td>
+								<td valign="top" class="value">${pppPhilippineInstance?.brand?.encodeAsHTML()}</td>
 								
 							</tr>
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="pppPhilippine.country.label" default="Country" /></td>
 								
-								<td valign="top" class="value"><g:link controller="country" action="show" id="${pppPhilippineInstance?.country?.id}">${pppPhilippineInstance?.country?.encodeAsHTML()}</g:link></td>
+								<td valign="top" class="value">${pppPhilippineInstance?.country?.encodeAsHTML()}</td>
 								
 							</tr>
 						
@@ -47,7 +47,7 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="pppPhilippine.lob.label" default="Lob" /></td>
 								
-								<td valign="top" class="value"><g:link controller="lob" action="show" id="${pppPhilippineInstance?.lob?.id}">${pppPhilippineInstance?.lob?.encodeAsHTML()}</g:link></td>
+								<td valign="top" class="value">${pppPhilippineInstance?.lob?.encodeAsHTML()}</td>
 								
 							</tr>
 						

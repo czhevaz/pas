@@ -28,7 +28,7 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rate.starDate.label" default="Star Date" /></td>
 								
-								<td valign="top" class="value"><g:formatDate date="${rateInstance?.starDate}" /></td>
+								<td valign="top" class="value"><g:formatDate date="${rateInstance?.starDate}" format="yyyy-MM-dd"/></td>
 								
 							</tr>
 						
@@ -36,7 +36,7 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rate.endDate.label" default="End Date" /></td>
 								
-								<td valign="top" class="value"><g:formatDate date="${rateInstance?.endDate}" /></td>
+								<td valign="top" class="value"><g:formatDate date="${rateInstance?.endDate}" format="yyyy-MM-dd"/></td>
 								
 							</tr>
 						
