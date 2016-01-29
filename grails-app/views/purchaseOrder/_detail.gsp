@@ -131,6 +131,27 @@ if(actionName=='edit' || actionName=='show') {
 
 	    </div><!-- /.Attachment -->
 
+        <!-- Allocation -->
+        <div title='<g:message code="purchaseOrder.purchaseOrderAllocation.label" default="Allocation"/>'  style="padding:10px">
+           <table id="dg-poAllocation" class="easyui-datagrid"  style="height:240px"
+                    data-options="
+                    singleSelect:true, 
+                    collapsible:true, 
+                    rownumbers: true,  
+                   // toolbar: '#tb-attachment',          
+                    url:'/${meta(name:'app.name')}/purchaseOrderAllocation/jlist?masterField.name=purchaseOrder&masterField.id=${purchaseOrderInstance?.id}'">
+            
+                <thead>
+                    <tr>
+                        <th data-options="field:'brand',width:200">Brand</th> 
+                        <th data-options="field:'value1',width:100">value1</th>
+                        <th data-options="field:'value2',width:100">value2</th>          
+                    </tr>
+                </thead>    
+            </table>        
+
+        </div><!-- /.Allocation -->
+
 </div>
 <g:render template="attachment"/> 
 
