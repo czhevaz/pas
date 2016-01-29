@@ -168,6 +168,7 @@ if(actionName=='edit' || actionName=='show') {
                       url: "/${meta(name:'app.name')}/approvalDetail/jsave",
                       data: row,
                       success: function(data){ 
+                          $('#dg-approvalDetails').datagrid('reload');
                           if(!data.success)
                           {
                             alert(data.messages.errors[0].message)

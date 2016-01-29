@@ -9,18 +9,18 @@
             <div class="modal-body">
             	<table class="table table-striped">
 						<tbody>
-							<g:each in="${pppDetails}" status="i" var="pppDetail">
+							<g:each in="${purchaseOrderInstance?.purchaseOrderAllocations}" status="i" var="pppDetail">
 							<tr class="prop">
 								<td valign="top" class="name">${pppDetail?.brand}</td>
 								
 								<td valign="top" class="value">
 								
-									<g:field class="form-control" type="number" name="value1" required="" value=""/>
+									<g:field class="form-control" type="number" name="value1" required="" value="${pppDetail?.value1}"/>
 									<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'reasonforInvestment', 'error')}</span>
 								</td>
 								<td valign="top" class="value">
 								
-									<g:field class="form-control" type="number" name="value2" required="" value=""/>
+									<g:field class="form-control" type="number" name="value2" required="" value="${pppDetail?.value2}"/>
 									<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'reasonforInvestment', 'error')}</span>
 								</td>
 								
@@ -30,6 +30,12 @@
 						</tbody>
 					</table>
 			</div><!-- /.modal-body -->
+			<div class="modal-footer">
+				
+					<button class="btn" data-dismiss="modal" aria-hidden="true"><g:message code="default.button.cancel.label" default="Cancel"/></button>
+					<a class="btn btn-primary" id="addLocation" href="#" role="button" >${message(code: 'default.button.allocation.label', default: 'save')}</a>
+				
+			</div>
         </div><!-- /.modal-content -->    
 	</div><!-- /.modal-dialog -->	
 </div>

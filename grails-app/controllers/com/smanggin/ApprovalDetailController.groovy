@@ -141,6 +141,9 @@ class ApprovalDetailController {
         approvalDetailInstance.brand = params.brandCode
         approvalDetailInstance.creator = User.findByLogin(params.creatorId)
         approvalDetailInstance.approver = User.findByLogin(params.approverId)
+        if(!params.id){
+            approvalDetailInstance.inActive = false    
+        }
         
         if(params.inActive == '1'){
             approvalDetailInstance.dateInActive = new Date()
