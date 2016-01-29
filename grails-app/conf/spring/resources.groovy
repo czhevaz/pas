@@ -20,7 +20,8 @@ beans = {
             new ChartOfAccountMarshaller(),
             new AttachmentMarshaller(),
             new PurchaseOrderCommentMarshaller(),
-            new PppDetailMarshaller()
+            new PppDetailMarshaller(),
+            new PurchaseOrderAllocationMarshaller()
         ]
      }
 }

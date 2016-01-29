@@ -1,51 +1,159 @@
-<div id="allocation" class="modal fade  " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        			<h4 class="modal-title" id="myModalLabel">Allocation PO for Brand </h4>
-            </div>
+<!-- Allocation -->
+<div title='<g:message code="purchaseOrder.purchaseOrderAllocation.label" default="Allocation"/>'  style="padding:10px">
+   <table id="dg-purchaseOrderAllocations" class="easyui-datagrid"  style="height:240px"
+            data-options="
+            collapsible:true, 
+            rownumbers: true,
+            onClickRow: purchaseOrderAllocationsOnClickRow,
+            toolbar: '#tb-purchaseOrderAllocations',
 
-            <div class="modal-body">
-            	<table class="table table-striped">
-						<tbody>
-							<g:each in="${purchaseOrderInstance?.purchaseOrderAllocations}" status="i" var="pppDetail">
-							<tr class="prop">
-								<td valign="top" class="name">${pppDetail?.brand}</td>
-								
-								<td valign="top" class="value">
-								
-									<g:field class="form-control" type="number" name="value1" required="" value="${pppDetail?.value1}"/>
-									<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'reasonforInvestment', 'error')}</span>
-								</td>
-								<td valign="top" class="value">
-								
-									<g:field class="form-control" type="number" name="value2" required="" value="${pppDetail?.value2}"/>
-									<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'reasonforInvestment', 'error')}</span>
-								</td>
-								
-							</tr>
-							</g:each>
-							
-						</tbody>
-					</table>
-			</div><!-- /.modal-body -->
-			<div class="modal-footer">
-				
-					<button class="btn" data-dismiss="modal" aria-hidden="true"><g:message code="default.button.cancel.label" default="Cancel"/></button>
-					<a class="btn btn-primary" id="addLocation" href="#" role="button" >${message(code: 'default.button.allocation.label', default: 'save')}</a>
-				
-			</div>
-        </div><!-- /.modal-content -->    
-	</div><!-- /.modal-dialog -->	
+            url:'/${meta(name:'app.name')}/purchaseOrderAllocation/jlist?masterField.name=purchaseOrder&masterField.id=${purchaseOrderInstance?.id}'">
+    
+        <thead>
+            <tr>
+                <th data-options="field:'brand',width:200">Brand</th> 
+                <th data-options="field:'value1',align:'right',formatter:formatNumber,  width:100,
+                        editor:{
+                        	type:'numberbox',
+                        	options:{
+                        		precision:2,
+                        		onChange: function(rec){
+                                	exchangeRateValue();
+                            	}
+                        	}
+
+                        }">value1</th>
+                        
+                <th data-options="field:'value2',align:'right',formatter:formatNumber,  width:100,
+                        editor:{
+                        	type:'numberbox',
+                        	options:{
+                        		precision:2,
+                        		onChange: function(rec){
+                                	exchangeRateValue();
+                            	}
+                        	}
+
+                        }">value2</th>
+                <th data-options="field:'purchaseOrderId',hidden:true">Purchase Order</th>
+                        
+            </tr>
+        </thead>    
+    </table>        
+
+</div><!-- /.Allocation -->
+
+<div id="tb-purchaseOrderAllocations" style="height:auto">
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:false" onclick="purchaseOrderAllocationsAccept()">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:false" onclick="purchaseOrderAllocationsRefresh()">Refresh</a>
 </div>
 
-<style  type="text/css" >
- 
+<r:script>
+	var editIndex = undefined;
+    function purchaseOrderAllocationsEndEditing(){
+        if (editIndex == undefined){return true}
+        if ($('#dg-purchaseOrderAllocations').datagrid('validateRow', editIndex)){
+            $('#dg-purchaseOrderAllocations').datagrid('endEdit', editIndex);
+            var row = $('#dg-purchaseOrderAllocations').datagrid('getRows')[editIndex]
+            $.ajax({
+              type: "POST",
+              url: "/${meta(name:'app.name')}/purchaseOrderAllocation/jsave",
+              data: row,
+              success: function(data){ 
+                 purchaseOrderAllocationsRefresh();
+                  if(!data.success)
+                  {
+                    if(data.limit){
+                        alert(data.messages);     
+                    }else{
+                        alert(data.messages.errors[0].message);
+                    }
+                    
+                  }
 
-.modal-content {
-    width: 1100px;
-    margin-left: -250px;
-}
+              },
+              dataType: 'json'
+            });
+            editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-</style>
+    function purchaseOrderAllocationsOnClickRow(index){
+        console.log("kadiadasdasd")
+        if (editIndex != index){
+            if (purchaseOrderAllocationsEndEditing()){
+                $('#dg-purchaseOrderAllocations').datagrid('selectRow', index)
+                        .datagrid('beginEdit', index);
+                editIndex = index;
+            } else {
+                $('#dg-purchaseOrderAllocations').datagrid('selectRow', editIndex);
+            }
+        }
+    }
+    function purchaseOrderAllocationsAppend(){
+        if (purchaseOrderAllocationsEndEditing()){
+            $('#dg-purchaseOrderAllocations').datagrid('appendRow',
+            {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${auth.user()}' });
+            editIndex = $('#dg-purchaseOrderAllocations').datagrid('getRows').length-1;
+            $('#dg-purchaseOrderAllocations').datagrid('selectRow', editIndex).datagrid('beginEdit', editIndex);
+        }
+    }
+    function purchaseOrderAllocationsRemoveit(){
+        if (editIndex == undefined){return}
+        if (!confirm('Are you sure to delete this record?')){ return }
+
+        var row = $('#dg-purchaseOrderAllocations').datagrid('getRows')[editIndex]
+        
+
+        $('#dg-purchaseOrderAllocations').datagrid('cancelEdit', editIndex)
+                .datagrid('deleteRow', editIndex);
+
+        $.ajax({
+          type: "POST",
+          url: "/${meta(name:'app.name')}/purchaseOrderAllocation/jdelete/" + row['id'],
+          data: row,
+          success: function(data){ 
+          	purchaseOrderAllocationsRefresh();
+              if(!data.success)
+              {
+                    alert(data.messages);
+              }
+          },
+          dataType: 'json'
+        });             
+        editIndex = undefined;
+    }
+
+    function purchaseOrderAllocationsAccept(){
+    	//reloadTotal(${purchaseOrderInstance.id? purchaseOrderInstance.id : 0});
+        if (purchaseOrderAllocationsEndEditing()){
+            $('#dg-purchaseOrderAllocations').datagrid('acceptChanges');
+        }
+    }
+
+    function purchaseOrderAllocationsRefresh(){
+        $('#dg-purchaseOrderAllocations').datagrid('reload');
+        editIndex = undefined;
+        
+       
+    }
+
+    function exchangeRateValue(){
+		if(editIndex != undefined){
+			
+            var rate = ${purchaseOrderInstance?.rate?:1};
+            var value1Ed  =$('#dg-purchaseOrderAllocations').datagrid('getEditor', {index:editIndex,field:'value1'});
+            var value1 = $(value1Ed.target).numberbox('getValue');
+
+            var value2Ed  =$('#dg-purchaseOrderAllocations').datagrid('getEditor', {index:editIndex,field:'value2'});
+            var value2 = value1/rate
+
+            $(value2Ed.target).numberbox('setValue',value2);
+    
+			
+		}	 
+	}
+</r:script>

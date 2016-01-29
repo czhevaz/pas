@@ -111,6 +111,7 @@ class PurchaseOrderAllocationController {
     }
 
     def jsave() {
+        println params
         def purchaseOrderAllocationInstance = (params.id) ? PurchaseOrderAllocation.get(params.id) : new PurchaseOrderAllocation()
         
         if (!purchaseOrderAllocationInstance) {                     
@@ -134,7 +135,7 @@ class PurchaseOrderAllocationController {
         }
         
         purchaseOrderAllocationInstance.properties = params
-                       
+        purchaseOrderAllocationInstance.purchaseOrder = PurchaseOrder.get(params.purchaseOrderId)               
         if (!purchaseOrderAllocationInstance.save(flush: true)) {
             render([success: false, messages: purchaseOrderAllocationInstance.errors] as JSON)
             return
@@ -186,4 +187,8 @@ class PurchaseOrderAllocationController {
             render([purchaseOrderAllocationInstance : purchaseOrderAllocationInstance ] as JSON)
         }
     }
+
+    def listAllocation(){
+        
+    }    
 }

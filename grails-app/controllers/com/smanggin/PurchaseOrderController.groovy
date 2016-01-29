@@ -369,14 +369,36 @@ class PurchaseOrderController {
                 return
             }
         }
+
+        def totalvalue1 = 0
+        def totalvalue2 = 0
+        def purchaseOrderAllocations = PurchaseOrderAllocation.findAllByPurchaseOrder(purchaseOrderInstance)
+        purchaseOrderAllocations.each{
+            println it.value1
+            println it.value2
+            def value1 = it.value1?:0
+            def value2 = it.value2?:0
+            totalvalue1 = totalvalue1 + value1 
+            totalvalue2 = totalvalue2 + value2
+        }
+
+        println "totalvalue1 " +totalvalue1
+        println "totalvalue2 " +totalvalue2.round(2)
+        println "purchaseOrderInstance" + purchaseOrderInstance.purchaseOrderAllocations.size()
         
-        purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
-        purchaseOrderInstance.state = 'Waiting Approval'    
+
         def mustApprovedBy = globalService.getApprovalBySeq(purchaseOrderInstance,1)
+        purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
         
-        if(mustApprovedBy){
-            purchaseOrderInstance.mustApprovedBy = mustApprovedBy[0]?.approver
-        }        
+         if(totalvalue1?.round(2) == purchaseOrderInstance?.total && totalvalue2?.round(2) == (purchaseOrderInstance.total/purchaseOrderInstance.rate).round(2)){
+            purchaseOrderInstance.state = 'Waiting Approval'    
+
+        
+            if(mustApprovedBy){
+                purchaseOrderInstance.mustApprovedBy = mustApprovedBy[0]?.approver
+            }
+        }
+                
         
 
         if (!purchaseOrderInstance.save(flush: true)) {
@@ -389,12 +411,39 @@ class PurchaseOrderController {
         
         savePoComment(purchaseOrderInstance,params)/* --insert TO PO comment */
 
-        saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
+//        saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
 
-        sendApproveEmail(purchaseOrderInstance)/* --Send Email */
+        //sendApproveEmail(purchaseOrderInstance)/* --Send Email */
 
-        flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
-        redirect(action: "show", id: purchaseOrderInstance.id)
+        if(purchaseOrderInstance.purchaseOrderAllocations?.size() > 1){
+            
+            if(totalvalue1?.round(2) == purchaseOrderInstance?.total && totalvalue2?.round(2) == (purchaseOrderInstance.total/purchaseOrderInstance.rate).round(2)){
+                
+                sendApproveEmail(purchaseOrderInstance)
+                
+                saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
+                
+                flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+                redirect(action: "show", id: purchaseOrderInstance.id)
+            }else{
+                flash.error = message(code: 'default.mustAllocation.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+                redirect(action: "show", id: purchaseOrderInstance.id)
+            }
+        }else{
+            sendApproveEmail(purchaseOrderInstance)
+                
+                saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
+                
+            def poAllocation = PurchaseOrderAllocation.findByPurchaseOrder(purchaseOrderInstance)
+            poAllocation.value1 = purchaseOrderInstance.total
+            poAllocation.value2 = purchaseOrderInstance.total/purchaseOrderInstance?.rate
+            poAllocation.save()
+            flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+            redirect(action: "show", id: purchaseOrderInstance.id)
+        }
+
+
+        
     }    
 
     /**

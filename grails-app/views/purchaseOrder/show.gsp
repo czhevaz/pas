@@ -21,6 +21,7 @@
 			<g:form method="post" class="form-horizontal" >
 			<div class="box box-primary">
 				<g:render template="headerTittle"/> 				
+                
                 <div class="box-body table-responsive ">
 					<table class="table table-striped">
 						<tbody>
@@ -110,7 +111,7 @@
 						<g:hiddenField id ="rejectNotes" name="rejectNotes" value="${purchaseOrderInstance?.rejectNotes}" />
 
 						<div class="form-actions">
-						 <a class="btn btn-primary" id="search2" href="#" role="button" data-toggle="modal" data-target="#allocation">${message(code: 'default.button.Search.label', default: 'allocation')}</a>
+						 <!-- <a class="btn btn-primary" id="search2" href="#" role="button" onclick ="modalOpened()">${message(code: 'default.button.Search.label', default: 'allocation')}</a> -->
 							<g:if test="${purchaseOrderInstance?.state=='Draft' || purchaseOrderInstance?.state=='Rejected'}">
 								<g:if test="${purchaseOrderInstance?.createdBy == auth.user().toString()}">
 									<g:actionSubmit class="btn btn-primary btn-sm" action="actionWaitingApprove" value="${message(code: 'default.button.approve.label', default: 'Send To Approver')}" />
@@ -165,9 +166,15 @@
 			</div><!--/.box box-primary --> 
 			<g:render template="discussionArea"/>
 			<g:render template="acivityProposal"/>
-			<g:render template="allocation"/>
+			
 		</div>
 		<r:script>
+			function modalOpened(){
+				$('#allocation').modal('show')
+			  	.on('shown', function() {
+			        location.reload(); 
+			    });
+			}
 		/*	$('#reject').on('click', function(){
             	var r= prompt('note');
             	$('#rejectNotes').val(r);        

@@ -12,8 +12,8 @@ class PurchaseOrderAllocationMarshaller {
     void register() {
         JSON.registerObjectMarshaller( PurchaseOrderAllocation ) { PurchaseOrderAllocation it ->
             return [
-				
-				purchaseOrder : it.purchaseOrder?.number,
+				id:it.id,
+				purchaseOrderId : it.purchaseOrder?.id,
 				pppNumber :it.pppNumber,
 				brand:it.brand,
 				value1:it.value1,
