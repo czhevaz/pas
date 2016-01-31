@@ -236,6 +236,9 @@ class PurchaseOrderDetailController {
         def grandtotalPO = totalPO + totalCost.toFloat()
         def grandtotalPO2 = grandtotalPO/purchaseOrder.rate
         def result = false
+
+        println "grandtotalPO2 = " +grandtotalPO2
+        println "pppLimit= " +pppLimit
         if(grandtotalPO2 <= pppLimit){
             result = true
         }

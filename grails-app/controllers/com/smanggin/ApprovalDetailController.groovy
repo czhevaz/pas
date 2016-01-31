@@ -141,6 +141,7 @@ class ApprovalDetailController {
         approvalDetailInstance.brand = params.brandCode
         approvalDetailInstance.creator = User.findByLogin(params.creatorId)
         approvalDetailInstance.approver = User.findByLogin(params.approverId)
+        
         if(!params.id){
             approvalDetailInstance.inActive = false    
         }
@@ -187,11 +188,16 @@ class ApprovalDetailController {
     }   
 
     def jdelete(Long id) {
-        println params
+       // println params
         def approvalDetailInstance = ApprovalDetail.get(id)
+        def poApprover = PurchaseOrderApprover.findByApprovalDetail(approvalDetailInstance)
 
-        if (!approvalDetailInstance)
+        if (!approvalDetailInstance){
             render([success: false] as JSON)
+        }else if(poApprover){
+            def error = [message: message(code: 'default.cannot.delete.message', args: [message(code: 'approvalDetail.label', default: 'ApprovalDetail'), params.id])]
+            render([success: false, messages: error.message] as JSON)
+        }
         else {
             try {
                 approvalDetailInstance.delete(flush: true)             
@@ -224,9 +230,7 @@ class ApprovalDetailController {
                 like('lob',params.lobCode)
                 like('brand',params.brandCode)
                 eq('noSeq',params.noSeq?.toLong())
-                approver{
-                    like('login',params.approverId)
-                }
+                
                 transactionType{
                     eq('id',params.transactionTypeId?.toLong())
                 }    
@@ -234,7 +238,7 @@ class ApprovalDetailController {
             
         }
 
-        println '(approvalDetail)' + approvalDetail
+        println '(approvalDetail)  >>>. ' + approvalDetail
         if(approvalDetail){
             return false
         }else{

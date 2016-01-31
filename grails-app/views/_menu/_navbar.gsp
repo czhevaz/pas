@@ -40,7 +40,10 @@
 					</li>
 				</ul>	
 			</li>
-		
+<%
+if(session.isAdmin == 'Yes') { 
+%>
+			
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Master Data<b class="caret"></b></a>
 				<ul class="dropdown-menu">
@@ -120,7 +123,10 @@
 					</li>
 				</ul>	
 			</li>
-		
+<%
+}/* end if session.isadmin */
+%>
+
 		</ul>
 		<!-- <ul class="nav navbar-nav">
 			<li class="dropdown">

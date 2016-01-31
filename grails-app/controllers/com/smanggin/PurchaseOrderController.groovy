@@ -26,7 +26,7 @@ class PurchaseOrderController {
     def list() {
         def user = User.findByName(auth.user())
         params.order = params.order ?: 'desc' 
-        params.sort = params.sort ?: 'purchaseOrderDate' 
+        params.sort = params.sort ?: 'dateCreated' 
         //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = PurchaseOrder.createCriteria().list(params){
             
@@ -60,12 +60,12 @@ class PurchaseOrderController {
         	def domainClassName = "com.smanggin." + domainPPP
     		def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
         	def ppp = domainClassInstance.findByNumber(params.pppNumber)
-        	purchaseOrderInstance.pppNumber = ppp.number
-        	purchaseOrderInstance.country = ppp.country
-        	purchaseOrderInstance.lob = ppp.lob
-        	purchaseOrderInstance.brand = ppp.brand
-        	purchaseOrderInstance.requestor = ppp.requestor
-        	purchaseOrderInstance.pppCost = ppp.pppCost
+        	purchaseOrderInstance.pppNumber = ppp?.number
+        	purchaseOrderInstance.country = ppp?.country
+        	purchaseOrderInstance.lob = ppp?.lob
+        	purchaseOrderInstance.brand = ppp?.brand
+        	purchaseOrderInstance.requestor = ppp?.requestor
+        	purchaseOrderInstance.pppCost = ppp?.pppCost
         }
         
 		def date = new Date()
@@ -90,31 +90,37 @@ class PurchaseOrderController {
         purchaseOrderInstance.triggerDomain = domainPPP
         purchaseOrderInstance.state = 'Draft'
 
-       
-
-        if (!purchaseOrderInstance.save(flush: true)) {
-            render(view: "create", model: [purchaseOrderInstance: purchaseOrderInstance])
-            return
-        }
-
-        /* insert Po Approver*/    
         def approvals = globalService.getApprovals(purchaseOrderInstance)        
-        approvals.each{
-            def poApprover = new PurchaseOrderApprover()
-            poApprover.purchaseOrder = purchaseOrderInstance
-            poApprover.noSeq = it.noSeq
-            poApprover.approver = it.approver
-            poApprover.country = Country.findByName(params?.country)
-            poApprover.status = 0
-            poApprover.save(flush:true)
-        }
 
-        /* insert Po Allocation*/
-        insertPOAllocation(purchaseOrderInstance)
-        /* update Po Balance*/
+        if(approvals){
+            if (!purchaseOrderInstance.save(flush: true)) {
+                render(view: "create", model: [purchaseOrderInstance: purchaseOrderInstance])
+                return
+            }
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
-        redirect(action: "show", id: purchaseOrderInstance.id)
+            /* insert Po Approver*/    
+            
+            approvals.each{
+                def poApprover = new PurchaseOrderApprover()
+                poApprover.purchaseOrder = purchaseOrderInstance
+                poApprover.noSeq = it.noSeq
+                poApprover.approver = it.approver
+                poApprover.country = Country.findByName(params?.country)
+                poApprover.status = 0
+                poApprover.approvalDetail = it
+                poApprover.save(flush:true)
+            }
+
+            /* insert Po Allocation*/
+            insertPOAllocation(purchaseOrderInstance)
+            /* update Po Balance*/
+
+    		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+            redirect(action: "show", id: purchaseOrderInstance.id)
+        }else{
+            flash.error = message(code: 'default.setApprover.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder')])
+            redirect(action: "create")
+        }    
     }
 
     def show() {
@@ -370,37 +376,43 @@ class PurchaseOrderController {
             }
         }
 
-        def totalvalue1 = 0
-        def totalvalue2 = 0
+        Float totalvalue1 = 0
+        Float totalvalue2 = 0
+        
         def purchaseOrderAllocations = PurchaseOrderAllocation.findAllByPurchaseOrder(purchaseOrderInstance)
         purchaseOrderAllocations.each{
-            println it.value1
-            println it.value2
-            def value1 = it.value1?:0
-            def value2 = it.value2?:0
+            //println it.value1
+            //println it.value2
+            Float value1 = it.value1?:0
+            Float value2 = it.value2?:0
             totalvalue1 = totalvalue1 + value1 
             totalvalue2 = totalvalue2 + value2
         }
 
-        println "totalvalue1 " +totalvalue1
-        println "totalvalue2 " +totalvalue2.round(2)
-        println "purchaseOrderInstance" + purchaseOrderInstance.purchaseOrderAllocations.size()
         
 
         def mustApprovedBy = globalService.getApprovalBySeq(purchaseOrderInstance,1)
         purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
         
-         if(totalvalue1?.round(2) == purchaseOrderInstance?.total && totalvalue2?.round(2) == (purchaseOrderInstance.total/purchaseOrderInstance.rate).round(2)){
-            purchaseOrderInstance.state = 'Waiting Approval'    
+        if(purchaseOrderInstance.purchaseOrderAllocations?.size() > 1){
+            println " Alocation larger than one "   
+            if(totalvalue1?.round(2) == purchaseOrderInstance?.total && totalvalue2?.round(2) == (purchaseOrderInstance.total/purchaseOrderInstance.rate).round(2)){
+                purchaseOrderInstance.state = 'Waiting Approval'    
 
-        
+            
+                if(mustApprovedBy){
+                    purchaseOrderInstance.mustApprovedBy = mustApprovedBy[0]?.approver
+                }
+            }
+        }else{
+            println " Alocation 1 "   
+            purchaseOrderInstance.state = 'Waiting Approval'    
             if(mustApprovedBy){
                 purchaseOrderInstance.mustApprovedBy = mustApprovedBy[0]?.approver
             }
         }
-                
-        
 
+            
         if (!purchaseOrderInstance.save(flush: true)) {
             println purchaseOrderInstance.errors
 
@@ -419,18 +431,18 @@ class PurchaseOrderController {
             
             if(totalvalue1?.round(2) == purchaseOrderInstance?.total && totalvalue2?.round(2) == (purchaseOrderInstance.total/purchaseOrderInstance.rate).round(2)){
                 
-                sendApproveEmail(purchaseOrderInstance)
+                sendApproveEmail(purchaseOrderInstance) /* --Send Email */
                 
                 saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
                 
                 flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
-                redirect(action: "show", id: purchaseOrderInstance.id)
+                
             }else{
                 flash.error = message(code: 'default.mustAllocation.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
-                redirect(action: "show", id: purchaseOrderInstance.id)
+                
             }
         }else{
-            sendApproveEmail(purchaseOrderInstance)
+                sendApproveEmail(purchaseOrderInstance) /* --Send Email */
                 
                 saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
                 
@@ -438,11 +450,12 @@ class PurchaseOrderController {
             poAllocation.value1 = purchaseOrderInstance.total
             poAllocation.value2 = purchaseOrderInstance.total/purchaseOrderInstance?.rate
             poAllocation.save()
+            
             flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
-            redirect(action: "show", id: purchaseOrderInstance.id)
+            
         }
 
-
+        redirect(action: "show", id: purchaseOrderInstance.id)
         
     }    
 
@@ -483,6 +496,11 @@ class PurchaseOrderController {
         if(countPOApproved == countPoApp){
             purchaseOrderInstance.state = 'Approved'    
 
+            def poAllocation = PurchaseOrderAllocation.findAllByPurchaseOrder(purchaseOrderInstance)
+            poAllocation.each{
+                updatePPPDetail(it) /* update T_cost_detail*/    
+            }
+            
         }
         
 
@@ -659,6 +677,9 @@ class PurchaseOrderController {
         render([success: true] as JSON)
     }
 
+    /** 
+    insert Alocation PO per Brand 
+    **/
     def insertPOAllocation(purchaseOrderInstance){
         def pppNumber=purchaseOrderInstance?.pppNumber
         def pppDetail = PppDetail.findAllByPppNumber(pppNumber)
@@ -671,6 +692,25 @@ class PurchaseOrderController {
 
         }
 
+    }
+
+    /** 
+        Update T_cost_detail
+    **/
+
+    def updatePPPDetail(poAllocation){
+        def poCommitted = PurchaseOrderAllocation.createCriteria().list(){
+            eq('pppNumber',poAllocation?.pppNumber)
+            eq('brand',poAllocation?.brand)
+            projections{
+                sum('value2')
+            }
+        }
+
+        def tCostDetail = PppDetail.findByPppNumberAndBrand(poAllocation?.pppNumber,poAllocation?.brand)
+        tCostDetail.poCommitted = poCommitted[0]
+        tCostDetail.balanceWriteOff = tCostDetail?.costDetail - poCommitted[0]
+        tCostDetail.save(flush:true)
     }
 
 }

@@ -1,4 +1,4 @@
-<div id="table-ppp">
+<div id="table-ppp" class = "table-responsive">
 	<table class="table table-bordered  table-striped  table-hover margin-top-medium">
 		<thead>
 			<tr>

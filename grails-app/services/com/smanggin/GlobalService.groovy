@@ -18,7 +18,7 @@ class GlobalService {
             transactionType{
                 eq('code',purchaseOrder?.transactionGroup?.transactionType?.code)
             }
-            ne('inActive',false)
+            ne('inActive',true)
             
     	}
 
@@ -82,5 +82,23 @@ class GlobalService {
         def notif = Notif.get(notifId)
         notif.isNew=false
         notif.save()
+    }
+
+    def filterDate(startDate,endDate){
+        def vd= []
+        Calendar cal = Calendar.getInstance();
+           cal.setTime(startDate);
+           cal.set(Calendar.HOUR_OF_DAY, 0);
+           cal.set(Calendar.MINUTE, 0);
+           cal.set(Calendar.SECOND, 0);
+           Date start = cal.getTime();
+
+        Calendar calx = Calendar.getInstance();
+           calx.setTime(endDate);
+           calx.set(Calendar.HOUR_OF_DAY, 23);
+           calx.set(Calendar.MINUTE, 59);
+           calx.set(Calendar.SECOND, 59);
+           Date end = calx.getTime();
+        return [start:start,end:end] 
     }
 }

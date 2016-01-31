@@ -12,7 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class CurrencyController {
 
-	def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
+	def globalService
+    def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -194,6 +195,8 @@ class CurrencyController {
     }
 
     def jlist() {
+        def date = new Date()
+
         if(params.masterField){
             def c = Currency.createCriteria()
             def results = c.list {
@@ -203,7 +206,7 @@ class CurrencyController {
 
         }else if(params.code){
         	def value=1
-        	def date = new Date()
+
         	def localCurrency = Currency.findByCodeAndActive(params.code,'Yes')
         	def rate = Rate.createCriteria().list(params){
         	
@@ -234,7 +237,7 @@ class CurrencyController {
             }
             def value=1
             def rateDetailId
-            def date = new Date()
+        
             def localCurrency = Currency.findByCountryAndActive(params.country,'Yes')
             def rate = Rate.createCriteria().list(params){
             

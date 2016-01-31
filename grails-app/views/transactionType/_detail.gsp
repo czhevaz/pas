@@ -219,6 +219,7 @@ if(actionName=='edit' || actionName=='show') {
                   url: "/${meta(name:'app.name')}/approvalDetail/jdelete/" + row['id'],
                   data: row,
                   success: function(data){ 
+                      $('#dg-approvalDetails').datagrid('reload');
                       if(!data.success)
                       {
                             alert(data.messages)

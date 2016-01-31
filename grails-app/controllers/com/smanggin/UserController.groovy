@@ -201,6 +201,7 @@ class UserController {
 		def user = User.findByLogin( auth.user() )
 		session['email'] = user?.email
 		session['country'] = user?.country
+        session['isAdmin'] = user?.isAdmin
 		//session['domainPPP'] = Country.findByName(user?.country).domainPPP 	
 		
         redirect(action: "index", controller:"home",params: params)

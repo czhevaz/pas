@@ -22,7 +22,8 @@
 			<div class="box box-primary">
 				<g:render template="headerTittle"/> 				
                 
-                <div class="box-body table-responsive ">
+                <div class="box-body  ">
+					<div class = "table-responsive">
 					<table class="table table-striped">
 						<tbody>
 							<tr class="prop">
@@ -99,7 +100,10 @@
 								
 						</tbody>
 					</table>
+					</div>	
+
 					<g:render template="pppInfo"/> 
+					
 				</div><!--/.box-body table-responsive -->
 
 

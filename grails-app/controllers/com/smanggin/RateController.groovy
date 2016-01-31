@@ -13,7 +13,8 @@ import org.springframework.dao.DataIntegrityViolationException
 class RateController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-
+    def globalService
+        
     def index() {
         redirect(action: "list", params: params)
     }
@@ -30,10 +31,19 @@ class RateController {
 
     def save() {
         def rateInstance = new Rate(params)
+        
+        def filterDate = globalService.filterDate(params.starDate,params.endDate)
+        def startDate = filterDate.start
+        def endDate = filterDate.end
+
+        rateInstance.starDate = startDate
+        rateInstance.endDate = endDate
+    
         if (!rateInstance.save(flush: true)) {
             render(view: "create", model: [rateInstance: rateInstance])
             return
         }
+
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'rate.label', default: 'Rate'), rateInstance.id])
         redirect(action: "show", id: rateInstance.id)
@@ -81,6 +91,12 @@ class RateController {
         }
 
         rateInstance.properties = params
+        def filterDate = globalService.filterDate(rateInstance.starDate,rateInstance.endDate)
+        def startDate = filterDate.start
+        def endDate = filterDate.end
+
+        rateInstance.starDate = startDate
+        rateInstance.endDate = endDate
 
         if (!rateInstance.save(flush: true)) {
             render(view: "edit", model: [rateInstance: rateInstance])

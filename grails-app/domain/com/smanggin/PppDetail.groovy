@@ -20,7 +20,7 @@ class PppDetail implements Serializable{
     static	mapping = {
     	table 'T_Cost_Detail'
     	id composite: ['pppNumber', 'brand']
-    	version true
+    	version false
     	pppNumber column:'PPP_Number'
 		brand column:'PPP_Brand'
 		costDetail column:'PPP_CostDetail',defaultValue:0
