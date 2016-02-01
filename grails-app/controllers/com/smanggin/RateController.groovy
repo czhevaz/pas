@@ -32,10 +32,11 @@ class RateController {
     def save() {
         def rateInstance = new Rate(params)
         
-        def filterDate = globalService.filterDate(params.starDate,params.endDate)
+        rateInstance.properties = params
+        def filterDate = globalService.filterDate(rateInstance.starDate,rateInstance.endDate)
         def startDate = filterDate.start
         def endDate = filterDate.end
-
+        
         rateInstance.starDate = startDate
         rateInstance.endDate = endDate
     

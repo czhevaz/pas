@@ -11,7 +11,7 @@ class PppDetail implements Serializable{
 	Float costDetail
 	Float poCommitted //Nilai PO yang akan di generate dari system
 	Float balanceWriteOff //PPP_BalanceWriteoff = PPP_CostDetail - PPP_Comm_PO    (balance dari PPP yang akan di buang ke budget saat ada write off PPP)
-	
+	String toString(){ pppNumber +'-'+ brand}	
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
 //	static	hasMany		= []	// tells GORM to associate other domain objects for a 1-n or n-m mapping
@@ -31,12 +31,37 @@ class PppDetail implements Serializable{
 	static	constraints = {
 		version nullable:true
     }
+
+    static transients =['remainCreditLimit']
 	
-	/*
-	 * Methods of the Domain Class
-	 */
-//	@Override	// Override toString for a nicer / more descriptive UI 
-//	public String toString() {
-//		return "${name}";
-//	}
+	Float getRemainCreditLimit() {
+		def poApp = PurchaseOrder.createCriteria().list(){
+			eq('pppNumber',pppNumber)
+			ne('state','Rejected')	
+		}
+
+		def poReject = PurchaseOrder.createCriteria().list(){
+			eq('pppNumber',pppNumber)
+			eq('state','Rejected')	
+		}
+
+		def totalOrderApp = 0
+		//println "purchaseOrders" + purchaseOrders
+		if(poApp.size() > 0){
+			poApp.each{
+				totalOrderApp = totalOrderApp+(it.total/it.rate)
+			}
+		}
+
+		def totalOrderReject = 0
+		if(poReject.size() > 0){
+			poReject.each{
+				totalOrderReject = totalOrderReject+(it.total/it.rate)
+			}
+		}
+		
+		def amount = costDetail?:0
+		//println " Grand total Order "+ totalOrder
+		return (amount-totalOrderApp)
+	}
 }

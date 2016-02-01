@@ -26,6 +26,10 @@
 								<th><g:message code="ppp.amount.label" default="PPP LIMIT(USD)" /></th>
 
 								<th><g:message code="ppp.remain.label" default="PPP LIMIT REMAINING (USD)" /></th>
+
+								<th><g:message code="ppp.amountTotal.label" default="PPP LIMIT(USD)" /></th>
+
+								<th><g:message code="ppp.remainTotal.label" default="PPP LIMIT REMAINING (USD)" /></th>
 								
 								<g:sortableColumn property="pppDate" title="${message(code: 'ppp.pppDate.label', default: 'PPP Date')}" />
 															
@@ -36,19 +40,21 @@
 						<g:each in="${pppInstanceList}" status="i" var="pppInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link controller="purchaseOrder" action="save" id="${pppInstance.id}">${fieldValue(bean: pppInstance, field: "pppNumber")}</g:link></td>
+								<td></td>
 
-								<td>${fieldValue(bean: pppInstance, field: "lob")}</td>
+								<td></td>
 
-								<td>${fieldValue(bean: pppInstance, field: "brand")}</td>
+								<td></td>
 
-								<td>${fieldValue(bean: pppInstance, field: "requestor")}</td>
+								<td></td>
 
-								<td>${fieldValue(bean: pppInstance, field: "amount")}</td>
+								<td></td>
 							
-								<td>${fieldValue(bean: pppInstance, field: "remainCreditLimit")}</td>
+								<td></td>
+								<td></td>
+								<td></td>
 							
-								<td><g:formatDate date="${pppInstance.pppDate}" /></td>
+								<td></td>
 
 								
 							</tr>
@@ -101,7 +107,7 @@
 			url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
 			data: postData,
 			success: function(d){
-			
+				
 				$("#table-content tbody").html("");	
 				$.each(d, function(i, item) {
 					
@@ -112,6 +118,8 @@
 					tr += "<td > "+  item.requestorName +" </td>";
 					tr += "<td > "+  formatNumber(item.amount) +" </td>";
 					tr += "<td > "+  formatNumber(item.remainCreditLimit) +" </td>";
+					tr += "<td > "+  formatNumber(item.ammountTotalPPP) +" </td>";
+					tr += "<td > "+  formatNumber(item.remainCreditLimitTotalPPP) +" </td>";
 					tr += "<td > "+  item.pppDate +" </td>";
 					tr += "</tr>";
 					$("#table-content tbody").append(tr);	
@@ -124,10 +132,12 @@
 
 	function addToPO(pppNumber){
 		var countryTes = $("#country").val();
+		var brandId =$("#brand").val();
+
 		$("#pppNumber").val(pppNumber);	
 		$.ajax({
 			url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
-			data: {pppNumber:pppNumber,countryId:countryTes},
+			data: {pppNumber:pppNumber,countryId:countryTes,brandId:brandId},
 			success: function(d){
 				console.log(d);
 				$("#table-ppp tbody").html("");	
@@ -138,6 +148,8 @@
 					tr += "<td > "+  d.requestorName +" </td>";
 					tr += "<td > "+  formatNumber(d.amount) +" </td>";
 					tr += "<td > "+  formatNumber(d.remainCreditLimit) +" </td>";
+					tr += "<td > "+  formatNumber(d.ammountTotalPPP) +" </td>";
+					tr += "<td > "+  formatNumber(d.remainCreditLimitTotalPPP) +" </td>";
 					tr += "<td > "+  d.pppDate +" </td>";
 					tr += "</tr>";
 				$("#table-ppp tbody").append(tr);										    

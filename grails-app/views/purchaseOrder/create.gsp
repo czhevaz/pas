@@ -97,6 +97,10 @@
 
 									<th><g:message code="ppp.remain.label" default="PPP LIMIT REMAINING (USD)" /></th>
 									
+									<th><g:message code="ppp.amountTotal.label" default="PPP LIMIT(USD)" /></th>
+
+									<th><g:message code="ppp.remainTotal.label" default="PPP LIMIT REMAINING (USD)" /></th>
+					
 									<g:sortableColumn property="pppDate" title="${message(code: 'ppp.pppDate.label', default: 'PPP Date')}" />
 																
 								
@@ -117,6 +121,10 @@
 									<td>${fieldValue(bean: pppInstance, field: "amount")}</td>
 								
 									<td>${fieldValue(bean: pppInstance, field: "remainCreditLimit")}</td>
+									
+									<td></td>
+								
+									<td></td>
 								
 									<td><g:formatDate date="${pppInstance.pppDate}" /></td>
 

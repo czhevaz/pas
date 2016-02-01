@@ -108,7 +108,7 @@ class PurchaseOrder {
 
     }
 
-	static transients =['total','pppRemain']
+	static transients =['total','pppRemain','pppRemainBrand']
 
 	Float getTotal() {
 		def total = 0
@@ -139,4 +139,9 @@ class PurchaseOrder {
         return ppp.remainCreditLimit
 	}
 	
+	def getPppRemainBrand(){
+		
+        def pppDetail    = PppDetail.findAllByPppNumberAndBrand(pppNumber,brand)
+        return pppDetail.remainCreditLimit
+	}
 }

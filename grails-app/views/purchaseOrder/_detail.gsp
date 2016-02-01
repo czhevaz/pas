@@ -131,7 +131,7 @@ if(actionName=='edit' || actionName=='show') {
 
 	    </div><!-- /.Attachment -->
 
-        <g:render template="allocation"/>        
+          
 
 </div>
 <g:render template="attachment"/> 
@@ -324,25 +324,11 @@ if(actionName=='edit' || actionName=='show') {
     	$.ajax({
             type: "POST",
             url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
-            data: {pppNumber:pppNumber,countryId:'${purchaseOrderInstance?.country}'},
-            success: function(d){ 
-            	//var remain = d.remainCreditLimit - (totalPO/d.rate)
-                
+            data: {pppNumber:pppNumber,countryId:'${purchaseOrderInstance?.country}',brandId:'${purchaseOrderInstance?.brand}'},
+            success: function(d){     
                 $('#remain').html('<span id="remain">'+formatNumber(d.remainCreditLimit)+'</span>');
-                /*$("#table-ppp tbody").html("");	
-				var tr ="<tr>";
-					tr += "<td > "+  d.pppNumber +" </td>";
-                    tr += "<td > "+  d.pppDescription +" </td>";
-					tr += "<td > "+  d.lobName +" </td>";
-					tr += "<td > "+  d.brandName +" </td>";
-					tr += "<td > "+  d.requestorName +" </td>";
-					tr += "<td style='text-align:right'> "+  formatNumber(d.amount) +" </td>";
-					tr += "<td style='text-align:right'> "+  formatNumber(d.remainCreditLimit) +" </td>";
-					tr += "<td > "+  d.pppDate +" </td>";
-					tr += "</tr>";
-				$("#table-ppp tbody").append(tr);*/
-                //$("#totalPO").text(parseFloat(data.data));
-                //$("#totalPO2").text(parseFloat(data.data)/parseFloat(rate));
+                $('#remainTotal').html('<span id="remainTotal">'+formatNumber(d.remainCreditLimitTotalPPP)+'</span>');
+              
                 
             },
         });

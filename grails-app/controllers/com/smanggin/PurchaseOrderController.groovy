@@ -60,12 +60,15 @@ class PurchaseOrderController {
         	def domainClassName = "com.smanggin." + domainPPP
     		def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
         	def ppp = domainClassInstance.findByNumber(params.pppNumber)
+            def pppDetail    = PppDetail.findAllByPppNumberAndBrand(params.pppNumber,ppp?.brand)
+
         	purchaseOrderInstance.pppNumber = ppp?.number
         	purchaseOrderInstance.country = ppp?.country
         	purchaseOrderInstance.lob = ppp?.lob
-        	purchaseOrderInstance.brand = ppp?.brand
+        	purchaseOrderInstance.brand = pppDetail[0]?.brand
         	purchaseOrderInstance.requestor = ppp?.requestor
-        	purchaseOrderInstance.pppCost = ppp?.pppCost
+        	purchaseOrderInstance.pppCost = pppDetail[0]?.costDetail
+
         }
         
 		def date = new Date()
@@ -112,7 +115,7 @@ class PurchaseOrderController {
             }
 
             /* insert Po Allocation*/
-            insertPOAllocation(purchaseOrderInstance)
+        //    insertPOAllocation(purchaseOrderInstance)
             /* update Po Balance*/
 
     		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
@@ -144,8 +147,23 @@ class PurchaseOrderController {
 
         def pppNumber=purchaseOrderInstance?.pppNumber
         def pppDetails = PppDetail.findAllByPppNumber(pppNumber)
-
-        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:pppInstance,pppDetails:pppDetails]
+        def pppDetail    = PppDetail.findAllByPppNumberAndBrand(purchaseOrderInstance.pppNumber,purchaseOrderInstance.brand)
+        
+        def map = [:] 
+        map.put('requestorName',pppInstance?.requestor)
+        map.put('pppNumber',pppInstance?.number)
+        map.put('pppDate',pppInstance?.pppDate)
+        map.put('pppDescription',pppInstance?.pppProgram)
+        map.put('countryName',pppInstance?.country?.name)
+        map.put('lobName',pppInstance?.lob)
+        map.put('brandName',pppDetail[0]?.brand)
+        map.put('state',pppInstance?.state)
+        map.put('amount',pppDetail[0]?.costDetail)
+        map.put('remainCreditLimit',pppDetail[0].remainCreditLimit)
+        map.put('ammountTotalPPP',pppInstance?.pppCost)
+        map.put('remainCreditLimitTotalPPP',pppInstance?.remainCreditLimit)
+        
+        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails]
     }
 
     def edit() {
@@ -273,36 +291,66 @@ class PurchaseOrderController {
     
             def brand = Brand.findByCode(params?.brandId)
       
-            def sql = " from PppPhilippine as p "
-            if(params.countryId){
-             sql += "where p.country LIKE '%${params.countryId}%'"   
-            }
-            if(params.lobId){
-             sql += " AND p.lob LIKE '%${params?.lobId}%' "   
-            }      
+            
+            def sqlDetail = " from PppDetail as d "           
             if(params.brandId){
-             sql += "AND p.brand LIKE'%${brand?.code}%' "   
+             sqlDetail += "where d.brand LIKE'%${brand?.code}%' "   
             }
-            if(params.year){
-               sql += "AND year(p.pppDate) = ${params.year} "     
+            def results = []
+            def pppDetails = PppDetail.findAll(sqlDetail)
+            pppDetails.each{
+                def map = [:]
+                
+                def sql = getPPPHead(it,params)
+                def pppHead = domainClassInstance.findAll(sql)
+                
+                if(pppHead?.size() > 0){
+                    map.put('requestorName',pppHead[0]?.requestor)
+                    map.put('pppNumber',pppHead[0]?.number)
+                    map.put('pppDate',pppHead[0]?.pppDate?.format('yyyy-MM-dd'))
+                    map.put('pppDescription',pppHead[0]?.pppProgram)
+                    map.put('countryName',pppHead[0]?.country?.name)
+                    map.put('lobName',pppHead[0]?.lob)
+                    map.put('brandName',it?.brand)
+                    map.put('state',pppHead[0]?.state)
+                    map.put('amount',it.costDetail)
+                    map.put('remainCreditLimit',it.remainCreditLimit)
+                    map.put('ammountTotalPPP',pppHead[0]?.pppCost)
+                    map.put('remainCreditLimitTotalPPP',pppHead[0]?.remainCreditLimit)
+                    //println "map " + map
+                    results.push(map)
+                }
+                
             }
-            if(params.month){
-               sql += "AND month(p.pppDate) = ${params.month} "     
-            }
-            sql += "order by p.pppDate"
 
-            def results= domainClassInstance.findAll(sql)
+            //println results
             
             render results as JSON
 
         }else if(params.pppNumber){
+
             def country = Country.findByName(params.countryId)
             def domainClassName = "com.smanggin." + country?.domainPPP
             def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
         
-        	def results = domainClassInstance.findByNumber(params.pppNumber)
-            println " PppPhilippine" + results
-            render results as JSON
+        	def ppp = domainClassInstance.findByNumber(params.pppNumber)
+            def pppDetail    = PppDetail.findAllByPppNumberAndBrand(params.pppNumber,params.brandId)
+            
+            def map = [:] 
+            map.put('requestorName',ppp?.requestor)
+            map.put('pppNumber',ppp?.number)
+            map.put('pppDate',ppp?.pppDate?.format('yyyy-MM-dd'))
+            map.put('pppDescription',ppp?.pppProgram)
+            map.put('countryName',ppp?.country?.name)
+            map.put('lobName',ppp?.lob)
+            map.put('brandName',pppDetail[0]?.brand)
+            map.put('state',ppp?.state)
+            map.put('amount',pppDetail[0]?.costDetail)
+            map.put('remainCreditLimit',pppDetail[0].remainCreditLimit)
+            map.put('ammountTotalPPP',ppp?.pppCost)
+            map.put('remainCreditLimitTotalPPP',ppp?.remainCreditLimit)
+
+            render map as JSON
         }else if(params.state){
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
@@ -394,7 +442,7 @@ class PurchaseOrderController {
         def mustApprovedBy = globalService.getApprovalBySeq(purchaseOrderInstance,1)
         purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
         
-        if(purchaseOrderInstance.purchaseOrderAllocations?.size() > 1){
+        if(false){
             println " Alocation larger than one "   
             if(totalvalue1?.round(2) == purchaseOrderInstance?.total && totalvalue2?.round(2) == (purchaseOrderInstance.total/purchaseOrderInstance.rate).round(2)){
                 purchaseOrderInstance.state = 'Waiting Approval'    
@@ -427,7 +475,7 @@ class PurchaseOrderController {
 
         //sendApproveEmail(purchaseOrderInstance)/* --Send Email */
 
-        if(purchaseOrderInstance.purchaseOrderAllocations?.size() > 1){
+        if(false){
             
             if(totalvalue1?.round(2) == purchaseOrderInstance?.total && totalvalue2?.round(2) == (purchaseOrderInstance.total/purchaseOrderInstance.rate).round(2)){
                 
@@ -446,10 +494,10 @@ class PurchaseOrderController {
                 
                 saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
                 
-            def poAllocation = PurchaseOrderAllocation.findByPurchaseOrder(purchaseOrderInstance)
+            /*def poAllocation = PurchaseOrderAllocation.findByPurchaseOrder(purchaseOrderInstance)
             poAllocation.value1 = purchaseOrderInstance.total
             poAllocation.value2 = purchaseOrderInstance.total/purchaseOrderInstance?.rate
-            poAllocation.save()
+            poAllocation.save()*/
             
             flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
             
@@ -488,9 +536,11 @@ class PurchaseOrderController {
         
         if(globalService.getNextApprover(purchaseOrderInstance,user)){
             purchaseOrderInstance.mustApprovedBy = globalService.getNextApprover(purchaseOrderInstance,user)
+        }else{
+            purchaseOrderInstance.mustApprovedBy = null
         }
 
-        def countPoApp = purchaseOrderInstance.purchaseOrderApprovers?.size()
+      /*  def countPoApp = purchaseOrderInstance.purchaseOrderApprovers?.size()
         def countPOApproved= PurchaseOrderApprover.findAllByPurchaseOrderAndStatus(purchaseOrderInstance,1).size()+1
     
         if(countPOApproved == countPoApp){
@@ -498,10 +548,10 @@ class PurchaseOrderController {
 
             def poAllocation = PurchaseOrderAllocation.findAllByPurchaseOrder(purchaseOrderInstance)
             poAllocation.each{
-                updatePPPDetail(it) /* update T_cost_detail*/    
+                updatePPPDetail(it) /* update T_cost_detail
             }
             
-        }
+        }*/
         
 
         if (!purchaseOrderInstance.save(flush: true)) {
@@ -510,6 +560,8 @@ class PurchaseOrderController {
             return
         }
 
+        /* update T_cost_detail*/
+        updatePPPDetail2(purchaseOrderInstance)
         /* update Po Approver*/
         def poApprover = PurchaseOrderApprover.findByPurchaseOrderAndApprover(purchaseOrderInstance,user)
         poApprover.status = 1
@@ -711,6 +763,51 @@ class PurchaseOrderController {
         tCostDetail.poCommitted = poCommitted[0]
         tCostDetail.balanceWriteOff = tCostDetail?.costDetail - poCommitted[0]
         tCostDetail.save(flush:true)
+    }
+
+      /** 
+        Update T_cost_detail
+    **/
+
+    def updatePPPDetail2(po){
+        def poCommitted = PurchaseOrder.createCriteria().list(){
+            eq('pppNumber',po?.pppNumber)
+            eq('brand',po?.brand)
+            ne('state','Rejected')
+        }
+
+        Float total = 0 
+        poCommitted.each{
+            total = total + it.total
+        }    
+
+        def tCostDetail = PppDetail.findByPppNumberAndBrand(po?.pppNumber,po?.brand)
+        tCostDetail.poCommitted = (total/po.rate).round(2)
+        tCostDetail.balanceWriteOff = (tCostDetail?.costDetail - (total/po.rate)).round(2)
+        tCostDetail.save(flush:true)
+    }
+
+    def getPPPHead(detail,params){
+
+        def sql = " from PppPhilippine as p "
+            sql += "where p.number LIKE '%${detail.pppNumber}%'"   
+            if(params.countryId){
+             sql += " AND p.country LIKE '%${params.countryId}%'"   
+            }
+            if(params.lobId){
+             sql += " AND p.lob LIKE '%${params?.lobId}%' "   
+            }      
+            
+            if(params.year){
+               sql += "AND year(p.pppDate) = ${params.year} "     
+            }
+            if(params.month){
+               sql += "AND month(p.pppDate) = ${params.month} "     
+            }
+            sql += "order by p.pppDate"
+
+
+        return sql
     }
 
 }
