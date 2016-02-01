@@ -536,22 +536,20 @@ class PurchaseOrderController {
         
         if(globalService.getNextApprover(purchaseOrderInstance,user)){
             purchaseOrderInstance.mustApprovedBy = globalService.getNextApprover(purchaseOrderInstance,user)
-        }else{
-            purchaseOrderInstance.mustApprovedBy = null
         }
 
-      /*  def countPoApp = purchaseOrderInstance.purchaseOrderApprovers?.size()
+       def countPoApp = purchaseOrderInstance.purchaseOrderApprovers?.size()
         def countPOApproved= PurchaseOrderApprover.findAllByPurchaseOrderAndStatus(purchaseOrderInstance,1).size()+1
     
         if(countPOApproved == countPoApp){
             purchaseOrderInstance.state = 'Approved'    
 
-            def poAllocation = PurchaseOrderAllocation.findAllByPurchaseOrder(purchaseOrderInstance)
+            /*def poAllocation = PurchaseOrderAllocation.findAllByPurchaseOrder(purchaseOrderInstance)
             poAllocation.each{
                 updatePPPDetail(it) /* update T_cost_detail
-            }
+            }*/
             
-        }*/
+        }
         
 
         if (!purchaseOrderInstance.save(flush: true)) {
