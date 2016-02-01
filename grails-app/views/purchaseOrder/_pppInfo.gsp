@@ -30,7 +30,7 @@
 		
 			<tr class="odd">
 
-				<td><g:link controller="${session?.domainPPP}" action="show" id="${pppInstance?.id}">${pppInstance?.pppNumber}</g:link></td>
+				<td><g:link controller="${purchaseOrderInstance?.country}" action="show" id="${purchaseOrderInstance?.pppNumber}">${pppInstance?.pppNumber}</g:link></td>
 
 				<td>${pppInstance?.pppDescription}</td>
 
