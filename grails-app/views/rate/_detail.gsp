@@ -30,7 +30,7 @@ if(actionName=='edit' || actionName=='show') {
                                     url:'/${meta(name:'app.name')}/currency/jlist',
                                     required:true,
                                 }
-                        }">Currency2</th>
+                        }">Base Currency</th>
 
                          <th data-options="field:'currency1Code',width:200,
                             formatter:function(value,row){
@@ -44,13 +44,13 @@ if(actionName=='edit' || actionName=='show') {
                                     url:'/${meta(name:'app.name')}/currency/jlist',
                                     required:true,
                                 }
-                        }">Currency1</th>
+                        }">Local Currency</th>
                        
                                     
                         <th data-options="field:'rateId',hidden:true">Rate</th>
                                  
                         
-                        <th data-options="field:'value',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Value</th>
+                        <th data-options="field:'value',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Exchange rate value </th>
                         
                     
                     </tr>

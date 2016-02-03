@@ -11,11 +11,11 @@
       	<table class="table table-bordered no-margin">
       		<thead>
       			<tr>
-      				<td colspan="2"><b>Document State</b> : ${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	
+      				<td colspan="2"><b>Document Status</b> : ${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	
       			</tr>	
       			<tr>
       				<td><b>Approver</b> : </td>
-      				<td><b>Approval State</b></td>
+      				<td><b>Approval Status</b></td>
       			</tr>
       			
       		</thead>

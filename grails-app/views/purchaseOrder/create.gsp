@@ -53,7 +53,7 @@
 						<div class="form-group  required">
 							<label for="requestor" class="col-sm-3 control-label"><g:message code="register.requestor.label" default="Requestor" /><span class="required-indicator">*</span></label>
 							<div class="col-sm-9">
-								<g:textField name="requestor" id="requestor" class="form-control" value="${params?.requestor}" readonly="true"/>
+								<g:textField name="requestor" id="requestor" class="form-control" value="${params?.requestor}" />
 							</div>
 						</div>
 					

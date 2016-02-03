@@ -19,11 +19,12 @@ if(actionName=='edit' || actionName=='show') {
                 <thead>
                     <tr>
                     	<th data-options="field:'description',width:200,editor:'text'">Description</th>
-                                           
+                    
+                    <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS' || purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP'}">                       
                     	<th data-options="field:'coverageArea',width:200,editor:'text'">Coverage Area</th>	
                         
                         <th data-options="field:'outlet',width:200,editor:'text'">Outlet</th>
-                    
+                    </g:if>        
                     <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POPF'}">
                         <th data-options="field:'qty',align:'right',formatter:formatNumber,  width:100,
                         editor:{
@@ -37,21 +38,8 @@ if(actionName=='edit' || actionName=='show') {
 
                         }">Qty </th>
 
-                        <th data-options="field:'pic',width:200,editor:'text'">Uom</th>
-
-                        <th data-options="field:'unitPrice',align:'right',formatter:formatNumber,  width:100,
-                        editor:{
-                        	type:'numberbox',
-                        	options:{
-                        		precision:2,
-                        		onChange: function(rec){
-                                	autoCalculate();
-                            	}
-                        	}
-
-                        }">Unit Price (${purchaseOrderInstance?.currency1?.code})</th>
-                    </g:if>
-                        
+                        <th data-options="field:'pic',width:200,editor:'text'">UOM</th>
+                    </g:if>   
                         <th data-options="field:'currencyCode',width:200,
                             formatter:function(value,row){
                                 return row.currencyCode;
@@ -64,12 +52,29 @@ if(actionName=='edit' || actionName=='show') {
                                     url:'/${meta(name:'app.name')}/currency/jlist',
                                     required:true,
                                     onSelect: function(rec){
-                                        exchangeRate();    
+                                        exchangeRate(); 
+                                        $('#unitPriceLabel').text(rec.code);
+                                        $('#totalCostLabel').text(rec.code);   
                                     }                                    
 
                                 }
-                        }">Local currency</th>
+                        }">Local currency </th>
+    
+                    <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POPF'}">        
+                        <th data-options="field:'unitPrice',align:'right',formatter:formatNumber,  width:100,
+                        editor:{
+                        	type:'numberbox',
+                        	options:{
+                        		precision:2,
+                        		onChange: function(rec){
+                                	autoCalculate();
+                            	}
+                        	}
 
+                        }">Unit Price <span id="unitPriceLabel"> </span></th>
+                    
+                    </g:if>       
+                        
                         <th data-options="field:'totalCost',align:'right',formatter:formatNumber,  width:100,
                         editor:{
                         	type:'numberbox',
@@ -80,7 +85,7 @@ if(actionName=='edit' || actionName=='show') {
                             	}
                         	}
 
-                        }">Total Cost (${purchaseOrderInstance?.currency1?.code})</th>
+                        }">Total Cost <span id="totalCostLabel"> </span></th>
                         
                         <th data-options="field:'totalCost2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Total Cost (${purchaseOrderInstance.currency2?.code})</th>
 

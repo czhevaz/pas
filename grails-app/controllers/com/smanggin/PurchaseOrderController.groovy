@@ -792,8 +792,13 @@ class PurchaseOrderController {
             if(params.countryId){
              sql += " AND p.country LIKE '%${params.countryId}%'"   
             }
+            
             if(params.lobId){
              sql += " AND p.lob LIKE '%${params?.lobId}%' "   
+            }
+
+            if(params.requestor){
+              sql += " AND p.requestor LIKE '%${params?.requestor}%' "      
             }      
             
             if(params.year){

@@ -60,7 +60,9 @@
 				            	<th id="no"></th>
 
 				                <g:sortableColumn property="number" title="${message(code: 'purchaseOrder.number.label', default: 'Number')}" />
-								
+							
+								<g:sortableColumn property="reasonforInvestment" title="${message(code: 'purchaseOrder.reasonforInvestment.label', default: 'reasonforInvestment')}" />
+									
 								<g:sortableColumn property="purchaseOrderDate" title="${message(code: 'purchaseOrder.purchaseOrderDate.label', default: 'Purchase Order Date')}" />
 							
 								<th><g:message code="purchaseOrder.TransactionGroup.label" default="TransactionGroup" /></th>	
@@ -93,6 +95,8 @@
 
 								<td><g:link action="show" id="${purchaseOrderInstance.id}">${fieldValue(bean: purchaseOrderInstance, field: "number")}</g:link></td>
 
+								<td>${purchaseOrderInstance.reasonforInvestment}</td>	
+									
 								<td><g:formatDate date="${purchaseOrderInstance.purchaseOrderDate}" format="yyyy-dd-MM"/></td>
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "transactionGroup")}</td>	
 
