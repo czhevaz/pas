@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException
 class RfpController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
 
     def index() {
         redirect(action: "list", params: params)
@@ -29,7 +30,22 @@ class RfpController {
     }
 
     def save() {
+        println params
         def rfpInstance = new Rfp(params)
+
+        if(baseCurrency){
+            def localCurrency = Currency.findByCodeAndActive(params.currency1?.code,'Yes')
+            rfpInstance.currency1=localCurrency
+            rfpInstance.currency2=baseCurrency
+            rfpInstance.rate = params.rate?params.rate.toFloat():1
+            rfpInstance.rateDetail = RateDetail.get(params.rateDetail?.id)
+        }
+
+        rfpInstance.createdBy = auth.user()
+        rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())
+        rfpInstance.state = 'Draft'
+
+
         if (!rfpInstance.save(flush: true)) {
             render(view: "create", model: [rfpInstance: rfpInstance])
             return

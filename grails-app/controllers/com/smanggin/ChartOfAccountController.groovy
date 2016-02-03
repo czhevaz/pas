@@ -151,6 +151,13 @@ class ChartOfAccountController {
             }
             render results as JSON
 
+        }else if(params.country){
+            def c = ChartOfAccount.createCriteria()
+            def results = c.list {
+                eq('country',params.country)
+                eq('active','Active')    
+            }
+            render results as JSON            
         }
         else
         {

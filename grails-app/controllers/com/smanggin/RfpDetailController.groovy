@@ -119,6 +119,11 @@ class RfpDetailController {
             return
         }
         
+        rfpDetailInstance.properties = params
+        rfpDetailInstance.purchaseOrder = PurchaseOrder.get(params.purchaseOrderId)
+        rfpDetailInstance.pppNumber = params.pppNumber
+        rfpDetailInstance.coa = ChartOfAccount.findByCode(params?.coaCode)
+        rfpDetailInstance.rfp = Rfp.get(params.rfpId)
         if (params.version)
         {
             def version = params.version.toLong()

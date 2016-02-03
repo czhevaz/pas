@@ -21,7 +21,9 @@ beans = {
             new AttachmentMarshaller(),
             new PurchaseOrderCommentMarshaller(),
             new PppDetailMarshaller(),
-            new PurchaseOrderAllocationMarshaller()
+            new PurchaseOrderAllocationMarshaller(),
+            new RfpDetailMarshaller(),
+            new PurchaseOrderMarshaller()
         ]
      }
 }
