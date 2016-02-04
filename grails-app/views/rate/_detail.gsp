@@ -44,7 +44,7 @@ if(actionName=='edit' || actionName=='show') {
                                     url:'/${meta(name:'app.name')}/currency/jlist',
                                     required:true,
                                 }
-                        }">Local Currency</th>
+                        }">Target Currency</th>
                        
                                     
                         <th data-options="field:'rateId',hidden:true">Rate</th>

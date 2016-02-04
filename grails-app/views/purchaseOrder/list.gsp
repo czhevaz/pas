@@ -30,6 +30,8 @@
 
 								<g:sortableColumn property="number" title="${message(code: 'purchaseOrder.number.label', default: 'Number')}" />
 								
+								<g:sortableColumn property="reasonforInvestment" title="${message(code: 'purchaseOrder.reasonforInvestment.label', default: 'reasonforInvestment')}" />
+
 								<g:sortableColumn property="purchaseOrderDate" title="${message(code: 'purchaseOrder.purchaseOrderDate.label', default: 'Purchase Order Date')}" />
 							
 								<th><g:message code="purchaseOrder.TransactionGroup.label" default="TransactionGroup" /></th>	

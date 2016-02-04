@@ -53,7 +53,8 @@
 						<div class="form-group  required">
 							<label for="requestor" class="col-sm-3 control-label"><g:message code="register.requestor.label" default="Requestor" /><span class="required-indicator">*</span></label>
 							<div class="col-sm-9">
-								<g:textField name="requestor" id="requestor" class="form-control" value="${params?.requestor}" />
+								<g:select id="requestor" name="requestor" from="${com.smanggin.User.list()}" optionKey="name" required="" value="${params?.requestor}" class="many-to-one form-control "/>
+								
 							</div>
 						</div>
 					

@@ -39,15 +39,21 @@ class RateController {
         
         rateInstance.starDate = startDate
         rateInstance.endDate = endDate
-    
-        if (!rateInstance.save(flush: true)) {
+        
+        def check = checkPeriode(startDate, endDate,null)
+
+        if(check){
+            flash.error = 'overlap with other Period ' 
             render(view: "create", model: [rateInstance: rateInstance])
-            return
+        }else{
+            if (!rateInstance.save(flush: true)) {
+                render(view: "create", model: [rateInstance: rateInstance])
+                return
+            }
+
+    		flash.message = message(code: 'default.created.message', args: [message(code: 'rate.label', default: 'Rate'), rateInstance.id])
+            redirect(action: "show", id: rateInstance.id)
         }
-
-
-		flash.message = message(code: 'default.created.message', args: [message(code: 'rate.label', default: 'Rate'), rateInstance.id])
-        redirect(action: "show", id: rateInstance.id)
     }
 
     def show() {
@@ -63,6 +69,7 @@ class RateController {
 
     def edit() {
         def rateInstance = Rate.get(params.id)
+        
         if (!rateInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rate.label', default: 'Rate'), params.id])
             redirect(action: "list")
@@ -74,6 +81,8 @@ class RateController {
 
     def update() {
         def rateInstance = Rate.get(params.id)
+
+        
         if (!rateInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rate.label', default: 'Rate'), params.id])
             redirect(action: "list")
@@ -98,14 +107,20 @@ class RateController {
 
         rateInstance.starDate = startDate
         rateInstance.endDate = endDate
+        def check = checkPeriode(startDate, endDate,params.id?.toLong())
+        
+        if(check){
+                flash.error = ' overlap with other Period ' 
+                render(view: "edit", model: [rateInstance: rateInstance])
+        }else{
+            if (!rateInstance.save(flush: true)) {
+                render(view: "edit", model: [rateInstance: rateInstance])
+                return
+            }
 
-        if (!rateInstance.save(flush: true)) {
-            render(view: "edit", model: [rateInstance: rateInstance])
-            return
-        }
-
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'rate.label', default: 'Rate'), rateInstance.id])
-        redirect(action: "show", id: rateInstance.id)
+    		flash.message = message(code: 'default.updated.message', args: [message(code: 'rate.label', default: 'Rate'), rateInstance.id])
+            redirect(action: "show", id: rateInstance.id)
+        }    
     }
 
     def delete() {
@@ -202,5 +217,28 @@ class RateController {
         else {
             render([rateInstance : rateInstance ] as JSON)
         }
+    }
+
+     def checkPeriode(startDate,endDate,id){
+
+     
+        def rate = Rate.withCriteria{    
+            if(id){
+                ne('id',id)
+            }
+
+            gt('endDate',startDate)
+            /*or{
+               between('starDate',startDate,endDate) 
+               between('endDate',startDate,endDate)
+            } */   
+               
+        }
+        def state = false
+        if(rate.size() > 0){
+            state = true
+        }
+
+        return state
     }
 }

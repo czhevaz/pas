@@ -14,6 +14,16 @@ if(actionName=='edit' || actionName=='show') {
             rownumbers: true,
             onClickRow: purchaseOrderDetailsOnClickRow,
             toolbar: '#tb-purchaseOrderDetails',
+            onBeforeEdit: function(index,row){
+                var col = $(this).datagrid('getColumnOption', 'currencyCode');
+                console.log(index);
+                console.log(index > 0);
+                if(index > 0){
+                    col.editor.type = 'textbox';
+                    col.editor.options.readonly = true;
+                }
+                      
+            },
 
             url:'/${meta(name:'app.name')}/purchaseOrderDetail/jlist?masterField.name=purchaseOrder&masterField.id=${purchaseOrderInstance?.id}'">
                 <thead>
@@ -209,8 +219,17 @@ if(actionName=='edit' || actionName=='show') {
     }
     function purchaseOrderDetailsAppend(){
         if (purchaseOrderDetailsEndEditing()){
-            $('#dg-purchaseOrderDetails').datagrid('appendRow',
+            var rowcount = $('#dg-purchaseOrderDetails').datagrid('getRows').length;
+            console.log(rowcount);
+            if(rowcount == 0){
+                $('#dg-purchaseOrderDetails').datagrid('appendRow',
             {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${auth.user()}' });
+            }else{
+                var code = $('#dg-purchaseOrderDetails').datagrid('getRows')[0].currencyCode;
+                $('#dg-purchaseOrderDetails').datagrid('appendRow',
+                {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${auth.user()}' ,currencyCode:code});
+            }
+            
             editIndex = $('#dg-purchaseOrderDetails').datagrid('getRows').length-1;
             $('#dg-purchaseOrderDetails').datagrid('selectRow', editIndex).datagrid('beginEdit', editIndex);
         }

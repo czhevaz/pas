@@ -26,6 +26,8 @@ class Supplier {
 	String city
 	String state
 	String country
+	String contactPerson
+	String mobileNo
 	String toString() { return name } 
 
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
@@ -48,6 +50,8 @@ class Supplier {
 		city nullable: true
 		state nullable: true
 		country nullable: true
+		contactPerson nullable:true
+		mobileNo nullable:true
     }
 	
 	/*

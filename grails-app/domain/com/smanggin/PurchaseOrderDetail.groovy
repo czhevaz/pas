@@ -51,6 +51,8 @@ class PurchaseOrderDetail {
 		uom nullable:true
 		currency1 nullable:true
 		pic nullable:true
+		coverageArea nullable:true
+		outlet nullable:true
     }
 	
 	/*
