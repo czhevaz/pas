@@ -45,7 +45,8 @@ class PurchaseOrderController {
     }
 
     def create() {
-        [purchaseOrderInstance: new PurchaseOrder(params)]
+
+        [purchaseOrderInstance: new PurchaseOrder(params) ,baseCurrency :baseCurrency]
     }
 
     def save() {
