@@ -100,7 +100,7 @@
 			</div>
 
 			<div class="form-group fieldcontain ${hasErrors(bean: supplierInstance, field: 'contactPerson', 'error')} ">
-				<label for="contactPerson" class="col-sm-3 control-label"><g:message code="supplier.telex.label" default="Telex" /></label>
+				<label for="contactPerson" class="col-sm-3 control-label"><g:message code="supplier.telex.label" default="Contact Person" /></label>
 				<div class="col-sm-9">
 					<g:textField name="contactPerson" class="form-control" value="${supplierInstance?.contactPerson}"/>
 					<span class="help-inline">${hasErrors(bean: supplierInstance, field: 'contactPerson', 'error')}</span>
@@ -108,7 +108,7 @@
 			</div>
 
 			<div class="form-group fieldcontain ${hasErrors(bean: supplierInstance, field: 'mobileNo', 'error')} ">
-				<label for="mobileNo" class="col-sm-3 control-label"><g:message code="supplier.mobileNo.label" default="Telex" /></label>
+				<label for="mobileNo" class="col-sm-3 control-label"><g:message code="supplier.mobileNo.label" default="Mobile No" /></label>
 				<div class="col-sm-9">
 					<g:textField name="mobileNo" class="form-control" value="${supplierInstance?.mobileNo}"/>
 					<span class="help-inline">${hasErrors(bean: supplierInstance, field: 'mobileNo', 'error')}</span>

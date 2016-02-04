@@ -21,10 +21,10 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
-							
+								<td> NO </td>
 								<g:sortableColumn property="login" title="${message(code: 'user.login.label', default: 'Login')}" />
 							
 								<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
@@ -38,10 +38,27 @@
 							
 							</tr>
 						</thead>
+
+						<tfoot>
+							<tr>
+								<td> NO </td>
+								<g:sortableColumn property="login" title="${message(code: 'user.login.label', default: 'Login')}" />
+							
+								<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
+							
+								<g:sortableColumn property="enabled" title="${message(code: 'user.enabled.label', default: 'Enabled')}" />
+							
+								<g:sortableColumn property="country" title="${message(code: 'user.country.label', default: 'Country')}" />
+							
+								<g:sortableColumn property="email" title="${message(code: 'user.email.label', default: 'Email')}" />
+							
+							
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${userInstanceList}" status="i" var="userInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
+								<td>${i+1}</td>
 								<td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "login")}</g:link></td>
 							
 								<td>${fieldValue(bean: userInstance, field: "password")}</td>

@@ -275,7 +275,7 @@ class PurchaseOrderController {
     }
 
     def jlist() {
-    	
+    	println params
         if(params.masterField){
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
@@ -797,8 +797,8 @@ class PurchaseOrderController {
              sql += " AND p.lob LIKE '%${params?.lobId}%' "   
             }
 
-            if(params.requestor){
-              sql += " AND p.requestor LIKE '%${params?.requestor}%' "      
+            if(params.requestorId){
+              sql += " AND p.requestor LIKE '%${params?.requestorId}%' "      
             }      
             
             if(params.year){
