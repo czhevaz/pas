@@ -25,7 +25,7 @@
 				<ul class="dropdown-menu">
 					<li class="controller">
 						<g:link controller="pppPhilippine">
-							Ppp
+							PPP
 						</g:link>
 					</li>
 					<li class="controller">

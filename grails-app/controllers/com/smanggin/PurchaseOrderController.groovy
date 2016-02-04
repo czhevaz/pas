@@ -799,7 +799,7 @@ class PurchaseOrderController {
 
             if(params.requestorId){
               sql += " AND p.requestor LIKE '%${params?.requestorId}%' "      
-            }      
+            }
             
             if(params.year){
                sql += "AND year(p.pppDate) = ${params.year} "     
