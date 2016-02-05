@@ -139,7 +139,7 @@ class RateDetailController {
             }            
         }
         
-        def ratedetails = RateDetail.findByCurrency1(Currency.findByCode(params.currency1Code))
+        def ratedetails = RateDetail.findByCurrency1AndRate(Currency.findByCode(params.currency1Code),rateDetailInstance?.rate)
         if(params.id){
             ratedetails = false
         }
