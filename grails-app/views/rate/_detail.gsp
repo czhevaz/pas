@@ -50,7 +50,7 @@ if(actionName=='edit' || actionName=='show') {
                         <th data-options="field:'rateId',hidden:true">Rate</th>
                                  
                         
-                        <th data-options="field:'value',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Exchange rate value </th>
+                        <th data-options="field:'value',align:'right',formatter:formatNumber,  width:200,editor:{type:'numberbox',options:{precision:2}}">Exchange rate value </th>
                         
                     
                     </tr>
