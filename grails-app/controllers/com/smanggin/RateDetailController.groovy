@@ -139,10 +139,16 @@ class RateDetailController {
             }            
         }
         
-        def ratedetails = RateDetail.findByCurrency1AndRate(Currency.findByCode(params.currency1Code),rateDetailInstance?.rate)
-        if(params.id){
-            ratedetails = false
+        def rate = Rate.get(params.rateId)
+        def ratedetails = RateDetail.createCriteria().list(params){
+            eq('rate',rate)
+            eq('currency1', Currency.findByCode(params.currency1Code))
+            eq('currency2', Currency.findByCode(params.currency2Code))
+            if(params.id){
+                ne('id',params?.id?.toLong())
+            }
         }
+        
         if(ratedetails){
             rateDetailInstance.errors.rejectValue("currency1", "default.currency1.unique.failure",
                       [message(code: 'rateDetail.label', default: 'RateDetail')] as Object[],
