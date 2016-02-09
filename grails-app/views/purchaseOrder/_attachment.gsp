@@ -41,7 +41,7 @@
 	                $('<p/>').text(file.name).appendTo('#files');
 	            });*/
 	            $('#uploadPO').modal('hide');
-	             $('#dg-attachment').datagrid('reload');
+	             $('#dg-attachments').datagrid('reload');
 	        },
 	        progressall: function (e, data) {
 	        	console.log(data);

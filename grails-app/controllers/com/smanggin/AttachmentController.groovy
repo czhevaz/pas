@@ -1,10 +1,8 @@
 package com.smanggin
 
-
-
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
-
+import org.codehaus.groovy.grails.web.context.ServletContextHolder
 /**
  * AttachmentController
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
@@ -165,9 +163,25 @@ class AttachmentController {
         if (!attachmentInstance)
             render([success: false] as JSON)
         else {
+
             try {
-                attachmentInstance.delete(flush: true)             
-                render([success: true] as JSON)
+                String filename = attachmentInstance.fileName
+                String filePath = 'upload/purchaseOrder/'+filename
+                def servletContext = ServletContextHolder.servletContext
+                def storagePath = servletContext.getRealPath(filePath)
+        
+                boolean fileSuccessfullyDeleted =  new File(storagePath).delete()
+                println "filePath >> " + filePath
+                println "fileSuccessfullyDeleted >>" + fileSuccessfullyDeleted
+
+                if(fileSuccessfullyDeleted ){
+                    attachmentInstance.delete(flush: true)             
+                    render([success: true] as JSON)
+                }
+                else{
+                    render([success: false] as JSON)
+                }
+                
             }catch (DataIntegrityViolationException e) {
                 render([success: false, error: e.message] as JSON)
             }
@@ -185,5 +199,26 @@ class AttachmentController {
         else {
             render([attachmentInstance : attachmentInstance ] as JSON)
         }
+    }
+
+
+    def downloadFile() {
+        def sub = Attachment.get(params.id)
+        
+        StringBuilder routes = new StringBuilder();
+                    routes.append("upload/purchaseOrder/")
+                    routes.append(sub.fileName);
+
+        String absolutePath = getServletContext().getRealPath(routes.toString());
+        
+        def file = new File(absolutePath)
+        //if (file.exists)
+            //{
+            response.setContentType("application/octet-stream") // or or image/JPEG or text/xml or whatever type the file is
+            response.setHeader("Content-disposition", "attachment;filename=${sub.originalName}")
+            response.outputStream << file.bytes
+        //}
+        //else render "Error!" // appropriate error handling
+        render([success: true] as JSON)
     }
 }

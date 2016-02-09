@@ -14,6 +14,7 @@ class AttachmentMarshaller {
             return [
 				id : it.id,
 				fileName: it.fileName,
+				originalName:it.originalName,
 				fileTypesName	:it.fileType,
 				dateCreated 	: it.dateCreated,
 				lastUpdated 	: it.lastUpdated,

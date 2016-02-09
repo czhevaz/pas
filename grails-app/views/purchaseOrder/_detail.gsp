@@ -128,18 +128,20 @@ if(actionName=='edit' || actionName=='show') {
 
         <!-- Attachment -->
         <div title='<g:message code="purchaseOrder.attachMent.label" default="Attachment"/>'  style="padding:10px">
-	       <table id="dg-attachment" class="easyui-datagrid"  style="height:240px"
+	       <table id="dg-attachments" class="easyui-datagrid"  style="height:240px"
 	                data-options="
 	                singleSelect:true, 
 	                collapsible:true, 
 	                rownumbers: true,  
-	                toolbar: '#tb-attachment',          
+	                toolbar: '#tb-attachment',   
+                    onClickRow:attachmentsOnClickRow   ,    
 	                url:'/${meta(name:'app.name')}/attachment/jlist?masterField.name=purchaseOrder&masterField.id=${purchaseOrderInstance?.id}'">
 	        
 	            <thead>
 	                <tr>
-	                    <th data-options="field:'fileName',width:200">File Name</th> 
+	                    <th data-options="field:'originalName',width:200">File Name</th> 
 	                    <th data-options="field:'fileTypesName',width:100">File Types </th>          
+                        <th data-options="field:'id',width:200,formatter:formatButton">Download</th> 
 	                </tr>
 	            </thead>    
 	        </table>        
@@ -156,6 +158,7 @@ if(actionName=='edit' || actionName=='show') {
 <div id="tb-attachment" style="height:auto">
     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false" onclick="attachmentsUpload()">upload</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:false" onclick="attachmentsRemoveit()">Remove</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:false" onclick="attachmentsDownloadit()">Download</a>
 </div><!-- /.Toolbar Attachment -->
 
 
@@ -376,6 +379,109 @@ if(actionName=='edit' || actionName=='show') {
 			$(total2Ed.target).numberbox('setValue',totalCost2);
 		}    	
     }	
+
+
+    var editIndex = undefined;
+    function attachmentsEndEditing(){
+        if (editIndex == undefined){return true}
+        if ($('#dg-attachments').datagrid('validateRow', editIndex)){
+            $('#dg-attachments').datagrid('endEdit', editIndex);
+            var row = $('#dg-attachments').datagrid('getRows')[editIndex]
+            $.ajax({
+              type: "POST",
+              url: "/${meta(name:'app.name')}/purchaseOrderDetail/jsave",
+              data: row,
+              success: function(data){ 
+                 attachmentsRefresh();
+                  if(!data.success)
+                  {
+                    if(data.limit){
+                        alert(data.messages);     
+                    }else{
+                        alert(data.messages.errors[0].message);
+                    }
+                    
+                  }
+
+              },
+              dataType: 'json'
+            });
+            editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function attachmentsOnClickRow(index){
+        if (editIndex != index){
+          
+                $('#dg-purchaseOrderDetails').datagrid('selectRow', editIndex);
+          
+        }
+    }
+    
+    function attachmentsRemoveit(){
+        if (editIndex == undefined){return}
+        if (!confirm('Are you sure to delete this record?')){ return }
+
+        var row = $('#dg-attachments').datagrid('getRows')[editIndex]
+        
+
+        $('#dg-attachments').datagrid('cancelEdit', editIndex)
+                .datagrid('deleteRow', editIndex);
+
+        $.ajax({
+          type: "POST",
+          url: "/${meta(name:'app.name')}/attachment/jdelete/" + row['id'],
+          data: row,
+          success: function(data){ 
+            attachmentsRefresh();
+              if(!data.success)
+              {
+                    alert(data.messages);
+              }
+          },
+          dataType: 'json'
+        });             
+        editIndex = undefined;
+    }
+
+    
+    function attachmentsRefresh(){
+        $('#dg-attachments').datagrid('reload');
+        editIndex = undefined;
+      
+       
+    }
+
+    function attachmentsDownloadit(){
+        if (editIndex == undefined){return}
+        var row = $('#dg-attachments').datagrid('getRows')[editIndex]
+        
+
+        $('#dg-attachments').datagrid('cancelEdit', editIndex)
+                .datagrid('deleteRow', editIndex);
+
+        $.ajax({
+          type: "POST",
+          url: "/${meta(name:'app.name')}/attachment/downloadFile/" + row['id'],
+          data: row,
+          success: function(data){ 
+            attachmentsRefresh();
+              if(!data.success)
+              {
+                    alert(data.messages);
+              }
+          },
+          dataType: 'json'
+        });             
+        editIndex = undefined;
+    }
+
+    function formatButton(value,rows){
+        return  '<a href="/${meta(name:'app.name')}/attachment/downloadFile?id='+rows.id+'"> Click Here </a>'
+    }
 
 </r:script>  
     

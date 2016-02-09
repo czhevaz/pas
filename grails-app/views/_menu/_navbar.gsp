@@ -23,10 +23,19 @@
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Transaction<b class="caret"></b></a>
 				<ul class="dropdown-menu">
-					<li class="controller">
-						<g:link controller="pppPhilippine">
-							PPP
-						</g:link>
+					<li class="dropdown-submenu">
+						<a tabindex="-1" href="#">PPP</a>
+						<ul class="dropdown-menu">
+	                  		<g:each in="${com.smanggin.Country.list()}" status="i" var="country">
+			                  	<li>
+			                  		<g:link controller="${country?.domainPPP}">
+										${country?.name}
+									</g:link>
+								</li>
+			                  
+							</g:each>
+		                </ul>
+					
 					</li>
 					<li class="controller">
 						<g:link controller="PurchaseOrder">
@@ -38,6 +47,8 @@
 							RFP
 						</g:link>
 					</li>
+					
+              
 				</ul>	
 			</li>
 <%

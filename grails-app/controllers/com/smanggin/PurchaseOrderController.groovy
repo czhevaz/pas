@@ -17,6 +17,7 @@ class PurchaseOrderController {
     def globalService       
     def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
 
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -302,7 +303,7 @@ class PurchaseOrderController {
             pppDetails.each{
                 def map = [:]
                 
-                def sql = getPPPHead(it,params)
+                def sql = getPPPHead(it,params,country?.domainPPP)
                 def pppHead = domainClassInstance.findAll(sql)
                 
                 if(pppHead?.size() > 0){
@@ -708,23 +709,15 @@ class PurchaseOrderController {
         
         MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request
         CommonsMultipartFile file =(CommonsMultipartFile) mpr.getFile("files")
-        def fileName = fileUploadService.uploadFileAjax(file,"tes","tesDIr")
+        def dir= "upload/purchaseOrder"
+        
+        def fileName = fileUploadService.uploadFileAjax(file,dir,params.id)
         
         def auth = auth.user()        
         int dot = fileName.lastIndexOf('.');
         def ext = fileName.substring(dot + 1);
 
-        def attachment = new Attachment()
-        attachment.fileName = fileName
-        attachment.originalName = fileName
-        attachment.fileType = ext
-        attachment.purchaseOrder = PurchaseOrder.get(params.id)
-        attachment.updatedBy = auth
-        attachment.createdBy = auth
-
-        if(!attachment.save(flush:true)){
-            println "errors " + attachment.errors
-        } 
+         
         render([success: true] as JSON)
     }
 
@@ -786,9 +779,9 @@ class PurchaseOrderController {
         tCostDetail.save(flush:true)
     }
 
-    def getPPPHead(detail,params){
+    def getPPPHead(detail,params,domainPPP){
 
-        def sql = " from PppPhilippine as p "
+        def sql = " from ${domainPPP} as p "
             sql += "where p.number LIKE '%${detail.pppNumber}%'"   
             if(params.countryId){
              sql += " AND p.country LIKE '%${params.countryId}%'"   
