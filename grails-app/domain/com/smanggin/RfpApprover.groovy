@@ -6,13 +6,16 @@ package com.smanggin
  */
 class RfpApprover {
 
-	/* Default (injected) attributes of GORM */
-//	Long	id
-//	Long	version
-	
-	/* Automatic timestamping of GORM */
-//	Date	dateCreated
-//	Date	lastUpdated
+	Date	dateCreated
+	Date	lastUpdated
+
+	Rfp rfp
+	Long noSeq
+	User approver
+	Country country
+	Long status
+	Date approverDate
+	ApprovalDetail approvalDetail
 	
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -21,9 +24,13 @@ class RfpApprover {
 	
     static	mapping = {
     	table 'T_PAS_RFP_Approver'
+    	version true
     }
     
 	static	constraints = {
+		version nullable:true
+		approverDate nullable:true
+		approvalDetail nullable:true
     }
 	
 	/*

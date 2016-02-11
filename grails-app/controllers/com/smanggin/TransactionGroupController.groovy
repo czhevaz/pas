@@ -29,8 +29,11 @@ class TransactionGroupController {
     }
 
     def save() {
-        def transactionGroupInstance = new TransactionGroup(params)
+        def transactionGroupInstance = new TransactionGroup()
+        transactionGroupInstance.properties  = params
+        
         if (!transactionGroupInstance.save(flush: true)) {
+            println transactionGroupInstance.errors
             render(view: "create", model: [transactionGroupInstance: transactionGroupInstance])
             return
         }

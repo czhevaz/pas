@@ -108,7 +108,7 @@ class PurchaseOrder {
 
     }
 
-	static transients =['total','pppRemain','pppRemainBrand']
+	static transients =['total','pppRemain','pppRemainBrand','pORemain1']
 
 	Float getTotal() {
 		def total = 0
@@ -143,5 +143,19 @@ class PurchaseOrder {
 		
         def pppDetail    = PppDetail.findAllByPppNumberAndBrand(pppNumber,brand)
         return pppDetail.remainCreditLimit
+	}
+
+	def getPORemain1(){
+		def rfpDetails = RfpDetail.createCriteria().list(){
+			eq('purchaseOrder', this)
+
+		}
+		def totaRfp1 = 0
+		rfpDetails.each{
+			totaRfp1 = totaRfp1 + it.totalCost1
+		}
+
+		def remainTotal = this.total - totaRfp1 
+		return remainTotal
 	}
 }

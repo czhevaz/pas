@@ -11,7 +11,7 @@
 		        
 		        
 					<div id="table-content">
-		          	<table class="table table-bordered  table-striped  table-hover margin-top-medium">
+		          	<table id="pppContent" class="table table-bordered  table-striped  table-hover margin-top-medium ">
 						<thead>
 							<tr>
 							
@@ -36,30 +36,7 @@
 							
 							</tr>
 						</thead>
-						<tbody>
-						<g:each in="${pppInstanceList}" status="i" var="pppInstance">
-							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
-								<td></td>
-
-								<td></td>
-
-								<td></td>
-
-								<td></td>
-
-								<td></td>
-							
-								<td></td>
-								<td></td>
-								<td></td>
-							
-								<td></td>
-
-								
-							</tr>
-						</g:each>
-						</tbody>
+						<tbody></tbody>
 					</table>
 					</div>
 		        </div>
@@ -80,11 +57,12 @@
 </style>
 
 <r:script>
-	
+	var table = $('#pppContent').DataTable();
 
 	$("#search2").click(function(){
 		
-			
+		
+
 		var countryTes = $("#country").val();
 		var lobId = $("#lob").val();
 		var brandId =$("#brand").val(); 
@@ -93,21 +71,23 @@
 		var month =	$("#month").val();	
 		
 		var postData = {
-			search:"true",	
-			countryId:countryTes,
-			lobId:lobId,
-			brandId:brandId,
-			requestorId:requestorId,
-			year:year,
-			month:month,		
+			"search":"true",	
+			"countryId":countryTes,
+			"lobId":lobId,
+			"brandId":brandId,
+			"requestorId":requestorId,
+			"year":year,
+			"month":month,		
 			
 		}
 
+		
 		$.ajax({
 			url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
 			data: postData,
 			success: function(d){
-				
+				console.log('text');
+				$('#pppContent').DataTable().destroy();
 				$("#table-content tbody").html("");	
 				$.each(d, function(i, item) {
 					
@@ -125,6 +105,8 @@
 					$("#table-content tbody").append(tr);	
 									    
 				});
+
+				$('#pppContent').DataTable();
 				
 			},
 		});

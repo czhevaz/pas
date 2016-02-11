@@ -16,8 +16,8 @@ if(actionName=='edit' || actionName=='show') {
             toolbar: '#tb-purchaseOrderDetails',
             onBeforeEdit: function(index,row){
                 var col = $(this).datagrid('getColumnOption', 'currencyCode');
-                console.log(index);
-                console.log(index > 0);
+                //console.log(index);
+                //console.log(index > 0);
                 if(index > 0){
                     col.editor.type = 'textbox';
                     col.editor.options.readonly = true;

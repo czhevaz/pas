@@ -30,6 +30,8 @@ class Rfp {
 	String  state
 	Boolean isVoid // 1 = void, 0 = not void. Default = 0 Digunakanuntuk men-delete PO tersebut
 	PaymentOption paymentOption
+
+	String mustApprovedBy
 	
 	static	belongsTo	= [TransactionGroup, Supplier, Currency, PaymentOption]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -50,6 +52,7 @@ class Rfp {
 		updatedBy nullable:true	
 		isVoid nullable:true
 		rateDetail nullable:true
+		mustApprovedBy nullable:true
     }
 
     def beforeInsert(){

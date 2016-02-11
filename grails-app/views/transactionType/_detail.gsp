@@ -12,6 +12,39 @@ if(actionName=='edit' || actionName=='show') {
        		toolbar: '#tb-approvalDetails',    
             singleSelect:true, 
             collapsible:true, 
+            onBeforeEdit: function(rowIndex, rowData) {
+                var collobCode = $(this).datagrid('getColumnOption', 'lobCode');
+                var colbrandCode = $(this).datagrid('getColumnOption', 'brandCode');
+                var colcreatorId = $(this).datagrid('getColumnOption', 'creatorId');
+                var colapproverId = $(this).datagrid('getColumnOption', 'approverId');
+
+                var countryName = $(this).datagrid('getRows')[rowIndex]['countryName'];
+                var lobCode = $(this).datagrid('getRows')[rowIndex]['lobCode'];
+
+                collobCode.editor.type = 'combobox';
+                collobCode.editor.options.valueField ='code';
+                collobCode.editor.options.textField = 'code';
+                collobCode.editor.options.url = '/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id='+countryName;
+                collobCode.editor.options.required ='true'
+                
+                colbrandCode.editor.type = 'combobox';
+                colbrandCode.editor.options.valueField ='code';
+                colbrandCode.editor.options.textField = 'code';
+                colbrandCode.editor.options.url = '/${meta(name:'app.name')}/brand/jlist?country='+countryName+'&masterField.name=lob&masterField.id='+lobCode;
+                colbrandCode.editor.options.required ='true'
+                
+                colcreatorId.editor.type = 'combobox';
+                colcreatorId.editor.options.valueField ='login';
+                colcreatorId.editor.options.textField = 'login';
+                colcreatorId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
+                colcreatorId.editor.options.required ='true'
+
+                colapproverId.editor.type = 'combobox';
+                colapproverId.editor.options.valueField ='login';
+                colapproverId.editor.options.textField = 'login';
+                colapproverId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
+                colapproverId.editor.options.required ='true'                
+            },
             onClickRow: approvalDetailsOnClickRow,
             url:'/${meta(name:'app.name')}/approvalDetail/jlist?masterField.name=transactionType&masterField.id=${transactionTypeInstance?.id}'">
                 <thead>

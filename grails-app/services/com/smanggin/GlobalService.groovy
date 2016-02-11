@@ -13,8 +13,12 @@ class GlobalService {
     		country{
                eq('name',purchaseOrder.country)     
             }
-            eq('lob',purchaseOrder.lob)
-            eq('brand',purchaseOrder.brand)
+
+            if(purchaseOrder?.transactionGroup?.transactionType?.code != "RFP"){
+                eq('lob',purchaseOrder.lob)
+                eq('brand',purchaseOrder.brand)    
+            }
+            
             transactionType{
                 eq('code',purchaseOrder?.transactionGroup?.transactionType?.code)
             }

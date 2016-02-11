@@ -25,7 +25,7 @@ if(actionName=='edit' || actionName=='show') {
                                 options:{
                                     valueField:'id',
                                     textField:'number',
-                                    url:'/${meta(name:'app.name')}/purchaseOrder/jlist',
+                                    url:'/${meta(name:'app.name')}/purchaseOrder/jlist?country=${rfpInstance.country}&supplierCode=${rfpInstance.supplier?.code}',
                                     required:true,
                                     onSelect: function(rec){
                                            getPPPNumber(rec.id);
@@ -46,6 +46,10 @@ if(actionName=='edit' || actionName=='show') {
                                     textField:'code',
                                     url:'/${meta(name:'app.name')}/chartOfAccount/jlist?country=${rfpInstance?.country}',
                                     required:true,
+                                    onSelect: function(rec){
+                                        var coaDescriptionEd  =$('#dg-rfpDetails').datagrid('getEditor',{index:editIndex,field:'coaDescription'});
+                                        $(coaDescriptionEd.target).textbox('setValue',rec.description);
+                                    }
                                 }
                         }">Coa</th>
                                     
@@ -162,6 +166,12 @@ if(actionName=='edit' || actionName=='show') {
                         console.log(data);
                         var pppNumberEd  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'pppNumber'});
                         $(pppNumberEd.target).textbox('setValue',data.purchaseOrderInstance.pppNumber);
+
+                        var totalCost1Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost1'});
+                        $(totalCost1Ed.target).textbox('setValue',data.purchaseOrderInstance.total);
+
+                        var totalCost2Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
+                        $(totalCost2Ed.target).textbox('setValue',data.purchaseOrderInstance.total2);
                     },
                     error: function (xhr, status, error) {
                         alert("fail");

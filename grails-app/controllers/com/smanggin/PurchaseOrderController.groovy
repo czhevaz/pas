@@ -212,13 +212,6 @@ class PurchaseOrderController {
             return
         }
 
-/*        def poBalance = new PurchaseOrderBalance()
-        poBalance.country = purchaseOrderInstance.country
-        poBalance.purchaseOrder = purchaseOrderInstance
-        poBalance.description =" Insert new PO state Draft"
-        poBalance.balance1 = purchaseOrderInstance.total?:0
-        poBalance.balance2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
-        poBalance.save(flush:true)*/
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
@@ -277,7 +270,7 @@ class PurchaseOrderController {
     }
 
     def jlist() {
-    	println params
+    	println "params tah" +params
         if(params.masterField){
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
@@ -365,6 +358,13 @@ class PurchaseOrderController {
                 if(params.state == "Rejected"){
                     eq('createdBy',auth.user())
                 }
+            }
+            render results as JSON
+        }else if(params?.country){
+            def c = PurchaseOrder.createCriteria()
+            def results = c.list {
+                eq('country',params.country)
+                eq('supplier',Supplier.findByCode(params.supplierCode))    
             }
             render results as JSON
         }
@@ -496,6 +496,8 @@ class PurchaseOrderController {
                 
                 saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
                 
+                insertTOPOBalance(purchaseOrderInstance)
+
             /*def poAllocation = PurchaseOrderAllocation.findByPurchaseOrder(purchaseOrderInstance)
             poAllocation.value1 = purchaseOrderInstance.total
             poAllocation.value2 = purchaseOrderInstance.total/purchaseOrderInstance?.rate
@@ -805,6 +807,18 @@ class PurchaseOrderController {
 
 
         return sql
+    }
+
+
+    def insertTOPOBalance(purchaseOrderInstance){
+        def poBalance = new PurchaseOrderBalance()
+        poBalance.country = purchaseOrderInstance.country
+        poBalance.purchaseOrder = purchaseOrderInstance
+        poBalance.description =" Insert new PO state Draft"
+        poBalance.balance1 = purchaseOrderInstance.total?:0
+        poBalance.balance2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
+        poBalance.save(flush:true)
+
     }
 
 }

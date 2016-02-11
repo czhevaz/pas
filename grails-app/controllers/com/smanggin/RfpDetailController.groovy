@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class RfpDetailController {
-
+    
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -137,15 +137,28 @@ class RfpDetailController {
                 }
             }            
         }
-        
-        rfpDetailInstance.properties = params
-                       
-        if (!rfpDetailInstance.save(flush: true)) {
+        def checkPO = checkPO(rfpDetailInstance)
+
+        if(checkPO){
+            rfpDetailInstance.properties = params
+                           
+            if (!rfpDetailInstance.save(flush: true)) {
+                render([success: false, messages: rfpDetailInstance.errors] as JSON)
+                return
+            }
+                        
+            render([success: true] as JSON)
+        }else{
+
+            rfpDetailInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                      [message(code: 'rfpDetail.label', default: 'RfpDetail')] as Object[],
+                      "Another user has updated this RfpDetail while you were editing")
             render([success: false, messages: rfpDetailInstance.errors] as JSON)
             return
-        }
-                        
-        render([success: true] as JSON)
+    
+            render([success: false,messages:rfpDetailInstance.errors] as JSON)
+        }        
+            
     }
 
     def jlist() {
@@ -190,5 +203,25 @@ class RfpDetailController {
         else {
             render([rfpDetailInstance : rfpDetailInstance ] as JSON)
         }
+    }
+
+
+    def checkPO(rfpDetailInstance){
+        params.order = params.order ?: 'desc' 
+        params.sort = params.sort ?: 'dateCreated' 
+        def purchaseOrder = PurchaseOrder.findByNumber(rfpDetailInstance?.purchaseOrder?.number)
+        def poBalance = PurchaseOrderBalance.createCriteria().list(params){
+            eq('purchaseOrder',purchaseOrder)
+            maxResults(1)
+        }
+
+        def status= false
+        if(poBalance){
+            if(poBalance[0]?.balance1 >= rfpDetailInstance.totalCost1){
+                status =true
+            }
+        }
+        
+        return status
     }
 }

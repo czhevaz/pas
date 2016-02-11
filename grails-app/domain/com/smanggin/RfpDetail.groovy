@@ -17,8 +17,8 @@ class RfpDetail {
 	PurchaseOrder purchaseOrder
 	ChartOfAccount coa
 	String pppNumber
-	Float totalCost1
-	Float totalCost2
+	Float totalCost1 //local currency
+	Float totalCost2 //base currency
 	String remarks
 
 	static	belongsTo	= [Rfp, PurchaseOrder, ChartOfAccount]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.

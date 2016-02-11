@@ -43,7 +43,8 @@ class PurchaseOrderMarshaller {
 				reasonforInvestment :it.reasonforInvestment,
 				pppNumber:it.pppNumber,
 				pppCost:it.pppCost,
-
+				total:it.total,
+				total2 : it.total/it.rate,
 
 				
 				dateCreated 	: it.dateCreated,

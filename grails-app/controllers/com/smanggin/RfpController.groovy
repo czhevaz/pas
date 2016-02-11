@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class RfpController {
-
+    def globalService 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
 
@@ -41,18 +41,39 @@ class RfpController {
             rfpInstance.rateDetail = RateDetail.get(params.rateDetail?.id)
         }
 
+        rfpInstance.country = Country.findByName(params.country)
         rfpInstance.createdBy = auth.user()
         rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())
         rfpInstance.state = 'Draft'
+        def approvals = globalService.getApprovals(rfpInstance)        
 
+        if(approvals){
 
-        if (!rfpInstance.save(flush: true)) {
-            render(view: "create", model: [rfpInstance: rfpInstance])
-            return
-        }
+            if (!rfpInstance.save(flush: true)) {
+                render(view: "create", model: [rfpInstance: rfpInstance])
+                return
+            }
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'rfp.label', default: 'Rfp'), rfpInstance.id])
-        redirect(action: "show", id: rfpInstance.id)
+             /* insert Rfp Approver*/    
+            
+            approvals.each{
+                def rfpApprover = new RfpApprover()
+                rfpApprover.rfp = rfpInstance
+                rfpApprover.noSeq = it.noSeq
+                rfpApprover.approver = it.approver
+                rfpApprover.country = Country.findByName(params?.country)
+                rfpApprover.status = 0
+                rfpApprover.approvalDetail = it
+                rfpApprover.save(flush:true)
+            }
+
+    		flash.message = message(code: 'default.created.message', args: [message(code: 'rfp.label', default: 'Rfp'), rfpInstance.id])
+            redirect(action: "show", id: rfpInstance.id)
+
+        }else{
+            flash.error = message(code: 'default.setApprover.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder')])
+            redirect(action: "create")
+        }    
     }
 
     def show() {
