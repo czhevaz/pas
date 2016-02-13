@@ -1,3 +1,4 @@
+<img src="http://dkclasses.com/images/loading.gif" id="loading-indicator" style="display:none" />
 <div id="searchPpp" class="modal fade  " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -8,14 +9,17 @@
 
             <div class="modal-body">
         		<div class="row">
+		        	<div class="col-lg-12">
+					<div class="box box-primary">
 		        
-		        
-					<div id="table-content">
-		          	<table id="pppContent" class="table table-bordered  table-striped  table-hover margin-top-medium ">
+					<div id="table-content" class=" box-body table-responsive">
+		          	<table id="pppContent" class="table table-bordered  table-striped  table-hover margin-top-medium " style="width:100%;">
 						<thead>
 							<tr>
 							
 								<th><g:message code="ppp.pppNumber.label" default="Number" /></th>
+
+								<th style="width:30px;"><g:message code="ppp.pppDescription.label" default="Description" /></th>
 								
 								<th ><g:message code="ppp.lob.label" default="Lob" /></th>
 
@@ -38,7 +42,9 @@
 						</thead>
 						<tbody></tbody>
 					</table>
-					</div>
+					</div><!-- /. -->
+					</div><!--/.box box-primary -->	
+					</div><!--/.col-lg-12 -->	
 		        </div>
 			        
             </div><!-- /.modal-body -->
@@ -57,10 +63,15 @@
 </style>
 
 <r:script>
+	$(document).bind("ajaxSend", function(){
+	   $("#loading-indicator").show();
+	 }).bind("ajaxComplete", function(){
+	   $("#loading-indicator").hide();
+	 });
 	var table = $('#pppContent').DataTable();
 
 	$("#search2").click(function(){
-		
+		$('#pppContent').DataTable().destroy();
 		
 
 		var countryTes = $("#country").val();
@@ -81,8 +92,119 @@
 			
 		}
 
+		table = $('#pppContent').DataTable( {
+			
+			
+	        "bProcessing": true,
+		    "sAjaxSource": "/${meta(name:'app.name')}/purchaseOrder/jlist",
+		    "fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {
+		      
+		      aoData.push( { "name": "search", "value": "true" } );
+		      aoData.push( { "name": "countryId", "value": countryTes } );
+		      aoData.push( { "name": "lobId", "value": lobId } );
+		      aoData.push( { "name": "brandId", "value": brandId } );
+		      aoData.push( { "name": "requestorId", "value":requestorId } );
+		      aoData.push( { "name": "year", "value": year } );
+		      aoData.push( { "name": "month", "value": month } );
+
+		      oSettings.jqXHR = $.ajax( {
+		        "dataType": 'json',
+		        "type": "POST",
+		        "url": sSource,
+		        "data": aoData,
+		        "success": fnCallback
+		      } );
+		    },
+
+		    "aoColumns": [
+			  { "mData": "pppNumber",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.pppNumber;
+					return str;
+				},
+				sDefaultContent: "n/a" ,
+				
+			  },
+			   { "mData": "pppDescription",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.pppNumber;
+					return str;
+				},
+				sDefaultContent: "n/a" ,
+				
+			  },
+			  { "mData": "lobName",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.lobName;
+					return str;
+				},
+		      	sDefaultContent: "n/a" ,
+		      	sClass: "dt-right",
+		      },
+		      { "mData": "brandName",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.brandName;
+					return str;
+				},
+		      	sDefaultContent: "n/a" ,
+		      	sClass: "dt-right",
+		      },
+		      { "mData": "requestorName",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.requestorName;
+					return str;
+				},
+				sDefaultContent: "n/a",
+				sClass: "dt-right",
+				  },
+		      { "mData": "amount",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.amount;
+					return str;
+				},
+				sDefaultContent: "n/a",
+				sClass: "dt-right",
+				  },
+
+				{ "mData": "remainCreditLimit",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.remainCreditLimit;
+					return str;
+				},
+				sDefaultContent: "n/a",
+				sClass: "dt-right",
+				  },
+				 { "mData": "ammountTotalPPP",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.ammountTotalPPP;
+					return str;
+				},
+				sDefaultContent: "n/a",
+				sClass: "dt-right",
+				  },   
+				  { "mData": "remainCreditLimitTotalPPP",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.remainCreditLimitTotalPPP;
+					return str;
+				},
+				sDefaultContent: "n/a",
+				sClass: "dt-right",
+				  },  
+				  { "mData": "pppDate",
+		      	"fnRender": function(obj) {
+					var str = obj.aData.pppDate;
+					return str;
+				},
+				sDefaultContent: "n/a",
+				sClass: "dt-right",
+				  },   
+
+			],
+			 
+
+	    } );
 		
-		$.ajax({
+		/*$.ajax({
 			url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
 			data: postData,
 			success: function(d){
@@ -91,7 +213,7 @@
 				$("#table-content tbody").html("");	
 				$.each(d, function(i, item) {
 					
-					var tr ="<tr onclick = addToPO(\'"+item.pppNumber+"\');>";
+					var tr ="<tr onclick = addToPO(\'"+item.pppNumber+"\',\'"+item.brandName+"\',\'"+item.lobName+"\')>";
 					tr += "<td > "+  item.pppNumber +" </td>";
 					tr += "<td > "+  item.lobName +" </td>";
 					tr += "<td > "+  item.brandName +" </td>";
@@ -106,39 +228,48 @@
 									    
 				});
 
-				$('#pppContent').DataTable();
+				$('#pppContent').DataTable({
+        "oLanguage": {
+            "sProcessing": "DataTables is currently busy"
+        }*/
+    });
 				
-			},
-		});
-	});
+	$('#pppContent tbody').on('click', 'tr', function () {
+        var data = table.row( this ).data();
+        console.log(data);
+        addToPO(data)
+       
+    } );
 
-	function addToPO(pppNumber){
+	function addToPO(data){
+		
 		var countryTes = $("#country").val();
-		var brandId =$("#brand").val();
-
-		$("#pppNumber").val(pppNumber);	
-		$.ajax({
+		
+		/*$.ajax({
 			url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
-			data: {pppNumber:pppNumber,countryId:countryTes,brandId:brandId},
-			success: function(d){
-				console.log(d);
+			data: {pppNumber:pppNumber,countryId:countryTes,brandId:data.brandName},
+			success: function(d){*/
+				console.log(data);
 				$("#table-ppp tbody").html("");	
-				var tr ="<tr onclick = addToPO(\'"+d.pppNumber+"\');>";
-					tr += "<td > "+  d.pppNumber +" </td>";
-					tr += "<td > "+  d.lobName +" </td>";
-					tr += "<td > "+  d.brandName +" </td>";
-					tr += "<td > "+  d.requestorName +" </td>";
-					tr += "<td > "+  formatNumber(d.amount) +" </td>";
-					tr += "<td > "+  formatNumber(d.remainCreditLimit) +" </td>";
-					tr += "<td > "+  formatNumber(d.ammountTotalPPP) +" </td>";
-					tr += "<td > "+  formatNumber(d.remainCreditLimitTotalPPP) +" </td>";
-					tr += "<td > "+  d.pppDate +" </td>";
+				var tr ="<tr onclick = addToPO(\'"+data.pppNumber+"\');>";
+					tr += "<td > "+  data.pppNumber +" </td>";
+					tr += "<td > "+  data.lobName +" </td>";
+					tr += "<td > "+  data.brandName +" </td>";
+					tr += "<td > "+  data.requestorName +" </td>";
+					tr += "<td > "+  formatNumber(data.amount) +" </td>";
+					tr += "<td > "+  formatNumber(data.remainCreditLimit) +" </td>";
+					tr += "<td > "+  formatNumber(data.ammountTotalPPP) +" </td>";
+					tr += "<td > "+  formatNumber(data.remainCreditLimitTotalPPP) +" </td>";
+					tr += "<td > "+  data.pppDate +" </td>";
 					tr += "</tr>";
 				$("#table-ppp tbody").append(tr);										    
 				
 				$('#searchPpp').modal('hide');
-				$('#requestor').val(d.requestorName);
-			},
-		});	
+				$("#brand").val(data.brandName).trigger('chosen:updated');
+				$("#lob").val(data.lobName).trigger('chosen:updated');
+				$('#requestor').val(data.requestorName).trigger('chosen:updated');
+				$("#pppNumber").val(data.pppNumber);
+		/*	},
+		});*/	
 	}
 </r:script>

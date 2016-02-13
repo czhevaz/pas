@@ -24,18 +24,17 @@
 					<table class="table table-bordered margin-top-medium">
 						<thead>
 							<tr>
+								<th><g:message code="rfp.number.label" default="Number" /></th>
+								
+								<th><g:message code="rfp.rfpDate.label" default="RfpDate" /></th>
+
+								<th><g:message code="rfp.transactionGroup.label" default="TransactionGroup" /></th>
+
+								<th><g:message code="rfp.supplier.label" default="Supplier" /></th>
 							
-								<g:sortableColumn property="dateVoid" title="${message(code: 'rfp.dateVoid.label', default: 'Date Void')}" />
-							
-								<g:sortableColumn property="voidBy" title="${message(code: 'rfp.voidBy.label', default: 'Void By')}" />
-							
-								<g:sortableColumn property="updatedBy" title="${message(code: 'rfp.updatedBy.label', default: 'Updated By')}" />
-							
-								<th><g:message code="rfp.country.label" default="Country" /></th>
-							
-								<g:sortableColumn property="createdBy" title="${message(code: 'rfp.createdBy.label', default: 'Created By')}" />
-							
-								<th><g:message code="rfp.currency1.label" default="Currency1" /></th>
+								<th><g:message code="rfp.paymentOption.label" default="paymentOption" /></th>
+									
+								
 							
 							</tr>
 						</thead>
@@ -43,17 +42,16 @@
 						<g:each in="${rfpInstanceList}" status="i" var="rfpInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${rfpInstance.id}">${fieldValue(bean: rfpInstance, field: "dateVoid")}</g:link></td>
+								<td><g:link action="show" id="${rfpInstance.id}">${fieldValue(bean: rfpInstance, field: "number")}</g:link></td>
 							
-								<td>${fieldValue(bean: rfpInstance, field: "voidBy")}</td>
+								<td><g:formatDate date="${rfpInstance.rfpDate}" format="yyyy-dd-MM"/></td>
 							
-								<td>${fieldValue(bean: rfpInstance, field: "updatedBy")}</td>
 							
-								<td>${fieldValue(bean: rfpInstance, field: "country")}</td>
+								<td>${fieldValue(bean: rfpInstance, field: "transactionGroup")}</td>
 							
-								<td>${fieldValue(bean: rfpInstance, field: "createdBy")}</td>
+								<td>${fieldValue(bean: rfpInstance, field: "supplier")}</td>
 							
-								<td>${fieldValue(bean: rfpInstance, field: "currency1")}</td>
+								<td>${fieldValue(bean: rfpInstance, field: "paymentOption")}</td>
 							
 							</tr>
 						</g:each>

@@ -15,10 +15,9 @@
 <section id="show-rfp" class="first">
 	<div class="row">
 		<div class="col-lg-12">
+			<g:form method="post" class="form-horizontal" >
 			<div class="box box-primary">
-				<div class="box-header with-border">
-                  <h3 class="box-title"><g:message code="default.show.label" args="[entityName]" /></h3>
-                </div><!--/.box-header with-border -->	
+				<g:render template="headerTittle"/>
                 <div class="box-body table-responsive">
 					<table class="table table-striped">
 						<tbody>
@@ -80,25 +79,43 @@
 								<td valign="top" class="value"><g:link controller="supplier" action="show" id="${rfpInstance?.supplier?.id}">${rfpInstance?.supplier?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
-	
-
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="rfp.state.label" default="State" /></td>
 								
-								<td valign="top" class="value">${fieldValue(bean: rfpInstance, field: "state")}</td>
-								
-							</tr>
-						
 						</tbody>
 					</table>
 				</div><!--/.row -->
 				<div class="box-footer clearfix">
-						
+					
+						<g:hiddenField name="id" value="${rfpInstance?.id}" />
+						<g:hiddenField name="version" value="${rfpInstance?.version}" />
+						<g:hiddenField name="updatedBy" value="${auth.user()}"/>
+					
+
+						<div class="form-actions">
+					
+							<g:if test="${rfpInstance?.state=='Draft' || rfpInstance?.state=='Rejected'}">
+								<g:if test="${rfpInstance?.createdBy == auth.user().toString()}">
+									<g:actionSubmit class="btn btn-primary btn-sm" action="actionWaitingApprove" value="${message(code: 'default.button.approve.label', default: 'Send To Approver')}" />
+									
+								</g:if>	
+							</g:if>
+							<g:if test="${rfpInstance?.state=='Waiting Approval'}">
+								<g:if test="${rfpInstance?.mustApprovedBy==auth.user().toString()}">
+									<g:actionSubmit class="btn btn-primary btn-sm" action="actionApprove" value="${message(code: 'default.button.approve.label', default: 'Approve')}" />
+									
+									<g:actionSubmit id="reject" class="btn btn-primary btn-sm" action="actionReject" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />
+
+									<a href="${createLink(action:'writeOff',id:rfpInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
+								</g:if>	
+							</g:if>
+							
+						</div>	
+					
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box-body table-responsive -->
 
 			<g:render template="detail"/> 
 		</div><!--/.box box-primary -->
+		</g:form>
 	</div><!--/.row -->
 </section>
 

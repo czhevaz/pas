@@ -67,19 +67,24 @@ class RfpController {
                 rfpApprover.save(flush:true)
             }
 
-    		flash.message = message(code: 'default.created.message', args: [message(code: 'rfp.label', default: 'Rfp'), rfpInstance.id])
+    		flash.message = message(code: 'default.created.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.id])
             redirect(action: "show", id: rfpInstance.id)
 
         }else{
-            flash.error = message(code: 'default.setApprover.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder')])
+            flash.error = message(code: 'default.setApprover.message', args: [message(code: 'rfp.label', default: 'RFP')])
             redirect(action: "create")
         }    
     }
 
     def show() {
         def rfpInstance = Rfp.get(params.id)
+        
+        if(params.notifId){
+            globalService.updateIsNewNotif(params.notifId)
+        }
+
         if (!rfpInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'Rfp'), params.id])
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'RFP'), params.id])
             redirect(action: "list")
             return
         }
@@ -223,4 +228,140 @@ class RfpController {
             render([rfpInstance : rfpInstance ] as JSON)
         }
     }
+
+    /**
+    Action Waiting Approve
+    **/
+    def actionWaitingApprove() {
+        def rfpInstance = Rfp.get(params.id)
+        if (!rfpInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'RFP'), params.id])
+            redirect(action: "list")
+            return
+        }
+
+        if (params.version) {
+            def version = params.version.toLong()
+            if (rfpInstance.version > version) {
+                rfpInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                          [message(code: 'rfp.label', default: 'RFP')] as Object[],
+                          "Another user has updated this RFP while you were editing")
+                render(view: "edit", model: [rfpInstance: rfpInstance])
+                return
+            }
+        }
+
+        
+        def mustApprovedBy = globalService.getApprovalBySeq(rfpInstance,1)
+         
+        if(mustApprovedBy){
+            rfpInstance.mustApprovedBy = mustApprovedBy[0]?.approver
+        }
+    
+        rfpInstance.state = 'Waiting Approval'    
+
+            
+        if (!rfpInstance.save(flush: true)) {
+            println rfpInstance.errors
+
+            render(view: "edit", model: [rfpInstance: rfpInstance])
+            return
+        }
+
+        //sendApproveEmail(rfpInstance)/* --Send Email */
+
+        saveNotif(rfpInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
+                
+        //insertTOPOBalance(rfpInstance)
+
+            
+        flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
+            
+        redirect(action: "show", id: rfpInstance.id)
+        
+    }
+
+
+        /**
+    Action Approve
+    **/
+    def actionApprove() {
+        def rfpInstance = Rfp.get(params.id)
+        if (!rfpInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'RFP'), params.id])
+            redirect(action: "list")
+            return
+        }
+
+        if (params.version) {
+            def version = params.version.toLong()
+            if (rfpInstance.version > version) {
+                rfpInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                          [message(code: 'rfp.label', default: 'RFP')] as Object[],
+                          "Another user has updated this RFP while you were editing")
+                render(view: "edit", model: [rfpInstance: rfpInstance])
+                return
+            }
+        }
+        
+        def user = User.findByLogin(auth.user()?.toString())
+
+        
+        if(globalService.getNextApproverRfp(rfpInstance,user)){
+            rfpInstance.mustApprovedBy = globalService.getNextApproverRfp(rfpInstance,user)
+        }
+
+        def countRfpApp = rfpInstance.rfpApprovers?.size()
+        def countRfpApproved= RfpApprover.findAllByRfpAndStatus(rfpInstance,1).size()+1
+    
+        if(countRfpApproved == countRfpApp){
+            rfpInstance.state = 'Approved'    
+        }
+        
+
+        if (!rfpInstance.save(flush: true)) {
+            println rfpInstance.errors
+            render(view: "edit", model: [rfpInstance: rfpInstance])
+            return
+        }
+
+        /* update T_cost_detail*/
+        //updatePPPDetail2(rfpInstance)
+        /* update Po Approver*/
+        def rfpApprover = RfpApprover.findByRfpAndApprover(rfpInstance,user)
+        rfpApprover.status = 1
+        rfpApprover.approverDate = new Date()
+        
+        if (!rfpApprover.save(flush:true)) {
+            println rfpApprover.errors
+        }    
+        
+        if(globalService.getNextApproverRfp(rfpInstance,user)){
+            saveNotif(rfpInstance,rfpInstance.mustApprovedBy)/* --insert TO Notif */
+           // sendApproveEmail(rfpInstance)/* --Send Email */
+        }
+
+        
+
+        flash.message = message(code: 'default.approved.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
+        redirect(action: "show", id: rfpInstance.id)
+    }
+
+    /**
+    SaveNotif
+    **/  
+    def saveNotif(rfpInstance,forUser){
+
+        def notif = new Notif()
+        notif.docName = "Rfp"
+        notif.docId = rfpInstance.id
+        notif.docNumber = rfpInstance.number
+        notif.state = rfpInstance.state
+        notif.forUser = forUser
+        notif.createdBy = auth.user()
+        notif.isNew = true
+        notif.save()
+        
+    }/* SaveNotif */
+
 }

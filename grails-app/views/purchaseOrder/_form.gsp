@@ -5,7 +5,7 @@
 			<div class="col-sm-3">
 			<!--	<p class="form-control-static">${session.country}</p>	
 				<g:hiddenField name="country" value="${session.country}"/> -->
-				<g:select id="country" name="country" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${purchaseOrderInstance?.country}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
+				<g:select id="country" name="country" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${purchaseOrderInstance?.country}" class="many-to-one form-control chosen-select" />
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'country', 'error')}</span>
 			</div>
 		</div>
@@ -143,9 +143,9 @@ if(actionName=='edit') {
             success: function (data) {
             	$('#brand').empty();
               	if(data.length > 0){
-           
+                     $('#brand').prepend("<option value='' >&nbsp;</option>")
                     $.each(data, function(a, b){	
-                        var opt = "<option value='"+b.code+"'> "+ b.code +"-"+ b.name  +" </option>";
+                        var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
                         $('#brand').append(opt);
                      });
                      $('#brand').trigger('chosen:updated');
@@ -186,7 +186,7 @@ if(actionName=='edit') {
               	if(data.length > 0){
                     
                     $('#lob').chosen();
-
+                    $('#lob').prepend("<option value='' >&nbsp;</option>")
                     $.each(data, function(a, b){
                          var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
                         $('#lob').append(opt);

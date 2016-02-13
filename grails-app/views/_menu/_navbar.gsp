@@ -201,7 +201,7 @@ if(session.isAdmin == 'Yes') {
 
 	            var list = "";
 	            $.each(data.data, function(k, v){
-	                list += "<li> <a id='notif-link' href='/${meta(name:"app.name")}/PurchaseOrder/show?id="+v.docId+"&isNew=false&notifId="+v.id+"' >"+v.docNumber+" ( "+v.state+" )</a></li>";
+	                list += "<li> <a id='notif-link' href='/${meta(name:"app.name")}/"+v.docName+"/show?id="+v.docId+"&isNew=false&notifId="+v.id+"' >"+v.docNumber+" ( "+v.state+" )</a></li>";
 	            });
 
 	            $('#notifnuieu').html("");

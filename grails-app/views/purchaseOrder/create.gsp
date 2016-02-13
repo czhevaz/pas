@@ -47,7 +47,7 @@
 						<div class="form-group  required">
 							<label for="brand" class="col-sm-3 control-label"><g:message code="register.brand.label" default="Brand" /><span class="required-indicator">*</span></label>
 							<div class="col-sm-9">
-								<g:select id="brand" name="brand.id" from="${com.smanggin.Brand.list()}" optionKey="code" required="" value="${params?.brand?.id}" class="many-to-one form-control "/>
+								<g:select id="brand" name="brand.id" from="${com.smanggin.Brand.list()}" optionKey="code" optionValue ="code" required="" value="${params?.brand?.id}" class="many-to-one form-control "/>
 							</div>
 						</div>
 						<div class="form-group  required">
@@ -139,7 +139,7 @@
 					<div class="box-footer">
 						<div class="form-actions">
 							<g:submitButton name="create" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-				            <button class="btn" type="reset"><g:message code="default.button.reset.label" default="Reset" /></button>
+				            <button id ="reset" class="btn" type="reset"><g:message code="default.button.reset.label" default="Reset" /></button>
 				            
 
 						</div>
@@ -149,7 +149,11 @@
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->	
 <r:script>
-	
+	$("#reset").click(function(){ 
+		$('#lob').val('').trigger('chosen:updated');
+		$('#brand').val('').trigger('chosen:updated');
+		$('#requestor').val('').trigger('chosen:updated');
+	});
 
 </r:script>	
 </section>

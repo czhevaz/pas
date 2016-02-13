@@ -51,7 +51,7 @@ class PurchaseOrderController {
     }
 
     def save() {
-
+        println params
         def purchaseOrderInstance = new PurchaseOrder(params)
         
         def country = Country.findByName(params.country)
@@ -270,7 +270,7 @@ class PurchaseOrderController {
     }
 
     def jlist() {
-    	println "params tah" +params
+    	
         if(params.masterField){
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
@@ -304,10 +304,10 @@ class PurchaseOrderController {
                     map.put('pppNumber',pppHead[0]?.number)
                     map.put('pppDate',pppHead[0]?.pppDate?.format('yyyy-MM-dd'))
                     map.put('pppDescription',pppHead[0]?.pppProgram)
-                    map.put('countryName',pppHead[0]?.country?.name)
+                  //  map.put('countryName',pppHead[0]?.country?.name)
                     map.put('lobName',pppHead[0]?.lob)
                     map.put('brandName',it?.brand)
-                    map.put('state',pppHead[0]?.state)
+                   // map.put('state',pppHead[0]?.state)
                     map.put('amount',it.costDetail)
                     map.put('remainCreditLimit',it.remainCreditLimit)
                     map.put('ammountTotalPPP',pppHead[0]?.pppCost)
@@ -318,9 +318,15 @@ class PurchaseOrderController {
                 
             }
 
-            //println results
             
-            render results as JSON
+            def list=[:]
+            list.put('sEcho','')
+            list.put('iTotalRecords',pppDetails?.size())
+            list.put('iTotalDisplayRecords',pppDetails?.size())
+            list.put('aaData',results)
+            println list
+            
+            render list as JSON
 
         }else if(params.pppNumber){
 
@@ -702,7 +708,7 @@ class PurchaseOrderController {
         
     }/* SaveNotif */
 
-
+    
     /**
     upload
     **/  

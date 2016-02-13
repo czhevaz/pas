@@ -23,7 +23,8 @@ beans = {
             new PppDetailMarshaller(),
             new PurchaseOrderAllocationMarshaller(),
             new RfpDetailMarshaller(),
-            new PurchaseOrderMarshaller()
+            new PurchaseOrderMarshaller(),
+            new PurchaseOrderBalanceMarshaller()
         ]
      }
 }

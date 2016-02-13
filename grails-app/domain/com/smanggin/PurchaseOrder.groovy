@@ -108,7 +108,7 @@ class PurchaseOrder {
 
     }
 
-	static transients =['total','pppRemain','pppRemainBrand','pORemain1']
+	static transients =['total','pppRemain','pppRemainBrand','PORemain1']
 
 	Float getTotal() {
 		def total = 0

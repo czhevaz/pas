@@ -28,7 +28,7 @@ class PurchaseOrderDetailMarshaller {
 				finishDate :it.finishDate?.format('yyyy-MM-dd'),
 
 				qty : it.qty,
-				unitprice: it.unitPrice,
+				unitPrice: it.unitPrice,
 
 				transactionDate:it.transactionDate?.format('yyyy-MM-dd'),
 

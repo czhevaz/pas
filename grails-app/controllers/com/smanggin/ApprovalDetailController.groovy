@@ -137,8 +137,11 @@ class ApprovalDetailController {
         approvalDetailInstance.properties = params
         approvalDetailInstance.country = Country.findByName(params.countryName)
         approvalDetailInstance.transactionType = TransactionType.get(params.transactionTypeId)
-        approvalDetailInstance.lob = params.lobCode
-        approvalDetailInstance.brand = params.brandCode
+        if(params.lobCode){
+            approvalDetailInstance.lob = params.lobCode
+            approvalDetailInstance.brand = params.brandCode    
+        }
+        
         approvalDetailInstance.creator = User.findByLogin(params.creatorId)
         approvalDetailInstance.approver = User.findByLogin(params.approverId)
         
@@ -222,18 +225,21 @@ class ApprovalDetailController {
     }
 
     def checkApprover(params){
+        def transactionType = TransactionType.get(params.transactionTypeId)
         def approvalDetail = ApprovalDetail.createCriteria().list(){
             and{
                 country{
                     like('name',params.countryName)
                 }
-                like('lob',params.lobCode)
-                like('brand',params.brandCode)
+
+                if(transactionType.code != 'RFP'){
+                    like('lob',params.lobCode)
+                    like('brand',params.brandCode)    
+                }
+                
                 eq('noSeq',params.noSeq?.toLong())
                 
-                transactionType{
-                    eq('id',params.transactionTypeId?.toLong())
-                }    
+                eq('transactionType',transactionType)
             }
             
         }

@@ -9,6 +9,7 @@ class GlobalService {
     static transactional = true
 
     def getApprovals(purchaseOrder){
+        
     	def appDetail = ApprovalDetail.createCriteria().list(){
     		country{
                eq('name',purchaseOrder.country)     
@@ -29,17 +30,25 @@ class GlobalService {
     	return appDetail	
     }
 
-	def getApprovalBySeq(purchaseOrder,noseq){
+	def getApprovalBySeq(transaction,noseq){
     	def appDetail = ApprovalDetail.createCriteria().list(){
     		country{
-               eq('name',purchaseOrder.country)     
+               eq('name',transaction.country)     
             }
-            eq('lob',purchaseOrder.lob)
-            eq('brand',purchaseOrder.brand)
 
+            eq('transactionType',transaction?.transactionGroup?.transactionType)
+
+            if(transaction?.transactionGroup?.transactionType?.code != 'RFP'){
+                eq('lob',transaction.lob)
+                eq('brand',transaction.brand)
+            }
+
+
+            
            eq('noSeq',noseq?.toLong())
     	}
 
+        println "firstApprove" +appDetail
     	return appDetail	
     }    
 
@@ -65,6 +74,32 @@ class GlobalService {
     	}   
 
     }
+
+
+    /**
+    RFP
+    **/
+    def getRfpApprovalSeq(rfp,userLogin){
+        def rfpApprover = RfpApprover.findByRfpAndApprover(rfp,userLogin)
+        return rfpApprover?.noSeq
+    }
+
+    def getRfpApproverBySeq(rfp,noSeq){
+        def rfpApprover = RfpApprover.findByRfpAndNoSeq(rfp,noSeq)
+        return rfpApprover?.approver
+    }
+
+    def getNextApproverRfp(rfp,userLogin){
+        def seq = getRfpApprovalSeq(rfp,userLogin)
+        if(seq){
+            def nextseq = seq +1
+            def approver = getRfpApproverBySeq(rfp,nextseq)
+            return approver
+        }else {
+            return null
+        }   
+    }
+
 
     def approvalStatus(val) {
 	    def result

@@ -148,6 +148,28 @@ if(actionName=='edit' || actionName=='show') {
 
 	    </div><!-- /.Attachment -->
 
+        <!-- PO Balance -->
+        <div title='<g:message code="purchaseOrder.purchaseOrderBalance.label" default="PO Balance"/>'  style="padding:10px">
+           <table id="dg-attachments" class="easyui-datagrid"  style="height:240px"
+                    data-options="
+                    singleSelect:true, 
+                    collapsible:true, 
+                    rownumbers: true,  
+                    
+                    url:'/${meta(name:'app.name')}/purchaseOrderBalance/jlist?masterField.name=purchaseOrder&masterField.id=${purchaseOrderInstance?.id}'">
+            
+                <thead>
+                    <tr>
+                        <th data-options="field:'countryName',width:200">Country</th> 
+                        <th data-options="field:'description',width:200">Description</th> 
+                        <th data-options="field:'balance1',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Balance 1 </th>
+                        <th data-options="field:'balance2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Balance 2 (${purchaseOrderInstance.currency2?.code})</th>
+                    </tr>
+                </thead>    
+            </table>        
+
+        </div><!-- /.Po Balance -->
+
           
 
 </div>

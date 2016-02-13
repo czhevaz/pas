@@ -32,6 +32,8 @@ class ApprovalDetail {
 	static	constraints = {
 		version nullable: true
 		isSequential nullable: true
+		lob nullable:true
+		brand nullable:true
 		inActive nullable: true
 		dateInActive nullable: true
 		country(unique: ['lob', 'brand','noSeq','approver','transactionType'])

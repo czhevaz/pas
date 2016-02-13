@@ -165,6 +165,32 @@
 							
 						</div>
 					</div>
+
+					<div class="form-group clearfix">
+						<label for="totalPO2" class="col-sm-2 control-label"><g:message code="purchaseOrder.outStanding.label" default="OutStanding PO" /> (${purchaseOrderInstance?.currency1?.code})</label>
+						<div class="col-sm-3">
+
+							<p class="form-control-static">
+								<span id ="totalPO2">
+									<g:formatNumber number="${(purchaseOrderInstance?.PORemain1?:0) }" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+								</span>
+							</p>
+							
+						</div>
+					</div>
+
+					<div class="form-group clearfix">
+						<label for="totalPO2" class="col-sm-2 control-label"><g:message code="purchaseOrder.outStanding.label" default="OutStanding PO" /> (${purchaseOrderInstance?.currency2?.code})</label>
+						<div class="col-sm-3">
+
+							<p class="form-control-static">
+								<span id ="totalPO2">
+									<g:formatNumber number="${(purchaseOrderInstance?.PORemain1?:0) / (purchaseOrderInstance?.rate?:1)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+								</span>
+							</p>
+							
+						</div>
+					</div>
 				</div><!--/.box-body -->	
 				
 			</div><!--/.box box-primary --> 
