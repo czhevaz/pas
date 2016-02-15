@@ -111,6 +111,8 @@ class RfpDetailController {
     }
 
     def jsave() {
+
+        println params
         def rfpDetailInstance = (params.id) ? RfpDetail.get(params.id) : new RfpDetail()
         
         if (!rfpDetailInstance) {                     
@@ -137,7 +139,7 @@ class RfpDetailController {
                 }
             }            
         }
-        def checkPO = checkPO(rfpDetailInstance)
+        def checkPO = checkPO(rfpDetailInstance,params)
 
         if(checkPO){
             rfpDetailInstance.properties = params
@@ -206,7 +208,7 @@ class RfpDetailController {
     }
 
 
-    def checkPO(rfpDetailInstance){
+    def checkPO(rfpDetailInstance,params){
         params.order = params.order ?: 'desc' 
         params.sort = params.sort ?: 'dateCreated' 
         def purchaseOrder = PurchaseOrder.findByNumber(rfpDetailInstance?.purchaseOrder?.number)
@@ -216,8 +218,16 @@ class RfpDetailController {
         }
 
         def status= false
+
+        poBalance.each{
+            println it.purchaseOrder?.number
+        }
+
+        println purchaseOrder
+        println "PO balance1  " + poBalance[0].balance1
+        println "totalCost1  " + rfpDetailInstance.totalCost1.toFloat()
         if(poBalance){
-            if(poBalance[0]?.balance1 >= rfpDetailInstance.totalCost1){
+            if(poBalance[0]?.balance1 >= params.totalCost1.toFloat()){
                 status =true
             }
         }

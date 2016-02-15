@@ -19,7 +19,7 @@ class PppVietnamController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+    //    params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = PppVietnam.createCriteria().list(params){}
         [pppVietnamInstanceList: results, pppVietnamInstanceTotal: results.totalCount]
     }
@@ -154,7 +154,7 @@ class PppVietnamController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //    params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render PppVietnam.list(params) as JSON           
         }
         

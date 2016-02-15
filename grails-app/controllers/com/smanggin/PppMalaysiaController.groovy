@@ -19,7 +19,7 @@ class PppMalaysiaController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+       // params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = PppMalaysia.createCriteria().list(params){}
         [pppMalaysiaInstanceList: results, pppMalaysiaInstanceTotal: results.totalCount]
     }
@@ -154,7 +154,7 @@ class PppMalaysiaController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+           // params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render PppMalaysia.list(params) as JSON           
         }
         

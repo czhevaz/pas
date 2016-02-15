@@ -19,7 +19,7 @@ class PppNigeriaController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = PppNigeria.createCriteria().list(params){}
         [pppNigeriaInstanceList: results, pppNigeriaInstanceTotal: results.totalCount]
     }
@@ -154,7 +154,7 @@ class PppNigeriaController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            //params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render PppNigeria.list(params) as JSON           
         }
         

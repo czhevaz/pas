@@ -19,7 +19,7 @@ class PppCambodiaController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+    //    params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = PppCambodia.createCriteria().list(params){}
         [pppCambodiaInstanceList: results, pppCambodiaInstanceTotal: results.totalCount]
     }
@@ -154,7 +154,7 @@ class PppCambodiaController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //    params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render PppCambodia.list(params) as JSON           
         }
         

@@ -46,7 +46,6 @@
 								<g:sortableColumn property="pppDate" title="${message(code: 'ppp.pppDate.label', default: 'ppp Date')}" />
 
 								
-								
 							
 							</tr>
 						</thead>

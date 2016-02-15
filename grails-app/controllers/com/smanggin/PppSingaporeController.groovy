@@ -19,7 +19,7 @@ class PppSingaporeController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+    //    params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = PppSingapore.createCriteria().list(params){}
         [pppSingaporeInstanceList: results, pppSingaporeInstanceTotal: results.totalCount]
     }
@@ -154,7 +154,7 @@ class PppSingaporeController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //    params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render PppSingapore.list(params) as JSON           
         }
         

@@ -21,39 +21,82 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
 							
-								<g:sortableColumn property="brand" title="${message(code: 'pppNigeria.brand.label', default: 'Brand')}" />
-							
-								<th><g:message code="pppNigeria.country.label" default="Country" /></th>
-							
-								<g:sortableColumn property="dateCreated" title="${message(code: 'pppNigeria.dateCreated.label', default: 'Date Created')}" />
-							
-								<g:sortableColumn property="lob" title="${message(code: 'pppNigeria.lob.label', default: 'Lob')}" />
-							
-								<g:sortableColumn property="lobHead" title="${message(code: 'pppNigeria.lobHead.label', default: 'Lob Head')}" />
-							
-								<g:sortableColumn property="number" title="${message(code: 'pppNigeria.number.label', default: 'Number')}" />
+								<th> No. </th>
+
+								<th><g:message code="ppp.number.label" default="Number" /></th>
+								
+								<th><g:message code="ppp.pppDescription.label" default="PPP Description" /></th>
+
+								<th><g:message code="ppp.country.label" default="Country" /></th>
+
+								<th><g:message code="ppp.lob.label" default="Lob" /></th>
+
+								<th><g:message code="ppp.brand.label" default="Brand" /></th>
+
+								<th><g:message code="ppp.requestor.label" default="Requestor" /></th>
+
+								<th><g:message code="ppp.amount.label" default="PPP LIMIT(USD)" /></th>
+
+								<th><g:message code="ppp.remain.label" default="PPP LIMIT REMAINING (USD)" /></th>
+								
+								<g:sortableColumn property="pppDate" title="${message(code: 'ppp.pppDate.label', default: 'ppp Date')}" />
+
+								
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								
+								<th> No. </th>
+
+								<th><g:message code="ppp.number.label" default="Number" /></th>
+								
+								<th><g:message code="ppp.pppDescription.label" default="PPP Description" /></th>
+
+								<th><g:message code="ppp.country.label" default="Country" /></th>
+
+								<th><g:message code="ppp.lob.label" default="Lob" /></th>
+
+								<th><g:message code="ppp.brand.label" default="Brand" /></th>
+
+								<th><g:message code="ppp.requestor.label" default="Requestor" /></th>
+
+								<th><g:message code="ppp.amount.label" default="PPP LIMIT(USD)" /></th>
+
+								<th><g:message code="ppp.remain.label" default="PPP LIMIT REMAINING (USD)" /></th>
+								
+								<g:sortableColumn property="pppDate" title="${message(code: 'ppp.pppDate.label', default: 'ppp Date')}" />
+
+							</tr>
+						</tfoot>
 						<tbody>
-						<g:each in="${pppNigeriaInstanceList}" status="i" var="pppNigeriaInstance">
+						<g:each in="${pppNigeriaInstanceList}" status="i" var="pppInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${pppNigeriaInstance.id}">${fieldValue(bean: pppNigeriaInstance, field: "brand")}</g:link></td>
+								<td> ${i+1} </td>
+
+								<td><g:link action="show" params="['number':pppInstance?.number]">${fieldValue(bean: pppInstance, field: "number")}</g:link></td>
+
+								<td>${fieldValue(bean: pppInstance, field: "pppProgram")}</td>	
+
+								<td>${fieldValue(bean: pppInstance, field: "country")}</td>
+
+								<td>${fieldValue(bean: pppInstance, field: "lob")}</td>
+
+								<td>${fieldValue(bean: pppInstance, field: "brand")}</td>
+
+								<td>${fieldValue(bean: pppInstance, field: "requestor")}</td>
+
+								<td>${fieldValue(bean: pppInstance, field: "pppCost")}</td>
 							
-								<td>${fieldValue(bean: pppNigeriaInstance, field: "country")}</td>
+								<td>${fieldValue(bean: pppInstance, field: "remainCreditLimit")}</td>
 							
-								<td><g:formatDate date="${pppNigeriaInstance.dateCreated}" /></td>
-							
-								<td>${fieldValue(bean: pppNigeriaInstance, field: "lob")}</td>
-							
-								<td>${fieldValue(bean: pppNigeriaInstance, field: "lobHead")}</td>
-							
-								<td>${fieldValue(bean: pppNigeriaInstance, field: "number")}</td>
+								<td><g:formatDate date="${pppInstance.pppDate}" /></td>
 							
 							</tr>
 						</g:each>
@@ -62,7 +105,7 @@
 				</div><!--/.box-body table-responsive -->
 
 				<div class="box-footer clearfix">
-					<bs:paginate total="${pppNigeriaInstanceTotal}" />
+					<!-- <bs:paginate total="${pppNigeriaInstanceTotal}" /> -->
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
