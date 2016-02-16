@@ -14,6 +14,7 @@ class TransactionGroupMarshaller {
             return [
 				id:it.id,
 				transactionTypeName : it.transactionType?.name,
+				transactionTypeCode : it.transactionType?.code,
 				description :it.description,
 				prefix :it.prefix,
 				format :it.format,

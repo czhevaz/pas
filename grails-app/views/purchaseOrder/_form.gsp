@@ -215,6 +215,33 @@ if(actionName=='edit') {
 
     });
 
+    $("#transactionGroup").on('change', function() {
+        
+        
+        $.ajax({
+            url: "/${meta(name:'app.name')}/transactionGroup/jshow?id="+$(this).val(),
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                if (data.transactionGroupInstance.transactionTypeCode == 'POPF') {
+                    $('#POPF').show();            
+                    $('#POMS').hide();
+                }else if(data.transactionGroupInstance.transactionTypeCode == 'POMS'){
+                    $('#POMS').show();
+                    $('#POPF').hide();
+
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+
+        
+        
+
+    });
+
 
 	$("#country").on('change', function() {
 		country = $(this).val();
@@ -275,6 +302,7 @@ if(actionName=='edit') {
                 if(data.length > 0){
                     
                     $('#transactionGroup').empty();
+                     $('#transactionGroup').prepend("<option value='' >&nbsp;</option>")
                     $.each(data, function(a, b){
                          var opt = "<option value='"+b.id+"'> "+ b.description +" </option>";
                         $('#transactionGroup').append(opt);

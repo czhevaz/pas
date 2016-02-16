@@ -104,6 +104,8 @@ if(actionName=='edit' || actionName=='show') {
                         
                        
                     <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS'}">         
+                        
+                        <th data-options="field:'targetSales',width:200,editor:'text'">Target Total Sale</th>
 
                         <th data-options="field:'pic',width:200,editor:'text'">PIC</th>
 
@@ -348,6 +350,7 @@ if(actionName=='edit' || actionName=='show') {
 			
 		}	 
 	}
+
 	$(document).ready(function () {
 		$('#dg-purchaseOrderDetails').datagrid('reloadFooter', [{description:'Total',totalCost:12333}]);
 	});

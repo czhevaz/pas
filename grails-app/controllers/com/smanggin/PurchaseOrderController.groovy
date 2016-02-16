@@ -427,8 +427,16 @@ class PurchaseOrderController {
                 purchaseOrderInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'purchaseOrder.label', default: 'PurchaseOrder')] as Object[],
                           "Another user has updated this PurchaseOrder while you were editing")
-                render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
+                render(view: "show", model: [purchaseOrderInstance: purchaseOrderInstance])
                 return
+            }
+        }
+
+        if (purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP') {
+            def attachment = Attachment.findByPurchaseOrder(purchaseOrderInstance)
+            if(attachment?.size() == 0){
+                flash.message = message(code: 'default.have.attachment.failure', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+                redirect(action: "show", id: purchaseOrderInstance.id)  
             }
         }
 
