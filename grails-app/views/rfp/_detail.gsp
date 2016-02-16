@@ -63,6 +63,7 @@ if(actionName=='edit' || actionName=='show') {
                         <th data-options="field:'remarks',width:200,editor:'text'">Remarks</th>
                         
                         <th data-options="field:'rfpId',hidden:true">Rfp</th>
+                        <th data-options="field:'id',hidden:true">id</th>
                     
                     </tr>
                 </thead>
@@ -170,14 +171,26 @@ if(actionName=='edit' || actionName=='show') {
                         var totalCost1Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost1'});
                         $(totalCost1Ed.target).textbox('setValue',data.purchaseOrderInstance.total);
 
+                        var totalCost2 = data.purchaseOrderInstance.total/${rfpInstance?.rate}
                         var totalCost2Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
-                        $(totalCost2Ed.target).textbox('setValue',data.purchaseOrderInstance.total2);
+                        $(totalCost2Ed.target).textbox('setValue',totalCost2);
                     },
                     error: function (xhr, status, error) {
                         alert("fail");
                     }
                 });
 
+            }
+
+
+            function autoCalculate(){
+                if(editIndex != undefined){
+                    var totalCost1Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost1'});
+                    var totalCost = $(totalCost1Ed.target).numberbox('getValue');
+                    var totalCost2 = totalCost / ${rfpInstance?.rate}
+                    var totalCost2Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
+                    $(totalCost2Ed.target).numberbox('setValue',totalCost2);
+                }       
             }
         </r:script>  
     

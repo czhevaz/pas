@@ -30,6 +30,8 @@
 								<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
 							
 								<g:sortableColumn property="enabled" title="${message(code: 'user.enabled.label', default: 'Enabled')}" />
+								
+								<g:sortableColumn property="enabled" title="${message(code: 'user.isAdmin.label', default: 'Enabled')}" />
 							
 								<g:sortableColumn property="country" title="${message(code: 'user.country.label', default: 'Country')}" />
 							
@@ -47,6 +49,8 @@
 								<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
 							
 								<g:sortableColumn property="enabled" title="${message(code: 'user.enabled.label', default: 'Enabled')}" />
+
+								<g:sortableColumn property="enabled" title="${message(code: 'user.isAdmin.label', default: 'Enabled')}" />
 							
 								<g:sortableColumn property="country" title="${message(code: 'user.country.label', default: 'Country')}" />
 							
@@ -64,6 +68,8 @@
 								<td>${fieldValue(bean: userInstance, field: "password")}</td>
 							
 								<td><g:formatBoolean boolean="${userInstance.enabled}" /></td>
+
+								<td>${fieldValue(bean: userInstance, field: "isAdmin")}</td>
 							
 								<td>${fieldValue(bean: userInstance, field: "country")}</td>
 							

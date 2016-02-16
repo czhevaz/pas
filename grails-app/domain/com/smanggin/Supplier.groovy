@@ -11,6 +11,8 @@ class Supplier {
 //	Long	version
 	
 	/* Automatic timestamping of GORM */
+	
+	String  createdBy
 	Date	dateCreated
 	Date	lastUpdated
 
@@ -52,6 +54,7 @@ class Supplier {
 		country nullable: true
 		contactPerson nullable:true
 		mobileNo nullable:true
+		createdBy nullable:true
     }
 	
 	/*

@@ -316,6 +316,19 @@ class RfpController {
     
         if(countRfpApproved == countRfpApp){
             rfpInstance.state = 'Approved'    
+
+            // check masih ada po Oustanding atau tidak
+            def rfpDetails = RfpDetail.findAllByPurchaseOrder(rfpInstance?.purchaseOrder)
+            Float totalPORfp = 0
+            Float totalPORfp2 = 0
+            rfpDetails.each{
+                totalPORfp = it?.totalCost1
+            }
+
+            if(rfpInstance?.purchaseOrder?.total - totalPORfp == 0){
+                //#* jika totalCost2 > totalPO2 -> pppBalanceBerubah
+            }
+
         }
         
 
@@ -335,7 +348,19 @@ class RfpController {
         if (!rfpApprover.save(flush:true)) {
             println rfpApprover.errors
         }    
-        
+
+       //if(countRfpApproved == countRfpApp){
+        def rfpDetails = RfpDetail.findAllByRfp(rfpInstance)
+            rfpDetails.each{
+                def pOtotal= it?.purchaseOrder?.total
+                def ratePO = it?.purchaseOrder?.rate
+                def pOtotal2= pOtotal/ratePO
+                if(it.totalCost2 > pOtotal2){
+                    totalCost2LargerThanPO2(it)
+                }
+            }
+        //}
+
         if(globalService.getNextApproverRfp(rfpInstance,user)){
             saveNotif(rfpInstance,rfpInstance.mustApprovedBy)/* --insert TO Notif */
            // sendApproveEmail(rfpInstance)/* --Send Email */
@@ -363,5 +388,19 @@ class RfpController {
         notif.save()
         
     }/* SaveNotif */
+
+
+    def totalCost2LargerThanPO2(rfpDetail){
+        def totalCost2= rfpDetail.totalCost2
+        def pOtotal= rfpDetail?.purchaseOrder?.total
+        def ratePO = rfpDetail?.purchaseOrder?.rate
+        def pOtotal2= pOtotal/ratePO
+        def selisih = totalCost2 - pOtotal2
+
+        def pppDetail = PppDetail.findByPppNumberAndBrand(rfpDetail.pppNumber,rfpDetail.purchaseOrder?.brand)
+        pppDetail.balanceWriteOff = pppDetail?.balanceWriteOff - selisih
+        pppDetail.save(flush:true)
+
+    }
 
 }

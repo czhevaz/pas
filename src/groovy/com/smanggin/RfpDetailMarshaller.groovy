@@ -12,6 +12,7 @@ class RfpDetailMarshaller {
     void register() {
         JSON.registerObjectMarshaller( RfpDetail ) { RfpDetail it ->
 			[
+				id:it.id,
 				createdBy  :it.createdBy,
 				updatedBy :it.updatedBy,
 				rfpId :it.rfp?.id,

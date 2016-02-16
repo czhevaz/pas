@@ -60,6 +60,15 @@ class PurchaseOrder {
 	String triggerDomain
 	RateDetail rateDetail
 
+	/* field tambahan not Mandatory */
+	String deliveryPlace
+	Date deliveryDate
+	String paymentTerms
+	String objective
+	String scheme
+	String mechanicsActivities
+
+
 	static	belongsTo	= [TransactionGroup,Supplier,Currency]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
 	static	hasMany		= [purchaseOrderDetails:PurchaseOrderDetail, 
@@ -105,6 +114,13 @@ class PurchaseOrder {
 		dateReject nullable:true
 		rejectedBy nullable:true
 		rateDetail nullable:true
+
+		deliveryPlace nullable:true
+		deliveryDate nullable:true
+		paymentTerms nullable:true
+		objective nullable:true
+		scheme nullable:true
+		mechanicsActivities nullable:true
 
     }
 

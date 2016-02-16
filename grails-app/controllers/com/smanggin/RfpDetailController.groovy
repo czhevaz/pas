@@ -112,7 +112,7 @@ class RfpDetailController {
 
     def jsave() {
 
-        println params
+        
         def rfpDetailInstance = (params.id) ? RfpDetail.get(params.id) : new RfpDetail()
         
         if (!rfpDetailInstance) {                     

@@ -7,6 +7,7 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'rfp.label', default: 'Rfp')}" />
 	<title><g:message code="default.list.label" args="[entityName]" /></title>
+	<g:set var="canCreate" value="true" scope="request" />
 </head>
 
 <body>

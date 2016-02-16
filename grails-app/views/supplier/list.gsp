@@ -38,6 +38,7 @@
 							
 								<g:sortableColumn property="email" title="${message(code: 'supplier.email.label', default: 'Email')}" />
 							
+								<g:sortableColumn property="createdBy" title="${message(code: 'supplier.createdBy.label', default: 'Created By')}" />
 								
 							
 								
@@ -58,6 +59,8 @@
 								<td>${fieldValue(bean: supplierInstance, field: "address")}</td>
 
 								<td>${fieldValue(bean: supplierInstance, field: "email")}</td>
+
+								<td>${fieldValue(bean: supplierInstance, field: "createdBy")}</td>
 							
 							</tr>
 						</g:each>

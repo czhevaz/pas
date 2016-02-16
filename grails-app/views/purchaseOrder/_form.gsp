@@ -61,9 +61,63 @@
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')}</span>
 			</div>
 		</div>
+        
+
+        <div id= "POPF"  style="display:${purchaseOrderInstance?.transactionGroup?.transactionType?.code =='POPF' ?'block':'none'}">
+        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'deliveryPlace', 'error')} ">
+            <label for="deliveryPlace" class="col-sm-3 control-label"><g:message code="purchaseOrder.deliveryPlace.label" default="Delivery Place" /></label>
+            <div class="col-sm-6">
+                <g:textArea class="form-control" name="deliveryPlace" value="${purchaseOrderInstance?.deliveryPlace}" rows="5" cols="40"/>
+                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'deliveryPlace', 'error')}</span>
+            </div>
+        </div>
+
+        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'deliveryDate', 'error')} ">
+            <label for="deliveryDate" class="col-sm-3 control-label"><g:message code="purchaseOrder.deliveryDate.label" default="Delivery Date" /></label>
+            <div class="col-sm-6">
+                <bs:datePicker name="deliveryDate" precision="day"  value="${purchaseOrderInstance?.deliveryDate}"  />
+                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'deliveryDate', 'error')}</span>
+            </div>
+        </div>
+
+        
+        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'paymentTerms', 'error')} ">
+            <label for="paymentTerms" class="col-sm-3 control-label"><g:message code="purchaseOrder.paymentTerms.label" default="Payment Terms" /></label>
+            <div class="col-sm-6">
+                <g:textArea class="form-control" name="paymentTerms" value="${purchaseOrderInstance?.paymentTerms}" rows="5" cols="40"/>
+                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'paymentTerms', 'error')}</span>
+            </div>
+        </div>
+        </div>
 			
 
+        <div id= "POMS"  style="display:${purchaseOrderInstance?.transactionGroup?.transactionType?.code =='POMS' ?'block':'none'}">
+        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'objective', 'error')} ">
+            <label for="objective" class="col-sm-3 control-label"><g:message code="purchaseOrder.objective.label" default="Objective(s)" /></label>
+            <div class="col-sm-6">
+                <g:textArea class="form-control" name="objective" value="${purchaseOrderInstance?.objective}" rows="5" cols="40"/>
+                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'objective', 'error')}</span>
+            </div>
+        </div>
 
+
+        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'scheme', 'error')} ">
+            <label for="scheme" class="col-sm-3 control-label"><g:message code="purchaseOrder.scheme.label" default="Scheme" /></label>
+            <div class="col-sm-6">
+                <g:textArea class="form-control" name="scheme" value="${purchaseOrderInstance?.scheme}" rows="5" cols="40"/>
+                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'scheme', 'error')}</span>
+            </div>
+        </div>
+
+
+        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'mechanicsActivities', 'error')} ">
+            <label for="mechanicsActivities" class="col-sm-3 control-label"><g:message code="purchaseOrder.mechanicsActivities.label" default="Mechanics Activities" /></label>
+            <div class="col-sm-6">
+                <g:textArea class="form-control" name="mechanicsActivities" value="${purchaseOrderInstance?.mechanicsActivities}" rows="5" cols="40"/>
+                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'mechanicsActivities', 'error')}</span>
+            </div>
+        </div>
+        </div>
 <%
 if(actionName=='edit') { 
 %>
@@ -143,7 +197,7 @@ if(actionName=='edit') {
             success: function (data) {
             	$('#brand').empty();
               	if(data.length > 0){
-                     $('#brand').prepend("<option value='' >&nbsp;</option>")
+                     $('#brand').prepend("<option value='' >-- All</option>")
                     $.each(data, function(a, b){	
                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
                         $('#brand').append(opt);
@@ -186,7 +240,7 @@ if(actionName=='edit') {
               	if(data.length > 0){
                     
                     $('#lob').chosen();
-                    $('#lob').prepend("<option value='' >&nbsp;</option>")
+                    $('#lob').prepend("<option value='' >-- All --</option>")
                     $.each(data, function(a, b){
                          var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
                         $('#lob').append(opt);
