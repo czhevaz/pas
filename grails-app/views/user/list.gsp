@@ -27,11 +27,10 @@
 								<td> NO </td>
 								<g:sortableColumn property="login" title="${message(code: 'user.login.label', default: 'Login')}" />
 							
-								<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
-							
+								
 								<g:sortableColumn property="enabled" title="${message(code: 'user.enabled.label', default: 'Enabled')}" />
 								
-								<g:sortableColumn property="enabled" title="${message(code: 'user.isAdmin.label', default: 'Enabled')}" />
+								<g:sortableColumn property="enabled" title="${message(code: 'user.isAdmin.label', default: 'Is Admin')}" />
 							
 								<g:sortableColumn property="country" title="${message(code: 'user.country.label', default: 'Country')}" />
 							
@@ -46,7 +45,6 @@
 								<td> NO </td>
 								<g:sortableColumn property="login" title="${message(code: 'user.login.label', default: 'Login')}" />
 							
-								<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
 							
 								<g:sortableColumn property="enabled" title="${message(code: 'user.enabled.label', default: 'Enabled')}" />
 
@@ -64,8 +62,6 @@
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 								<td>${i+1}</td>
 								<td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "login")}</g:link></td>
-							
-								<td>${fieldValue(bean: userInstance, field: "password")}</td>
 							
 								<td><g:formatBoolean boolean="${userInstance.enabled}" /></td>
 
