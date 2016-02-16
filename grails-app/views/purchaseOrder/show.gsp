@@ -74,8 +74,58 @@
 								<td valign="top" class="value"><g:link controller="supplier" action="show" id="${purchaseOrderInstance?.supplier?.id}">${purchaseOrderInstance?.supplier?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
-							
-							
+							<g:if test ="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POPF'}">
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.deliveryPlace.label" default="Delivery Place" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "deliveryPlace")}</td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.deliveryDate.label" default="Delivery Date" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${purchaseOrderInstance?.deliveryDate}" format="yyyy-MM-dd"/></td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.paymentTerms.label" default="Payment Terms" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "paymentTerms")}</td>
+								
+							</tr>
+							</g:if>
+							<g:if test ="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS'}">
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.objective.label" default="Objective" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "objective")}</td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.scheme.label" default="Scheme" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "scheme")}</td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.mechanics.label" default="Mechanics" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "mechanics")}</td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.activitiesComponent.label" default="Activities Component" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "activitiesComponent")}</td>
+								
+							</tr>
+							</g:if>
+
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="purchaseOrder.reasonforInvestment.label" default="Reason for Investment" /></td>
 								

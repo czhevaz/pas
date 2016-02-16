@@ -99,11 +99,7 @@ if(actionName=='edit' || actionName=='show') {
                         }">Total Cost <span id="totalCostLabel"> </span></th>
                         
                         <th data-options="field:'totalCost2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Total Cost (${purchaseOrderInstance.currency2?.code})</th>
-
-                        
-                        
-                        
-                       
+     
                     <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS'}">         
                         
                         <th data-options="field:'targetSales',width:200,editor:'text'">Target Total Sales <span id="targetSalesLabel"> </span></th>
