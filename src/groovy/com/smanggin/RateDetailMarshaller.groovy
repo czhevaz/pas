@@ -19,6 +19,9 @@ class RateDetailMarshaller {
 				currency2Code:it.currency2.code,
 				value:it.value,
 				version : it.version?:0,
+				
+				updatedBy : it.updatedBy,
+				lastUpdated : it.lastUpdated
 			]
         }
     }

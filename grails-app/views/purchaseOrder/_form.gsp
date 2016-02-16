@@ -110,14 +110,24 @@
         </div>
 
 
-        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'mechanicsActivities', 'error')} ">
-            <label for="mechanicsActivities" class="col-sm-3 control-label"><g:message code="purchaseOrder.mechanicsActivities.label" default="Mechanics Activities" /></label>
+        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'mechanics', 'error')} ">
+            <label for="mechanics" class="col-sm-3 control-label"><g:message code="purchaseOrder.mechanics.label" default="Mechanics " /></label>
             <div class="col-sm-6">
-                <g:textArea class="form-control" name="mechanicsActivities" value="${purchaseOrderInstance?.mechanicsActivities}" rows="5" cols="40"/>
-                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'mechanicsActivities', 'error')}</span>
+                <g:textArea class="form-control" name="mechanics" value="${purchaseOrderInstance?.mechanics}" rows="5" cols="40"/>
+                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'mechanics', 'error')}</span>
+            </div>
+        </div>
+
+        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'activitiesComponent', 'error')} ">
+            <label for="activitiesComponent" class="col-sm-3 control-label"><g:message code="purchaseOrder.activitiesComponent.label" default="Activities Component" /></label>
+            <div class="col-sm-6">
+                <g:textArea class="form-control" name="activitiesComponent" value="${purchaseOrderInstance?.activitiesComponent}" rows="5" cols="40"/>
+                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'activitiesComponent', 'error')}</span>
             </div>
         </div>
         </div>
+
+
 <%
 if(actionName=='edit') { 
 %>
@@ -156,7 +166,7 @@ if(actionName=='edit') {
 		<% 
 		}
 		%>
-
+        $('#brand').prepend("<option value='' >-- All --</option>")
 		$('#brand').chosen();
 		$('#lob').chosen();
 		$('#transactionGroup').chosen();
@@ -169,6 +179,7 @@ if(actionName=='edit') {
 			getCurrency(country);
 			getTrGroup(country);
 			getSupplier(country)
+            getRequestor(country);
 		</g:if>
 		
 	});
@@ -230,6 +241,9 @@ if(actionName=='edit') {
                     $('#POMS').show();
                     $('#POPF').hide();
 
+                }else{
+                     $('#POMS').hide();
+                     $('#POPF').hide();
                 }
             },
             error: function (xhr, status, error) {
@@ -253,6 +267,7 @@ if(actionName=='edit') {
 		getTrGroup(urlGroup);			
 		getCurrency(urlCurrency);
 		getSupplier(urlSupplier);
+        getRequestor(country);
 	});		
 
 	function getLob(country) {
@@ -276,6 +291,7 @@ if(actionName=='edit') {
 
                     $('#lob').trigger('chosen:updated');
                     $('#brand').empty();
+                    $('#brand').prepend("<option value='' >-- All --</option>")
 	               	$('#brand').chosen();
                 }else{
                  
@@ -379,7 +395,40 @@ if(actionName=='edit') {
         });
     }/*-- end getSupplier  --*/
     
+    function getRequestor(country){
+        $.ajax({
+            url: "/${meta(name:'app.name')}/user/jlist?country="+country,
+            
+            type: "POST",
+            success: function (data) {
 
+                $('#requestor').empty()
+                if(data.length > 0){
+                    
+                    $('#requestor').chosen();
+                    $('#requestor').prepend("<option value='' >-- All --</option>")
+                    $.each(data, function(a, b){
+                         var opt = "<option value='"+b.name+"'> "+ b.name +" </option>";
+                        $('#requestor').append(opt);
+                        
+                    });
+
+                    $('#requestor').trigger('chosen:updated');
+                    $('#requestor').chosen();
+                }else{
+                 
+                    $('#requestor').chosen('destroy');
+                    $('#requestor').chosen();
+                   
+                }
+                
+                
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }
 		
 </r:script>	
 

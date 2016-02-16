@@ -63,8 +63,8 @@ if(actionName=='edit' || actionName=='show') {
                                     required:true,
                                     onSelect: function(rec){
                                         exchangeRate(); 
-                                        $('#unitPriceLabel').text(rec.code);
-                                        $('#totalCostLabel').text(rec.code);   
+                                        $('#unitPriceLabel').text('('+rec.code+')');
+                                        $('#totalCostLabel').text('('+rec.code+')');   
                                     }                                    
 
                                 }
@@ -105,7 +105,7 @@ if(actionName=='edit' || actionName=='show') {
                        
                     <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS'}">         
                         
-                        <th data-options="field:'targetSales',width:200,editor:'text'">Target Total Sale</th>
+                        <th data-options="field:'targetSales',width:200,editor:'text'">Target Total Sales</th>
 
                         <th data-options="field:'pic',width:200,editor:'text'">PIC</th>
 

@@ -148,6 +148,8 @@ class RateDetailController {
                 ne('id',params?.id?.toLong())
             }
         }
+
+
         
         if(ratedetails){
             rateDetailInstance.errors.rejectValue("currency1", "default.currency1.unique.failure",
@@ -156,6 +158,15 @@ class RateDetailController {
             render([success: false, messages: rateDetailInstance.errors] as JSON)
         }else{
             rateDetailInstance.properties = params
+             if (params.id) {
+                rateDetailInstance.updatedBy = auth.user()
+                rateDetailInstance.lastUpdated = new Date()
+            
+            }else{
+                rateDetailInstance.createdBy = auth.user()
+                rateDetailInstance.dateCreated = new Date()
+            }
+            
             rateDetailInstance.currency1 = Currency.findByCode(params.currency1Code)
             rateDetailInstance.currency2 = Currency.findByCode(params.currency2Code)
             rateDetailInstance.rate = Rate.get(params.rateId)

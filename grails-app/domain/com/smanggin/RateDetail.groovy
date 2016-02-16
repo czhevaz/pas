@@ -11,8 +11,11 @@ class RateDetail {
 //	Long	version
 	
 	/* Automatic timestamping of GORM */
-//	Date	dateCreated
-//	Date	lastUpdated
+	Date	dateCreated
+	Date	lastUpdated
+	String  createdBy
+	String  updatedBy
+
 	Rate rate
 	Currency currency1
 	Currency currency2
@@ -30,6 +33,10 @@ class RateDetail {
     
 	static	constraints = {
 		version nullable: true
+		updatedBy nullable: true
+		lastUpdated nullable: true
+		createdBy nullable: true
+		dateCreated nullable: true
     }
 	
 	/*
@@ -40,3 +47,4 @@ class RateDetail {
 //		return "${name}";
 //	}
 }
+

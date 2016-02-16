@@ -96,7 +96,7 @@ class PurchaseOrderController {
         purchaseOrderInstance.state = 'Draft'
 
         def approvals = globalService.getApprovals(purchaseOrderInstance)        
-
+        println " approvals >>>>>> " + approvals
         if(approvals){
             if (!purchaseOrderInstance.save(flush: true)) {
                 render(view: "create", model: [purchaseOrderInstance: purchaseOrderInstance])
@@ -431,97 +431,50 @@ class PurchaseOrderController {
                 return
             }
         }
-
-        if (purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP') {
-            def attachment = Attachment.findByPurchaseOrder(purchaseOrderInstance)
-            if(attachment?.size() == 0){
-                flash.message = message(code: 'default.have.attachment.failure', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
-                redirect(action: "show", id: purchaseOrderInstance.id)  
-            }
-        }
-
-        Float totalvalue1 = 0
-        Float totalvalue2 = 0
         
-        def purchaseOrderAllocations = PurchaseOrderAllocation.findAllByPurchaseOrder(purchaseOrderInstance)
-        purchaseOrderAllocations.each{
-            //println it.value1
-            //println it.value2
-            Float value1 = it.value1?:0
-            Float value2 = it.value2?:0
-            totalvalue1 = totalvalue1 + value1 
-            totalvalue2 = totalvalue2 + value2
-        }
+        def attachment = Attachment.findByPurchaseOrder(purchaseOrderInstance)
 
-        
-
-        def mustApprovedBy = globalService.getApprovalBySeq(purchaseOrderInstance,1)
-        purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
-        
-        if(false){
-            println " Alocation larger than one "   
-            if(totalvalue1?.round(2) == purchaseOrderInstance?.total && totalvalue2?.round(2) == (purchaseOrderInstance.total/purchaseOrderInstance.rate).round(2)){
-                purchaseOrderInstance.state = 'Waiting Approval'    
-
+        if (purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP' && !attachment) {
             
-                if(mustApprovedBy){
-                    purchaseOrderInstance.mustApprovedBy = mustApprovedBy[0]?.approver
-                }
-            }
+            println " Check Attachment " + attachment
+            
+                flash.error = message(code: 'default.have.attachment.failure', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+                redirect(action: "show", id: purchaseOrderInstance.id)  
+           
         }else{
-            println " Alocation 1 "   
+            def mustApprovedBy = globalService.getApprovalBySeq(purchaseOrderInstance,1)
+            purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
+            
+               
             purchaseOrderInstance.state = 'Waiting Approval'    
             if(mustApprovedBy){
                 purchaseOrderInstance.mustApprovedBy = mustApprovedBy[0]?.approver
             }
-        }
-
             
-        if (!purchaseOrderInstance.save(flush: true)) {
-            println purchaseOrderInstance.errors
 
-            render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
-            return
-        }
+                
+            if (!purchaseOrderInstance.save(flush: true)) {
+                println purchaseOrderInstance.errors
 
-        
-        savePoComment(purchaseOrderInstance,params)/* --insert TO PO comment */
-
-//        saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
-
-        //sendApproveEmail(purchaseOrderInstance)/* --Send Email */
-
-        if(false){
-            
-            if(totalvalue1?.round(2) == purchaseOrderInstance?.total && totalvalue2?.round(2) == (purchaseOrderInstance.total/purchaseOrderInstance.rate).round(2)){
-                
-                sendApproveEmail(purchaseOrderInstance) /* --Send Email */
-                
-                saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
-                
-                flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
-                
-            }else{
-                flash.error = message(code: 'default.mustAllocation.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
-                
+                render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
+                return
             }
-        }else{
-                sendApproveEmail(purchaseOrderInstance) /* --Send Email */
-                
-                saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
-                
-                insertTOPOBalance(purchaseOrderInstance)
 
-            /*def poAllocation = PurchaseOrderAllocation.findByPurchaseOrder(purchaseOrderInstance)
-            poAllocation.value1 = purchaseOrderInstance.total
-            poAllocation.value2 = purchaseOrderInstance.total/purchaseOrderInstance?.rate
-            poAllocation.save()*/
             
+            savePoComment(purchaseOrderInstance,params)/* --insert TO PO comment */
+
+            sendApproveEmail(purchaseOrderInstance) /* --Send Email */
+            
+            saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
+            
+            insertTOPOBalance(purchaseOrderInstance)
+
+                
             flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+                
             
+            redirect(action: "show", id: purchaseOrderInstance.id)    
         }
-
-        redirect(action: "show", id: purchaseOrderInstance.id)
         
     }    
 

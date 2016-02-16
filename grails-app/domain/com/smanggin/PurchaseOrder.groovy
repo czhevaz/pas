@@ -66,8 +66,8 @@ class PurchaseOrder {
 	String paymentTerms
 	String objective
 	String scheme
-	String mechanicsActivities
-
+	String mechanics
+	String activitiesComponent
 
 	static	belongsTo	= [TransactionGroup,Supplier,Currency]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -120,7 +120,8 @@ class PurchaseOrder {
 		paymentTerms nullable:true
 		objective nullable:true
 		scheme nullable:true
-		mechanicsActivities nullable:true
+		mechanics nullable:true
+		activitiesComponent nullable:true		
 
     }
 
