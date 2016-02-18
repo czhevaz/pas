@@ -148,7 +148,7 @@ class PurchaseOrder {
 	}
 
 
-	def getPppRemain(){
+	Float getPppRemain(){
 		def domainClassName = "com.smanggin." + triggerDomain
     	def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
         def ppp = domainClassInstance.findByNumber(pppNumber)
@@ -156,9 +156,9 @@ class PurchaseOrder {
         return ppp.remainCreditLimit
 	}
 	
-	def getPppRemainBrand(){
+	Float getPppRemainBrand(){
 		
-        def pppDetail    = PppDetail.findAllByPppNumberAndBrand(pppNumber,brand)
+        def pppDetail    = PppDetail.findByPppNumberAndBrand(pppNumber,brand)
         return pppDetail.remainCreditLimit
 	}
 

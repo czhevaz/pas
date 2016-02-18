@@ -41,13 +41,14 @@ if(actionName=='edit' || actionName=='show') {
                 colcreatorId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
                 colcreatorId.editor.options.required ='true'
 
-                colapproverId.editor.type = 'combobox';
+                colapproverId.editor = null;
+              /*  colapproverId.editor.type = 'combobox';
                 colapproverId.editor.options.valueField ='login';
                 colapproverId.editor.options.textField = 'login';
                 colapproverId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
-                colapproverId.editor.options.required ='true'                
+                colapproverId.editor.options.required ='true' */               
             },
-            //onClickRow: approvalDetailsOnClickRow,
+            onClickRow: approvalDetailsOnClickRow,
             url:'/${meta(name:'app.name')}/approvalDetail/jlist?masterField.name=transactionType&masterField.id=${transactionTypeInstance?.id}'">
                 <thead>
                     <tr>

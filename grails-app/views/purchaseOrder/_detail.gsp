@@ -338,6 +338,11 @@ if(actionName=='edit' || actionName=='show') {
                     var totalCost2 = totalCost/rate
 
                     $(total2Ed.target).numberbox('setValue',totalCost2);
+
+                    if(totalCost2 > ${purchaseOrderInstance?.pppRemainBrand}){
+                        alert('total cannot larger than  PPP value');
+                        $(totalEd.target).numberbox('setValue',0);
+                    }
                 },
                 error: function (xhr, status, error) {
                     alert("fail");
@@ -399,6 +404,11 @@ if(actionName=='edit' || actionName=='show') {
 
 			var total2Ed  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});	
 			$(total2Ed.target).numberbox('setValue',totalCost2);
+
+            if(totalCost2 > ${purchaseOrderInstance?.pppRemainBrand}){
+                alert('total cannot larger than  PPP value');
+                $(totalEd.target).numberbox('setValue',0);
+            }
 		}    	
     }	
 

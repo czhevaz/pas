@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b7dfecc9-9cee-402f-9c7e-f16f362dccee">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="414"/>
+	<property name="ireport.y" value="144"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -71,7 +71,7 @@
      T_PAS_PO."rate_detail_id" AS T_PAS_PO_rate_detail_id,
      T_PAS_PO."delivery_date" AS T_PAS_PO_delivery_date,
      T_PAS_PO."delivery_place" AS T_PAS_PO_delivery_place,
-     T_PAS_PO."mechanics_activities" AS T_PAS_PO_mechanics_activities,
+
      T_PAS_PO."objective" AS T_PAS_PO_objective,
      T_PAS_PO."payment_terms" AS T_PAS_PO_payment_terms,
      T_PAS_PO."scheme" AS T_PAS_PO_scheme,
@@ -239,7 +239,6 @@ WHERE
 	<field name="T_PAS_PO_rate_detail_id" class="java.math.BigDecimal"/>
 	<field name="T_PAS_PO_delivery_date" class="java.sql.Timestamp"/>
 	<field name="T_PAS_PO_delivery_place" class="java.lang.String"/>
-	<field name="T_PAS_PO_mechanics_activities" class="java.lang.String"/>
 	<field name="T_PAS_PO_objective" class="java.lang.String"/>
 	<field name="T_PAS_PO_payment_terms" class="java.lang.String"/>
 	<field name="T_PAS_PO_scheme" class="java.lang.String"/>
