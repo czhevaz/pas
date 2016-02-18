@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b7dfecc9-9cee-402f-9c7e-f16f362dccee">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="144"/>
+	<property name="ireport.y" value="301"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -146,7 +146,6 @@ WHERE
 	<field name="rate_detail_id" class="java.math.BigDecimal"/>
 	<field name="delivery_date" class="java.sql.Timestamp"/>
 	<field name="delivery_place" class="java.lang.String"/>
-	<field name="mechanics_activities" class="java.lang.String"/>
 	<field name="objective" class="java.lang.String"/>
 	<field name="payment_terms" class="java.lang.String"/>
 	<field name="scheme" class="java.lang.String"/>

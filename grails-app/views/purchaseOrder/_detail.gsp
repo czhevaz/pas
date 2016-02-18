@@ -12,8 +12,11 @@ if(actionName=='edit' || actionName=='show') {
             data-options="singleSelect:true, 
             collapsible:true, 
             rownumbers: true,
+            <g:if test ="${purchaseOrderInstance.state=='Draft'}">
             onClickRow: purchaseOrderDetailsOnClickRow,
+
             toolbar: '#tb-purchaseOrderDetails',
+            </g:if>
             onBeforeEdit: function(index,row){
                 var col = $(this).datagrid('getColumnOption', 'currencyCode');
                 //console.log(index);
