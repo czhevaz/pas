@@ -96,7 +96,10 @@ class PurchaseOrderController {
         purchaseOrderInstance.triggerDomain = domainPPP
         purchaseOrderInstance.state = 'Draft'
 
-        def approvals = globalService.getApprovals(purchaseOrderInstance)        
+        def approvals = globalService.getApprovals(purchaseOrderInstance)  
+        /*if (purchaseOrderInstance.transactionGroup?.transactionType?.code =="PONP") {
+            approvals = true    
+        } */     
         println " approvals >>>>>> " + approvals
         if(approvals){
             if (!purchaseOrderInstance.save(flush: true)) {
