@@ -50,8 +50,10 @@ class PrintService {
 	}
 	
 	def generateReportView(reportDef, response, filename){
+		print "filename" + filename
 		def file =filename.trim()
 		def out = reportDef.contentStream
+		response.setHeader("Content-Disposition", "inline; filename=\"${reportDef.parameters._name ?: file}.${reportDef.fileFormat.extension}\"");
 		response.setHeader("Expires", "0")
         response.setHeader("Cache-Control",
             "must-revalidate, post-check=0, pre-check=0")
@@ -85,13 +87,12 @@ class PrintService {
 				(it.name == key.toString())
 			}
 
-			println "key" + key
+			
 			if(skip)
 				continue			
 			def string =params.get(key)
-			println "string" + string
-			if(key.toString().endsWith("Date")){
-				println "string" + string
+			
+			if(key.toString().endsWith("Date")){	
 				string = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").parse(string)
 				/*if(key.toString().startsWith("start") && params.get(key).isEmpty())
 					string = "1970-01-01"

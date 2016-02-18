@@ -20,4 +20,13 @@ class SendMailJob {
         println "send mail job executed. total sent : " + count */
     }
 
+
+    def getAllPoMustApproved(){
+        def po = PurchaseOrder.createCriteria().list(){
+            projections{
+                property('mustApprovedBy')
+            }
+        }
+    }
+
 }

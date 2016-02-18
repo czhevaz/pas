@@ -65,9 +65,11 @@ grails.hibernate.cache.queries = false
 environments {
     development {
         grails.logging.jul.usebridge = true
+        jasper.dir.reports = 'web-app/reports'
     }
     production {
         grails.logging.jul.usebridge = false
+        jasper.dir.reports = 'web-app/reports'
         // TODO: grails.serverURL = "http://www.changeme.com"
     }
 }

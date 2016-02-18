@@ -60,8 +60,9 @@
 						
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box-body table-responsive -->
-
+		<g:if test="${transactionTypeInstance.code != 'PONP'}">
 			<g:render template="detail"/> 
+		</g:if>	
 		</div><!--/.box box-primary -->
 	</div><!--/.row -->
 </section>

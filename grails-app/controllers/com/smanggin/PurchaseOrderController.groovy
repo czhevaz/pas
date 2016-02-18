@@ -13,6 +13,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class PurchaseOrderController {
 
+    def printService 
     def fileUploadService
     def globalService       
     def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
@@ -786,6 +787,33 @@ class PurchaseOrderController {
         poBalance.balance2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
         poBalance.save(flush:true)
 
+    }
+
+
+    def printPdf(){
+        def purchaseOrder = PurchaseOrder.get(params.id.toLong())
+        def trTypeCode = purchaseOrder?.transactionGroup?.transactionType?.code
+        def filename = purchaseOrder.number
+        def file  = filename.replace("/","")
+        
+        def appSettingLogo = AppSetting.valueDefault('default_logo','KI_Logo2.jpg')
+        
+        println appSettingLogo
+        
+        StringBuilder routes = new StringBuilder();
+                    routes.append("images/logo/")
+                    routes.append(appSettingLogo);
+
+        String absolutePath = getServletContext().getRealPath(routes.toString());
+   
+        params.put('companyName','Kalbe International '+ "${purchaseOrder?.country}"+ ' Pte. Ltd')
+        params.put('image',absolutePath)
+        params.put('po_id',purchaseOrder?.id)
+        params.put('view',true)
+
+        println "params " + params
+        
+        printService.print("PDF", request.getLocale(), response,params,trTypeCode,file)
     }
 
 }

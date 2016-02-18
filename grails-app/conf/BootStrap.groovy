@@ -29,9 +29,8 @@ class BootStrap {
         def sendInterval=AppSetting.valueDefault('sendmail_interval','60000')
         println "sendInterval: " + sendInterval
         
-        SendMailJob.schedule(sendInterval.toLong())
+        SendMailJob.schedule('59 59 11 * *  ?')
 
- 
     }
 
     def destroy = {
