@@ -13,7 +13,8 @@ if(actionName=='edit' || actionName=='show') {
             singleSelect:true, 
             collapsible:true, 
             onBeforeEdit: function(rowIndex, rowData) {
-                
+                //var idColumn = $(this).datagrid('getColumnOption', 'id');
+                var id= $(this).datagrid('getRows')[rowIndex]['id'];
                 var colcreatorId = $(this).datagrid('getColumnOption', 'creatorId');
                 var colapproverId = $(this).datagrid('getColumnOption', 'approverId');
                 var countryName = $(this).datagrid('getRows')[rowIndex]['countryName'];
@@ -41,12 +42,17 @@ if(actionName=='edit' || actionName=='show') {
                 colcreatorId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
                 colcreatorId.editor.options.required ='true'
 
-                colapproverId.editor = null;
-              /*  colapproverId.editor.type = 'combobox';
-                colapproverId.editor.options.valueField ='login';
-                colapproverId.editor.options.textField = 'login';
-                colapproverId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
-                colapproverId.editor.options.required ='true' */               
+                console.log(id);
+                if(id == undefined){
+                    colapproverId.editor.type = 'combobox';
+                    colapproverId.editor.options.valueField ='login';
+                    colapproverId.editor.options.textField = 'login';
+                    colapproverId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
+                    colapproverId.editor.options.required ='true'                    
+                }else{
+                    colapproverId.editor.type = null;
+                }
+                
             },
             onClickRow: approvalDetailsOnClickRow,
             url:'/${meta(name:'app.name')}/approvalDetail/jlist?masterField.name=transactionType&masterField.id=${transactionTypeInstance?.id}'">
@@ -164,6 +170,7 @@ if(actionName=='edit' || actionName=='show') {
                    
                     	<th data-options="field:'transactionTypeId',hidden:true">transactionType</th>
 
+                        <th data-options="field:'id',hidden:true">id</th>
                                     
              
                     
@@ -223,7 +230,10 @@ if(actionName=='edit' || actionName=='show') {
 
             function approvalDetailsOnClickRow(index){
                 if (editIndex != index){
+
                     if (approvalDetailsEndEditing()){
+                        //var colapproverId = $(this).datagrid('getColumnOption', 'approverId');
+                        //colapproverId.editor = null;
                         $('#dg-approvalDetails').datagrid('selectRow', index)
                                 .datagrid('beginEdit', index);
                         editIndex = index;
