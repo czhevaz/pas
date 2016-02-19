@@ -469,7 +469,7 @@ class PurchaseOrderController {
 
             sendApproveEmail(purchaseOrderInstance) /* --Send Email */
             
-            saveNotif(purchaseOrderInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
+            saveNotif(purchaseOrderInstance,mustApprovedBy?.login)/* --insert TO Notif */
             
             insertTOPOBalance(purchaseOrderInstance)
 

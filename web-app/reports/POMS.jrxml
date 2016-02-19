@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b7dfecc9-9cee-402f-9c7e-f16f362dccee">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="409"/>
+	<property name="ireport.y" value="321"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -271,9 +271,9 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="458" splitType="Stretch">
+		<band height="426" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="69" width="802" height="389" uuid="b368cdcb-76eb-4f0c-a59b-d1d572d6b85e"/>
+				<reportElement x="0" y="44" width="802" height="381" uuid="b368cdcb-76eb-4f0c-a59b-d1d572d6b85e"/>
 				<staticText>
 					<reportElement mode="Opaque" x="0" y="0" width="467" height="20" backcolor="#CCCCCC" uuid="b6cc6dc9-d648-4abc-991b-88f0f8cd0845"/>
 					<box leftPadding="4">
@@ -489,7 +489,7 @@ WHERE
 				</staticText>
 			</frame>
 			<frame>
-				<reportElement mode="Transparent" x="0" y="0" width="802" height="69" backcolor="#CCCCCC" uuid="e2d7bfba-9ba3-47bb-98ca-1e041252b914"/>
+				<reportElement mode="Transparent" x="0" y="0" width="802" height="44" backcolor="#CCCCCC" uuid="e2d7bfba-9ba3-47bb-98ca-1e041252b914"/>
 				<box leftPadding="2">
 					<pen lineWidth="1.25"/>
 					<topPen lineWidth="1.25"/>
@@ -505,7 +505,7 @@ WHERE
 					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
 				</textField>
 				<image>
-					<reportElement x="0" y="0" width="151" height="69" uuid="718f5402-05d0-43ec-9f16-711dd4f01821"/>
+					<reportElement x="0" y="0" width="151" height="43" uuid="718f5402-05d0-43ec-9f16-711dd4f01821"/>
 					<imageExpression><![CDATA[$P{image}]]></imageExpression>
 				</image>
 			</frame>
