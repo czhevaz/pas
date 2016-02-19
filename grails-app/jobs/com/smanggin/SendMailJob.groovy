@@ -21,12 +21,6 @@ class SendMailJob {
     }
 
 
-    def getAllPoMustApproved(){
-        def po = PurchaseOrder.createCriteria().list(){
-            projections{
-                property('mustApprovedBy')
-            }
-        }
-    }
+    
 
 }

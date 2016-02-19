@@ -136,7 +136,6 @@ class PurchaseOrderController {
         
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
 
-
         if (!purchaseOrderInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
             redirect(action: "list")

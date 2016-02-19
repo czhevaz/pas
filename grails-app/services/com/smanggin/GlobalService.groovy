@@ -141,4 +141,16 @@ class GlobalService {
            Date end = calx.getTime();
         return [start:start,end:end] 
     }
+
+
+    def getAllPoMustApproved(){
+        def po = PurchaseOrder.createCriteria().list(){
+            eq('state','Waiting Approval')
+            projections{
+                property('mustApprovedBy')
+            }
+        }
+
+        return po.unique()
+    }
 }

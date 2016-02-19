@@ -3,7 +3,8 @@ class SecurityFilters {
     static nonAuthenticatedActions = [
         [controller:'authentication', action:'*'],
         
-        [controller:'login', action:'auth']   
+        [controller:'login', action:'auth']
+        //[controller:'purchaseORder', action:'printPdf']   
     ]
 
     def filters = {

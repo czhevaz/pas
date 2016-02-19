@@ -36,20 +36,22 @@ if(actionName=='edit' || actionName=='show') {
                 colbrandCode.editor.options.url = '/${meta(name:'app.name')}/brand/jlist?country='+countryName+'&masterField.name=lob&masterField.id='+lobCode;
                 colbrandCode.editor.options.required ='true'
             </g:if>    
-                colcreatorId.editor.type = 'combobox';
-                colcreatorId.editor.options.valueField ='login';
-                colcreatorId.editor.options.textField = 'login';
-                colcreatorId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
-                colcreatorId.editor.options.required ='true'
-
+                
                 console.log(id);
                 if(id == undefined){
+                    colcreatorId.editor.type = 'combobox';
+                    colcreatorId.editor.options.valueField ='login';
+                    colcreatorId.editor.options.textField = 'login';
+                    colcreatorId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
+                    colcreatorId.editor.options.required ='true'
+
                     colapproverId.editor.type = 'combobox';
                     colapproverId.editor.options.valueField ='login';
                     colapproverId.editor.options.textField = 'login';
                     colapproverId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
                     colapproverId.editor.options.required ='true'                    
                 }else{
+                    colcreatorId.editor.type = null;
                     colapproverId.editor.type = null;
                 }
                 

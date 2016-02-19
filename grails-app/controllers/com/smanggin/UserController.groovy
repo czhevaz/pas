@@ -199,6 +199,7 @@ class UserController {
     def postLogin() {
 		println "postlogin >>>>>>>>>> " +auth.user()
 		def user = User.findByLogin( auth.user() )
+        session['user'] = user?.login 
 		session['email'] = user?.email
 		session['country'] = user?.country
         session['isAdmin'] = user?.isAdmin

@@ -240,12 +240,13 @@ class ApprovalDetailController {
                 eq('noSeq',params.noSeq?.toLong())
                 
                 eq('transactionType',transactionType)
+
+                eq('inActive',false)
             }
-            
         }
 
         println '(approvalDetail)  >>>. ' + approvalDetail
-        if(approvalDetail){
+        if(approvalDetail.size() > 0){
             return false
         }else{
             return true
