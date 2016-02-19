@@ -446,13 +446,13 @@ class PurchaseOrderController {
                 redirect(action: "show", id: purchaseOrderInstance.id)  
            
         }else{
-            def mustApprovedBy = globalService.getApprovalBySeq(purchaseOrderInstance,1)
+            def mustApprovedBy = globalService.getPOApproverBySeq(purchaseOrderInstance,1)
             purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
             
                
             purchaseOrderInstance.state = 'Waiting Approval'    
             if(mustApprovedBy){
-                purchaseOrderInstance.mustApprovedBy = mustApprovedBy[0]?.approver
+                purchaseOrderInstance.mustApprovedBy = mustApprovedBy?.login
             }
             
 
@@ -800,6 +800,8 @@ class PurchaseOrderController {
         def file  = filename.replace("/","")
         
         def appSettingLogo = AppSetting.valueDefault('default_logo','KI_Logo2.jpg')
+        def approver1 = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,1)
+        def approver2 = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,2)
         
         println appSettingLogo
         
@@ -808,7 +810,8 @@ class PurchaseOrderController {
                     routes.append(appSettingLogo);
 
         String absolutePath = getServletContext().getRealPath(routes.toString());
-   
+        params.put('approver1',approver1?.approver?.name)
+        params.put('approver2',approver2?.approver?.name)
         params.put('companyName','Kalbe International '+ "${purchaseOrder?.country}"+ ' Pte. Ltd')
         params.put('image',absolutePath)
         params.put('po_id',purchaseOrder?.id)

@@ -45,7 +45,7 @@ class GlobalService {
             }
 
 
-            
+           ne('inActive',true) 
            eq('noSeq',noseq?.toLong())
     	}
 

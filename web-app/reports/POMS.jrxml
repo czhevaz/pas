@@ -2,12 +2,14 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b7dfecc9-9cee-402f-9c7e-f16f362dccee">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="301"/>
+	<property name="ireport.y" value="409"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="image" class="java.lang.String"/>
 	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="approver1" class="java.lang.String"/>
+	<parameter name="approver2" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
      *,
@@ -725,6 +727,14 @@ WHERE
 				<reportElement x="10" y="0" width="100" height="20" uuid="6cbb8822-8be4-4348-925a-8257f91ea017"/>
 				<text><![CDATA[Prepared By]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="122" y="60" width="100" height="20" uuid="22924a83-43b2-4533-8dfa-949d50a25889"/>
+				<textFieldExpression><![CDATA[$P{approver1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="234" y="61" width="100" height="20" uuid="29e42e74-283b-4395-91ca-37dff632f716"/>
+				<textFieldExpression><![CDATA[$P{approver2}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>
