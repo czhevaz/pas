@@ -52,7 +52,7 @@ class PurchaseOrderController {
     }
 
     def save() {
-        println params
+        
         def purchaseOrderInstance = new PurchaseOrder(params)
         
         def country = Country.findByName(params.country)
@@ -63,7 +63,7 @@ class PurchaseOrderController {
         	def domainClassName = "com.smanggin." + domainPPP
     		def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
         	def ppp = domainClassInstance.findByNumber(params.pppNumber)
-            def pppDetail    = PppDetail.findAllByPppNumberAndBrand(params.pppNumber,ppp?.brand)
+            def pppDetail    = PppDetail.findAllByPppNumberAndBrand(params.pppNumber,params?.brand?.id)
 
         	purchaseOrderInstance.pppNumber = ppp?.number
         	purchaseOrderInstance.country = ppp?.country
@@ -101,7 +101,7 @@ class PurchaseOrderController {
             approvals = true    
         } */     
         println " approvals >>>>>> " + approvals
-        if(approvals){
+        if(approvals?.size() > 0){
             if (!purchaseOrderInstance.save(flush: true)) {
                 render(view: "create", model: [purchaseOrderInstance: purchaseOrderInstance])
                 return
@@ -417,6 +417,7 @@ class PurchaseOrderController {
     Action Waiting Approve
     **/
     def actionWaitingApprove() {
+        
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
         if (!purchaseOrderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
@@ -445,6 +446,7 @@ class PurchaseOrderController {
                 redirect(action: "show", id: purchaseOrderInstance.id)  
            
         }else{
+            purchaseOrderInstance.properties = params
             def mustApprovedBy = globalService.getPOApproverBySeq(purchaseOrderInstance,1)
             purchaseOrderInstance.reasonforInvestment= params.reasonforInvestment
             
@@ -809,6 +811,14 @@ class PurchaseOrderController {
                     routes.append(appSettingLogo);
 
         String absolutePath = getServletContext().getRealPath(routes.toString());
+
+        def areaList = []
+        purchaseOrder?.purchaseOrderDetails?.each{
+            areaList.push(it.coverageArea)
+        }
+        areaList.unique();
+
+        params.put('area',areaList.join(','))
         params.put('approver1',approver1?.approver?.name)
         params.put('approver2',approver2?.approver?.name)
         params.put('companyName','Kalbe International '+ "${purchaseOrder?.country}"+ ' Pte. Ltd')

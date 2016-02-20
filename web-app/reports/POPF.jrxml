@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POPF" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3877e4c-8792-4ad7-88d3-ad0fcb4d01bf">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="5"/>
-	<property name="ireport.y" value="427"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="241"/>
 	<subDataset name="dataset1" uuid="f6203677-8f57-4365-b876-8b6aca3f57ff"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -110,7 +110,8 @@
      T_PAS_PO."payment_terms" AS T_PAS_PO_payment_terms,
      T_PAS_PO."scheme" AS T_PAS_PO_scheme,
      T_PAS_PO."activities_component" AS T_PAS_PO_activities_component,
-     T_PAS_PO."mechanics" AS T_PAS_PO_mechanics
+     T_PAS_PO."mechanics" AS T_PAS_PO_mechanics,
+T_PAS_PO."add_intructions" AS T_PAS_PO_add_intructions
 FROM
      "dbo"."T_PAS_PO" T_PAS_PO INNER JOIN "dbo"."T_PAS_PO_Detail" T_PAS_PO_Detail ON T_PAS_PO."id" = T_PAS_PO_Detail."purchase_order_id"
      INNER JOIN "dbo"."M_PAS_Supplier" M_PAS_Supplier ON T_PAS_PO."supplier_id" = M_PAS_Supplier."id"
@@ -167,7 +168,7 @@ WHERE
 	<field name="T_PAS_PO_Approver_last_updated" class="java.sql.Timestamp"/>
 	<field name="T_PAS_PO_Approver_no_seq" class="java.math.BigDecimal"/>
 	<field name="T_PAS_PO_Approver_purchase_order_id" class="java.math.BigDecimal"/>
-	<field name="T_PAS_PO_Approver_status" class="java.lang.String"/>
+	<field name="T_PAS_PO_Approver_status" class="java.math.BigDecimal"/>
 	<field name="T_PAS_PO_Approver_approver_date" class="java.sql.Timestamp"/>
 	<field name="T_PAS_PO_Approver_approval_detail_id" class="java.math.BigDecimal"/>
 	<field name="T_PAS_PO_id" class="java.math.BigDecimal"/>
@@ -216,6 +217,7 @@ WHERE
 	<field name="T_PAS_PO_scheme" class="java.lang.String"/>
 	<field name="T_PAS_PO_activities_component" class="java.lang.String"/>
 	<field name="T_PAS_PO_mechanics" class="java.lang.String"/>
+	<field name="T_PAS_PO_add_intructions" class="java.lang.String"/>
 	<variable name="T_PAS_PO_Detail_total_cost_1" class="java.lang.Double" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{T_PAS_PO_Detail_total_cost}]]></variableExpression>
 	</variable>
@@ -228,10 +230,13 @@ WHERE
 				<reportElement x="17" y="10" width="129" height="58" uuid="e3598323-d1a1-4cd2-b602-ff0a548cf7a1"/>
 				<imageExpression><![CDATA[$P{image}]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="169" y="10" width="324" height="24" uuid="f7dd2305-6b82-4370-9b91-fbe31222bb3b"/>
-				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
-			</textField>
+			<staticText>
+				<reportElement x="146" y="28" width="396" height="22" uuid="5619bd00-8080-4b20-87a0-9a88ea3b8c23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Purchase Order ]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -552,15 +557,12 @@ WHERE
 	<pageFooter>
 		<band height="261" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="14" width="555" height="58" uuid="d744aff7-c9f6-46de-8ab2-c499d7a87a97"/>
+				<reportElement x="0" y="14" width="555" height="115" uuid="d744aff7-c9f6-46de-8ab2-c499d7a87a97"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="0" y="14" width="45" height="20" uuid="c2954047-0ba6-4b10-93c5-5732166dfab1"/>
 				<text><![CDATA[Note :]]></text>
 			</staticText>
-			<rectangle>
-				<reportElement x="0" y="85" width="555" height="52" uuid="55471306-6323-4063-a421-8d2cdc951fdd"/>
-			</rectangle>
 			<staticText>
 				<reportElement x="0" y="148" width="100" height="20" uuid="11e448db-c813-4cc6-8ffc-70e1f096e47a"/>
 				<text><![CDATA[Prepared By]]></text>
@@ -588,6 +590,10 @@ WHERE
 			<textField>
 				<reportElement x="224" y="241" width="100" height="20" uuid="54d65aaa-407c-43ed-b073-b8de817529a3"/>
 				<textFieldExpression><![CDATA[$P{approver2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="34" width="555" height="95" uuid="19b27a24-9458-4f33-8e59-507697b30ecd"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_PO_add_intructions}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

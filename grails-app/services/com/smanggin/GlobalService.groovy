@@ -9,7 +9,10 @@ class GlobalService {
     static transactional = true
 
     def getApprovals(purchaseOrder){
-        
+        println "country"+purchaseOrder.country
+        println "lob" + purchaseOrder.lob
+        println "brand" +purchaseOrder.brand
+        println "trtype" +purchaseOrder?.transactionGroup?.transactionType?.code
     	def appDetail = ApprovalDetail.createCriteria().list(){
     		country{
                eq('name',purchaseOrder.country)     
@@ -24,7 +27,7 @@ class GlobalService {
                 eq('code',purchaseOrder?.transactionGroup?.transactionType?.code)
             }
             
-            ne('inActive',true)
+            eq('inActive',false)
             
     	}
 

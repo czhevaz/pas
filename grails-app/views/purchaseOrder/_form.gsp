@@ -92,6 +92,14 @@
 			
 
         <div id= "POMS"  style="display:${purchaseOrderInstance?.transactionGroup?.transactionType?.code =='POMS' ?'block':'none'}">
+        <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'programTittle', 'error')} ">
+            <label for="programTittle" class="col-sm-3 control-label"><g:message code="purchaseOrder.programTittle.label" default="Program Tittle" /></label>
+            <div class="col-sm-6">
+                <g:textArea class="form-control" name="programTittle" value="${purchaseOrderInstance?.programTittle}" rows="5" cols="40"/>
+                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'programTittle', 'error')}</span>
+            </div>
+        </div>
+
         <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'objective', 'error')} ">
             <label for="objective" class="col-sm-3 control-label"><g:message code="purchaseOrder.objective.label" default="Objective(s)" /></label>
             <div class="col-sm-6">

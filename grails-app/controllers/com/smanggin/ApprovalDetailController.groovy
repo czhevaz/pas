@@ -134,29 +134,32 @@ class ApprovalDetailController {
             }            
         }
         
-        approvalDetailInstance.properties = params
-        approvalDetailInstance.country = Country.findByName(params.countryName)
-        approvalDetailInstance.transactionType = TransactionType.get(params.transactionTypeId)
-        if(params.lobCode){
-            approvalDetailInstance.lob = params.lobCode
-            approvalDetailInstance.brand = params.brandCode    
-        }
         
-        approvalDetailInstance.creator = User.findByLogin(params.creatorId)
-        approvalDetailInstance.approver = User.findByLogin(params.approverId)
-        
-        if(!params.id){
-            approvalDetailInstance.inActive = false    
-        }
-        
-        if(params.inActive == '1'){
-            approvalDetailInstance.dateInActive = new Date()
-        }
-        else{
-            approvalDetailInstance.dateInActive = null
-        }
             
         if(checkApprover(params)){
+
+            approvalDetailInstance.properties = params
+            approvalDetailInstance.country = Country.findByName(params.countryName)
+            approvalDetailInstance.transactionType = TransactionType.get(params.transactionTypeId)
+            if(params.lobCode){
+                approvalDetailInstance.lob = params.lobCode
+                approvalDetailInstance.brand = params.brandCode    
+            }
+            
+            approvalDetailInstance.creator = User.findByLogin(params.creatorId)
+            approvalDetailInstance.approver = User.findByLogin(params.approverId)
+            
+            if(!params.id){
+                approvalDetailInstance.inActive = false    
+            }
+            
+            if(params.inActive == '1'){
+                approvalDetailInstance.dateInActive = new Date()
+            }
+            else{
+                approvalDetailInstance.dateInActive = null
+            }
+
             if (!approvalDetailInstance.save(flush: true)) {
                 render([success: false, messages: approvalDetailInstance.errors] as JSON)
                 return
@@ -174,9 +177,30 @@ class ApprovalDetailController {
     }
 
     def jlist() {
+        println params
+        if(params.sort == 'creatorId'){
+            params.sort  = 'creator'
+        }
+        if(params.sort == 'approverId'){
+            params.sort  = 'approver'
+        }
+
+        if(params.sort == 'brandCode'){
+            params.sort  = 'brand'
+        }
+
+        if(params.sort == 'lobCode'){
+            params.sort  = 'lob'
+        }
+        if(params.sort == 'countryName'){
+            params.sort  = 'country'
+        }
+
+        params.order = params.order ?: 'asc' 
+        params.sort = params.sort ?: 'inActive' 
         if(params.masterField){
             def c = ApprovalDetail.createCriteria()
-            def results = c.list {
+            def results = c.list(params) {
                 eq(params.masterField.name+'.id',params.masterField.id.toLong())    
             }
             render results as JSON
@@ -184,7 +208,7 @@ class ApprovalDetailController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            //params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render ApprovalDetail.list(params) as JSON           
         }
         
@@ -241,7 +265,12 @@ class ApprovalDetailController {
                 
                 eq('transactionType',transactionType)
 
-                eq('inActive',false)
+                //eq('inActive',false)
+
+                if(params.id){
+                    ne('id',params.id.toLong())   
+                }
+                
             }
         }
 

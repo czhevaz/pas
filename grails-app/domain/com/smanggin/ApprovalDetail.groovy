@@ -36,7 +36,8 @@ class ApprovalDetail {
 		brand nullable:true
 		inActive nullable: true
 		dateInActive nullable: true
-		country(unique: ['lob', 'brand','noSeq','approver','transactionType'])
+		country nullable:true
+		//country(unique: ['lob', 'brand','noSeq','transactionType','inActive'])
     }
 	
 	/*

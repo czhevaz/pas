@@ -98,6 +98,14 @@
 							</g:if>
 							<g:if test ="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS'}">
 							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.programTittle.label" default="programTittle" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "programTittle")}</td>
+								
+							</tr>
+
+
+							<tr class="prop">
 								<td valign="top" class="name"><g:message code="purchaseOrder.objective.label" default="Objective" /></td>
 								
 								<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "objective")}</td>
@@ -162,6 +170,7 @@
 					<g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
 					<g:hiddenField name="version" value="${purchaseOrderInstance?.version}" />
 					<g:hiddenField name="updatedBy" value="${auth.user()}"/>
+					<g:hiddenField id="addIntructions" name="addIntructions" value="${purchaseOrderInstance?.addIntructions}"/>
 					<g:hiddenField id ="rejectNotes" name="rejectNotes" value="${purchaseOrderInstance?.rejectNotes}" />
 
 					<div class="form-actions">
@@ -185,14 +194,16 @@
 					
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->
-			</g:form>	
+				
 			<div class="box box-primary clearfix">
 				<div class="box-body clearfix">
 
-					<g:render template="detail"/> 
+					<g:render template="detail"/>
+					
+					<div class ='col-sm-6'>
 					<div class="form-group clearfix">
-						<label for="totalPO" class="col-sm-2 control-label"><g:message code="purchaseOrder.totalPo.label" default="Total PO" /> (${purchaseOrderInstance?.currency1?.code})</label>
-						<div class="col-sm-3" >
+						<label for="totalPO" class="col-sm-6 control-label"><g:message code="purchaseOrder.totalPo.label" default="Total PO" /> (${purchaseOrderInstance?.currency1?.code})</label>
+						<div class="col-sm-6" >
 							<p class="form-control-static">
 								<span id ="totalPO">
 								<g:formatNumber number="${purchaseOrderInstance?.total?:0}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
@@ -203,8 +214,8 @@
 					</div>
 					
 					<div class="form-group clearfix">
-						<label for="totalPO2" class="col-sm-2 control-label"><g:message code="purchaseOrder.totalPo.label" default="Total PO" /> (${purchaseOrderInstance?.currency2?.code})</label>
-						<div class="col-sm-3">
+						<label for="totalPO2" class="col-sm-6 control-label"><g:message code="purchaseOrder.totalPo.label" default="Total PO" /> (${purchaseOrderInstance?.currency2?.code})</label>
+						<div class="col-sm-6">
 
 							<p class="form-control-static">
 								<span id ="totalPO2">
@@ -216,8 +227,8 @@
 					</div>
 
 					<div class="form-group clearfix">
-						<label for="totalPO2" class="col-sm-2 control-label"><g:message code="purchaseOrder.outStanding.label" default="OutStanding PO" /> (${purchaseOrderInstance?.currency1?.code})</label>
-						<div class="col-sm-3">
+						<label for="totalPO2" class="col-sm-6 control-label"><g:message code="purchaseOrder.outStanding.label" default="OutStanding PO" /> (${purchaseOrderInstance?.currency1?.code})</label>
+						<div class="col-sm-6">
 
 							<p class="form-control-static">
 								<span id ="totalPO2">
@@ -229,8 +240,8 @@
 					</div>
 
 					<div class="form-group clearfix">
-						<label for="totalPO2" class="col-sm-2 control-label"><g:message code="purchaseOrder.outStanding.label" default="OutStanding PO" /> (${purchaseOrderInstance?.currency2?.code})</label>
-						<div class="col-sm-3">
+						<label for="totalPO2" class="col-sm-6  control-label"><g:message code="purchaseOrder.outStanding.label" default="OutStanding PO" /> (${purchaseOrderInstance?.currency2?.code})</label>
+						<div class="col-sm-6">
 
 							<p class="form-control-static">
 								<span id ="totalPO2">
@@ -240,14 +251,30 @@
 							
 						</div>
 					</div>
+					</div>
+					<div class = "col-sm-6">
+						<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')} ">
+				            <label for="addIntructions" class="col-sm-6 control-label"><g:message code="purchaseOrder.addIntructions.label" default="Additional Intructions" /></label>
+				            
+				                <g:textArea class="form-control" name="addIntructions2" value="${purchaseOrderInstance?.addIntructions}" rows="5" cols="40"/>
+				                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')}</span>
+				            
+				        </div>
+					</div>
+									
 				</div><!--/.box-body -->	
 				
 			</div><!--/.box box-primary --> 
+			</g:form>
 			<g:render template="discussionArea"/>
 			<g:render template="acivityProposal"/>
 			
 		</div>
 		<r:script>
+			$( "#addIntructions2" ).keyup(function() {
+				$("#addIntructions").val($(this).val());
+  				
+			});
 			function modalOpened(){
 				$('#allocation').modal('show')
 			  	.on('shown', function() {

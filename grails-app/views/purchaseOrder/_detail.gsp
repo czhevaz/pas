@@ -105,7 +105,7 @@ if(actionName=='edit' || actionName=='show') {
      
                     <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS'}">         
                         
-                        <th data-options="field:'targetSales',width:200,editor:'text'">Target Total Sales <span id="targetSalesLabel"> </span></th>
+                        <th data-options="field:'targetSales',formatter:formatNumber,  width:200,editor:{type:'numberbox',options:{precision:2}}">Target Total Sales <span id="targetSalesLabel"> </span></th>
 
                         <th data-options="field:'pic',width:200,editor:'text'">PIC</th>
 
@@ -123,6 +123,7 @@ if(actionName=='edit' || actionName=='show') {
                         <th data-options="field:'createdBy',hidden:true">Purchase Order</th>
 
                         <th data-options="field:'purchaseOrderId',hidden:true">Purchase Order</th>            
+                        <th data-options="field:'id',hidden:true">id</th>            
                     </tr>
                 </thead>
             </table>
