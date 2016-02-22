@@ -219,7 +219,7 @@ WHERE
 	<pageHeader>
 		<band height="165" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="0" width="269" height="127" uuid="c1c22c99-bd07-4402-b149-b9aa270cb704"/>
+				<reportElement x="0" y="0" width="269" height="154" uuid="c1c22c99-bd07-4402-b149-b9aa270cb704"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -235,36 +235,44 @@ WHERE
 					<text><![CDATA[To :]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="40" width="100" height="20" uuid="f700b69b-d5ed-4814-86a7-b2bb10f34709"/>
+					<reportElement x="0" y="40" width="269" height="74" uuid="f700b69b-d5ed-4814-86a7-b2bb10f34709"/>
 					<textElement>
 						<paragraph leftIndent="5"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{M_PAS_Supplier_address}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="20" width="100" height="20" uuid="da1b95cb-ea85-485e-b912-a946bf88c74f"/>
+					<reportElement x="0" y="20" width="269" height="20" uuid="da1b95cb-ea85-485e-b912-a946bf88c74f"/>
 					<textElement>
 						<paragraph leftIndent="5"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{M_PAS_Supplier_name}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="60" width="100" height="20" uuid="900dcc01-bead-465e-be1f-0946acfc9012"/>
+					<reportElement x="66" y="114" width="146" height="20" uuid="900dcc01-bead-465e-be1f-0946acfc9012"/>
 					<textElement>
 						<paragraph leftIndent="5"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{M_PAS_Supplier_phones}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="80" width="100" height="20" uuid="6262c378-f2d2-4d73-9869-58480707dd12"/>
+					<reportElement x="66" y="134" width="146" height="20" uuid="6262c378-f2d2-4d73-9869-58480707dd12"/>
 					<textElement>
 						<paragraph leftIndent="5"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{M_PAS_Supplier_fax}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="0" y="114" width="66" height="20" uuid="4602c488-fa71-4f13-af10-06c3e19c721d"/>
+					<text><![CDATA[Phone]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="134" width="66" height="20" uuid="60e5c644-fd32-4686-b74f-6a43e63fb2c4"/>
+					<text><![CDATA[Supplier]]></text>
+				</staticText>
 			</frame>
 			<frame>
-				<reportElement x="280" y="0" width="275" height="127" uuid="b921ce69-95f6-4742-a691-f72f03369d0a"/>
+				<reportElement x="280" y="0" width="275" height="154" uuid="b921ce69-95f6-4742-a691-f72f03369d0a"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>

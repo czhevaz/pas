@@ -167,7 +167,13 @@ class PurchaseOrder {
 		
         def pppDetail    = PppDetail.findByPppNumberAndBrand(pppNumber,brand)
         def po = PurchaseOrder.findAllByNumberAndBrand(pppNumber,brand)
-        return pppDetail.remainCreditLimit
+        def remainPo = 0
+        po.each{
+			remainPo = remainPo - it.PORemain1        	
+        }
+
+       	def remain = pppDetail.remainCreditLimit + remainPo  
+        return remain
 	}
 
 	def getPORemain1(){
