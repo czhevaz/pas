@@ -265,7 +265,7 @@ class ApprovalDetailController {
                 
                 eq('transactionType',transactionType)
 
-                //eq('inActive',false)
+                eq('inActive',false)
 
                 if(params.id){
                     ne('id',params.id.toLong())   
