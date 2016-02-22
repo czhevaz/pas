@@ -26,7 +26,7 @@ class PurchaseOrderController {
     }
 
     def list() {
-        def user = User.findByName(auth.user())
+        def user = User.findByLogin(auth.user())
         params.order = params.order ?: 'desc' 
         params.sort = params.sort ?: 'dateCreated' 
         //params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -34,8 +34,8 @@ class PurchaseOrderController {
             
             if(user?.role != 'LOB'){
                 or{
-                    eq('createdBy',user.login)
-                    eq('mustApprovedBy',user.login)    
+                    eq('createdBy',user?.login)
+                    eq('mustApprovedBy',user?.login)    
                 }    
             }
             if(params.state){
