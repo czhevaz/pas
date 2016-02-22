@@ -166,6 +166,7 @@ class PurchaseOrder {
 	Float getPppRemainBrand(){
 		
         def pppDetail    = PppDetail.findByPppNumberAndBrand(pppNumber,brand)
+        def po = PurchaseOrder.findAllByNumberAndBrand(pppNumber,brand)
         return pppDetail.remainCreditLimit
 	}
 
@@ -174,6 +175,7 @@ class PurchaseOrder {
 			eq('purchaseOrder', this)
 
 		}
+
 		def totaRfp1 = 0
 		rfpDetails.each{
 			totaRfp1 = totaRfp1 + it.totalCost1

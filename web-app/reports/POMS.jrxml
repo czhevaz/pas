@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cd318a97-d14f-4eca-8e94-c04af93f17f6">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="455"/>
 	<parameter name="po_id" class="java.lang.String"/>
 	<parameter name="image" class="java.lang.String"/>
 	<parameter name="companyName" class="java.lang.String"/>
@@ -379,7 +379,7 @@ WHERE
 					<textFieldExpression><![CDATA[$F{T_PAS_PO_number}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="467" y="69" width="335" height="103" uuid="d0f343d7-ef3e-45b0-be03-178fc6ce836a"/>
+					<reportElement x="467" y="70" width="335" height="103" uuid="d0f343d7-ef3e-45b0-be03-178fc6ce836a"/>
 					<box leftPadding="5">
 						<pen lineWidth="1.25"/>
 						<topPen lineWidth="1.25"/>
@@ -683,7 +683,7 @@ WHERE
 					<bottomPen lineWidth="1.25"/>
 					<rightPen lineWidth="1.25"/>
 				</box>
-				<text><![CDATA[note]]></text>
+				<text><![CDATA[Additional Insturctions]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="14" y="67" width="647" height="56" uuid="14f4cdfa-5aae-4250-9326-95bf275b4f81"/>

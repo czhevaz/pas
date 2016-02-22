@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POPF" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3877e4c-8792-4ad7-88d3-ad0fcb4d01bf">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="87"/>
 	<subDataset name="dataset1" uuid="f6203677-8f57-4365-b876-8b6aca3f57ff"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -537,8 +537,9 @@ WHERE
 				<reportElement x="0" y="14" width="555" height="115" uuid="d744aff7-c9f6-46de-8ab2-c499d7a87a97"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="14" width="45" height="20" uuid="c2954047-0ba6-4b10-93c5-5732166dfab1"/>
-				<text><![CDATA[Note :]]></text>
+				<reportElement x="0" y="14" width="158" height="20" uuid="c2954047-0ba6-4b10-93c5-5732166dfab1"/>
+				<box leftPadding="4"/>
+				<text><![CDATA[Additional Instructions:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="148" width="100" height="20" uuid="11e448db-c813-4cc6-8ffc-70e1f096e47a"/>
@@ -570,6 +571,7 @@ WHERE
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="34" width="555" height="95" uuid="19b27a24-9458-4f33-8e59-507697b30ecd"/>
+				<box leftPadding="5" rightPadding="1"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_add_intructions}]]></textFieldExpression>
 			</textField>
 		</band>
