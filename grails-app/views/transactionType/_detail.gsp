@@ -77,6 +77,9 @@ if(actionName=='edit' || actionName=='show') {
                     colisSequential.editor.type = 'checkbox';
                     colisSequential.editor.options.on ='1';
                     colisSequential.editor.options.off ='0';
+                    
+                    colnoSeq.editor.type = 'numberbox';
+                    colnoSeq.editor.options.precision = 0;
 
                 }else{
                     colcountry.editor.type = null;
