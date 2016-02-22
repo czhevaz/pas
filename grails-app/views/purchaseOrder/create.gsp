@@ -26,7 +26,7 @@
 				</g:hasErrors>
 				
 				<g:form action="save" class="form-horizontal" >
-					<g:hiddenField name="createdBy" value="${auth.user()}"/>
+					
 					<g:hiddenField id="pppNumber" name="pppNumber" value="purchaseOrderInstance?.pppNumber"/>	
 					<div class="box-body">
 						<fieldset class="form">

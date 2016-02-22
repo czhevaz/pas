@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b7dfecc9-9cee-402f-9c7e-f16f362dccee">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="410"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -272,6 +272,9 @@ WHERE
 	<field name="T_PAS_PO_Detail_uom" class="java.lang.String"/>
 	<field name="T_PAS_PO_Detail_currency1_id" class="java.lang.String"/>
 	<field name="T_PAS_PO_Detail_target_sales" class="java.lang.Double"/>
+	<variable name="T_PAS_PO_Detail_total_cost_1" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{T_PAS_PO_Detail_total_cost}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -637,7 +640,7 @@ WHERE
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="31" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<rectangle>
 				<reportElement x="568" y="1" width="200" height="19" uuid="5b6ef2ea-492a-473b-a219-d1bf690c9ca1"/>
 			</rectangle>
@@ -653,7 +656,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_Detail_description}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="193" y="1" width="115" height="20" uuid="6d547830-053c-4822-9ff5-b19afc6f715f"/>
+				<reportElement x="193" y="1" width="115" height="19" uuid="6d547830-053c-4822-9ff5-b19afc6f715f"/>
 				<box leftPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -664,7 +667,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{outlet}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="308" y="1" width="60" height="20" uuid="3a57e278-298b-413e-bf6c-81dba1a13775"/>
+				<reportElement x="308" y="1" width="60" height="19" uuid="3a57e278-298b-413e-bf6c-81dba1a13775"/>
 				<box leftPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -675,7 +678,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_Detail_currency1_id}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="368" y="1" width="100" height="20" uuid="880fe005-be8f-4c1b-ab6b-5109bc982f11"/>
+				<reportElement x="368" y="1" width="100" height="19" uuid="880fe005-be8f-4c1b-ab6b-5109bc982f11"/>
 				<box leftPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -687,7 +690,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_Detail_total_cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="468" y="1" width="100" height="20" uuid="098da4fb-a9fe-44a0-b6fd-1aaccf336bc9"/>
+				<reportElement x="468" y="1" width="100" height="19" uuid="098da4fb-a9fe-44a0-b6fd-1aaccf336bc9"/>
 				<box leftPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -710,7 +713,7 @@ WHERE
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd-MMM-yy" isBlankWhenNull="true">
-				<reportElement x="568" y="1" width="100" height="20" uuid="1116103c-104d-4af9-9681-83e04961cb73"/>
+				<reportElement x="568" y="1" width="100" height="19" uuid="1116103c-104d-4af9-9681-83e04961cb73"/>
 				<textElement>
 					<paragraph leftIndent="5"/>
 				</textElement>
@@ -726,10 +729,30 @@ WHERE
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="24" splitType="Stretch"/>
+		<band height="24" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="768" height="20" uuid="41ef796f-ebc9-49b5-a150-003d84a487a2"/>
+			</rectangle>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="368" y="0" width="100" height="20" uuid="db9f5df3-7b56-4ae7-87e6-3392d7170fd3"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="1.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="1.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{T_PAS_PO_Detail_total_cost_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="268" y="4" width="100" height="20" uuid="702f763d-8373-4a9b-afe0-96a29493ceee"/>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="30" splitType="Stretch"/>
+		<band height="28" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="81" splitType="Stretch">

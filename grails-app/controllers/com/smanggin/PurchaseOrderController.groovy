@@ -34,8 +34,8 @@ class PurchaseOrderController {
             
             if(user?.role != 'LOB'){
                 or{
-                    eq('createdBy',auth.user())
-                    eq('mustApprovedBy',auth.user())    
+                    eq('createdBy',user.login)
+                    eq('mustApprovedBy',user.login)    
                 }    
             }
             if(params.state){
@@ -94,6 +94,7 @@ class PurchaseOrderController {
         }
 
         purchaseOrderInstance.triggerDomain = domainPPP
+        purchaseOrderInstance.createdBy = session.user
         purchaseOrderInstance.state = 'Draft'
 
         def approvals = globalService.getApprovals(purchaseOrderInstance)  
@@ -356,16 +357,17 @@ class PurchaseOrderController {
 
             render map as JSON
         }else if(params.state){
+            def user = User.findByLogin(auth.user())
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
                 eq('state',params.state)
 
                 if(params.state == "Waiting Approval"){
-                    eq('mustApprovedBy',auth.user())
+                    eq('mustApprovedBy',user.login)
                     
                 }
                 if(params.state == "Rejected"){
-                    eq('createdBy',auth.user())
+                    eq('createdBy',user.login)
                 }
             }
             render results as JSON
@@ -417,7 +419,7 @@ class PurchaseOrderController {
     Action Waiting Approve
     **/
     def actionWaitingApprove() {
-        
+
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
         if (!purchaseOrderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
@@ -646,11 +648,12 @@ class PurchaseOrderController {
     save PoComment
     **/  
     def savePoComment(purchaseOrderInstance,params){
+        def user = User.findByLogin(auth.user())
         if(params.comment){
             
             def logChatInstance =new PurchaseOrderComment()
             logChatInstance.description=params.comment
-            logChatInstance.createdBy = auth.user()
+            logChatInstance.createdBy = user.login
             logChatInstance.purchaseOrder =purchaseOrderInstance
             logChatInstance.save()
         }
@@ -661,14 +664,14 @@ class PurchaseOrderController {
     SaveNotif
     **/  
     def saveNotif(purchaseOrderInstance,forUser){
-
+        def user = User.findByLogin(auth.user())
         def notif = new Notif()
         notif.docName = "PurchaseOrder"
         notif.docId = purchaseOrderInstance.id
         notif.docNumber = purchaseOrderInstance.number
         notif.state = purchaseOrderInstance.state
         notif.forUser = forUser
-        notif.createdBy = auth.user()
+        notif.createdBy = user.login
         notif.isNew = true
         notif.save()
         
