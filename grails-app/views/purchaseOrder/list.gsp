@@ -33,10 +33,11 @@
 								
 								<g:sortableColumn property="createdBy" title="${message(code: 'purchaseOrder.createdBy.label', default: 'Created By')}" />
 
-
 								<g:sortableColumn property="purchaseOrderDate" title="${message(code: 'purchaseOrder.purchaseOrderDate.label', default: 'Purchase Order Date')}" />
 							
 								<th><g:message code="purchaseOrder.TransactionGroup.label" default="TransactionGroup" /></th>	
+
+								<th><g:message code="ppp.state.label" default="Status" /></th>
 
 								<th><g:message code="purchaseOrder.supplier.label" default="Supplier" /></th>
 
@@ -73,6 +74,8 @@
 							
 								<th><g:message code="purchaseOrder.TransactionGroup.label" default="TransactionGroup" /></th>	
 
+								<th><g:message code="ppp.state.label" default="Status" /></th>
+
 								<th><g:message code="purchaseOrder.supplier.label" default="Supplier" /></th>
 
 								<th><g:message code="purchaseOrder.ppp.label" default="PPP Number" /></th>
@@ -105,6 +108,8 @@
 									
 								<td><g:formatDate date="${purchaseOrderInstance.purchaseOrderDate}" format="yyyy-dd-MM"/></td>
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "transactionGroup")}</td>	
+
+								<td>${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	
 
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "supplier")}</td>	
 

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cd318a97-d14f-4eca-8e94-c04af93f17f6">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="455"/>
+	<property name="ireport.y" value="311"/>
 	<parameter name="po_id" class="java.lang.String"/>
 	<parameter name="image" class="java.lang.String"/>
 	<parameter name="companyName" class="java.lang.String"/>
@@ -203,7 +203,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="447" splitType="Stretch">
+		<band height="485" splitType="Stretch">
 			<image>
 				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="127" height="66" uuid="b7c3cd8a-8ff5-4ac0-a858-a5224e2afead"/>
 				<imageExpression><![CDATA[$P{image}]]></imageExpression>
@@ -216,7 +216,7 @@ WHERE
 				<text><![CDATA[PURCHASE ORDER]]></text>
 			</staticText>
 			<frame>
-				<reportElement x="0" y="66" width="802" height="381" uuid="3c6a7d3b-6395-43dc-97ff-08e5b563a92f"/>
+				<reportElement x="0" y="66" width="802" height="344" uuid="3c6a7d3b-6395-43dc-97ff-08e5b563a92f"/>
 				<staticText>
 					<reportElement mode="Opaque" x="0" y="0" width="467" height="20" backcolor="#CCCCCC" uuid="7d20615e-8697-41c9-a131-ee4533e15e37"/>
 					<box leftPadding="4">
@@ -321,17 +321,6 @@ WHERE
 					<text><![CDATA[MECHANICS]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="292" width="802" height="20" backcolor="#CCCCCC" uuid="bfa789ea-b191-4e0b-999e-488f258edf4d"/>
-					<box leftPadding="4">
-						<pen lineWidth="1.25"/>
-						<topPen lineWidth="1.25"/>
-						<leftPen lineWidth="1.25"/>
-						<bottomPen lineWidth="1.25"/>
-						<rightPen lineWidth="1.25"/>
-					</box>
-					<text><![CDATA[ACTIVITIES COMPONENT :]]></text>
-				</staticText>
-				<staticText>
 					<reportElement mode="Opaque" x="467" y="49" width="335" height="20" backcolor="#CCCCCC" uuid="7b36d14d-a182-4c51-9f4d-1a3b63fbf6a9"/>
 					<box leftPadding="2">
 						<pen lineWidth="1.25"/>
@@ -412,7 +401,7 @@ WHERE
 					<textFieldExpression><![CDATA[$F{T_PAS_PO_scheme}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="253" width="802" height="39" uuid="cf6aaf2f-c245-4b93-b51f-11e09f7763f4"/>
+					<reportElement x="0" y="253" width="802" height="91" uuid="cf6aaf2f-c245-4b93-b51f-11e09f7763f4"/>
 					<box leftPadding="5">
 						<pen lineWidth="1.25"/>
 						<topPen lineWidth="1.25"/>
@@ -422,21 +411,32 @@ WHERE
 					</box>
 					<textFieldExpression><![CDATA[$F{T_PAS_PO_mechanics}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="312" width="802" height="68" uuid="b7804576-f380-416a-8585-58cc25528d0d"/>
-					<box leftPadding="5">
-						<pen lineWidth="1.25"/>
-						<topPen lineWidth="1.25"/>
-						<leftPen lineWidth="1.25"/>
-						<bottomPen lineWidth="1.25"/>
-						<rightPen lineWidth="1.25"/>
-					</box>
-					<textFieldExpression><![CDATA[$F{T_PAS_PO_activities_component}]]></textFieldExpression>
-				</textField>
 			</frame>
 			<break>
-				<reportElement x="0" y="446" width="100" height="1" uuid="384faaef-23ab-4ec4-87f4-2f275fdaeeea"/>
+				<reportElement x="0" y="410" width="802" height="1" uuid="384faaef-23ab-4ec4-87f4-2f275fdaeeea"/>
 			</break>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="411" width="800" height="20" backcolor="#CCCCCC" uuid="90c305e9-ee32-47b1-8db6-da2f83eadc03"/>
+				<box leftPadding="4">
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="1.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="1.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<text><![CDATA[ACTIVITIES COMPONENT :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="1" y="431" width="800" height="44" uuid="435a28f6-9618-45b3-88cc-c9e700a3c6e5"/>
+				<box leftPadding="4">
+					<pen lineWidth="1.25"/>
+					<topPen lineWidth="1.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="1.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{T_PAS_PO_activities_component}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
@@ -470,7 +470,7 @@ WHERE
 				<text><![CDATA[Total Target Sales]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="0" width="29" height="20" uuid="9efdebef-7121-4940-8688-9b8875288a83"/>
+				<reportElement x="1" y="0" width="27" height="20" uuid="9efdebef-7121-4940-8688-9b8875288a83"/>
 				<box leftPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -608,7 +608,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_Detail_target_sales}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="28" height="20" uuid="8948934a-2127-40ad-9802-4252b6a834a8"/>
+				<reportElement x="1" y="0" width="27" height="20" uuid="8948934a-2127-40ad-9802-4252b6a834a8"/>
 				<box leftPadding="2">
 					<pen lineWidth="1.25"/>
 					<topPen lineWidth="1.25"/>
@@ -675,7 +675,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_requestor}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="12" y="46" width="649" height="77" uuid="026599b3-c0d5-42ce-b7d0-d0a5bff8f2fb"/>
+				<reportElement x="12" y="46" width="762" height="77" uuid="026599b3-c0d5-42ce-b7d0-d0a5bff8f2fb"/>
 				<box leftPadding="4">
 					<pen lineWidth="1.25"/>
 					<topPen lineWidth="1.25"/>
@@ -683,10 +683,10 @@ WHERE
 					<bottomPen lineWidth="1.25"/>
 					<rightPen lineWidth="1.25"/>
 				</box>
-				<text><![CDATA[Additional Insturctions]]></text>
+				<text><![CDATA[Additional Instructions]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="14" y="67" width="647" height="56" uuid="14f4cdfa-5aae-4250-9326-95bf275b4f81"/>
+				<reportElement x="14" y="67" width="760" height="56" uuid="14f4cdfa-5aae-4250-9326-95bf275b4f81"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_add_intructions}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
