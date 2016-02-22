@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cd318a97-d14f-4eca-8e94-c04af93f17f6">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="161"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="333"/>
+	<property name="ireport.y" value="23"/>
 	<parameter name="po_id" class="java.lang.String"/>
 	<parameter name="image" class="java.lang.String"/>
 	<parameter name="companyName" class="java.lang.String"/>
@@ -345,28 +345,6 @@ WHERE
 					</textElement>
 					<textFieldExpression><![CDATA[$F{T_PAS_PO_program_tittle}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement x="467" y="20" width="167" height="29" uuid="081ed4a6-74a0-4df7-92d0-e26c3d8fccfa"/>
-					<box leftPadding="5">
-						<pen lineWidth="1.25"/>
-						<topPen lineWidth="1.25"/>
-						<leftPen lineWidth="1.25"/>
-						<bottomPen lineWidth="1.25"/>
-						<rightPen lineWidth="1.25"/>
-					</box>
-					<textFieldExpression><![CDATA[$F{T_PAS_PO_requestor}]]></textFieldExpression>
-				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement x="634" y="20" width="168" height="29" uuid="b34f376e-f1c9-4756-b810-21ecf5c563c7"/>
-					<box leftPadding="5">
-						<pen lineWidth="1.0"/>
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
-					</box>
-					<textFieldExpression><![CDATA[$F{T_PAS_PO_number}]]></textFieldExpression>
-				</textField>
 				<textField>
 					<reportElement x="467" y="70" width="335" height="103" uuid="d0f343d7-ef3e-45b0-be03-178fc6ce836a"/>
 					<box leftPadding="5">
@@ -410,6 +388,28 @@ WHERE
 						<rightPen lineWidth="1.25"/>
 					</box>
 					<textFieldExpression><![CDATA[$F{T_PAS_PO_mechanics}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="634" y="20" width="167" height="29" uuid="a389488e-619c-4cd5-a815-de17c757ffc9"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.25"/>
+						<topPen lineWidth="1.25"/>
+						<leftPen lineWidth="1.25"/>
+						<bottomPen lineWidth="1.25"/>
+						<rightPen lineWidth="1.25"/>
+					</box>
+					<textFieldExpression><![CDATA[$F{T_PAS_PO_number}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="467" y="20" width="167" height="29" uuid="f877ac99-a1e4-4c72-af4d-8e4fc5168785"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.25"/>
+						<topPen lineWidth="1.25"/>
+						<leftPen lineWidth="1.25"/>
+						<bottomPen lineWidth="1.25"/>
+						<rightPen lineWidth="1.25"/>
+					</box>
+					<textFieldExpression><![CDATA[$P{approver1}]]></textFieldExpression>
 				</textField>
 			</frame>
 			<break>
