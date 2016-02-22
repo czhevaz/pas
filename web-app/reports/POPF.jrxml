@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POPF" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3877e4c-8792-4ad7-88d3-ad0fcb4d01bf">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="241"/>
+	<property name="ireport.y" value="145"/>
 	<subDataset name="dataset1" uuid="f6203677-8f57-4365-b876-8b6aca3f57ff"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -54,17 +54,6 @@
      M_PAS_Supplier."contact_person" AS M_PAS_Supplier_contact_person,
      M_PAS_Supplier."mobile_no" AS M_PAS_Supplier_mobile_no,
      M_PAS_Supplier."created_by" AS M_PAS_Supplier_created_by,
-     T_PAS_PO_Approver."id" AS T_PAS_PO_Approver_id,
-     T_PAS_PO_Approver."version" AS T_PAS_PO_Approver_version,
-     T_PAS_PO_Approver."approver_id" AS T_PAS_PO_Approver_approver_id,
-     T_PAS_PO_Approver."country_id" AS T_PAS_PO_Approver_country_id,
-     T_PAS_PO_Approver."date_created" AS T_PAS_PO_Approver_date_created,
-     T_PAS_PO_Approver."last_updated" AS T_PAS_PO_Approver_last_updated,
-     T_PAS_PO_Approver."no_seq" AS T_PAS_PO_Approver_no_seq,
-     T_PAS_PO_Approver."purchase_order_id" AS T_PAS_PO_Approver_purchase_order_id,
-     T_PAS_PO_Approver."status" AS T_PAS_PO_Approver_status,
-     T_PAS_PO_Approver."approver_date" AS T_PAS_PO_Approver_approver_date,
-     T_PAS_PO_Approver."approval_detail_id" AS T_PAS_PO_Approver_approval_detail_id,
      T_PAS_PO."id" AS T_PAS_PO_id,
      T_PAS_PO."version" AS T_PAS_PO_version,
      T_PAS_PO."approved_by" AS T_PAS_PO_approved_by,
@@ -111,11 +100,10 @@
      T_PAS_PO."scheme" AS T_PAS_PO_scheme,
      T_PAS_PO."activities_component" AS T_PAS_PO_activities_component,
      T_PAS_PO."mechanics" AS T_PAS_PO_mechanics,
-T_PAS_PO."add_intructions" AS T_PAS_PO_add_intructions
+     T_PAS_PO."add_intructions" AS T_PAS_PO_add_intructions
 FROM
      "dbo"."T_PAS_PO" T_PAS_PO INNER JOIN "dbo"."T_PAS_PO_Detail" T_PAS_PO_Detail ON T_PAS_PO."id" = T_PAS_PO_Detail."purchase_order_id"
      INNER JOIN "dbo"."M_PAS_Supplier" M_PAS_Supplier ON T_PAS_PO."supplier_id" = M_PAS_Supplier."id"
-     INNER JOIN "dbo"."T_PAS_PO_Approver" T_PAS_PO_Approver ON T_PAS_PO."id" = T_PAS_PO_Approver."purchase_order_id"
 WHERE
      T_PAS_PO."id" = $P{po_id}]]>
 	</queryString>
@@ -160,17 +148,6 @@ WHERE
 	<field name="M_PAS_Supplier_contact_person" class="java.lang.String"/>
 	<field name="M_PAS_Supplier_mobile_no" class="java.lang.String"/>
 	<field name="M_PAS_Supplier_created_by" class="java.lang.String"/>
-	<field name="T_PAS_PO_Approver_id" class="java.math.BigDecimal"/>
-	<field name="T_PAS_PO_Approver_version" class="java.math.BigDecimal"/>
-	<field name="T_PAS_PO_Approver_approver_id" class="java.lang.String"/>
-	<field name="T_PAS_PO_Approver_country_id" class="java.lang.String"/>
-	<field name="T_PAS_PO_Approver_date_created" class="java.sql.Timestamp"/>
-	<field name="T_PAS_PO_Approver_last_updated" class="java.sql.Timestamp"/>
-	<field name="T_PAS_PO_Approver_no_seq" class="java.math.BigDecimal"/>
-	<field name="T_PAS_PO_Approver_purchase_order_id" class="java.math.BigDecimal"/>
-	<field name="T_PAS_PO_Approver_status" class="java.math.BigDecimal"/>
-	<field name="T_PAS_PO_Approver_approver_date" class="java.sql.Timestamp"/>
-	<field name="T_PAS_PO_Approver_approval_detail_id" class="java.math.BigDecimal"/>
 	<field name="T_PAS_PO_id" class="java.math.BigDecimal"/>
 	<field name="T_PAS_PO_version" class="java.math.BigDecimal"/>
 	<field name="T_PAS_PO_approved_by" class="java.lang.String"/>
@@ -591,7 +568,7 @@ WHERE
 				<reportElement x="224" y="241" width="100" height="20" uuid="54d65aaa-407c-43ed-b073-b8de817529a3"/>
 				<textFieldExpression><![CDATA[$P{approver2}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="34" width="555" height="95" uuid="19b27a24-9458-4f33-8e59-507697b30ecd"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_add_intructions}]]></textFieldExpression>
 			</textField>
