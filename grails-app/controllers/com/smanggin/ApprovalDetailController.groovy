@@ -156,9 +156,9 @@ class ApprovalDetailController {
             if(params.inActive == '1'){
                 approvalDetailInstance.dateInActive = new Date()
             }
-            else{
+            /*else{
                 approvalDetailInstance.dateInActive = null
-            }
+            }*/
 
             if (!approvalDetailInstance.save(flush: true)) {
                 render([success: false, messages: approvalDetailInstance.errors] as JSON)

@@ -39,8 +39,6 @@
 
 								<th><g:message code="ppp.state.label" default="Status" /></th>
 
-								<th><g:message code="purchaseOrder.supplier.label" default="Supplier" /></th>
-
 								<th><g:message code="purchaseOrder.ppp.label" default="PPP Number" /></th>
 
 								<th><g:message code="ppp.amount.label" default="PPP Limit (USD)" /></th>
@@ -76,8 +74,6 @@
 
 								<th><g:message code="ppp.state.label" default="Status" /></th>
 
-								<th><g:message code="purchaseOrder.supplier.label" default="Supplier" /></th>
-
 								<th><g:message code="purchaseOrder.ppp.label" default="PPP Number" /></th>
 
 								<th><g:message code="ppp.amount.label" default="PPP Limit (USD)" /> (USD)</th>
@@ -110,8 +106,6 @@
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "transactionGroup")}</td>	
 
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	
-
-								<td>${fieldValue(bean: purchaseOrderInstance, field: "supplier")}</td>	
 
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppNumber")}</td>	
 								
