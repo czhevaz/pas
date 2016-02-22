@@ -268,7 +268,7 @@ WHERE
 				</staticText>
 				<staticText>
 					<reportElement x="0" y="134" width="66" height="20" uuid="60e5c644-fd32-4686-b74f-6a43e63fb2c4"/>
-					<text><![CDATA[Supplier]]></text>
+					<text><![CDATA[Fax]]></text>
 				</staticText>
 			</frame>
 			<frame>
