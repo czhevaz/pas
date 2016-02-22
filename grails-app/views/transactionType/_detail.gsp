@@ -16,12 +16,17 @@ if(actionName=='edit' || actionName=='show') {
             onBeforeEdit: function(rowIndex, rowData) {
                 //var idColumn = $(this).datagrid('getColumnOption', 'id');
                 var id= $(this).datagrid('getRows')[rowIndex]['id'];
+                var inActive= $(this).datagrid('getRows')[rowIndex]['inActive'];
                 
+                console.log('inActive' + inActive);
                 var colcountry = $(this).datagrid('getColumnOption', 'countryName');
                 var colcreatorId = $(this).datagrid('getColumnOption', 'creatorId');
                 var colapproverId = $(this).datagrid('getColumnOption', 'approverId');
                 var countryName = $(this).datagrid('getRows')[rowIndex]['countryName'];
-            
+
+                var colinActive = $(this).datagrid('getColumnOption', 'inActive');
+                var colisSequential = $(this).datagrid('getColumnOption', 'isSequential');
+                var colnoSeq = $(this).datagrid('getColumnOption', 'noSeq');                
 
             <g:if test="${transactionTypeInstance?.code !='RFP'}">                
                 var collobCode = $(this).datagrid('getColumnOption', 'lobCode');
@@ -65,12 +70,39 @@ if(actionName=='edit' || actionName=='show') {
                     colcountry.editor.options.url = '/${meta(name:'app.name')}/country/jlist';
                     colcountry.editor.options.required ='true'
 
+                    colinActive.editor.type = 'checkbox';
+                    colinActive.editor.options.on ='1';
+                    colinActive.editor.options.off ='0';
+
+                    colisSequential.editor.type = 'checkbox';
+                    colisSequential.editor.options.on ='1';
+                    colisSequential.editor.options.off ='0';
+
                 }else{
                     colcountry.editor.type = null;
                     collobCode.editor.type = null;
                     colbrandCode.editor.type= null;
                     colcreatorId.editor.type = null;
                     colapproverId.editor.type = null;
+                    if(inActive){
+
+                        colinActive.editor.type = null;      
+                        colisSequential.editor.type = null;    
+                        colnoSeq.editor.type = null;  
+
+                    }else{
+
+                        colinActive.editor.type = 'checkbox';
+                        colinActive.editor.options.on ='1';
+                        colinActive.editor.options.off ='0';
+
+                        colisSequential.editor.type = 'checkbox';
+                        colisSequential.editor.options.on ='1';
+                        colisSequential.editor.options.off ='0';
+
+                        colnoSeq.editor.type = 'numberbox';
+                        colnoSeq.editor.options.precision = 0;
+                    }
                 }
                 
             },

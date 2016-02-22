@@ -13,7 +13,7 @@
 				
 				<!--<img class="logo" src="${resource(plugin: 'kickstart-with-bootstrap', dir:'kickstart/img', file:'grails.png')}" alt="${meta(name:'app.name')}" width="16px" height="16px"/> -->
 				PAS
-				<small> v${meta(name:'app.version')}</small>
+				<small> v ${meta(name:'app.version')}</small>
 			</a>
 		</div>
 
