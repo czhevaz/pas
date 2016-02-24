@@ -358,6 +358,7 @@ class PurchaseOrderController {
             render map as JSON
         }else if(params.state){
             def user = User.findByLogin(auth.user())
+            def poApprover = PurchaseOrderApprover.findAllByApprover(user)
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
                 eq('state',params.state)
@@ -368,6 +369,16 @@ class PurchaseOrderController {
                 }
                 if(params.state == "Rejected"){
                     eq('createdBy',user.login)
+                }
+
+                if (params.state == "Approved") {
+                    or{
+                        eq('createdBy',user.login)    
+                        if(poApprover?.size() > 0){
+                            'in'('id',poApprover?.purchaseOrder?.id)    
+                        }
+                        
+                    }
                 }
             }
             render results as JSON

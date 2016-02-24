@@ -10,7 +10,9 @@
 	<section id="intro" class="first">
 		
 	<div class="row" id="document">
-	    
+	    <div id='rejected'> </div>
+	    <div id='approved'> </div>
+	    <div id='waiting'> </div>
 	    
 	</div>
 	<div class="row" id="document2">
@@ -35,7 +37,7 @@
 					var state = "Rejected"
 					var link = "${createLink(action:'list',controller:'purchaseOrder',params:['state':'Rejected'])}"
 					var html = addBox(title,count,icon,color,link);		
-					$('#document').html(html);			
+					$('#rejected').html(html);			
 				}
 			
 		});
@@ -49,25 +51,25 @@
 					var icon = 'icon-folder';
 					var color = 'bg-aqua';
 					var state = "Waiting Approval"
-					var link = "${createLink(action:'list',controller:'purchaseOrder',params:['state':'Aprroved'])}"
+					var link = "${createLink(action:'list',controller:'purchaseOrder',params:['state':'Approved'])}"
 					var html = addBox(title,count,icon,color,link);		
-					$('#document2').html(html);			
+					$('#approved').html(html);			
 				}
 			
 		});
 
-		<!-- purchaseOrder  Rejected -->
-		$.post('/${meta(name:'app.name')}/purchaseOrder/jlist',{state:'Rejected'}, function(data) {
+		<!-- purchaseOrder  Waiting Approve -->
+		$.post('/${meta(name:'app.name')}/purchaseOrder/jlist',{state:'Waiting Approval'}, function(data) {
 			
 				if(data.length){
-					var title = 'PO Rejected';
+					var title = 'PO Waiting for Approval';
 					var count = data.length;
-					var icon = 'icon-shield';
-					var color = 'bg-red';
-					var state = "Rejected"
-					var link = "${createLink(action:'list',controller:'purchaseOrder',params:['state':'Rejected'])}"
+					var icon = 'icon-folder';
+					var color = 'bg-green';
+					var state = "Waiting Approval"
+					var link = "${createLink(action:'list',controller:'purchaseOrder',params:['state':'Waiting Approval'])}"
 					var html = addBox(title,count,icon,color,link);		
-					$('#document').html(html);			
+					$('#waiting').html(html);			
 				}
 			
 		});

@@ -1,5 +1,6 @@
 package com.smanggin
 
+import java.text.SimpleDateFormat
 /**
  * GlobalService
  * A service class encapsulates the core business logic of a Grails application
@@ -155,5 +156,20 @@ class GlobalService {
         }
 
         return po.unique()
+    }
+
+    def stringToDate(String date,String format){
+        Date output = new Date()
+      //SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy")
+          try {
+              output= new Date().parse(format, date)
+          } 
+          catch (Exception e) {
+            println e
+              // TODO Auto-generated catch block
+              //e.printStackTrace()
+          }
+          return output
+
     }
 }

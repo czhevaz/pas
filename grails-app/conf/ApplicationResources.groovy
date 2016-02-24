@@ -13,6 +13,10 @@ modules = {
         resource url:'js/numeral/min/numeral.min.js'	
         resource url:'js/slimScroll/jquery.slimscroll.min.js'
 
+        resource url:'js/bootstrap-datetimepicker.min.js'
+        resource url:'css/bootstrap-datetimepicker.min.css'
+
+        resource url:'js/jquery.browser.js'
     }
 
     fileUpload{

@@ -30,6 +30,10 @@ section.second {
     box-shadow: 0 2px 2px rgba(0,0,0,0.1);
 }
 
+.ui-datepicker-calendar{
+  display: none!important;
+}
+
 
 
 .box-header {
@@ -533,4 +537,8 @@ tfoot {
   margin-left: -32px;
   margin-top: -32px;
   border: 0;
+}
+
+.ui-datepicker {
+    display:none !important;
 }

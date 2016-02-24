@@ -47,10 +47,10 @@
 
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'purchaseOrderDate', 'error')} required">
 			<label for="purchaseOrderDate" class="col-sm-3 control-label"><g:message code="purchaseOrder.purchaseOrderDate.label" default="Purchase Order Date" /><span class="required-indicator">*</span></label>
-			<div class="col-sm-5">
-				<bs:datePicker name="purchaseOrderDate" precision="day"  value="${purchaseOrderInstance?.purchaseOrderDate}"  />
+			
+				<g:jqDatePicker name="purchaseOrderDate" precision="day"  value="${purchaseOrderInstance?.purchaseOrderDate}" data-date-format="yyyy-mm-dd" />
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'purchaseOrderDate', 'error')}</span>
-			</div>
+			
 		</div>
 
 		
@@ -75,7 +75,7 @@
         <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'deliveryDate', 'error')} ">
             <label for="deliveryDate" class="col-sm-3 control-label"><g:message code="purchaseOrder.deliveryDate.label" default="Delivery Date" /></label>
             <div class="col-sm-6">
-                <bs:datePicker name="deliveryDate" precision="day"  value="${purchaseOrderInstance?.deliveryDate}"  />
+                <g:jqDatePicker  name="deliveryDate" precision="day"  value="${purchaseOrderInstance?.deliveryDate}"  />
                 <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'deliveryDate', 'error')}</span>
             </div>
         </div>
@@ -194,8 +194,11 @@ if(actionName=='edit') {
 
 
     $("#currency1").on('change', function() {
-    	$.ajax({
-            url: "/${meta(name:'app.name')}/currency/jlist?code="+$(this).val(),
+    	var date = $('#purchaseOrderDate_year').val() + "-" + $('#purchaseOrderDate_month').val() + "-" + $('#purchaseOrderDate_day').val()
+        console.log("date");
+        console.log(date);
+        $.ajax({
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+$(this).val()+"&date="+date,
             type: "POST",
             success: function (data) {
 				
@@ -235,8 +238,6 @@ if(actionName=='edit') {
     });
 
     $("#transactionGroup").on('change', function() {
-        
-        
         $.ajax({
             url: "/${meta(name:'app.name')}/transactionGroup/jshow?id="+$(this).val(),
             type: "POST",
@@ -349,9 +350,11 @@ if(actionName=='edit') {
 
 
     function getCurrency(country){
+        var date = $('#purchaseOrderDate_year').val() + "-" + $('#purchaseOrderDate_month').val() + "-" + $('#purchaseOrderDate_day').val()
+        console.log("date");
+        console.log(date);
         $.ajax({
-            url: "/${meta(name:'app.name')}/currency/jlist?country="+country,
-        
+            url: "/${meta(name:'app.name')}/currency/jlist?country="+country+"&date="+date,
             type: "POST",
             success: function (data) {
                 console.log(data);
@@ -437,6 +440,27 @@ if(actionName=='edit') {
             }
         });
     }
+
+    $('#purchaseOrderDate').on('changeDate', function (e) {
+
+        
+        var date =   new Date(e.date).getFullYear()+ "-" +  (new Date(e.date).getMonth() +1) + "-" + new Date(e.date).getDate()
+        console.log(date);
+        var currencyCode = $('#currency1').val();
+        $.ajax({
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&date="+date,
+            type: "POST",
+            success: function (data) {
+                
+                $("#rate").val(data.value);
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });             
+        //$(this).attr('value', $(this).val());
+       
+    });
 		
 </r:script>	
 

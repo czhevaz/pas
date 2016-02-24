@@ -195,7 +195,12 @@ class CurrencyController {
     }
 
     def jlist() {
-        def date = new Date()
+        
+        
+        def date = globalService.stringToDate(params.date,'yyyy-MM-dd')
+        println "params.date" +params.date
+        println "date" + date
+        
 
         if(params.masterField){
             def c = Currency.createCriteria()
