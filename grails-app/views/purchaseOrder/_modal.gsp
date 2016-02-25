@@ -237,39 +237,58 @@
 	$('#pppContent tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
         console.log(data);
-        addToPO(data)
+        var r = confirm(" Are you sure to Add this PPP !");
+		if (r == true) {
+			addToPO(data)
+			<g:if test="${actionName == 'edit'}">
+				deleteDetailPo()					
+			</g:if> 
+		} else {
+		    
+		}
+        
        
     } );
 
 	function addToPO(data){
 		
 		var countryTes = $("#country").val();
+		var tr ="<tr onclick = deleteDetailPo(\'"+data.pppNumber+"\');>";
+		$("#table-ppp tbody").html("");	
 		
-		/*$.ajax({
-			url: "/${meta(name:'app.name')}/purchaseOrder/jlist",
-			data: {pppNumber:pppNumber,countryId:countryTes,brandId:data.brandName},
-			success: function(d){*/
-				console.log(data);
-				$("#table-ppp tbody").html("");	
-				var tr ="<tr onclick = addToPO(\'"+data.pppNumber+"\');>";
-					tr += "<td > "+  data.pppNumber +" </td>";
-					tr += "<td > "+  data.lobName +" </td>";
-					tr += "<td > "+  data.brandName +" </td>";
-					tr += "<td > "+  data.requestorName +" </td>";
-					tr += "<td > "+  formatNumber(data.amount) +" </td>";
-					tr += "<td > "+  formatNumber(data.remainCreditLimit) +" </td>";
-					tr += "<td > "+  formatNumber(data.ammountTotalPPP) +" </td>";
-					tr += "<td > "+  formatNumber(data.remainCreditLimitTotalPPP) +" </td>";
-					tr += "<td > "+  data.pppDate +" </td>";
-					tr += "</tr>";
-				$("#table-ppp tbody").append(tr);										    
-				
-				$('#searchPpp').modal('hide');
-				$("#brand").val(data.brandName).trigger('chosen:updated');
-				$("#lob").val(data.lobName).trigger('chosen:updated');
-				$('#requestor').val(data.requestorName).trigger('chosen:updated');
-				$("#pppNumber").val(data.pppNumber);
-		/*	},
-		});*/	
+		var tr ="<tr>";
+			tr += "<td > "+  data.pppNumber +" </td>";
+			tr += "<td > "+  data.pppDescription +" </td>";
+			tr += "<td > "+  data.lobName +" </td>";
+			tr += "<td > "+  data.brandName +" </td>";
+			tr += "<td > "+  data.requestorName +" </td>";
+			tr += "<td > "+  formatNumber(data.amount) +" </td>";
+			tr += "<td > "+  formatNumber(data.remainCreditLimit) +" </td>";
+			tr += "<td > "+  formatNumber(data.ammountTotalPPP) +" </td>";
+			tr += "<td > "+  formatNumber(data.remainCreditLimitTotalPPP) +" </td>";
+			tr += "<td > "+  data.pppDate +" </td>";
+			tr += "</tr>";
+		$("#table-ppp tbody").append(tr);										    
+		
+		$('#searchPpp').modal('hide');
+		$("#brand").val(data.brandName).trigger('chosen:updated');
+		$("#lob").val(data.lobName).trigger('chosen:updated');
+		$('#requestor').val(data.requestorName).trigger('chosen:updated');
+		$("#pppNumber").val(data.pppNumber);
+	
+	}
+
+	function deleteDetailPo(){
+		$.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrderDetail/deleteAllDetail?id=${purchaseOrderInstance?.id}",
+            type: "POST",
+            success: function (data) {
+                
+                
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
 	}
 </r:script>

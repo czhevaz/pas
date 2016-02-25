@@ -168,8 +168,25 @@ class PurchaseOrderController {
         map.put('remainCreditLimit',pppDetail[0].remainCreditLimit)
         map.put('ammountTotalPPP',pppInstance?.pppCost)
         map.put('remainCreditLimitTotalPPP',pppInstance?.remainCreditLimit)
+
+
+        def isEdit = false
+        if(purchaseOrderInstance.state == "Waiting Approval"){
+            def approver1 = globalService?.getPOApproverBySeq(purchaseOrderInstance,1)
+           println " tesdsd " +approver1.login == session.user
+            if(approver1.login == session.user){
+                isEdit = true       
+            }
+            
+        }else if(purchaseOrderInstance.state == "Draft"){
+            if(purchaseOrderInstance.createdBy == session.user){
+                isEdit = true 
+            }
+        }
+
+        println "isEdit"+isEdit
         
-        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails]
+        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails,isEdit:isEdit]
     }
 
     def edit() {
@@ -181,14 +198,48 @@ class PurchaseOrderController {
         }
 
         def domainClassName = "com.smanggin." + purchaseOrderInstance?.triggerDomain
-    	def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
+        def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
         def pppInstance = domainClassInstance.findByNumber(purchaseOrderInstance.pppNumber)
 
+        def pppNumber=purchaseOrderInstance?.pppNumber
+        def pppDetails = PppDetail.findAllByPppNumber(pppNumber)
+        def pppDetail    = PppDetail.findAllByPppNumberAndBrand(purchaseOrderInstance.pppNumber,purchaseOrderInstance.brand)
+        
+        def map = [:] 
+        map.put('requestorName',pppInstance?.requestor)
+        map.put('pppNumber',pppInstance?.number)
+        map.put('pppDate',pppInstance?.pppDate)
+        map.put('pppDescription',pppInstance?.pppProgram)
+        map.put('countryName',pppInstance?.country?.name)
+        map.put('lobName',pppInstance?.lob)
+        map.put('brandName',pppDetail[0]?.brand)
+        map.put('state',pppInstance?.state)
+        map.put('amount',pppDetail[0]?.costDetail)
+        map.put('remainCreditLimit',pppDetail[0].remainCreditLimit)
+        map.put('ammountTotalPPP',pppInstance?.pppCost)
+        map.put('remainCreditLimitTotalPPP',pppInstance?.remainCreditLimit)
+        
+        def isEdit = false
+        if(purchaseOrderInstance.state == "Waiting Approval"){
+            def approver1 = globalService?.getPOApproverBySeq(purchaseOrderInstance,1)
+           println " tesdsd " +approver1.login == session.user
+            if(approver1.login == session.user){
+                isEdit = true       
+            }
+            
+        }else if(purchaseOrderInstance.state == "Draft"){
+            if(purchaseOrderInstance.createdBy == session.user){
+                isEdit = true 
+            }
+        }
 
-        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:pppInstance]
+        println "isEdit"+isEdit
+
+        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails,isEdit:isEdit,baseCurrency :baseCurrency]
     }
 
     def update() {
+        println params
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
         if (!purchaseOrderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
@@ -209,7 +260,7 @@ class PurchaseOrderController {
 
         purchaseOrderInstance.properties = params
         
-        savePoComment(purchaseOrderInstance,params)
+        //savePoComment(purchaseOrderInstance,params)
 
         if (!purchaseOrderInstance.save(flush: true)) {
             render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
@@ -843,6 +894,43 @@ class PurchaseOrderController {
         println "params " + params
         
         printService.print("PDF", request.getLocale(), response,params,trTypeCode,file)
+    }
+
+    def downloadExcel(){
+        def purchaseOrder = PurchaseOrder.get(params.id.toLong())
+        def trTypeCode = purchaseOrder?.transactionGroup?.transactionType?.code
+        def filename = purchaseOrder.number
+        def file  = filename.replace("/","")
+        
+        def appSettingLogo = AppSetting.valueDefault('default_logo','KI_Logo2.jpg')
+        def approver1 = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,1)
+        def approver2 = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,2)
+        
+        println appSettingLogo
+        
+        StringBuilder routes = new StringBuilder();
+                    routes.append("images/logo/")
+                    routes.append(appSettingLogo);
+
+        String absolutePath = getServletContext().getRealPath(routes.toString());
+
+        def areaList = []
+        purchaseOrder?.purchaseOrderDetails?.each{
+            areaList.push(it.coverageArea)
+        }
+        areaList.unique();
+
+        params.put('area',areaList.join(','))
+        params.put('approver1',approver1?.approver?.name)
+        params.put('approver2',approver2?.approver?.name)
+        params.put('companyName','Kalbe International '+ "${purchaseOrder?.country}"+ ' Pte. Ltd')
+        params.put('image',absolutePath)
+        params.put('po_id',purchaseOrder?.id)
+        params.put('view',false)
+
+        println "params " + params
+        
+        printService.print("XLS", request.getLocale(), response,params,trTypeCode,file)
     }
 
 }

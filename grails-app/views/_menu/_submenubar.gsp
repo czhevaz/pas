@@ -62,6 +62,14 @@ This menu is used to show function that can be triggered on the content (an obje
 				</button>
 			</g:form>
 		</li>
+		<li class="">
+			<g:form method="post"  controller="purchaseOrder" action="downloadExcel" target="_blank" class="form-horizontal" >
+				<g:hiddenField name="id"  value="${params.id}" />
+				<button type="submit" class="btn btn-primary" id="downloadExcel" style="display:block;">
+					<img src="${resource(dir: 'images/icon', file: 'xls.png')}" width="20" /> download excel
+				</button>
+			</g:form>
+		</li>
 		</g:if>
 	</ul>	
 	

@@ -102,7 +102,7 @@
 
 								<td>${purchaseOrderInstance.createdBy}</td>	
 									
-								<td><g:formatDate date="${purchaseOrderInstance.purchaseOrderDate}" format="yyyy-dd-MM"/></td>
+								<td><g:formatDate date="${purchaseOrderInstance.purchaseOrderDate}" format="yyyy-MM-dd"/></td>
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "transactionGroup")}</td>	
 
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	

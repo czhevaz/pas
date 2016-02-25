@@ -30,36 +30,28 @@
 					<div class="box-body">
 						<g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
 						<g:hiddenField name="version" value="${purchaseOrderInstance?.version}" />
-						<g:hiddenField name="updatedBy" value="${auth.user()}"/>
+						<g:hiddenField name="updatedBy" value="${session.user}"/>
 						
 						<!-- render template -->
 						<fieldset class="form">
 							<g:render template="form"/>
 						</fieldset>
 
-						<g:render template="pppInfo"/> 
-					
+						<g:if test = "${purchaseOrderInstance?.state == 'Draft'}" >
+							<g:render template="modal"/>	
+							<g:render template="searchPPP"/>	
+						</g:if>
+						<g:else>
+							<g:render template="pppInfo"/> 
+						</g:else>
 						
 					</div><!--/.box-body -->	
 
 					<div class="box-footer">
 						<div class="form-actions">
-							<g:if test="${purchaseOrderInstance?.state=='Draft' || purchaseOrderInstance?.state=='Rejected'}">
-								<g:if test="${purchaseOrderInstance?.createdBy == auth.user().toString()}">
-									<g:actionSubmit class="btn btn-primary btn-sm" action="actionWaitingApprove" value="${message(code: 'default.button.approve.label', default: 'Send To Approver')}" />
-									
-								</g:if>	
-							</g:if>
-							<g:if test="${purchaseOrderInstance?.state=='Waiting Approval'}">
-								<g:if test="${purchaseOrderInstance?.mustApprovedBy==auth.user().toString()}">
-									<g:actionSubmit class="btn btn-primary btn-sm" action="actionApprove" value="${message(code: 'default.button.approve.label', default: 'Approve')}" />
-									
-									<g:actionSubmit id="reject" class="btn btn-primary btn-sm" action="actionReject" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />
-
-									<a href="${createLink(action:'writeOff',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
-								</g:if>	
-							</g:if>
 							
+							<g:actionSubmit class="btn btn-primary btn-sm" action="update" value="${message(code: 'default.button.save.label', default: 'Save')}" />
+									
 				            <button class="btn" type="reset"><g:message code="default.button.reset.label" default="Reset" /></button>
 						</div>
 					</div><!--/.box-footer -->	
@@ -72,9 +64,10 @@
 				<div class="box-body clearfix">
 
 					<g:render template="detail"/> 
+					<div class ='col-sm-6'>
 					<div class="form-group clearfix">
-						<label for="totalPO" class="col-sm-2 control-label"><g:message code="purchaseOrder.totalPo.label" default="Total PO" /> (${purchaseOrderInstance.currency1?.code})</label>
-						<div class="col-sm-3" >
+						<label for="totalPO" class="col-sm-6 control-label"><g:message code="purchaseOrder.totalPo.label" default="Total PO" /> (${purchaseOrderInstance?.currency1?.code})</label>
+						<div class="col-sm-6" >
 							<p class="form-control-static">
 								<span id ="totalPO">
 								<g:formatNumber number="${purchaseOrderInstance?.total?:0}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
@@ -85,8 +78,8 @@
 					</div>
 					
 					<div class="form-group clearfix">
-						<label for="totalPO2" class="col-sm-2 control-label"><g:message code="purchaseOrder.totalPo.label" default="Total PO" /> (${purchaseOrderInstance.currency2?.code})</label>
-						<div class="col-sm-3">
+						<label for="totalPO2" class="col-sm-6 control-label"><g:message code="purchaseOrder.totalPo.label" default="Total PO" /> (${purchaseOrderInstance?.currency2?.code})</label>
+						<div class="col-sm-6">
 
 							<p class="form-control-static">
 								<span id ="totalPO2">
@@ -96,6 +89,43 @@
 							
 						</div>
 					</div>
+
+					<div class="form-group clearfix">
+						<label for="totalPO2" class="col-sm-6 control-label"><g:message code="purchaseOrder.outStanding.label" default="OutStanding PO" /> (${purchaseOrderInstance?.currency1?.code})</label>
+						<div class="col-sm-6">
+
+							<p class="form-control-static">
+								<span id ="totalPO2">
+									<g:formatNumber number="${(purchaseOrderInstance?.PORemain1?:0) }" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+								</span>
+							</p>
+							
+						</div>
+					</div>
+
+					<div class="form-group clearfix">
+						<label for="totalPO2" class="col-sm-6  control-label"><g:message code="purchaseOrder.outStanding.label" default="OutStanding PO" /> (${purchaseOrderInstance?.currency2?.code})</label>
+						<div class="col-sm-6">
+
+							<p class="form-control-static">
+								<span id ="totalPO2">
+									<g:formatNumber number="${(purchaseOrderInstance?.PORemain1?:0) / (purchaseOrderInstance?.rate?:1)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+								</span>
+							</p>
+							
+						</div>
+					</div>
+					</div>
+					<div class = "col-sm-6">
+						<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')} ">
+				            <label for="addIntructions" class="col-sm-6 control-label"><g:message code="purchaseOrder.addIntructions.label" default="Additional Intructions" /></label>
+				            
+				                <g:textArea class="form-control" name="addIntructions2" value="${purchaseOrderInstance?.addIntructions}" rows="5" cols="40"/>
+				                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')}</span>
+				            
+				        </div>
+					</div>
+					
 				</div><!--/.box-body -->	
 				
 			</div><!--/.box box-primary -->	

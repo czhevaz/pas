@@ -10,7 +10,11 @@
 	<g:set var="entityName" value="${message(code: 'purchaseOrder.label', default: 'PurchaseOrder')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
 	<g:set var="canCreate" value="true" scope="request" />
-	<g:set var="canDelete" value="true" scope="request" />
+
+	<g:if test="${isEdit}" >
+		<g:set var="canEdit" value="true" scope="request" />
+		<g:set var="canDelete" value="true" scope="request" />
+	</g:if>
 </head>
 
 <body>
@@ -163,8 +167,6 @@
 					<g:render template="pppInfo"/> 
 					
 				</div><!--/.box-body table-responsive -->
-
-
 				<div class="box-footer clearfix">
 					
 					<g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />

@@ -246,4 +246,17 @@ class PurchaseOrderDetailController {
         return result
 
     }
+
+    def deleteAllDetail(){
+        def purchaseOrderInstance = PurchaseOrder.get(params.id)
+        if (!purchaseOrderInstance)
+            render([success: false] as JSON)
+        else {
+            def purchaseOrderDetails = PurchaseOrderDetail.findAllByPurchaserOrder(purchaseOrderInstance)
+            purchaseOrderDetails?.each{
+                it.delete()             
+            }
+            render([success: true] as JSON)
+        }   
+    }
 }
