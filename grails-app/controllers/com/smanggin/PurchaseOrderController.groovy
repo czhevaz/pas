@@ -263,7 +263,7 @@ class PurchaseOrderController {
             }
         }
 
-        //purchaseOrderInstance.properties = params
+        purchaseOrderInstance.properties = params
         
         //savePoComment(purchaseOrderInstance,params)
 
@@ -323,7 +323,7 @@ class PurchaseOrderController {
         
         purchaseOrderInstance.properties = params
         if(params.id){
-            
+
         }
         if(params.pppNumber){
             purchaseOrderInstance.pppNumber = params.pppNumber
