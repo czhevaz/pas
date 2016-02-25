@@ -241,7 +241,7 @@ class PurchaseOrderController {
     }
 
     def update() {
-        println params
+        //println params
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
         if (!purchaseOrderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
