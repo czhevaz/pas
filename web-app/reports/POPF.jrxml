@@ -565,11 +565,11 @@ WHERE
 				<reportElement x="418" y="148" width="100" height="20" uuid="8bd4ebfc-cd0a-49a1-a2a5-5f99ed47f7d6"/>
 				<text><![CDATA[Conforme:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="112" y="241" width="100" height="20" uuid="8f81cf70-cb2e-4981-aef0-8fcc8717b8ac"/>
 				<textFieldExpression><![CDATA[$P{approver1}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="224" y="241" width="100" height="20" uuid="54d65aaa-407c-43ed-b073-b8de817529a3"/>
 				<textFieldExpression><![CDATA[$P{approver2}]]></textFieldExpression>
 			</textField>
@@ -578,7 +578,7 @@ WHERE
 				<box leftPadding="5" rightPadding="1"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_add_intructions}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="241" width="100" height="20" uuid="d4e96942-1f82-48f6-be89-38f77fe440f8"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_created_by}]]></textFieldExpression>
 			</textField>

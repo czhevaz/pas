@@ -241,8 +241,10 @@ class PurchaseOrderController {
     }
 
     def update() {
-        //println params
+        println "<==========================update=====================>" + params
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
+
+        println "purchaseOrderInstance "+purchaseOrderInstance?.number
         if (!purchaseOrderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
             redirect(action: "list")
@@ -250,22 +252,24 @@ class PurchaseOrderController {
         }
 
         if (params.version) {
+            println params.version +" <<<<<<<<<<<<<<<<<<<<< version >>>>>>>>>>>>>>>>>>>> "+ purchaseOrderInstance?.version
             def version = params.version.toLong()
             if (purchaseOrderInstance.version > version) {
                 purchaseOrderInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'purchaseOrder.label', default: 'PurchaseOrder')] as Object[],
                           "Another user has updated this PurchaseOrder while you were editing")
-                render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
+                render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance],baseCurrency :baseCurrency)
                 return
             }
         }
 
-        purchaseOrderInstance.properties = params
+        //purchaseOrderInstance.properties = params
         
         //savePoComment(purchaseOrderInstance,params)
 
         if (!purchaseOrderInstance.save(flush: true)) {
-            render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
+            println "errrrr" + purchaseOrderInstance.errors
+            render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance],baseCurrency :baseCurrency)
             return
         }
 
@@ -327,13 +331,39 @@ class PurchaseOrderController {
             purchaseOrderInstance.pppCost = params.amount?.toFloat()
                     
         }
-                   
-        if (!purchaseOrderInstance.save(flush: true)) {
-            render([success: false, messages: purchaseOrderInstance.errors] as JSON)
-            return
-        }
+        
+        def approvals = globalService.getApprovals(purchaseOrderInstance)
+        println " approvals " + approvals
+        if(approvals.size() > 0){
+            if (!purchaseOrderInstance.save()) {
+                render([success: false, messages: purchaseOrderInstance.errors] as JSON)
+                return
+            }
+
+            def getApprovals = PurchaseOrderApprover.findAllByPurchaseOrder(purchaseOrderInstance)
+            
+            getApprovals.each{
+                it.delete()
+            }
+
+        /* insert Po Approver*/    
+            
+             approvals.each{
+                def poApprover = new PurchaseOrderApprover()
+                poApprover.purchaseOrder = purchaseOrderInstance
+                poApprover.noSeq = it.noSeq
+                poApprover.approver = it.approver
+                poApprover.country = Country.findByName(purchaseOrderInstance?.country)
+                poApprover.status = 0
+                poApprover.approvalDetail = it
+                poApprover.save(flush:true)
+            }
                         
-        render([success: true] as JSON)
+            render([success: true, purchaseOrderInstance:purchaseOrderInstance,poApprover:purchaseOrderInstance?.purchaseOrderApprovers] as JSON)
+        }else{
+            render([success: false, purchaseOrderInstance:purchaseOrderInstance] as JSON)
+        }
+            
     }
 
     def jlist() {

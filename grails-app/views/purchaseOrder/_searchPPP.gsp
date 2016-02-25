@@ -5,20 +5,20 @@
 		<div class="form-group  required">
 		<label for="lob" class="col-sm-3 control-label"><g:message code="register.lob.label" default="Lob" /><span class="required-indicator">*</span></label>
 		<div class="col-sm-9">
-			<g:select id="lob" name="lob.code" from="${com.smanggin.Lob.list()}" optionKey="code" required="" value="${params?.lob?.code}" class="many-to-one form-control required"/>
+			<g:select id="lob" name="lob.code" from="${com.smanggin.Lob.list()}" optionKey="code"  value="${params?.lob?.code}" class="many-to-one form-control "/>
 			
 		</div>
 	</div>
 	<div class="form-group  required">
 		<label for="brand" class="col-sm-3 control-label"><g:message code="register.brand.label" default="Brand" /><span class="required-indicator">*</span></label>
 		<div class="col-sm-9">
-			<g:select id="brand" name="brand.id" from="${com.smanggin.Brand.list()}" optionKey="code" optionValue ="code" required="" value="${params?.brand?.id}" class="many-to-one form-control "/>
+			<g:select id="brand" name="brand.id" from="${com.smanggin.Brand.list()}" optionKey="code" optionValue ="code"  value="${params?.brand?.id}" class="many-to-one form-control "/>
 		</div>
 	</div>
 	<div class="form-group  required">
 		<label for="requestor" class="col-sm-3 control-label"><g:message code="register.requestor.label" default="Requestor" /><span class="required-indicator">*</span></label>
 		<div class="col-sm-9">
-			<g:select id="requestor" name="requestor" from="${com.smanggin.User.list()}" optionKey="name" optionValue ="name" required="" value="${params?.requestor}" class="many-to-one form-control chosen-select" noSelection="['': '']"/>
+			<g:select id="requestor" name="requestor" from="${com.smanggin.User.list()}" optionKey="name" optionValue ="name"  value="${params?.requestor}" class="many-to-one form-control chosen-select" noSelection="['': '']"/>
 			
 		</div>
 	</div>
@@ -65,9 +65,9 @@
 
 				<th><g:message code="ppp.remain.label" default="PPP LIMIT REMAINING (USD)" /></th>
 				
-				<th><g:message code="ppp.amountTotal.label" default="PPP LIMIT(USD)" />( ${baseCurrency.code} )</th>
+				<th><g:message code="ppp.amountTotal.label" default="PPP LIMIT(USD)" />(${baseCurrency.code})</th>
 
-				<th><g:message code="ppp.remainTotal.label" default="PPP LIMIT REMAINING (USD)" />( ${baseCurrency.code} ) </th>
+				<th><g:message code="ppp.remainTotal.label" default="PPP LIMIT REMAINING (USD)" />(${baseCurrency.code}) </th>
 
 				<g:sortableColumn property="pppDate" title="${message(code: 'ppp.pppDate.label', default: 'PPP Date')}" />
 											

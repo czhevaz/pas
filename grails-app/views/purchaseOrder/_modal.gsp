@@ -302,7 +302,25 @@
             type: "POST",
             data: data,
             success: function (data) {
-                
+				if(data.success){
+					/* update version */
+					$('#version').val(data.purchaseOrderInstance.version);
+					$("#table-approver tbody").html("");	
+					console.log(data);
+					$.each(data.poApprover , function(i,item) {
+						var tr ="<tr>";
+							tr += "<td > "+  item.approverLogin +" </td>";
+							tr += "<td > "+  item.status +" </td>";
+							tr += "</tr>";
+
+						$("#table-approver tbody").append(tr);		
+					});
+
+
+									
+				}else{
+					alert ( 'Please Set Approvals');
+				}                
                 
             },
             error: function (xhr, status, error) {

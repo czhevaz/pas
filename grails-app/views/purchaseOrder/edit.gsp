@@ -29,7 +29,7 @@
 				<g:form method="post" class="form-horizontal" >
 					<div class="box-body">
 						<g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
-						<g:hiddenField name="version" value="${purchaseOrderInstance?.version}" />
+						<g:hiddenField name="version" id = "version" value="${purchaseOrderInstance?.version}" />
 						<g:hiddenField name="updatedBy" value="${session.user}"/>
 						
 						<!-- render template -->

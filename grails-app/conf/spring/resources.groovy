@@ -28,7 +28,8 @@ beans = {
             new PurchaseOrderAllocationMarshaller(),
             new RfpDetailMarshaller(),
             new PurchaseOrderMarshaller(),
-            new PurchaseOrderBalanceMarshaller()
+            new PurchaseOrderBalanceMarshaller(),
+            new PurchaseOrderApproverMarshaller()
         ]
      }
 }
