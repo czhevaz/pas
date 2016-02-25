@@ -13,7 +13,12 @@
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'transactionGroup', 'error')} required">
 			<label for="transactionGroup" class="col-sm-3 control-label"><g:message code="purchaseOrder.transactionGroup.label" default="Transaction Group" /><span class="required-indicator">*</span></label>
 			<div class="col-sm-3">
+                <g:if test="${actionName == 'edit'}">
+                    <p class="form-control-static">${purchaseOrderInstance?.transactionGroup?.description}</p>   
+                </g:if>
+                <g:else>
 				<g:select id="transactionGroup" name="transactionGroup.id" from="${com.smanggin.TransactionGroup.list()}" optionKey="id" required="" value="${purchaseOrderInstance?.transactionGroup?.id}" class="many-to-one form-control" noSelection="['null': '']"/>
+                </g:else>
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'transactionGroup', 'error')}</span>
 			</div>
 		</div>

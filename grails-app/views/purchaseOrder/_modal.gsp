@@ -253,7 +253,7 @@
 	function addToPO(data){
 		
 		var countryTes = $("#country").val();
-		var tr ="<tr onclick = deleteDetailPo(\'"+data.pppNumber+"\');>";
+		
 		$("#table-ppp tbody").html("");	
 		
 		var tr ="<tr>";
@@ -275,6 +275,8 @@
 		$("#lob").val(data.lobName).trigger('chosen:updated');
 		$('#requestor').val(data.requestorName).trigger('chosen:updated');
 		$("#pppNumber").val(data.pppNumber);
+
+		updatePPP(data);
 	
 	}
 
@@ -283,12 +285,29 @@
             url: "/${meta(name:'app.name')}/purchaseOrderDetail/deleteAllDetail?id=${purchaseOrderInstance?.id}",
             type: "POST",
             success: function (data) {
-                
+                if(data.success){
+                	$('#dg-purchaseOrderDetails').datagrid('reload');
+                }
                 
             },
             error: function (xhr, status, error) {
                 alert("fail");
             }
         });
+	}
+
+	function updatePPP(data){
+		$.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/jsave?id=${purchaseOrderInstance?.id}",
+            type: "POST",
+            data: data,
+            success: function (data) {
+                
+                
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });	
 	}
 </r:script>

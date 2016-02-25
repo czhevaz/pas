@@ -36,11 +36,13 @@ class PurchaseOrderController {
                 or{
                     eq('createdBy',user?.login)
                     eq('mustApprovedBy',user?.login)    
+                    eq('rejectedBy',user.login)
                 }    
             }
             if(params.state){
                 eq('state',params.state)
             }
+            
         }
 
         [purchaseOrderInstanceList: results, purchaseOrderInstanceTotal: results.totalCount]
@@ -165,7 +167,7 @@ class PurchaseOrderController {
         map.put('brandName',pppDetail[0]?.brand)
         map.put('state',pppInstance?.state)
         map.put('amount',pppDetail[0]?.costDetail)
-        map.put('remainCreditLimit',pppDetail[0].remainCreditLimit)
+        map.put('remainCreditLimit',pppDetail[0]?.remainCreditLimit)
         map.put('ammountTotalPPP',pppInstance?.pppCost)
         map.put('remainCreditLimitTotalPPP',pppInstance?.remainCreditLimit)
 
@@ -215,7 +217,7 @@ class PurchaseOrderController {
         map.put('brandName',pppDetail[0]?.brand)
         map.put('state',pppInstance?.state)
         map.put('amount',pppDetail[0]?.costDetail)
-        map.put('remainCreditLimit',pppDetail[0].remainCreditLimit)
+        map.put('remainCreditLimit',pppDetail[0]?.remainCreditLimit)
         map.put('ammountTotalPPP',pppInstance?.pppCost)
         map.put('remainCreditLimitTotalPPP',pppInstance?.remainCreditLimit)
         
@@ -292,6 +294,7 @@ class PurchaseOrderController {
     }
 
     def jsave() {
+        println " params jsave "+ params
         def purchaseOrderInstance = (params.id) ? PurchaseOrder.get(params.id) : new PurchaseOrder()
         
         if (!purchaseOrderInstance) {                     
@@ -315,7 +318,16 @@ class PurchaseOrderController {
         }
         
         purchaseOrderInstance.properties = params
-                       
+
+        if(params.pppNumber){
+            purchaseOrderInstance.pppNumber = params.pppNumber
+            purchaseOrderInstance.lob = params.lobName
+            purchaseOrderInstance.brand = params.brandName
+            purchaseOrderInstance.requestor = params.requestorName
+            purchaseOrderInstance.pppCost = params.amount?.toFloat()
+                    
+        }
+                   
         if (!purchaseOrderInstance.save(flush: true)) {
             render([success: false, messages: purchaseOrderInstance.errors] as JSON)
             return
@@ -419,7 +431,12 @@ class PurchaseOrderController {
                     
                 }
                 if(params.state == "Rejected"){
+                 or{
                     eq('createdBy',user.login)
+                    eq('rejectedBy',user.login)
+                 }   
+                    
+
                 }
 
                 if (params.state == "Approved") {
@@ -646,13 +663,10 @@ class PurchaseOrderController {
         }
         
         
-        purchaseOrderInstance.mustApprovedBy = null
-
-        if(params.rejectNotes){
-            purchaseOrderInstance.rejectNotes = params.rejectNotes
-            purchaseOrderInstance.dateReject = new Date()
-            purchaseOrderInstance.rejectedBy = auth.user()
-        }
+        purchaseOrderInstance.mustApprovedBy = null   
+        purchaseOrderInstance.dateReject = new Date()
+        purchaseOrderInstance.rejectedBy = auth.user()
+       
         
         purchaseOrderInstance.state = 'Rejected'    
         

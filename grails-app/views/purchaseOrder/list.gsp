@@ -22,7 +22,7 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table  class="table table-bordered margin-top-medium dataTablesList">
+					<table  class="table table-bordered margin-top-medium " id ="list-table">
 						<thead>
 							<tr>
 
@@ -94,7 +94,7 @@
 				        </tfoot>
 						<tbody>
 						<g:each in="${purchaseOrderInstanceList}" status="i" var="purchaseOrderInstance">
-							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+							<tr >
 								
 								<td> ${i+1} </td>
 
@@ -138,11 +138,54 @@
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			
 <r:script>
-	$(function () {
+
+	/* dataTablesList */
+	$('#list-table tfoot th').each( function () {
+        var title = $('#list-table thead th').eq( $(this).index() ).text();
+        console.log($(this).index())
+        if($(this).index() !=0 ){
+        	$(this).html( '<input type="text" placeholder="Search '+title+'" />' );	
+        }
         
-        table.column(0).draw();
-        console.log(table.column(0).draw());
-      });
+    });
+ 
+    // DataTable
+    table = $('#list-table').DataTable({
+    	"paging": true,
+	     "lengthChange": false,
+	     "searching": true,
+	     "ordering": true,
+	     "info": true,
+	     "autoWidth": true,
+	     "scrollX": true,
+	     "createdRow": function( row, data, dataIndex ) {
+
+	     	if ( data[5] == "Draft" ) {
+		      $(row).css({"background-color":"#D7CCC8"});
+		    }else{
+		      $(row).css({"background-color":"#F5F5F5"});	
+		    }
+	    	
+	  	}
+    });
+ 
+    // Apply the search
+    table = table.columns().eq( 0 );
+    if(table){
+    table.columns().eq( 0 ).each( function ( colIdx ) {
+    	
+    	
+    		$( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+            table
+                .column( colIdx )
+                .search( this.value )
+                .draw();
+        	} );
+    	
+    });
+    }
+
+  	
 </r:script>
 </section>
 

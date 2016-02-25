@@ -252,7 +252,7 @@ class PurchaseOrderDetailController {
         if (!purchaseOrderInstance)
             render([success: false] as JSON)
         else {
-            def purchaseOrderDetails = PurchaseOrderDetail.findAllByPurchaserOrder(purchaseOrderInstance)
+            def purchaseOrderDetails = PurchaseOrderDetail.findAllByPurchaseOrder(purchaseOrderInstance)
             purchaseOrderDetails?.each{
                 it.delete()             
             }
