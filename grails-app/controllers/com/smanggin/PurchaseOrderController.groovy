@@ -274,7 +274,7 @@ class PurchaseOrderController {
         }
 
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
 
@@ -322,7 +322,9 @@ class PurchaseOrderController {
         }
         
         purchaseOrderInstance.properties = params
-
+        if(params.id){
+            
+        }
         if(params.pppNumber){
             purchaseOrderInstance.pppNumber = params.pppNumber
             purchaseOrderInstance.lob = params.lobName

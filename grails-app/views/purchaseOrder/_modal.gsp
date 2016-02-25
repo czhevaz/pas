@@ -276,7 +276,9 @@
 		$('#requestor').val(data.requestorName).trigger('chosen:updated');
 		$("#pppNumber").val(data.pppNumber);
 
-		updatePPP(data);
+		<g:if test="${actionName == 'edit'}">
+			updatePPP(data);
+		</g:if>
 	
 	}
 

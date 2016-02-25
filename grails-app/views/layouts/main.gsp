@@ -23,7 +23,7 @@
 		<div  role="banner"><a href="http://www.smanggin.com"><img src="${resource(dir: 'images/logo', file: 'KI_Logo.jpg')}" alt="Grails"/></a></div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo">
-			Powered by PT. Surya ManggalaInformatika @ 2016
+			Powered by PT. Surya Manggala Informatika @ 2016
 		</div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 		
