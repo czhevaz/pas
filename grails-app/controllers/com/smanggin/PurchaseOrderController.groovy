@@ -264,7 +264,7 @@ class PurchaseOrderController {
         }
 
         purchaseOrderInstance.properties = params
-        
+        purchaseOrderInstance.updatedBy = session.user
         //savePoComment(purchaseOrderInstance,params)
 
         if (!purchaseOrderInstance.save(flush: true)) {

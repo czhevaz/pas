@@ -148,6 +148,17 @@
 								</td>
 								
 							</tr>
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="purchaseOrder.addIntructions.label" default="Additional Instructions" /></td>
+								
+								<td valign="top" class="value">
+								    <g:textArea class="form-control" name="addIntructions" value="${purchaseOrderInstance?.addIntructions}" rows="5" cols="40"/>
+					                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')}</span>
+					         
+								</td>
+								
+							</tr>	
+							
 							<!--
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="purchaseOrder.comment.label" default="Feedback / Comment from Reviewers" /></td>
@@ -172,7 +183,7 @@
 					<g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
 					<g:hiddenField name="version" value="${purchaseOrderInstance?.version}" />
 					<g:hiddenField name="updatedBy" value="${auth.user()}"/>
-					<g:hiddenField id="addIntructions" name="addIntructions" value="${purchaseOrderInstance?.addIntructions}"/>
+					
 					<g:hiddenField id ="rejectNotes" name="rejectNotes" value="${purchaseOrderInstance?.rejectNotes}" />
 
 					<div class="form-actions">
@@ -254,15 +265,7 @@
 						</div>
 					</div>
 					</div>
-					<div class = "col-sm-6">
-						<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')} ">
-				            <label for="addIntructions" class="col-sm-6 control-label"><g:message code="purchaseOrder.addIntructions.label" default="Additional Intructions" /></label>
-				            
-				                <g:textArea class="form-control" name="addIntructions2" value="${purchaseOrderInstance?.addIntructions}" rows="5" cols="40"/>
-				                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')}</span>
-				            
-				        </div>
-					</div>
+					
 									
 				</div><!--/.box-body -->	
 				

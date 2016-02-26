@@ -166,7 +166,7 @@ class PurchaseOrder {
 	Float getPppRemainBrand(){
 		
         def pppDetail    = PppDetail.findByPppNumberAndBrand(pppNumber,brand)
-        return pppDetail.remainCreditLimit
+        return pppDetail?.remainCreditLimit?:0
 	}
 
 	def getPORemain1(){

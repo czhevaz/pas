@@ -116,15 +116,7 @@
 						</div>
 					</div>
 					</div>
-					<div class = "col-sm-6">
-						<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')} ">
-				            <label for="addIntructions" class="col-sm-6 control-label"><g:message code="purchaseOrder.addIntructions.label" default="Additional Intructions" /></label>
-				            
-				                <g:textArea class="form-control" name="addIntructions2" value="${purchaseOrderInstance?.addIntructions}" rows="5" cols="40"/>
-				                <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')}</span>
-				            
-				        </div>
-					</div>
+					
 					
 				</div><!--/.box-body -->	
 				

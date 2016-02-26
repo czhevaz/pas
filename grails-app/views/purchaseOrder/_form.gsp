@@ -138,12 +138,25 @@
                 <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'activitiesComponent', 'error')}</span>
             </div>
         </div>
+
+        
         </div>
+
+
+
 
 
 <%
 if(actionName=='edit') { 
-%>
+%>          
+            
+            <div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')} ">
+                <label for="addIntructions" class="col-sm-3 control-label"><g:message code="purchaseOrder.addIntructions.label" default="Additional Intructions" /></label>
+                <div class="col-sm-6">
+                    <g:textArea class="form-control" name="addIntructions" value="${purchaseOrderInstance?.addIntructions}" rows="5" cols="40"/>
+                    <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'addIntructions', 'error')}</span>
+                </div>
+            </div>        
 
 			<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'reasonforInvestment', 'error')} ">
 				<label for="reasonforInvestment" class="col-sm-3 control-label"><g:message code="purchaseOrder.reasonforInvestment.label" default="Reason for Investment" /></label>
@@ -152,13 +165,14 @@ if(actionName=='edit') {
 					<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'reasonforInvestment', 'error')}</span>
 				</div>
 			</div>
-
+            <!--
 			<div class="form-group ">
 				<label for="comment" class="col-sm-3 control-label"><g:message code="purchaseOrder.comment.label" default="Feedback / Comment from Reviewers" /></label>
 				<div class="col-sm-6">
 					<g:textArea class="form-control" name="comment" value="" rows="5" cols="40" placeholder="Type message..."/>
 				</div>
 			</div>
+            -->
 
 <% 
 }
