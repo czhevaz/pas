@@ -103,7 +103,7 @@ class PurchaseOrderController {
         /*if (purchaseOrderInstance.transactionGroup?.transactionType?.code =="PONP") {
             approvals = true    
         } */     
-        println " approvals >>>>>> " + approvals
+        
         if(approvals?.size() > 0){
             if (!purchaseOrderInstance.save(flush: true)) {
                 render(view: "create", model: [purchaseOrderInstance: purchaseOrderInstance])
@@ -175,7 +175,7 @@ class PurchaseOrderController {
         def isEdit = false
         if(purchaseOrderInstance.state == "Waiting Approval"){
             def approver1 = globalService?.getPOApproverBySeq(purchaseOrderInstance,1)
-           println " tesdsd " +approver1.login == session.user
+           
             if(approver1.login == session.user){
                 isEdit = true       
             }
@@ -186,7 +186,7 @@ class PurchaseOrderController {
             }
         }
 
-        println "isEdit"+isEdit
+        
         
         [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails,isEdit:isEdit]
     }
@@ -224,7 +224,7 @@ class PurchaseOrderController {
         def isEdit = false
         if(purchaseOrderInstance.state == "Waiting Approval"){
             def approver1 = globalService?.getPOApproverBySeq(purchaseOrderInstance,1)
-           println " tesdsd " +approver1.login == session.user
+           
             if(approver1.login == session.user){
                 isEdit = true       
             }
@@ -235,16 +235,16 @@ class PurchaseOrderController {
             }
         }
 
-        println "isEdit"+isEdit
+        
 
         [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails,isEdit:isEdit,baseCurrency :baseCurrency]
     }
 
     def update() {
-        println "<==========================update=====================>" + params
+      //  println "<==========================update=====================>" + params
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
 
-        println "purchaseOrderInstance "+purchaseOrderInstance?.number
+        
         if (!purchaseOrderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
             redirect(action: "list")
@@ -252,7 +252,7 @@ class PurchaseOrderController {
         }
 
         if (params.version) {
-            println params.version +" <<<<<<<<<<<<<<<<<<<<< version >>>>>>>>>>>>>>>>>>>> "+ purchaseOrderInstance?.version
+           
             def version = params.version.toLong()
             if (purchaseOrderInstance.version > version) {
                 purchaseOrderInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
@@ -263,12 +263,12 @@ class PurchaseOrderController {
             }
         }
 
-        //purchaseOrderInstance.properties = params
+        purchaseOrderInstance.properties = params
         purchaseOrderInstance.updatedBy = session.user
         //savePoComment(purchaseOrderInstance,params)
 
         if (!purchaseOrderInstance.save(flush: true)) {
-            println "errrrr" + purchaseOrderInstance.errors
+           // println "errrrr" + purchaseOrderInstance.errors
             render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance],baseCurrency :baseCurrency)
             return
         }
@@ -298,7 +298,7 @@ class PurchaseOrderController {
     }
 
     def jsave() {
-        println " params jsave "+ params
+        //println " params jsave "+ params
         def purchaseOrderInstance = (params.id) ? PurchaseOrder.get(params.id) : new PurchaseOrder()
         
         if (!purchaseOrderInstance) {                     
@@ -335,7 +335,7 @@ class PurchaseOrderController {
         }
         
         def approvals = globalService.getApprovals(purchaseOrderInstance)
-        println " approvals " + approvals
+        
         if(approvals.size() > 0){
             if (!purchaseOrderInstance.save()) {
                 render([success: false, messages: purchaseOrderInstance.errors] as JSON)
@@ -423,7 +423,7 @@ class PurchaseOrderController {
             list.put('iTotalRecords',pppDetails?.size())
             list.put('iTotalDisplayRecords',pppDetails?.size())
             list.put('aaData',results)
-            println list
+            
             
             render list as JSON
 
@@ -553,7 +553,7 @@ class PurchaseOrderController {
 
         if (purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP' && !attachment) {
             
-            println " Check Attachment " + attachment
+           
             
                 flash.error = message(code: 'default.have.attachment.failure', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
                 redirect(action: "show", id: purchaseOrderInstance.id)  
@@ -572,7 +572,7 @@ class PurchaseOrderController {
 
                 
             if (!purchaseOrderInstance.save(flush: true)) {
-                println purchaseOrderInstance.errors
+                
 
                 render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
                 return
@@ -642,7 +642,7 @@ class PurchaseOrderController {
         
 
         if (!purchaseOrderInstance.save(flush: true)) {
-            println purchaseOrderInstance.errors
+            
             render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
             return
         }
@@ -654,7 +654,7 @@ class PurchaseOrderController {
         poApprover.status = 1
         poApprover.approverDate = new Date()
         if (!poApprover.save(flush:true)) {
-            println poApprover.errors
+            
         }    
         
         savePoComment(purchaseOrderInstance,params)/* --insert TO PO comment */
@@ -790,7 +790,7 @@ class PurchaseOrderController {
     upload
     **/  
     def upload(){
-        println "params" + params
+        
         
         MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request
         CommonsMultipartFile file =(CommonsMultipartFile) mpr.getFile("files")
@@ -915,7 +915,7 @@ class PurchaseOrderController {
         def approver1 = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,1)
         def approver2 = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,2)
         
-        println appSettingLogo
+    
         
         StringBuilder routes = new StringBuilder();
                     routes.append("images/logo/")
@@ -937,7 +937,7 @@ class PurchaseOrderController {
         params.put('po_id',purchaseOrder?.id)
         params.put('view',true)
 
-        println "params " + params
+        
         
         printService.print("PDF", request.getLocale(), response,params,trTypeCode,file)
     }
@@ -952,7 +952,7 @@ class PurchaseOrderController {
         def approver1 = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,1)
         def approver2 = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,2)
         
-        println appSettingLogo
+        
         
         StringBuilder routes = new StringBuilder();
                     routes.append("images/logo/")
@@ -974,7 +974,7 @@ class PurchaseOrderController {
         params.put('po_id',purchaseOrder?.id)
         params.put('view',false)
 
-        println "params " + params
+        
         
         printService.print("XLS", request.getLocale(), response,params,trTypeCode,file)
     }
