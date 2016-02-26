@@ -207,7 +207,7 @@
 					
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->
-				
+			</g:form>	
 			<div class="box box-primary clearfix">
 				<div class="box-body clearfix">
 
@@ -270,7 +270,7 @@
 				</div><!--/.box-body -->	
 				
 			</div><!--/.box box-primary --> 
-			</g:form>
+			
 			<g:render template="discussionArea"/>
 			<g:render template="acivityProposal"/>
 			

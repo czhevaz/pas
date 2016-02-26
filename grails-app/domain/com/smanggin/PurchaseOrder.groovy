@@ -160,7 +160,7 @@ class PurchaseOrder {
     	def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
         def ppp = domainClassInstance.findByNumber(pppNumber)
 
-        return ppp.remainCreditLimit
+        return ppp?.remainCreditLimit?:0
 	}
 	
 	Float getPppRemainBrand(){
