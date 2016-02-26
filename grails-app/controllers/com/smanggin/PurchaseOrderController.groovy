@@ -263,7 +263,7 @@ class PurchaseOrderController {
             }
         }
 
-        purchaseOrderInstance.properties = params
+        //purchaseOrderInstance.properties = params
         purchaseOrderInstance.updatedBy = session.user
         //savePoComment(purchaseOrderInstance,params)
 

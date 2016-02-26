@@ -1,18 +1,21 @@
-<g:hiddenField id="pppNumber" name="pppNumber" value="purchaseOrderInstance?.pppNumber"/>	
+<g:hiddenField id="pppNumber" name="pppNumber" value="${purchaseOrderInstance?.pppNumber}"/>
+<g:hiddenField  name="pppCost" value="${purchaseOrderInstance?.pppCost}"/>
+
+
 		            
 <div class="col-sm-6">
 		
 		<div class="form-group  required">
 		<label for="lob" class="col-sm-3 control-label"><g:message code="register.lob.label" default="Lob" /><span class="required-indicator">*</span></label>
 		<div class="col-sm-9">
-			<g:select id="lob" name="lob.code" from="${com.smanggin.Lob.list()}" optionKey="code"  value="${params?.lob?.code}" class="many-to-one form-control "/>
+			<g:select id="lob" name="lob.code" from="${com.smanggin.Lob.list()}" optionKey="code"  value="${purchaseOrderInstance?.lob}" class="many-to-one form-control "/>
 			
 		</div>
 	</div>
 	<div class="form-group  required">
 		<label for="brand" class="col-sm-3 control-label"><g:message code="register.brand.label" default="Brand" /><span class="required-indicator">*</span></label>
 		<div class="col-sm-9">
-			<g:select id="brand" name="brand.id" from="${com.smanggin.Brand.list()}" optionKey="code" optionValue ="code"  value="${params?.brand?.id}" class="many-to-one form-control "/>
+			<g:select id="brand" name="brand.id" from="${com.smanggin.Brand.list()}" optionKey="code" optionValue ="code"  value="${purchaseOrderInstance?.brand}" class="many-to-one form-control "/>
 		</div>
 	</div>
 	<div class="form-group  required">
