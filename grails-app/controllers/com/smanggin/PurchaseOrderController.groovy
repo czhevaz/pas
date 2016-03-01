@@ -30,6 +30,7 @@ class PurchaseOrderController {
         params.order = params.order ?: 'desc' 
         params.sort = params.sort ?: 'dateCreated' 
         //params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def poApprover = PurchaseOrderApprover.findAllByApprover(user)
         def results = PurchaseOrder.createCriteria().list(params){
             
             if(user?.role != 'LOB'){
@@ -37,11 +38,16 @@ class PurchaseOrderController {
                     eq('createdBy',user?.login)
                     eq('mustApprovedBy',user?.login)    
                     eq('rejectedBy',user.login)
-                }    
+                    if(poApprover?.size() > 0){
+                        'in'('id',poApprover?.purchaseOrder?.id)    
+                    }
+                } 
             }
             if(params.state){
                 eq('state',params.state)
+                
             }
+            
             
         }
 

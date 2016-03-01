@@ -115,7 +115,7 @@ if(actionName=='edit' || actionName=='show') {
                 <thead>
                     <tr>
                          
-                        <th data-options="field:'countryName',width:200,sortable:true,
+                        <th data-options="field:'countryName',width:150,sortable:true,
                             formatter:function(value,row){
                                 return row.countryName;
                             },
@@ -144,7 +144,7 @@ if(actionName=='edit' || actionName=='show') {
                         }">Country</th>
 
                         <g:if test="${transactionTypeInstance?.code !='RFP'}">
-                        <th data-options="field:'lobCode',width:200,sortable:true,
+                        <th data-options="field:'lobCode',width:100,sortable:true,
                             formatter:function(value,row){
                                 return row.lobCode;
                             },
@@ -167,7 +167,7 @@ if(actionName=='edit' || actionName=='show') {
                                 }
                         }">Lob</th>
                         
-                        <th data-options="field:'brandCode',width:200,sortable:true,
+                        <th data-options="field:'brandCode',width:100,sortable:true,
                             formatter:function(value,row){
                                 return row.brandCode;
                             },
@@ -183,7 +183,7 @@ if(actionName=='edit' || actionName=='show') {
                         }">Brand</th>
                         </g:if>     
 
-                        <th data-options="field:'creatorId',width:200,sortable:true,
+                        <th data-options="field:'creatorId',width:150,sortable:true,
                             formatter:function(value,row){
                                 return row.creatorId;
                             },
@@ -218,9 +218,9 @@ if(actionName=='edit' || actionName=='show') {
                         }">Approver</th>
                         
                         
-                        <th data-options="field:'isSequential',align:'right', width:200,sortable:true,editor:{type:'checkbox',options:{on:'1',off:'0'}}">Is Sequential</th>
+                        <th data-options="field:'isSequential',align:'right', width:50,sortable:true,editor:{type:'checkbox',options:{on:'1',off:'0'}}">Is Sequential</th>
 
-                        <th data-options="field:'inActive',align:'right', width:200, sortable:true,editor:{type:'checkbox',options:{on:'1',off:'0'}}">InActive</th>
+                        <th data-options="field:'inActive',align:'right', width:50, sortable:true,editor:{type:'checkbox',options:{on:'1',off:'0'}}">InActive</th>
 
                         <th data-options="field:'dateInActive',align:'right', width:200, sortable:true">Date InActive</th>
                    
