@@ -163,7 +163,7 @@ if(actionName=='edit' || actionName=='show') {
 	    </div><!-- /.Attachment -->
 
         <!-- PO Balance -->
-        <div title='<g:message code="purchaseOrder.purchaseOrderBalance.label" default="PO Balance"/>'  style="padding:10px">
+        <div title='<g:message code="purchaseOrder.purchaseOrderBalance.label" default="PO Balance history"/>'  style="padding:10px">
            <table id="dg-attachments" class="easyui-datagrid"  style="height:240px"
                     data-options="
                     singleSelect:true, 

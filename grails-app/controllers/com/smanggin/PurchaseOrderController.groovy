@@ -912,7 +912,7 @@ class PurchaseOrderController {
         def poBalance = new PurchaseOrderBalance()
         poBalance.country = purchaseOrderInstance.country
         poBalance.purchaseOrder = purchaseOrderInstance
-        poBalance.description =" insert When state " purchaseOrderInstance.state
+        poBalance.description =" insert When state " + purchaseOrderInstance?.state
         poBalance.balance1 = purchaseOrderInstance.total?:0
         poBalance.currency1 = purchaseOrderInstance.currency1
         poBalance.balance2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
