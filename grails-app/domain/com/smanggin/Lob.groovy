@@ -10,6 +10,8 @@ class Lob implements Serializable {
 	String name
 	String country
 	String active
+    String codeCoa
+
 	String toString() { return name } 
 
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
@@ -24,6 +26,7 @@ class Lob implements Serializable {
         name column:"LOB_Name"
         country column:"LOB_Country"
     	active column:"LOB_Active",defaultValue:'Yes'
+        codeCoa column: "LOB_Code"
     	version true, 
     			defaultValue:'0'
     }

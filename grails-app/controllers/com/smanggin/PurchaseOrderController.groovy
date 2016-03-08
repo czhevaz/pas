@@ -26,6 +26,7 @@ class PurchaseOrderController {
     }
 
     def list() {
+        session.trType = null
         def user = User.findByLogin(auth.user())
         params.order = params.order ?: 'desc' 
         params.sort = params.sort ?: 'dateCreated' 
@@ -271,6 +272,7 @@ class PurchaseOrderController {
 
         purchaseOrderInstance.properties = params
         purchaseOrderInstance.updatedBy = session.user
+        purchaseOrderInstance.lastUpdated = new Date()
         //savePoComment(purchaseOrderInstance,params)
 
         if (!purchaseOrderInstance.save(flush: true)) {
@@ -405,20 +407,22 @@ class PurchaseOrderController {
                 def pppHead = domainClassInstance.findAll(sql)
                 
                 if(pppHead?.size() > 0){
-                    map.put('requestorName',pppHead[0]?.requestor)
-                    map.put('pppNumber',pppHead[0]?.number)
-                    map.put('pppDate',pppHead[0]?.pppDate?.format('yyyy-MM-dd'))
-                    map.put('pppDescription',pppHead[0]?.pppProgram)
-                  //  map.put('countryName',pppHead[0]?.country?.name)
-                    map.put('lobName',pppHead[0]?.lob)
-                    map.put('brandName',it?.brand)
-                   // map.put('state',pppHead[0]?.state)
-                    map.put('amount',it.costDetail)
-                    map.put('remainCreditLimit',it.remainCreditLimit)
-                    map.put('ammountTotalPPP',pppHead[0]?.pppCost)
-                    map.put('remainCreditLimitTotalPPP',pppHead[0]?.remainCreditLimit)
-                    //println "map " + map
-                    results.push(map)
+                    if(it.remainCreditLimit > 0 && pppHead[0]?.remainCreditLimit > 0){
+                        map.put('requestorName',pppHead[0]?.requestor)
+                        map.put('pppNumber',pppHead[0]?.number)
+                        map.put('pppDate',pppHead[0]?.pppDate?.format('yyyy-MM-dd'))
+                        map.put('pppDescription',pppHead[0]?.pppProgram)
+                      //  map.put('countryName',pppHead[0]?.country?.name)
+                        map.put('lobName',pppHead[0]?.lob)
+                        map.put('brandName',it?.brand)
+                       // map.put('state',pppHead[0]?.state)
+                        map.put('amount',it.costDetail)
+                        map.put('remainCreditLimit',it.remainCreditLimit)
+                        map.put('ammountTotalPPP',pppHead[0]?.pppCost)
+                        map.put('remainCreditLimitTotalPPP',pppHead[0]?.remainCreditLimit)
+                        //println "map " + map
+                        results.push(map)
+                    }
                 }
                 
             }
@@ -492,7 +496,10 @@ class PurchaseOrderController {
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
                 eq('country',params.country)
-                eq('supplier',Supplier.findByCode(params.supplierCode))    
+                eq('supplier',Supplier.findByCode(params.supplierCode))  
+                currency1{
+                    eq('code',params.currencyCode)
+                }
             }
             render results as JSON
         }
@@ -664,6 +671,8 @@ class PurchaseOrderController {
         }    
         
         savePoComment(purchaseOrderInstance,params)/* --insert TO PO comment */
+
+        insertTOPOBalance(purchaseOrderInstance)
         
         if(globalService.getNextApprover(purchaseOrderInstance,user)){
             saveNotif(purchaseOrderInstance,purchaseOrderInstance.mustApprovedBy)/* --insert TO Notif */
@@ -903,10 +912,13 @@ class PurchaseOrderController {
         def poBalance = new PurchaseOrderBalance()
         poBalance.country = purchaseOrderInstance.country
         poBalance.purchaseOrder = purchaseOrderInstance
-        poBalance.description =" Insert new PO state Draft"
+        poBalance.description =" insert When state " purchaseOrderInstance.state
         poBalance.balance1 = purchaseOrderInstance.total?:0
+        poBalance.currency1 = purchaseOrderInstance.currency1
         poBalance.balance2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
-        poBalance.save(flush:true)
+        if(!poBalance.save(flush:true)){
+            println "poBalance " + poBalance.errors
+        }
 
     }
 

@@ -16,6 +16,7 @@ class PurchaseOrderBalance {
 	String country
 	PurchaseOrder purchaseOrder
 	String  description
+	Currency currency1
 	Float balance1
 	Float balance2
 			
@@ -30,6 +31,7 @@ class PurchaseOrderBalance {
     }
     
 	static	constraints = {
+		currency1 nullable:true
     }
 	
 	/*

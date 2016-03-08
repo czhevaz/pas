@@ -43,7 +43,7 @@
 						</g:link>
 					</li>
 					<li class="controller">
-						<g:link controller="Rfp">
+						<g:link controller="Rfp" params="[trType: 'RFP']">
 							RFP
 						</g:link>
 					</li>
@@ -110,6 +110,11 @@ if(session.isAdmin == 'Yes') {
 						</g:link>
 					</li>
 					
+					<li class="controller">
+						<g:link controller="ChartOfAccount">
+							COA
+						</g:link>
+					</li>
 				</ul>
 			</li>
 

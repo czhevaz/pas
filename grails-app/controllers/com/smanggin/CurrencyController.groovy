@@ -211,6 +211,7 @@ class CurrencyController {
 
         }else if(params.code){
         	def value=1
+            def rateDetailId
 
         	def localCurrency = Currency.findByCodeAndActive(params.code,'Yes')
         	def rate = Rate.createCriteria().list(params){
@@ -232,10 +233,13 @@ class CurrencyController {
 		        
 		        if(rateDetail){
 		        	value = rateDetail[0]?.value
-		        }	
+                    rateDetailId = rateDetail[0]?.id
+		        }
+
+                 println "exchange arate"+rateDetail	
 	        }
-	        println value  
-	        render ([value:value]  as JSON)
+	         
+	        render ([value:value,rateDetailId:rateDetailId]  as JSON)
         }else if(params.country){
             if(params.country == "Indonesia"){
                 params.country = "Head Office"

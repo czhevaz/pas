@@ -30,6 +30,7 @@ class PurchaseOrderDetail {
 
 	String uom
 	Currency currency1
+	Float rate
 
 	Float targetSales
 
@@ -56,6 +57,7 @@ class PurchaseOrderDetail {
 		coverageArea nullable:true
 		outlet nullable:true
 		targetSales nullable:true
+		rate nullable:true
 
     }
 	

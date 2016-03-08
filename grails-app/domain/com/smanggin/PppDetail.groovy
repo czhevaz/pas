@@ -37,19 +37,25 @@ class PppDetail implements Serializable{
 	Float getRemainCreditLimit() {
 		def poApp = PurchaseOrder.createCriteria().list(){
 			eq('pppNumber',pppNumber)
+			eq('brand',brand)
 			ne('state','Rejected')	
 		}
 
 		def poReject = PurchaseOrder.createCriteria().list(){
 			eq('pppNumber',pppNumber)
+			eq('brand',brand)
 			eq('state','Rejected')	
 		}
 
 		def totalOrderApp = 0
+		def totalPOremain = 0
 		//println "purchaseOrders" + purchaseOrders
 		if(poApp.size() > 0){
 			poApp.each{
 				totalOrderApp = totalOrderApp+(it.total/it.rate)
+				//totalOrderApp = totalOrderApp+(it.PORemain2)
+				totalPOremain = totalPOremain+it.PORemain2
+				
 			}
 		}
 
@@ -59,9 +65,11 @@ class PppDetail implements Serializable{
 				totalOrderReject = totalOrderReject+(it.total/it.rate)
 			}
 		}
+
+		
 		
 		def amount = costDetail?:0
 		//println " Grand total Order "+ totalOrder
-		return (amount-totalOrderApp)
+		return (amount-totalOrderApp + totalPOremain)
 	}
 }

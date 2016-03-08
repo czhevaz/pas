@@ -25,10 +25,12 @@
 						<thead>
 							<tr>
 							
+								<g:sortableColumn property="code" title="${message(code: 'lob.code.label', default: 'Id')}" />
+
 								<g:sortableColumn property="name" title="${message(code: 'lob.name.label', default: 'Name')}" />
 							
-								<g:sortableColumn property="code" title="${message(code: 'lob.code.label', default: 'Code')}" />
-							
+								<g:sortableColumn property="name" title="${message(code: 'lob.name.label', default: 'codeCoa')}" />
+
 								<g:sortableColumn property="active" title="${message(code: 'lob.active.label', default: 'Active')}" />
 							
 								<th><g:message code="lob.country.label" default="Country" /></th>
@@ -39,13 +41,16 @@
 						<g:each in="${lobInstanceList}" status="i" var="lobInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
+								<td>${fieldValue(bean: lobInstance, field: "code")}</td>
+
 								<td><g:link action="show" id="${lobInstance.id}">${fieldValue(bean: lobInstance, field: "name")}</g:link></td>
 							
-								<td>${fieldValue(bean: lobInstance, field: "code")}</td>
-							
+								<td>${fieldValue(bean: lobInstance, field: "codeCoa")}</td>
+
 								<td>${fieldValue(bean: lobInstance, field: "active")}</td>
 							
 								<td>${fieldValue(bean: lobInstance, field: "country")}</td>
+
 							
 							</tr>
 						</g:each>

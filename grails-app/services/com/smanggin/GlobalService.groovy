@@ -10,10 +10,7 @@ class GlobalService {
     static transactional = true
 
     def getApprovals(purchaseOrder){
-        println "country"+purchaseOrder.country
-        println "lob" + purchaseOrder.lob
-        println "brand" +purchaseOrder.brand
-        println "trtype" +purchaseOrder?.transactionGroup?.transactionType?.code
+       
     	def appDetail = ApprovalDetail.createCriteria().list(){
     		country{
                eq('name',purchaseOrder.country)     
@@ -66,7 +63,6 @@ class GlobalService {
     	def poApprover = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,noSeq)
     	return poApprover?.approver
     }
-
 
     def getNextApprover(purchaseOrder,userLogin){
     	def seq = getPOApprovalSeq(purchaseOrder,userLogin)

@@ -19,11 +19,13 @@ if(actionName=='edit' || actionName=='show') {
             </g:if>
             onBeforeEdit: function(index,row){
                 var col = $(this).datagrid('getColumnOption', 'currencyCode');
+                var colRate = $(this).datagrid('getColumnOption', 'rate');
                 //console.log(index);
                 //console.log(index > 0);
                 if(index > 0){
                     col.editor.type = 'textbox';
                     col.editor.options.readonly = true;
+                    colRate.editor.options.readonly = true;
                 }
                       
             },
@@ -73,6 +75,15 @@ if(actionName=='edit' || actionName=='show') {
 
                                 }
                         }">Local currency </th>
+                     <th data-options="field:'rate',align:'right',formatter:formatNumber,  width:100,
+                        editor:{
+                            type:'numberbox',
+                            options:{
+                                precision:2,
+                               
+                            }
+
+                        }">rate</th>    
     
                     <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POPF'}">        
                         <th data-options="field:'unitPrice',align:'right',formatter:formatNumber,  width:100,
@@ -254,8 +265,9 @@ if(actionName=='edit' || actionName=='show') {
             {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${auth.user()}' });
             }else{
                 var code = $('#dg-purchaseOrderDetails').datagrid('getRows')[0].currencyCode;
+                var rate = $('#dg-purchaseOrderDetails').datagrid('getRows')[0].rate;
                 $('#dg-purchaseOrderDetails').datagrid('appendRow',
-                {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${auth.user()}' ,currencyCode:code});
+                {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${auth.user()}' ,currencyCode:code,rate:rate});
             }
             
             editIndex = $('#dg-purchaseOrderDetails').datagrid('getRows').length-1;
@@ -335,6 +347,9 @@ if(actionName=='edit' || actionName=='show') {
                 success: function (data) {
      
                     rate=data.value
+                    var rateEd = $('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'rate'});
+                    var convertRate = $(rateEd.target).numberbox('setValue',rate);
+
                     var totalEd  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'totalCost'});
                     var totalCost = $(totalEd.target).numberbox('getValue');
 

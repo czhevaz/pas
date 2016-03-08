@@ -25,36 +25,38 @@ if(actionName=='edit' || actionName=='show') {
                                 options:{
                                     valueField:'id',
                                     textField:'number',
-                                    url:'/${meta(name:'app.name')}/purchaseOrder/jlist?country=${rfpInstance.country}&supplierCode=${rfpInstance.supplier?.code}',
+                                    url:'/${meta(name:'app.name')}/purchaseOrder/jlist?country=${rfpInstance.country}&supplierCode=${rfpInstance.supplier?.code}&currencyCode=${rfpInstance?.currency1?.code}',
                                     required:true,
                                     onSelect: function(rec){
                                            getPPPNumber(rec.id);
+                                           getCOA(rec);
                                     }
                                 }
                         }">Purchase Order</th>
                         
                         <th data-options="field:'pppNumber',width:200,editor:{type:'textbox',options:{required:true}}">Ppp Number</th>         
 
-                        <th data-options="field:'coaCode',width:200,
-                            formatter:function(value,row){
-                                return row.coaCode ;
-                            },
-                            editor:{
-                                type:'combobox',
-                                options:{
-                                    valueField:'code',
-                                    textField:'code',
-                                    url:'/${meta(name:'app.name')}/chartOfAccount/jlist?country=${rfpInstance?.country}',
-                                    required:true,
-                                    onSelect: function(rec){
-                                        var coaDescriptionEd  =$('#dg-rfpDetails').datagrid('getEditor',{index:editIndex,field:'coaDescription'});
-                                        $(coaDescriptionEd.target).textbox('setValue',rec.description);
+                        <g:if test="${rfpInstance?.paymentOption.id != 3 }">
+                            <th data-options="field:'coaCode',width:300,
+                                formatter:function(value,row){
+                                    return row.coaCode ;
+                                },
+                                editor:{
+                                    type:'combobox',
+                                    options:{
+                                        valueField:'code',
+                                        textField:'code',
+                                        url:'/${meta(name:'app.name')}/chartOfAccount/jlist?country=${rfpInstance?.country}',
+                                        required:true,
+                                        onSelect: function(rec){
+                                            var coaDescriptionEd  =$('#dg-rfpDetails').datagrid('getEditor',{index:editIndex,field:'coaDescription'});
+                                            $(coaDescriptionEd.target).textbox('setValue',rec.description);
+                                        }
                                     }
-                                }
-                        }">Coa</th>
-                                    
-                        <th data-options="field:'coaDescription',width:200,editor:{type:'textbox',options:{required:true}}">Coa Description</th>         
-
+                            }">Coa</th>
+                                        
+                            <th data-options="field:'coaDescription',width:500,editor:{type:'textbox',options:{required:true}}">Coa Description</th>         
+                        </g:if>
                             
                         <th data-options="field:'totalCost1',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Total Cost1</th>
                         
@@ -94,7 +96,9 @@ if(actionName=='edit' || actionName=='show') {
                       success: function(data){ 
                           if(!data.success)
                           {
-                            alert(data.messages.errors[0].message)
+                            $("#confirmModal").modal('show');
+                            $("#message").text(data.messages.errors[0].message);
+                            //alert(data.messages.errors[0].message)
                           }
                       },
                       dataType: 'json'
@@ -182,6 +186,14 @@ if(actionName=='edit' || actionName=='show') {
 
             }
 
+            function getCOA(rec){
+                if(editIndex != undefined){
+                    var coaCodeEd  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'coaCode'});
+                    var coa = $(coaCodeEd.target).combobox('reload', '/${meta(name:'app.name')}/chartOfAccount/jlist?country='+rec.country+'&brand='+rec.brand+'&lob='+rec.lob);
+                }
+
+            }
+
 
             function autoCalculate(){
                 if(editIndex != undefined){
@@ -199,3 +211,4 @@ if(actionName=='edit' || actionName=='show') {
 <%
 }
 %>
+<g:render template="confirmDialog" model="[item: item]"/>

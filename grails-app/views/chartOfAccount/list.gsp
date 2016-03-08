@@ -24,16 +24,20 @@
 					<table class="table table-bordered margin-top-medium">
 						<thead>
 							<tr>
-							
-								<g:sortableColumn property="active" title="${message(code: 'chartOfAccount.active.label', default: 'Active')}" />
-							
+															
+								
 								<g:sortableColumn property="code" title="${message(code: 'chartOfAccount.code.label', default: 'Code')}" />
 							
-								<g:sortableColumn property="country" title="${message(code: 'chartOfAccount.country.label', default: 'Country')}" />
-							
 								<g:sortableColumn property="description" title="${message(code: 'chartOfAccount.description.label', default: 'Description')}" />
-							
+
+								<g:sortableColumn property="coaIdServer" title="${message(code: 'chartOfAccount.coaIdServer.label', default: 'Coa Id Server')}" />
+
+								<g:sortableColumn property="country" title="${message(code: 'chartOfAccount.country.label', default: 'Country')}" />
+
 								<g:sortableColumn property="lob" title="${message(code: 'chartOfAccount.lob.label', default: 'Lob')}" />
+
+								<g:sortableColumn property="active" title="${message(code: 'chartOfAccount.active.label', default: 'Active')}" />
+							
 							
 							</tr>
 						</thead>
@@ -41,15 +45,17 @@
 						<g:each in="${chartOfAccountInstanceList}" status="i" var="chartOfAccountInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${chartOfAccountInstance.id}">${fieldValue(bean: chartOfAccountInstance, field: "active")}</g:link></td>
-							
-								<td>${fieldValue(bean: chartOfAccountInstance, field: "code")}</td>
-							
-								<td>${fieldValue(bean: chartOfAccountInstance, field: "country")}</td>
+								<td><g:link action="show" id="${chartOfAccountInstance.id}">${fieldValue(bean: chartOfAccountInstance, field: "code")}</g:link></td>
 							
 								<td>${fieldValue(bean: chartOfAccountInstance, field: "description")}</td>
+
+								<td>${fieldValue(bean: chartOfAccountInstance, field: "coaIdServer")}</td>
+								
+								<td>${fieldValue(bean: chartOfAccountInstance, field: "country")}</td>
 							
-								<td>${fieldValue(bean: chartOfAccountInstance, field: "lob")}</td>
+								<td>${fieldValue(bean: chartOfAccountInstance, field: "lob")}</td>	
+							
+								<td>${fieldValue(bean: chartOfAccountInstance, field: "active")}</td>		
 							
 							</tr>
 						</g:each>

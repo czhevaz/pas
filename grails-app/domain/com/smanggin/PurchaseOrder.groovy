@@ -74,6 +74,8 @@ class PurchaseOrder {
 
 	String addIntructions
 
+	String toString() { return number } 	
+
 	static	belongsTo	= [TransactionGroup,Supplier,Currency]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
 	static	hasMany		= [purchaseOrderDetails:PurchaseOrderDetail, 
@@ -132,7 +134,7 @@ class PurchaseOrder {
 
     }
 
-	static transients =['total','pppRemain','pppRemainBrand','PORemain1']
+	static transients =['total','pppRemain','pppRemainBrand','PORemain1','PORemain2']
 
 	Float getTotal() {
 		def total = 0
@@ -181,6 +183,21 @@ class PurchaseOrder {
 		}
 
 		def remainTotal = this.total - totaRfp1 
+		return remainTotal
+	}
+
+	def getPORemain2(){
+		def rfpDetails = RfpDetail.createCriteria().list(){
+			eq('purchaseOrder', this)
+
+		}
+		
+		def totaRfp2 = 0
+		rfpDetails.each{
+			totaRfp2 = totaRfp2 + it.totalCost2
+		}
+
+		def remainTotal = (this.total/this.rate) - totaRfp2 
 		return remainTotal
 	}
 }

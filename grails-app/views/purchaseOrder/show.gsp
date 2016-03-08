@@ -258,7 +258,7 @@
 
 							<p class="form-control-static">
 								<span id ="totalPO2">
-									<g:formatNumber number="${(purchaseOrderInstance?.PORemain1?:0) / (purchaseOrderInstance?.rate?:1)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+									<g:formatNumber number="${(purchaseOrderInstance?.PORemain2?:0)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
 								</span>
 							</p>
 							

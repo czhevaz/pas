@@ -20,17 +20,27 @@ class RfpController {
     }
 
     def list() {
+        
+        if(params.trType){
+            session.trType = params.trType    
+        }
+
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = Rfp.createCriteria().list(params){}
         [rfpInstanceList: results, rfpInstanceTotal: results.totalCount]
     }
 
     def create() {
+
+        if(params.trType){
+            session.trType = params.trType    
+        }
+
         [rfpInstance: new Rfp(params)]
     }
 
     def save() {
-        println params
+        
         def rfpInstance = new Rfp(params)
 
         if(baseCurrency){
@@ -317,7 +327,7 @@ class RfpController {
         if(countRfpApproved == countRfpApp){
             rfpInstance.state = 'Approved'    
 
-            // check masih ada po Oustanding atau tidak
+            /*// check masih ada po Oustanding atau tidak
             def rfpDetails = RfpDetail.findAllByPurchaseOrder(rfpInstance?.purchaseOrder)
             Float totalPORfp = 0
             Float totalPORfp2 = 0
@@ -326,8 +336,8 @@ class RfpController {
             }
 
             if(rfpInstance?.purchaseOrder?.total - totalPORfp == 0){
-                //#* jika totalCost2 > totalPO2 -> pppBalanceBerubah
-            }
+                //# jika totalCost2 > totalPO2 -> pppBalanceBerubah
+            }*/
 
         }
         
@@ -350,7 +360,7 @@ class RfpController {
         }    
 
        //if(countRfpApproved == countRfpApp){
-        def rfpDetails = RfpDetail.findAllByRfp(rfpInstance)
+       /* def rfpDetails = RfpDetail.findAllByRfp(rfpInstance)
             rfpDetails.each{
                 def pOtotal= it?.purchaseOrder?.total
                 def ratePO = it?.purchaseOrder?.rate
@@ -360,13 +370,14 @@ class RfpController {
                 }
             }
         //}
+        */
 
         if(globalService.getNextApproverRfp(rfpInstance,user)){
             saveNotif(rfpInstance,rfpInstance.mustApprovedBy)/* --insert TO Notif */
            // sendApproveEmail(rfpInstance)/* --Send Email */
         }
-
-        
+        rfpDetailInsertPOBalance(rfpInstance)
+        //println "rfpDetail >>> " + 
 
         flash.message = message(code: 'default.approved.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
         redirect(action: "show", id: rfpInstance.id)
@@ -400,6 +411,54 @@ class RfpController {
         def pppDetail = PppDetail.findByPppNumberAndBrand(rfpDetail.pppNumber,rfpDetail.purchaseOrder?.brand)
         pppDetail.balanceWriteOff = pppDetail?.balanceWriteOff - selisih
         pppDetail.save(flush:true)
+
+    }
+
+
+    def rfpDetailInsertPOBalance(rfpInstance){
+        def rfpDetail = RfpDetail.createCriteria().list(){
+            eq('rfp',rfpInstance)
+            projections{
+                groupProperty("purchaseOrder")
+                sum('totalCost1')  
+                sum('totalCost2')  
+            }
+        }
+
+        rfpDetail.each{
+            insertTOPOBalance(it)     
+            updatePPPBalance(it)       
+        }
+
+        return rfpDetail
+
+    }
+
+    def insertTOPOBalance(purchaseOrderInstance){
+
+        def poBalance = new PurchaseOrderBalance()
+        poBalance.country = purchaseOrderInstance[0]?.country
+        poBalance.purchaseOrder = purchaseOrderInstance[0]
+        poBalance.description =" insert When state RFP Approved" 
+        poBalance.balance1 = purchaseOrderInstance[0].PORemain1?:0
+        poBalance.currency1 = purchaseOrderInstance[0].currency1
+        poBalance.balance2 = purchaseOrderInstance[0].PORemain2?:0
+        if(!poBalance.save(flush:true)){
+            println "poBalance " + poBalance?.errors
+        }
+
+    }
+
+
+
+    def updatePPPBalance(purchaseOrderInstance){
+
+        def pppDetail = PppDetail.findByPppNumberAndBrand(purchaseOrderInstance[0]?.pppNumber,purchaseOrderInstance[0]?.brand)
+        pppDetail.balanceWriteOff = pppDetail.balanceWriteOff + (purchaseOrderInstance[0].PORemain2?:0)
+        if(!pppDetail.save(flush:true)){
+            println "pppDetail " + pppDetail?.errors   
+        }
+
 
     }
 

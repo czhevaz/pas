@@ -24,9 +24,9 @@
 						<tbody>
 						
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="chartOfAccount.active.label" default="Active" /></td>
+								<td valign="top" class="name"><g:message code="chartOfAccount.coaIdServer.label" default=" Server Id" /></td>
 								
-								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "active")}</td>
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "coaIdServer")}</td>
 								
 							</tr>
 						
@@ -36,14 +36,7 @@
 								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "code")}</td>
 								
 							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="chartOfAccount.country.label" default="Country" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "country")}</td>
-								
-							</tr>
-						
+
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="chartOfAccount.description.label" default="Description" /></td>
 								
@@ -51,6 +44,13 @@
 								
 							</tr>
 						
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.country.label" default="Country" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "country")}</td>
+							</tr>	
+
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="chartOfAccount.lob.label" default="Lob" /></td>
 								
@@ -58,6 +58,87 @@
 								
 							</tr>
 						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.brand.label" default="Brand" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "brand")}</td>
+								
+							</tr>
+						
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.segment01.label" default="Segment01" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "segment01")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.segment02.label" default="Segment02" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "segment02")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.segment03.label" default="Segment03" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "segment03")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.segment04.label" default="Segment04" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "segment04")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.segment05.label" default="Segment05" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "segment05")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.segment06.label" default="Segment06" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "segment06")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.segment07.label" default="Segment07" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "segment07")}</td>
+								
+							</tr>
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.active.label" default="Active" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "active")}</td>
+								
+							</tr>
+						
+						
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.dateCreated.label" default="Date Created" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${chartOfAccountInstance?.dateCreated}" /></td>
+								
+							</tr>
+						
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="chartOfAccount.lastUpdated.label" default="Last Updated" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${chartOfAccountInstance?.lastUpdated}" /></td>
+								
+							</tr>
+						
+							
 						</tbody>
 					</table>
 				</div><!--/.row -->

@@ -38,7 +38,7 @@
                 <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'purchaseOrderDate', 'error')}</span>
             
         </div>
-
+        <!--
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'currency1', 'error')} ">
 			<label for="currency1" class="col-sm-3 control-label"><g:message code="purchaseOrder.currency1.label" default="Currency1" /></label>
 			<div class="col-sm-3">
@@ -56,7 +56,7 @@
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'rate', 'error')}</span>
 			</div>
 		</div>
-
+        -->
 		
 		
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')} required">
@@ -181,7 +181,8 @@ if(actionName=='edit') {
 <r:script>
 	
 	var country = $('#country').val();
-
+    var date = $('#purchaseOrderDate_year').val() + "-" + $('#purchaseOrderDate_month').val() + "-" + $('#purchaseOrderDate_day').val()
+    
 	$(document).ready(function () {
 		$('#lob').empty();
 		$('#brand').empty();
@@ -213,7 +214,7 @@ if(actionName=='edit') {
 
 
     $("#currency1").on('change', function() {
-    	var date = $('#purchaseOrderDate_year').val() + "-" + $('#purchaseOrderDate_month').val() + "-" + $('#purchaseOrderDate_day').val()
+    	
         console.log("date");
         console.log(date);
         $.ajax({

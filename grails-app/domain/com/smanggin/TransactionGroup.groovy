@@ -19,6 +19,7 @@ class TransactionGroup {
 	String prefix
 	String format
 	Integer width
+	String country
 	
 
 	String toString() { return description } 
@@ -34,6 +35,7 @@ class TransactionGroup {
     
 	static	constraints = {
 		version nullable: true
+		country nullable: true 
 	
     }
 	

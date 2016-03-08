@@ -25,9 +25,11 @@
 						<thead>
 							<tr>
 							
-								<g:sortableColumn property="code" title="${message(code: 'country.code.label', default: 'Code')}" />
+								<g:sortableColumn property="code" title="${message(code: 'country.code.label', default: 'Id')}" />
 							
 								<g:sortableColumn property="name" title="${message(code: 'country.name.label', default: 'Name')}" />
+
+								<g:sortableColumn property="name" title="${message(code: 'country.name.label', default: 'codeCoa')}" />
 							
 								<g:sortableColumn property="active" title="${message(code: 'country.active.label', default: 'Active')}" />
 							
@@ -41,6 +43,8 @@
 								<td>${fieldValue(bean: countryInstance, field: "code")}</td>
 
 								<td><g:link action="show" params="['name':countryInstance.name]">${fieldValue(bean: countryInstance, field: "name")}</g:link></td>
+
+								<td>${fieldValue(bean: countryInstance, field: "codeCoa")}</td>
 							
 								<td>${countryInstance.active}</td>
 							

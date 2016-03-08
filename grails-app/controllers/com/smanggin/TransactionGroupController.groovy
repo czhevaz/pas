@@ -165,12 +165,29 @@ class TransactionGroupController {
                 projections{
                     groupProperty('transactionType')
                 }
+
             }
 
             def results = []
             if(appDetailsTrType){
+                println "session.trType " + session.trType
+
                 results = TransactionGroup.createCriteria().list(){
-                'in'('transactionType', appDetailsTrType)
+                    'in'('transactionType', appDetailsTrType)
+                    
+                    if(session.trType){
+                        transactionType{
+                            eq('code',session.trType)
+                        }
+                    }else{
+                        transactionType{
+                            ne('code','RFP')
+                        }
+                    }
+
+                    if(params.country){
+                        eq('country',params.country)
+                    }
                 }  
             }
             

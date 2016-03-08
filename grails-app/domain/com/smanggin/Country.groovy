@@ -11,6 +11,7 @@ class Country {
 	String name
 	String active
 	String domainPPP
+    String codeCoa
 	
 	String toString() { return name } 	
 
@@ -31,6 +32,8 @@ class Country {
     	active column:"Con_Active",defaultValue:'Yes'
     	version true 
     			defaultValue:'0'
+
+        codeCoa column:"Con_Code"        
     }
     
 	static	constraints = {

@@ -46,9 +46,7 @@
 						
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rfp.paymentOption.label" default="Payment Option" /></td>
-								
 								<td valign="top" class="value">${rfpInstance?.paymentOption}</td>
-								
 							</tr>
 						
 							

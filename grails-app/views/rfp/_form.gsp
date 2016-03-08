@@ -25,7 +25,15 @@
 				</div>
 			</div>
 
-			
+			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'rfpDate', 'error')} required">
+				<label for="rfpDate" class="col-sm-3 control-label"><g:message code="rfp.rfpDate.label" default="Rfp Date" /><span class="required-indicator">*</span></label>
+				
+					<g:jqDatePicker name="rfpDate" precision="day"  value="${rfpInstance?.rfpDate}" data-date-format="yyyy-mm-dd" />
+					
+					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'rfpDate', 'error')}</span>
+				
+			</div>
+
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'currency1', 'error')} required">
 				<label for="currency1" class="col-sm-3 control-label"><g:message code="rfp.currency1.label" default="Currency1" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
@@ -34,23 +42,16 @@
 				</div>
 			</div>
 
-			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'rate', 'error')} required">
-				<label for="rate" class="col-sm-3 control-label"><g:message code="rfp.rate.label" default="Rate" /><span class="required-indicator">*</span></label>
-				<div class="col-sm-5">
-					<g:field type="number" name="rate" step="any" required="" value="${rfpInstance.rate}"/>
+			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'rate', 'error')} ">
+				<label for="rate" class="col-sm-3 control-label"><g:message code="rfp.rate.label" default="Rate" /></label>
+				<div class="col-sm-4">
+					<g:field type="number" name="rate" class="form-control" step="any" value="${rfpInstance?.rate}"/>
+					<g:field type="hidden" id ="rateDetailId" name="rateDetail.id" value="${rfpInstance.rateDetail}"/> 
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'rate', 'error')}</span>
 				</div>
 			</div>
-
 			
-			
-			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'rfpDate', 'error')} required">
-				<label for="rfpDate" class="col-sm-3 control-label"><g:message code="rfp.rfpDate.label" default="Rfp Date" /><span class="required-indicator">*</span></label>
-				<div class="col-sm-5">
-					<bs:datePicker name="rfpDate" precision="day"  value="${rfpInstance?.rfpDate}"  />
-					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'rfpDate', 'error')}</span>
-				</div>
-			</div>
+		
 
 
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'supplier', 'error')} required">
@@ -62,9 +63,9 @@
 			</div>
 
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'paymentOption', 'error')} required">
-				<label for="paymentOption" class="col-sm-3 control-label"><g:message code="rfp.paymentOption.label" default="paymentOption" /><span class="required-indicator">*</span></label>
+				<label for="paymentOption" class="col-sm-3 control-label"><g:message code="rfp.paymentOption.label" default="Payment Option" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:select id="paymentOption" name="paymentOption.id" from="${com.smanggin.PaymentOption.values()}" optionKey="id" required="" value="${rfpInstance?.paymentOption?.values()*.name()}" class="many-to-one form-control "/>
+					<g:select id="paymentOption" name="paymentOption.id" from="${com.smanggin.PaymentOption.values()}" optionKey="id" required="" value="${rfpInstance?.paymentOption?.values()*.name()}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'paymentOption', 'error')}</span>
 				</div>
 			</div>
@@ -73,7 +74,7 @@
 
 <r:script>
 	var country = $('#country').val();
-
+	var date = $('#rfpDate_year').val() + "-" + $('#rfpDate_month').val() + "-" + $('#rfpDate_day').val()
 	$(document).ready(function () {
 		
 		<%
@@ -93,10 +94,44 @@
 			
 			getCurrency(country);
 			getTrGroup(country);
-			getSupplier(country)
+			getSupplier(country);
 		</g:if>
 		
 	});
+
+	$("#country").on('change', function() {
+		
+		country = $(this).val();
+		urlGroup = "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+country;
+		urlCurrency = "/${meta(name:'app.name')}/currency/jlist?country="+country;
+		urlSupplier = "/${meta(name:'app.name')}/supplier/jlist?masterField.name=countryOwnerID&masterField.id="+country;
+
+		
+		getTrGroup(urlGroup);			
+		getCurrency(urlCurrency);
+		getSupplier(urlSupplier);
+        
+	});
+
+
+	$("#currency1").on('change', function() {
+    	//var date = $('#rfpDate_year').val() + "-" + $('#rfpDate_month').val() + "-" + $('#rfpDate_day').val()
+        console.log("date");
+        console.log(date);
+        $.ajax({
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+$(this).val()+"&date="+date,
+            type: "POST",
+            success: function (data) {
+				console.log(data);
+            	$("#rate").val(data.value);
+            	$("#rateDetailId").val(data.rateDetailId)
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    });
+
 
 	function getTrGroup(country){
         $.ajax({
@@ -131,7 +166,7 @@
 
     function getCurrency(country){
         $.ajax({
-            url: "/${meta(name:'app.name')}/currency/jlist?country="+country,
+            url: "/${meta(name:'app.name')}/currency/jlist?country="+country+"&date="+date,
         
             type: "POST",
             success: function (data) {
@@ -169,6 +204,7 @@
 
                     $('#supplier').trigger('chosen:updated');
                     $('#supplier').chosen();
+
                 }else{
                  
                     $('#supplier').chosen('destroy');

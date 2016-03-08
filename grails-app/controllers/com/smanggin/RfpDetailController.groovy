@@ -121,11 +121,8 @@ class RfpDetailController {
             return
         }
         
-        rfpDetailInstance.properties = params
-        rfpDetailInstance.purchaseOrder = PurchaseOrder.get(params.purchaseOrderId)
-        rfpDetailInstance.pppNumber = params.pppNumber
-        rfpDetailInstance.coa = ChartOfAccount.findByCode(params?.coaCode)
-        rfpDetailInstance.rfp = Rfp.get(params.rfpId)
+       // rfpDetailInstance.properties = params
+        
         if (params.version)
         {
             def version = params.version.toLong()
@@ -139,10 +136,16 @@ class RfpDetailController {
                 }
             }            
         }
-        def checkPO = checkPO(rfpDetailInstance,params)
+
+        def checkPO = checkPO(params)
 
         if(checkPO){
             rfpDetailInstance.properties = params
+            rfpDetailInstance.purchaseOrder = PurchaseOrder.get(params.purchaseOrderId)
+            rfpDetailInstance.pppNumber = params.pppNumber
+            rfpDetailInstance.coa = ChartOfAccount.findByCode(params?.coaCode)
+            rfpDetailInstance.rfp = Rfp.get(params.rfpId)
+
                            
             if (!rfpDetailInstance.save(flush: true)) {
                 render([success: false, messages: rfpDetailInstance.errors] as JSON)
@@ -152,9 +155,9 @@ class RfpDetailController {
             render([success: true] as JSON)
         }else{
 
-            rfpDetailInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+            rfpDetailInstance.errors.rejectValue("version", "default.alert.rfp.total",
                       [message(code: 'rfpDetail.label', default: 'RfpDetail')] as Object[],
-                      "Another user has updated this RfpDetail while you were editing")
+                      "Total RFP Larger Than Total PO Balance")
             render([success: false, messages: rfpDetailInstance.errors] as JSON)
             return
     
@@ -181,7 +184,9 @@ class RfpDetailController {
     }   
 
     def jdelete(Long id) {
+        
         def rfpDetailInstance = RfpDetail.get(id)
+        
         if (!rfpDetailInstance)
             render([success: false] as JSON)
         else {
@@ -208,10 +213,30 @@ class RfpDetailController {
     }
 
 
-    def checkPO(rfpDetailInstance,params){
+    def checkPO(params){
         params.order = params.order ?: 'desc' 
         params.sort = params.sort ?: 'dateCreated' 
-        def purchaseOrder = PurchaseOrder.findByNumber(rfpDetailInstance?.purchaseOrder?.number)
+
+        println " params rfp RfpDetail" + params
+        def purchaseOrder = PurchaseOrder.get(params?.purchaseOrderId)
+        
+        /*get sum total rfpDEtail for @PO*/
+        def rfpDetails= RfpDetail.createCriteria().list(){
+            eq('purchaseOrder',purchaseOrder)
+            if(params?.id){
+                ne('id',params?.id?.toLong())
+            }
+            
+            projections{
+                sum('totalCost1')
+            }
+        } 
+
+        def totalExistRfpDetail = rfpDetails[0]?:0
+        def totalRfpDetail= totalExistRfpDetail + params.totalCost1.toFloat()
+
+        println " SUm " + totalRfpDetail
+        /*get po Balance */
         def poBalance = PurchaseOrderBalance.createCriteria().list(params){
             eq('purchaseOrder',purchaseOrder)
             maxResults(1)
@@ -219,15 +244,10 @@ class RfpDetailController {
 
         def status= false
 
-        poBalance.each{
-            println it.purchaseOrder?.number
-        }
-
-        println purchaseOrder
-        println "PO balance1  " + poBalance[0].balance1
-        println "totalCost1  " + rfpDetailInstance.totalCost1.toFloat()
+        //println "PO balance1  " + poBalance[0].balance1
+       // println "totalCost1  " + rfpDetailInstance.totalCost1.toFloat()
         if(poBalance){
-            if(poBalance[0]?.balance1 >= params.totalCost1.toFloat()){
+            if(poBalance[0]?.balance1 >= totalRfpDetail){
                 status =true
             }
         }
