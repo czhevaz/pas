@@ -58,7 +58,17 @@ if(actionName=='edit' || actionName=='show') {
                             <th data-options="field:'coaDescription',width:500,editor:{type:'textbox',options:{required:true}}">Coa Description</th>         
                         </g:if>
                             
-                        <th data-options="field:'totalCost1',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Total Cost1</th>
+                        <th data-options="field:'totalCost1',align:'right',formatter:formatNumber,  
+                        width:100,
+                        editor:{
+                            type:'numberbox',
+                            options:{
+                                precision:2,
+                                onChange: function(rec){
+                                    exchangeRate();
+                                }
+                            }
+                        }">Total Cost1</th>
                         
                         <th data-options="field:'totalCost2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Total Cost2</th>
                         
@@ -204,6 +214,38 @@ if(actionName=='edit' || actionName=='show') {
                     $(totalCost2Ed.target).numberbox('setValue',totalCost2);
                 }       
             }
+
+            var rate = ${rfpInstance?.rate?:1};
+            
+            /** oncange total cost*/
+            function exchangeRate(){
+                if(editIndex != undefined){
+                    
+                    $.ajax({
+                    url: "/${meta(name:'app.name')}/currency/jlist?code=${rfpInstance?.currency1?.code}",
+                    type: "POST",
+                        success: function (data) {
+             
+                            
+                            var totalEd  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost1'});
+                            var totalCost = $(totalEd.target).numberbox('getValue');
+
+                            var total2Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
+                            var totalCost2 = totalCost/rate
+
+                            $(total2Ed.target).numberbox('setValue',totalCost2);
+
+                            
+                        },
+                        error: function (xhr, status, error) {
+                            alert("fail");
+                        }
+                    });
+
+                    
+                }    
+            }// end onchange total cost
+
         </r:script>  
     
 

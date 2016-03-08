@@ -38,6 +38,7 @@
                 <span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'purchaseOrderDate', 'error')}</span>
             
         </div>
+        
         <!--
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'currency1', 'error')} ">
 			<label for="currency1" class="col-sm-3 control-label"><g:message code="purchaseOrder.currency1.label" default="Currency1" /></label>
@@ -182,7 +183,7 @@ if(actionName=='edit') {
 	
 	var country = $('#country').val();
     var date = $('#purchaseOrderDate_year').val() + "-" + $('#purchaseOrderDate_month').val() + "-" + $('#purchaseOrderDate_day').val()
-    
+
 	$(document).ready(function () {
 		$('#lob').empty();
 		$('#brand').empty();
