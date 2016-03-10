@@ -67,7 +67,7 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rfp.rfpDate.label" default="Rfp Date" /></td>
 								
-								<td valign="top" class="value"><g:formatDate date="${rfpInstance?.rfpDate}" /></td>
+								<td valign="top" class="value"><g:formatDate date="${rfpInstance?.rfpDate}"  format="yyyy-MM-dd"/></td>
 								
 							</tr>
 							
@@ -90,14 +90,14 @@
 
 						<div class="form-actions">
 					
-							<g:if test="${rfpInstance?.state=='Draft' || rfpInstance?.state=='Rejected'}">
-								<g:if test="${rfpInstance?.createdBy == auth.user().toString()}">
+							<g:if test="${rfpInstance?.state=='Draft' }">
+								<g:if test="${rfpInstance?.createdBy == session.user}">
 									<g:actionSubmit class="btn btn-primary btn-sm" action="actionWaitingApprove" value="${message(code: 'default.button.approve.label', default: 'Send To Approver')}" />
 									
 								</g:if>	
 							</g:if>
 							<g:if test="${rfpInstance?.state=='Waiting Approval'}">
-								<g:if test="${rfpInstance?.mustApprovedBy==auth.user().toString()}">
+								<g:if test="${rfpInstance?.mustApprovedBy == session.user}">
 									<g:actionSubmit class="btn btn-primary btn-sm" action="actionApprove" value="${message(code: 'default.button.approve.label', default: 'Approve')}" />
 									
 									<g:actionSubmit id="reject" class="btn btn-primary btn-sm" action="actionReject" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />

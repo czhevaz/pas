@@ -27,6 +27,7 @@ class PurchaseOrderController {
 
     def list() {
         session.trType = null
+        
         def user = User.findByLogin(auth.user())
         params.order = params.order ?: 'desc' 
         params.sort = params.sort ?: 'dateCreated' 
@@ -472,6 +473,7 @@ class PurchaseOrderController {
                     eq('mustApprovedBy',user.login)
                     
                 }
+                
                 if(params.state == "Rejected"){
                  or{
                     eq('createdBy',user.login)

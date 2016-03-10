@@ -14,6 +14,7 @@ class RfpController {
     def globalService 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
+    
 
     def index() {
         redirect(action: "list", params: params)
@@ -24,9 +25,29 @@ class RfpController {
         if(params.trType){
             session.trType = params.trType    
         }
+        params.order = params.order ?: 'desc' 
+        params.sort = params.sort ?: 'dateCreated' 
+        def user = User.findByLogin(auth.user())
+        def rfpApprover = RfpApprover.findAllByApprover(user)
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def results = Rfp.createCriteria().list(params){
+            if(user?.role != 'LOB'){
+                or{
+                    eq('createdBy',user?.login)
+                    eq('mustApprovedBy',user?.login)    
+                    eq('rejectedBy',user.login)
+                    if(rfpApprover?.size() > 0){
+                        'in'('id',rfpApprover?.rfp?.id)    
+                    }
+                } 
+            }
+            if(params.state){
+                eq('state',params.state)
+                
+            }
+            
+        }
 
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def results = Rfp.createCriteria().list(params){}
         [rfpInstanceList: results, rfpInstanceTotal: results.totalCount]
     }
 
@@ -196,11 +217,45 @@ class RfpController {
     }
 
     def jlist() {
+        def user = User.findByLogin(auth.user())
         if(params.masterField){
             def c = Rfp.createCriteria()
             def results = c.list {
                 eq(params.masterField.name+'.id',params.masterField.id.toLong())    
             }
+            render results as JSON
+
+        }else if(params.state){
+            def rfpApprover = RfpApprover.findAllByApprover(user)
+            def c = Rfp.createCriteria()
+            def results = c.list {
+                eq('state',params.state)
+
+                if(params.state == "Waiting Approval"){
+                    eq('mustApprovedBy',user.login)
+                    
+                }
+                
+                if(params.state == "Rejected"){
+                 or{
+                    eq('createdBy',user.login)
+                    eq('rejectedBy',user.login)
+                 }   
+                    
+
+                }
+
+                if (params.state == "Approved") {
+                    or{
+                        eq('createdBy',user.login)    
+                        if(rfpApprover?.size() > 0){
+                            'in'('id',rfpApprover?.rfp?.id)    
+                        }
+                        
+                    }
+                }
+            }
+
             render results as JSON
 
         }
@@ -376,10 +431,71 @@ class RfpController {
             saveNotif(rfpInstance,rfpInstance.mustApprovedBy)/* --insert TO Notif */
            // sendApproveEmail(rfpInstance)/* --Send Email */
         }
-        rfpDetailInsertPOBalance(rfpInstance)
+
+        if(countRfpApproved == countRfpApp){
+            rfpDetailInsertPOBalance(rfpInstance)
+        }
         //println "rfpDetail >>> " + 
 
         flash.message = message(code: 'default.approved.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
+        redirect(action: "show", id: rfpInstance.id)
+    }
+
+    /**
+    Action Reject
+    **/
+    def actionReject() {
+        
+        def rfpInstance = Rfp.get(params.id)
+        
+        if (!rfpInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'Rfp'), params.id])
+            redirect(action: "list")
+            return
+        }
+
+        if (params.version) {
+            def version = params.version.toLong()
+            if (rfpInstance.version > version) {
+                rfpInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                          [message(code: 'purchaseOrder.label', default: 'Rfp')] as Object[],
+                          "Another user has updated this Rfp while you were editing")
+                render(view: "edit", model: [rfpInstance: rfpInstance])
+                return
+            }
+        }
+        
+        
+        rfpInstance.mustApprovedBy = null   
+        rfpInstance.dateReject = new Date()
+        rfpInstance.rejectedBy = auth.user()
+       
+        
+        rfpInstance.state = 'Rejected'    
+        
+ 
+
+        if (!rfpInstance.save(flush: true)) {
+
+            render(view: "edit", model: [rfpInstance: rfpInstance])
+            return
+        }
+
+        /* update Po Approver*/
+        def user = User.findByLogin(auth.user()?.toString())
+        def rfpApprover = RfpApprover.findByRfpAndApprover(rfpInstance,user)
+        
+        if(rfpApprover){
+            rfpApprover.status = 2
+            rfpApprover.approverDate = new Date()
+            rfpApprover.save(flush:true)
+
+        }
+
+
+        saveNotif(rfpInstance,rfpInstance.createdBy) /* --insert TO Notif */
+        
+        flash.message = message(code: 'default.rejected.message', args: [message(code: 'rfp.label', default: 'Rfp'), rfpInstance.number])
         redirect(action: "show", id: rfpInstance.id)
     }
 

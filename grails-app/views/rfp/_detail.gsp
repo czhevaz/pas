@@ -10,8 +10,10 @@ if(actionName=='edit' || actionName=='show') {
             <table id="dg-rfpDetails" class="easyui-datagrid" style="height:240px"
             data-options="singleSelect:true, 
             collapsible:true, 
+            <g:if test ="${rfpInstance.state=='Draft' }">
             onClickRow: rfpDetailsOnClickRow,
             toolbar: '#tb-rfpDetails',
+            </g:if>
             url:'/${meta(name:'app.name')}/rfpDetail/jlist?masterField.name=rfp&masterField.id=${rfpInstance?.id}'">
                 <thead>
                     <tr>
@@ -82,12 +84,15 @@ if(actionName=='edit' || actionName=='show') {
             </table>
         </div>     
 </div>
+    
+    <g:if test ="${rfpInstance.state=='Draft' }">
         <div id="tb-rfpDetails" style="height:auto">
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false" onclick="rfpDetailsAppend()">Add</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:false" onclick="rfpDetailsRemoveit()">Remove</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:false" onclick="rfpDetailsAccept()">Save</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:false" onclick="rfpDetailsRefresh()">Refresh</a>
         </div>
+    </g:if>    
             
         <r:script>     
             var editIndex = undefined;

@@ -16,8 +16,9 @@
 	    
 	</div>
 	<div class="row" id="document2">
-	    
-	    
+	    <div id='rejectedRfp'> </div>
+	    <div id='approvedRfp'> </div>
+	    <div id='waitingRfp'> </div>
 	</div>
 		
 	</section>
@@ -70,6 +71,55 @@
 					var link = "${createLink(action:'list',controller:'purchaseOrder',params:['state':'Waiting Approval'])}"
 					var html = addBox(title,count,icon,color,link);		
 					$('#waiting').html(html);			
+				}
+			
+		});
+
+		<!-- purchaseOrder  Rejected -->
+		$.post('/${meta(name:'app.name')}/rfp/jlist',{state:'Rejected'}, function(data) {
+			
+				if(data.length){
+					var title = 'RFP Rejected';
+					var count = data.length;
+					var icon = 'icon-shield';
+					var color = 'bg-red';
+					var state = "Rejected"
+					var link = "${createLink(action:'list',controller:'Rfp',params:['state':'Rejected'])}"
+					var html = addBox(title,count,icon,color,link);		
+					$('#rejectedRfp').html(html);			
+				}
+			
+		});
+
+	
+		<!-- purchaseOrder  Approved  -->
+		$.post('/${meta(name:'app.name')}/rfp/jlist',{state:'Approved'}, function(data) {
+			
+				if(data.length){
+					var title = 'RFP Approved';
+					var count = data.length;
+					var icon = 'icon-folder';
+					var color = 'bg-aqua';
+					var state = "Waiting Approval"
+					var link = "${createLink(action:'list',controller:'Rfp',params:['state':'Approved'])}"
+					var html = addBox(title,count,icon,color,link);		
+					$('#approvedRfp').html(html);			
+				}
+			
+		});
+
+		<!-- Rfp  Waiting Approve -->
+		$.post('/${meta(name:'app.name')}/rfp/jlist',{state:'Waiting Approval'}, function(data) {
+			
+				if(data.length){
+					var title = 'RFP Waiting for Approval';
+					var count = data.length;
+					var icon = 'icon-folder';
+					var color = 'bg-green';
+					var state = "Waiting Approval"
+					var link = "${createLink(action:'list',controller:'Rfp',params:['state':'Waiting Approval'])}"
+					var html = addBox(title,count,icon,color,link);		
+					$('#waitingRfp').html(html);			
 				}
 			
 		});

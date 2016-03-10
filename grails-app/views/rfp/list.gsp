@@ -34,6 +34,8 @@
 								<th><g:message code="rfp.supplier.label" default="Supplier" /></th>
 							
 								<th><g:message code="rfp.paymentOption.label" default="paymentOption" /></th>
+
+								<th><g:message code="rfp.createdBy.label" default="createdBy" /></th>
 									
 								
 							
@@ -53,6 +55,8 @@
 								<td>${fieldValue(bean: rfpInstance, field: "supplier")}</td>
 							
 								<td>${fieldValue(bean: rfpInstance, field: "paymentOption")}</td>
+
+								<td>${fieldValue(bean: rfpInstance, field: "createdBy")}</td>
 							
 							</tr>
 						</g:each>
