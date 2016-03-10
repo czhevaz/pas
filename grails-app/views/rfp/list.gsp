@@ -29,6 +29,8 @@
 								
 								<th><g:message code="rfp.rfpDate.label" default="RfpDate" /></th>
 
+								<th><g:message code="rfp.state.label" default="State" /></th>
+
 								<th><g:message code="rfp.transactionGroup.label" default="TransactionGroup" /></th>
 
 								<th><g:message code="rfp.supplier.label" default="Supplier" /></th>
@@ -47,9 +49,10 @@
 							
 								<td><g:link action="show" id="${rfpInstance.id}">${fieldValue(bean: rfpInstance, field: "number")}</g:link></td>
 							
-								<td><g:formatDate date="${rfpInstance.rfpDate}" format="yyyy-dd-MM"/></td>
+								<td><g:formatDate date="${rfpInstance.rfpDate}" format="yyyy-MM-dd"/></td>
 							
-							
+								<td>${fieldValue(bean: rfpInstance, field: "state")}</td>
+								
 								<td>${fieldValue(bean: rfpInstance, field: "transactionGroup")}</td>
 							
 								<td>${fieldValue(bean: rfpInstance, field: "supplier")}</td>

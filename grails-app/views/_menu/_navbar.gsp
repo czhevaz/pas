@@ -12,7 +12,7 @@
 				<i class="icon-dashboard"></i>
 				
 				<!--<img class="logo" src="${resource(plugin: 'kickstart-with-bootstrap', dir:'kickstart/img', file:'grails.png')}" alt="${meta(name:'app.name')}" width="16px" height="16px"/> -->
-				PAS
+				POS
 				<small> v ${meta(name:'app.version')}</small>
 			</a>
 		</div>

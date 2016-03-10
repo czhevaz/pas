@@ -85,7 +85,7 @@
 					
 						<g:hiddenField name="id" value="${rfpInstance?.id}" />
 						<g:hiddenField name="version" value="${rfpInstance?.version}" />
-						<g:hiddenField name="updatedBy" value="${auth.user()}"/>
+						<g:hiddenField name="updatedBy" value="${session.user}"/>
 					
 
 						<div class="form-actions">

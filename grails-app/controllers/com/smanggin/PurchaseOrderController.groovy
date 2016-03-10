@@ -473,7 +473,7 @@ class PurchaseOrderController {
                     eq('mustApprovedBy',user.login)
                     
                 }
-                
+
                 if(params.state == "Rejected"){
                  or{
                     eq('createdBy',user.login)
@@ -742,6 +742,70 @@ class PurchaseOrderController {
         saveNotif(purchaseOrderInstance,purchaseOrderInstance.createdBy) /* --insert TO Notif */
         
         flash.message = message(code: 'default.rejected.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+        redirect(action: "show", id: purchaseOrderInstance.id)
+    }
+
+
+    /**
+    Action WriteOff
+    **/
+    def actionWriteOff() {
+        
+        
+        def purchaseOrderInstance = PurchaseOrder.get(params.id)
+        
+        if (!purchaseOrderInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
+            redirect(action: "list")
+            return
+        }
+
+        if (params.version) {
+            def version = params.version.toLong()
+            if (purchaseOrderInstance.version > version) {
+                purchaseOrderInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                          [message(code: 'purchaseOrder.label', default: 'PurchaseOrder')] as Object[],
+                          "Another user has updated this PurchaseOrder while you were editing")
+                render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
+                return
+            }
+        }
+        
+        purchaseOrderInstance.properties = params
+         
+        purchaseOrderInstance.dateWO = new Date()
+        purchaseOrderInstance.woBy = session.user
+        purchaseOrderInstance.isWriteOff = true
+        
+        if(purchaseOrderInstance.woValue1 == purchaseOrderInstance.PORemain1){
+            purchaseOrderInstance.state = "Closed"
+        }
+       
+        
+       
+        if (!purchaseOrderInstance.save(flush: true)) {
+
+            render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
+            return
+        }
+
+        /* insert to write Off history */
+
+        def poWO = new PurchaseOrderWriteOff()
+        poWO.purchaseOrder = purchaseOrderInstance
+        poWO.woValue1 = purchaseOrderInstance.woValue1
+        poWO.woValue2 = purchaseOrderInstance.woValue2
+        poWO.woBy = session.user
+        poWO.dateWO = new Date()
+        poWO.woNotes = purchaseOrderInstance.woNotes
+
+        if(!poWO.save(flush:true)){
+            println " po writeOff errors " + poWO.errors
+        }
+
+        insertTOPOBalance(purchaseOrderInstance)
+        
+        flash.message = message(code: 'default.writeOff.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
 

@@ -24,6 +24,7 @@ class PurchaseOrder {
 	Date dateVoid
 	String voidBy
 
+	String woNotes
 	Date dateWO
 	String woBy
 
@@ -131,6 +132,7 @@ class PurchaseOrder {
 		activitiesComponent nullable:true		
 		programTittle nullable:true
 		addIntructions nullable :true
+		woNotes nullable :true
 
     }
 
@@ -176,13 +178,20 @@ class PurchaseOrder {
 			eq('purchaseOrder', this)
 
 		}
+
+		def poWO = PurchaseOrderWriteOff.createCriteria().list(){
+			eq('purchaseOrder', this)
+			projections{
+                sum('woValue1')
+            }			
+		}
 		
 		def totaRfp1 = 0
 		rfpDetails.each{
 			totaRfp1 = totaRfp1 + it.totalCost1
 		}
 
-		def remainTotal = this.total - totaRfp1 
+		def remainTotal = this.total - totaRfp1 - (poWO[0]?:0)
 		return remainTotal
 	}
 
@@ -192,12 +201,19 @@ class PurchaseOrder {
 
 		}
 		
+		def poWO = PurchaseOrderWriteOff.createCriteria().list(){
+			eq('purchaseOrder', this)
+			projections{
+                sum('woValue2')
+            }			
+		}
+
 		def totaRfp2 = 0
 		rfpDetails.each{
 			totaRfp2 = totaRfp2 + it.totalCost2
 		}
 
-		def remainTotal = (this.total/this.rate) - totaRfp2 
+		def remainTotal = (this.total/this.rate) - totaRfp2 - (poWO[0]?:0)
 		return remainTotal
 	}
 }

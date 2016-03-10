@@ -199,18 +199,20 @@
 								<g:actionSubmit class="btn btn-primary btn-sm" action="actionApprove" value="${message(code: 'default.button.approve.label', default: 'Approve')}" />
 								
 								<g:actionSubmit id="reject" class="btn btn-primary btn-sm" action="actionReject" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />
-								
+
 							</g:if>	
 						</g:if>
 						<g:if test="${purchaseOrderInstance?.state=='Approved' && purchaseOrderInstance.PORemain1 > 0}">
-								<a href="${createLink(action:'writeOff',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
+							<a class="btn btn-sm btn-danger" id="search2" href="#" role="button" onclick ="showModalWriteOff()"><g:message code="default.button.writeOff.title" default="Message"/></a>
+							
+								
 						</g:if>
 							
 					</div>	
-					
+					</g:form>	
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->
-			</g:form>	
+			
 			<div class="box box-primary clearfix">
 				<div class="box-body clearfix">
 
@@ -278,6 +280,7 @@
 			<g:render template="acivityProposal"/>
 			
 		</div>
+		<g:render template="modalWriteOff"/>
 		<r:script>
 			$( "#addIntructions2" ).keyup(function() {
 				$("#addIntructions").val($(this).val());
@@ -289,6 +292,11 @@
 			        location.reload(); 
 			    });
 			}
+
+			function showModalWriteOff(){
+				$("#modalWriteOff").modal('show');
+			}
+			
 		/*	$('#reject').on('click', function(){
             	var r= prompt('note');
             	$('#rejectNotes').val(r);        
