@@ -119,8 +119,8 @@
 								<td>${purchaseOrderInstance.requestor}</td>	
 
 								<td>
-									<g:if test="${purchaseOrderInstance.state != 'Write Off'}">
-										<a href="${createLink(action:'writeOff',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-pencil pull-left"></i></a>
+									<g:if test="${purchaseOrderInstance.PORemain1 > 0 && purchaseOrderInstance?.state == 'Approved'}">
+										<a href="${createLink(action:'show',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-pencil pull-left"></i></a>
 									</g:if>	
 								</td>	
 										

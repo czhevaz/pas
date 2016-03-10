@@ -102,7 +102,7 @@
 									
 									<g:actionSubmit id="reject" class="btn btn-primary btn-sm" action="actionReject" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />
 
-									<a href="${createLink(action:'writeOff',id:rfpInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
+									
 								</g:if>	
 							</g:if>
 							

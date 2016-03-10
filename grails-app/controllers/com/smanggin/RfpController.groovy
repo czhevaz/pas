@@ -536,7 +536,7 @@ class RfpController {
             eq('rfp',rfpInstance)
             projections{
                 groupProperty("purchaseOrder")
-                sum('totalCost1')  
+                sum('totalCost1')
                 sum('totalCost2')  
             }
         }

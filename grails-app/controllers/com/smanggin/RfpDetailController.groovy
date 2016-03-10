@@ -247,7 +247,7 @@ class RfpDetailController {
         //println "PO balance1  " + poBalance[0].balance1
        // println "totalCost1  " + rfpDetailInstance.totalCost1.toFloat()
         if(poBalance){
-            if(poBalance[0]?.balance1 >= totalRfpDetail){
+            if(purchaseOrder.PORemain1 >= totalRfpDetail){
                 status =true
             }
         }

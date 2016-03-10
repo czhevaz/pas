@@ -219,6 +219,26 @@
             }
         });
     }/*-- end getSupplier  --*/
-    
+	
+	$('#rfpDate').on('changeDate', function (e) {
+
+        
+        var date =   new Date(e.date).getFullYear()+ "-" +  (new Date(e.date).getMonth() +1) + "-" + new Date(e.date).getDate()
+        console.log(date);
+        var currencyCode = $('#currency1').val();
+        $.ajax({
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&date="+date,
+            type: "POST",
+            success: function (data) {
+                
+                $("#rate").val(data.value);
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });             
+        //$(this).attr('value', $(this).val());
+       
+    });    
 
 </r:script>

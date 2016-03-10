@@ -199,10 +199,13 @@
 								<g:actionSubmit class="btn btn-primary btn-sm" action="actionApprove" value="${message(code: 'default.button.approve.label', default: 'Approve')}" />
 								
 								<g:actionSubmit id="reject" class="btn btn-primary btn-sm" action="actionReject" value="${message(code: 'default.button.rejected.label', default: 'Rejected')}" />
-
-								<a href="${createLink(action:'writeOff',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
+								
 							</g:if>	
 						</g:if>
+						<g:if test="${purchaseOrderInstance?.state=='Approved' && purchaseOrderInstance.PORemain1 > 0}">
+								<a href="${createLink(action:'writeOff',id:purchaseOrderInstance?.id)}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-pencil pull-left"></span> Write Off</a>
+						</g:if>
+							
 					</div>	
 					
 				</div><!--/.box-footer clearfix -->
