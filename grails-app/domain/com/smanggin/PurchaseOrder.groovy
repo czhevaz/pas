@@ -212,8 +212,15 @@ class PurchaseOrder {
 		rfpDetails.each{
 			totaRfp2 = totaRfp2 + it.totalCost2
 		}
+		\
+		def totalWoPO2 = poWO[0]?:0
+		def roundWOPO=totalWoPO2.round(2)
 
-		def remainTotal = (this.total/this.rate) - totaRfp2 - (poWO[0]?:0)
+		
+
+
+		def remainTotal = (this.total/this.rate).round(2) - totaRfp2 - totalWoPO2.round(2)
+
 		return remainTotal
 	}
 }

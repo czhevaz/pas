@@ -31,7 +31,7 @@
 		
 			<tr class="odd">
 
-				<td><g:link controller="${purchaseOrderInstance?.country}" action="show" id="${purchaseOrderInstance?.pppNumber}">${pppInstance?.pppNumber}</g:link></td>
+				<td><g:link controller="${com.smanggin.Country.findByName(purchaseOrderInstance?.country)?.domainPPP}" action="show" params="['number':purchaseOrderInstance?.pppNumber]">${pppInstance?.pppNumber}</g:link></td>
 
 				<td>${pppInstance?.pppDescription}</td>
 

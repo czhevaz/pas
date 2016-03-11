@@ -804,6 +804,18 @@ class PurchaseOrderController {
         }
 
         insertTOPOBalance(purchaseOrderInstance)
+
+        def totalpoWO = PurchaseOrderWriteOff.createCriteria().list(){
+            eq('purchaseOrder', purchaseOrderInstance)
+            projections{
+                sum('woValue2')
+            }           
+        }
+
+        def tCostDetail = PppDetail.findByPppNumberAndBrand(purchaseOrderInstance?.pppNumber,purchaseOrderInstance?.brand)
+        tCostDetail.poCommitted = tCostDetail.costDetail - purchaseOrderInstance.PORemain2 + (totalpoWO[0]?:0)
+        tCostDetail.balanceWriteOff = purchaseOrderInstance.PORemain2 + (totalpoWO[0]?:0)
+        tCostDetail.save(flush:true)
         
         flash.message = message(code: 'default.writeOff.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
         redirect(action: "show", id: purchaseOrderInstance.id)

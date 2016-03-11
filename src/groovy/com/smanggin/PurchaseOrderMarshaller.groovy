@@ -46,6 +46,9 @@ class PurchaseOrderMarshaller {
 				total:it.total,
 				total2 : it.total/it.rate,
 
+				poRemain1:it.PORemain1,
+				poRemain2:it.PORemain2,
+
 				
 				dateCreated 	: it.dateCreated,
 				lastUpdated 	: it.lastUpdated,
