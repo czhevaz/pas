@@ -238,7 +238,9 @@ if(actionName=='edit' || actionName=='show') {
                             var total2Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
                             var totalCost2 = totalCost/rate
 
-                            $(total2Ed.target).numberbox('setValue',totalCost2);
+                             var round2 = Math.round(totalCost2 * 100) / 100
+
+                            $(total2Ed.target).numberbox('setValue',round2);
 
                             
                         },
@@ -250,6 +252,7 @@ if(actionName=='edit' || actionName=='show') {
                     
                 }    
             }// end onchange total cost
+
 
         </r:script>  
     

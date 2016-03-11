@@ -355,10 +355,10 @@ if(actionName=='edit' || actionName=='show') {
 
                     var total2Ed  =$('#dg-purchaseOrderDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
                     var totalCost2 = totalCost/rate
+                    var round2 = Math.round(totalCost2 * 100) / 100
+                    $(total2Ed.target).numberbox('setValue',round2);
 
-                    $(total2Ed.target).numberbox('setValue',totalCost2);
-
-                    if(totalCost2 > ${purchaseOrderInstance?.pppRemainBrand}){
+                    if(round2 > ${purchaseOrderInstance?.pppRemainBrand}){
                         alert('total cannot larger than  PPP value');
                         $(totalEd.target).numberbox('setValue',0);
                     }
