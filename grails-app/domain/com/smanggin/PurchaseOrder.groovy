@@ -173,7 +173,7 @@ class PurchaseOrder {
         return pppDetail?.remainCreditLimit?:0
 	}
 
-	def getPORemain1(){
+	Float getPORemain1(){
 		def rfpDetails = RfpDetail.createCriteria().list(){
 			eq('purchaseOrder', this)
 
@@ -195,7 +195,7 @@ class PurchaseOrder {
 		return remainTotal
 	}
 
-	def getPORemain2(){
+	Float getPORemain2(){
 		def rfpDetails = RfpDetail.createCriteria().list(){
 			eq('purchaseOrder', this)
 
@@ -212,14 +212,11 @@ class PurchaseOrder {
 		rfpDetails.each{
 			totaRfp2 = totaRfp2 + it.totalCost2
 		}
-		\
-		def totalWoPO2 = poWO[0]?:0
-		def roundWOPO=totalWoPO2.round(2)
-
+		
+		def totalWoPO2 = poWO[0]?poWO[0].round(2):0
 		
 
-
-		def remainTotal = (this.total/this.rate).round(2) - totaRfp2 - totalWoPO2.round(2)
+		def remainTotal = (this.total/this.rate).round(2) - totaRfp2 - totalWoPO2
 
 		return remainTotal
 	}
