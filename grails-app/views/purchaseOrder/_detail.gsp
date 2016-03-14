@@ -187,6 +187,30 @@ if(actionName=='edit' || actionName=='show') {
 
         </div><!-- /.Po Balance -->
 
+        <!-- PO Wraite Off -->
+        <div title='<g:message code="purchaseOrder.purchaseOrderBalance.label" default="PO Write Off"/>'  style="padding:10px">
+           <table id="dg-attachments" class="easyui-datagrid"  style="height:240px"
+                    data-options="
+                    singleSelect:true, 
+                    collapsible:true, 
+                    rownumbers: true,  
+                    
+                    url:'/${meta(name:'app.name')}/purchaseOrderWriteOff/jlist?masterField.name=purchaseOrder&masterField.id=${purchaseOrderInstance?.id}'">
+            
+                <thead>
+                    <tr>
+                       
+                        <th data-options="field:'woValue1',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Wo Value 1 </th>
+                        <th data-options="field:'woValue2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Wo Value 2 (${purchaseOrderInstance.currency2?.code})</th>
+                        <th data-options="field:'woNotes',width:200">Notes </th> 
+                        <th data-options="field:'woBy',width:200">WO By</th> 
+                        <th data-options="field:'dateCreated',width:200">WO date</th> 
+
+                    </tr>
+                </thead>    
+            </table>        
+
+        </div><!-- /.Wraite Off -->
 
 
           

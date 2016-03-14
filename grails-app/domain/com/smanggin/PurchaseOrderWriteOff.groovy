@@ -14,6 +14,7 @@ class PurchaseOrderWriteOff {
 	Date	dateCreated
 	Date	lastUpdated
 	PurchaseOrder purchaseOrder
+	Currency currency1
 	Float woValue1
 	Float woValue2
 	String woBy
@@ -34,6 +35,7 @@ class PurchaseOrderWriteOff {
     }
     
 	static	constraints = {
+		currency1 nullable:true
     }
 	
 	/*
