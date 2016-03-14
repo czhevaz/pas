@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class UserController {
+    def syncDatabaseService
 	def authenticationService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -41,6 +42,7 @@ class UserController {
     }
 
     def show() {
+        syncDatabaseService.syncCOAFromProxy()
         def userInstance = User.get(params.id)
         if (!userInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])

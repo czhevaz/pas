@@ -151,10 +151,20 @@ class ChartOfAccountController {
             }
             render results as JSON
 
+        }else if(params.country){
+            def country = Country.findByName(params.country)
+            def lob = Lob.findByCode(params.lob)
+            def c = ChartOfAccount.createCriteria()
+
+            def results = c.list(params) {
+                eq('segment5',lob?.coaCode)
+                eq('segment6',country?.coaCode)    
+            }
+            render results as JSON
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            //arams.max = Math.min(params.max ? params.int('max') : 10, 100)
             render ChartOfAccount.list(params) as JSON           
         }
         

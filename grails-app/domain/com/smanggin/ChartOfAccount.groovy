@@ -8,18 +8,15 @@ class ChartOfAccount {
 
 	/* Default (injected) attributes of GORM */
 	String code
-	String country
-	String lob
-	String brand
 	String description
 	String active
 	String coaIdServer
 	String segment01 
-	String segment02 //lob
+	String segment02 
 	String segment03
 	String segment04
-	String segment05
-	String segment06
+	String segment05 // lob
+	String segment06 // country
 	String segment07
 
 	Date dateCreated
@@ -36,7 +33,6 @@ class ChartOfAccount {
     
 	static	constraints = {
 		version nullable:true
-		brand nullable:true
 		segment01 nullable:true
 		segment02 nullable:true
 		segment03 nullable:true

@@ -12,7 +12,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: supplierInstance, field: 'code', 'error')} ">
 				<label for="code" class="col-sm-3 control-label"><g:message code="supplier.code.label" default="Code" /></label>
 				<div class="col-sm-9">
-					<g:textField name="code" class="form-control" value="${supplierInstance?.code}"/>
+					<g:textField name="code" class="form-control" value="${supplierInstance?.code}" readonly="${supplierInstance?.code?true:false}"/>
 					<span class="help-inline">${hasErrors(bean: supplierInstance, field: 'code', 'error')}</span>
 				</div>
 			</div>

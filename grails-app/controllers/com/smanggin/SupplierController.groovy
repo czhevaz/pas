@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class SupplierController {
+    def syncDatabaseService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -35,6 +36,8 @@ class SupplierController {
             render(view: "create", model: [supplierInstance: supplierInstance])
             return
         }
+
+        syncDatabaseService.insertSupplierToProxy(supplierInstance)
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'supplier.label', default: 'Supplier'), supplierInstance.id])
         redirect(action: "show", id: supplierInstance.id)
@@ -87,6 +90,8 @@ class SupplierController {
             render(view: "edit", model: [supplierInstance: supplierInstance])
             return
         }
+
+        syncDatabaseService.updateSupplierToProxy(supplierInstance)
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'supplier.label', default: 'Supplier'), supplierInstance.id])
         redirect(action: "show", id: supplierInstance.id)

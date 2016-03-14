@@ -34,7 +34,7 @@ class RfpDetail {
 	static	constraints = {
 		updatedBy nullable:true
 		remarks nullable:true
-
+		coa nullable:true
     }
 	
 	/*
