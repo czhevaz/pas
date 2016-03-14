@@ -43,7 +43,9 @@ class PurchaseOrderDetailMarshaller {
 
 				currencyCode : it.currency1?.code,
 				rate : it.rate,
-				targetSales : it.targetSales
+				targetSales : it.targetSales,
+
+				purchaseOrderVersion:it.purchaseOrder?.version,
 			]
         }
     }

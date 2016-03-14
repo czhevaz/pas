@@ -298,6 +298,7 @@ class RfpController {
     Action Waiting Approve
     **/
     def actionWaitingApprove() {
+        println "params approvals" + params
         def rfpInstance = Rfp.get(params.id)
         if (!rfpInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'RFP'), params.id])
@@ -382,18 +383,6 @@ class RfpController {
         if(countRfpApproved == countRfpApp){
             rfpInstance.state = 'Approved'    
 
-            /*// check masih ada po Oustanding atau tidak
-            def rfpDetails = RfpDetail.findAllByPurchaseOrder(rfpInstance?.purchaseOrder)
-            Float totalPORfp = 0
-            Float totalPORfp2 = 0
-            rfpDetails.each{
-                totalPORfp = it?.totalCost1
-            }
-
-            if(rfpInstance?.purchaseOrder?.total - totalPORfp == 0){
-                //# jika totalCost2 > totalPO2 -> pppBalanceBerubah
-            }*/
-
         }
         
 
@@ -403,9 +392,7 @@ class RfpController {
             return
         }
 
-        /* update T_cost_detail*/
-        //updatePPPDetail2(rfpInstance)
-        /* update Po Approver*/
+       
         def rfpApprover = RfpApprover.findByRfpAndApprover(rfpInstance,user)
         rfpApprover.status = 1
         rfpApprover.approverDate = new Date()
@@ -414,18 +401,7 @@ class RfpController {
             println rfpApprover.errors
         }    
 
-       //if(countRfpApproved == countRfpApp){
-       /* def rfpDetails = RfpDetail.findAllByRfp(rfpInstance)
-            rfpDetails.each{
-                def pOtotal= it?.purchaseOrder?.total
-                def ratePO = it?.purchaseOrder?.rate
-                def pOtotal2= pOtotal/ratePO
-                if(it.totalCost2 > pOtotal2){
-                    totalCost2LargerThanPO2(it)
-                }
-            }
-        //}
-        */
+    
 
         if(globalService.getNextApproverRfp(rfpInstance,user)){
             saveNotif(rfpInstance,rfpInstance.mustApprovedBy)/* --insert TO Notif */
@@ -434,6 +410,7 @@ class RfpController {
 
         if(countRfpApproved == countRfpApp){
             rfpDetailInsertPOBalance(rfpInstance)
+
         }
         //println "rfpDetail >>> " + 
 
@@ -499,7 +476,7 @@ class RfpController {
         redirect(action: "show", id: rfpInstance.id)
     }
 
-    
+
 
     /**
     SaveNotif
@@ -545,7 +522,11 @@ class RfpController {
 
         rfpDetail.each{
             insertTOPOBalance(it)     
-            updatePPPBalance(it)       
+            updatePPPBalance(it) 
+            if(it[0]?.PORemain1 == 0){
+                it[0]?.state='Closed'
+                it[0]?.save(flush:true)
+            }      
         }
 
         return rfpDetail
@@ -571,10 +552,11 @@ class RfpController {
 
     def updatePPPBalance(purchaseOrderInstance){
 
-        def pppDetail = PppDetail.findByPppNumberAndBrand(purchaseOrderInstance[0]?.pppNumber,purchaseOrderInstance[0]?.brand)
-        pppDetail.balanceWriteOff = pppDetail.balanceWriteOff + (purchaseOrderInstance[0].PORemain2?:0)
-        if(!pppDetail.save(flush:true)){
-            println "pppDetail " + pppDetail?.errors   
+        def tCostDetail  = PppDetail.findByPppNumberAndBrand(purchaseOrderInstance[0]?.pppNumber,purchaseOrderInstance[0]?.brand)
+        tCostDetail.poCommitted = tCostDetail.costDetail - tCostDetail.remainCreditLimit
+        tCostDetail.balanceWriteOff = tCostDetail.remainCreditLimit
+        if(!tCostDetail.save(flush:true)){
+            println "pppDetail " + tCostDetail?.errors   
         }
 
 

@@ -214,6 +214,7 @@ class RfpDetailController {
 
 
     def checkPO(params){
+
         params.order = params.order ?: 'desc' 
         params.sort = params.sort ?: 'dateCreated' 
 
@@ -247,7 +248,7 @@ class RfpDetailController {
         //println "PO balance1  " + poBalance[0].balance1
        // println "totalCost1  " + rfpDetailInstance.totalCost1.toFloat()
         if(poBalance){
-            if(purchaseOrder?.total >= totalRfpDetail){
+            if(purchaseOrder?.PORemain1 >= totalRfpDetail){
                 status =true
             }
         }

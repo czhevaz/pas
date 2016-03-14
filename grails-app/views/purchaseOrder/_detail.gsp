@@ -176,13 +176,18 @@ if(actionName=='edit' || actionName=='show') {
                     <tr>
                         <th data-options="field:'countryName',width:200">Country</th> 
                         <th data-options="field:'description',width:200">Description</th> 
+                        <th data-options="field:'currency1Code',width:200">Local Currency</th> 
                         <th data-options="field:'balance1',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Balance 1 </th>
                         <th data-options="field:'balance2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Balance 2 (${purchaseOrderInstance.currency2?.code})</th>
+                        <th data-options="field:'dateCreated',width:200">Date Created</th> 
+
                     </tr>
                 </thead>    
             </table>        
 
         </div><!-- /.Po Balance -->
+
+
 
           
 
@@ -224,6 +229,7 @@ if(actionName=='edit' || actionName=='show') {
               url: "/${meta(name:'app.name')}/purchaseOrderDetail/jsave",
               data: row,
               success: function(data){ 
+
                  purchaseOrderDetailsRefresh();
                   if(!data.success)
                   {
@@ -233,6 +239,8 @@ if(actionName=='edit' || actionName=='show') {
                         alert(data.messages.errors[0].message);
                     }
                     
+                  }else{
+                    $('#version').val(data.purchaseOrderDetailInstance.purchaseOrderVersion);
                   }
 
               },
@@ -342,7 +350,7 @@ if(actionName=='edit' || actionName=='show') {
             var currencyCode = $(currEd.target).numberbox('getValue');
 
             $.ajax({
-            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode,
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&poId=${purchaseOrderInstance?.id}",
             type: "POST",
                 success: function (data) {
      
@@ -358,7 +366,7 @@ if(actionName=='edit' || actionName=='show') {
                     var round2 = Math.round(totalCost2 * 100) / 100
                     $(total2Ed.target).numberbox('setValue',round2);
 
-                    if(round2 > ${purchaseOrderInstance?.pppRemainBrand}){
+                    if(round2 > data.pppRemain){
                         alert('total cannot larger than  PPP value');
                         $(totalEd.target).numberbox('setValue',0);
                     }

@@ -153,17 +153,17 @@ class PurchaseOrderDetailController {
 
         def check = checkLimit(purchaseOrderDetailInstance.purchaseOrder,params.totalCost)
 
-        if(check){
+        //if(check){
             if (!purchaseOrderDetailInstance.save(flush: true)) {
                 println "errors" + purchaseOrderDetailInstance.errors
                 render([success: false, messages: purchaseOrderDetailInstance.errors] as JSON)
                 return
             }
                             
-            render([success: true] as JSON)    
-        }else{
+            render([success: true,purchaseOrderDetailInstance:purchaseOrderDetailInstance] as JSON)    
+        /*}else{
             render([success: false, limit:true,messages:"total can'not larger than  PPP value"] as JSON)    
-        }
+        }*/
         
     }
 
@@ -241,7 +241,7 @@ class PurchaseOrderDetailController {
 
         println "grandtotalPO2 = " +grandtotalPO2
         println "pppLimit= " +pppLimit
-        if(grandtotalPO2 <= pppLimit){
+        if(grandtotalPO2.round(2) <= pppLimit){
             result = true
         }
 

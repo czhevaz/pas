@@ -387,7 +387,7 @@ class PurchaseOrderController {
             render results as JSON
 
         }else if(params.search){
-           
+           /* filter PO for searh PPP in Create PO*/
             def country = Country.findByName(params?.countryId)
             def domainClassName = "com.smanggin." + country?.domainPPP
             def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
@@ -463,6 +463,7 @@ class PurchaseOrderController {
 
             render map as JSON
         }else if(params.state){
+            /* filter PO For DAshboard*/
             def user = User.findByLogin(auth.user())
             def poApprover = PurchaseOrderApprover.findAllByApprover(user)
             def c = PurchaseOrder.createCriteria()
@@ -495,6 +496,7 @@ class PurchaseOrderController {
             }
             render results as JSON
         }else if(params?.country){
+            /* filter PO for RFP detail */
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
                 eq('country',params.country)
@@ -502,6 +504,7 @@ class PurchaseOrderController {
                 currency1{
                     eq('code',params.currencyCode)
                 }
+                eq('state','Approved')
             }
             render results as JSON
         }
@@ -545,7 +548,7 @@ class PurchaseOrderController {
     Action Waiting Approve
     **/
     def actionWaitingApprove() {
-
+        println "params po Waiting >>>>>>>> " + params
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
         if (!purchaseOrderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
@@ -813,8 +816,8 @@ class PurchaseOrderController {
         }
 
         def tCostDetail = PppDetail.findByPppNumberAndBrand(purchaseOrderInstance?.pppNumber,purchaseOrderInstance?.brand)
-        tCostDetail.poCommitted = tCostDetail.costDetail - purchaseOrderInstance.PORemain2 + (totalpoWO[0]?:0)
-        tCostDetail.balanceWriteOff = purchaseOrderInstance.PORemain2 + (totalpoWO[0]?:0)
+        tCostDetail.poCommitted = tCostDetail.costDetail - tCostDetail.remainCreditLimit
+        tCostDetail.balanceWriteOff = tCostDetail.remainCreditLimit
         tCostDetail.save(flush:true)
         
         flash.message = message(code: 'default.writeOff.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
@@ -997,6 +1000,7 @@ class PurchaseOrderController {
         if(!poBalance.save(flush:true)){
             println "poBalance " + poBalance.errors
         }
+        return 
 
     }
 

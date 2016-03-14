@@ -111,7 +111,7 @@
 								
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppCost")}</td>	
 
-								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppRemain")}</td>	
+								<td>${fieldValue(bean: purchaseOrderInstance, field: "pppRemainBrand")}</td>	
 
 								<td>${purchaseOrderInstance.country}</td>	
 								<td>${purchaseOrderInstance.lob}</td>	
@@ -150,7 +150,7 @@
     });
  
     // DataTable
-    table = $('#list-table').DataTable({
+    var table2 = $('#list-table').DataTable({
     	"paging": true,
 	     "lengthChange": false,
 	     "searching": true,
@@ -170,18 +170,21 @@
     });
  
     // Apply the search
-    table = table.columns().eq( 0 );
-    if(table){
-    table.columns().eq( 0 ).each( function ( colIdx ) {
+    //table = table.columns().eq( 0 );
+    console.log("table >>>> " + table2);
+    if(table2){
+    table2.columns().eq( 0 ).each( function ( colIdx ) {
     	
-    	
-    		$( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
-            table
-                .column( colIdx )
+    	if(colIdx > 0 ){
+
+    	console.log("colIdx tesda"+colIdx);
+    		$( 'input', table2.column( colIdx ).footer() ).on( 'keyup change', function () {
+            	table2.column( colIdx )
                 .search( this.value )
                 .draw();
         	} );
     	
+    	}
     });
     }
 

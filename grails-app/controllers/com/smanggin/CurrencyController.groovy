@@ -198,7 +198,7 @@ class CurrencyController {
         
         
         def date = globalService.stringToDate(params.date,'yyyy-MM-dd')
-        println "params.date" +params.date
+        println "params" +params
         println "date" + date
         
 
@@ -221,12 +221,15 @@ class CurrencyController {
 	        	maxResults(1)
 	        }
 
-	        
+	        /*println "rate code" +rate
+            println "localCurrency" + localCurrency
+            println "baseCurrency" + baseCurrency
+            println " poId" +params.poId*/
 	        if(rate){
 	        	def rateDetail = RateDetail.createCriteria().list(){
-		        	eq('rate.id',rate[0].id)
-		        	eq('currency1',localCurrency)
-		        	eq('currency2',baseCurrency)
+		        	eq('rate.id',rate[0]?.id)
+		        	eq('currency1.code',localCurrency.code)
+		        	eq('currency2.code',baseCurrency.code)
 		        	maxResults(1)
 		        }
 		    
@@ -236,10 +239,21 @@ class CurrencyController {
                     rateDetailId = rateDetail[0]?.id
 		        }
 
-                 println "exchange arate"+rateDetail	
+                //println "exchange rate"+rateDetail	
 	        }
+
+            if(params.poId){
+                def po = PurchaseOrder.get(params.poId)
+                def tCostDetail = PppDetail.findByPppNumberAndBrand(po?.pppNumber,po?.brand)
+
+                def pppRemain= tCostDetail.remainCreditLimit
+                
+                render ([value:value,rateDetailId:rateDetailId,pppRemain:pppRemain]  as JSON)
+            }else{
+                render ([value:value,rateDetailId:rateDetailId]  as JSON)
+            }
 	         
-	        render ([value:value,rateDetailId:rateDetailId]  as JSON)
+	        
         }else if(params.country){
             if(params.country == "Indonesia"){
                 params.country = "Head Office"

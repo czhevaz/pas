@@ -188,9 +188,9 @@ if(actionName=='edit' || actionName=='show') {
                         $(pppNumberEd.target).textbox('setValue',data.purchaseOrderInstance.pppNumber);
 
                         var totalCost1Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost1'});
-                        $(totalCost1Ed.target).textbox('setValue',data.purchaseOrderInstance.total);
+                        $(totalCost1Ed.target).textbox('setValue',data.purchaseOrderInstance.poRemain1);
 
-                        var totalCost2 = data.purchaseOrderInstance.total/${rfpInstance?.rate}
+                        var totalCost2 = data.purchaseOrderInstance.poRemain1/${rfpInstance?.rate}
                         var totalCost2Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
                         $(totalCost2Ed.target).textbox('setValue',totalCost2);
                     },

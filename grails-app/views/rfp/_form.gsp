@@ -73,6 +73,7 @@
 
 
 <r:script>
+
 	var country = $('#country').val();
 	var date = $('#rfpDate_year').val() + "-" + $('#rfpDate_month').val() + "-" + $('#rfpDate_day').val()
 	$(document).ready(function () {
@@ -221,16 +222,14 @@
     }/*-- end getSupplier  --*/
 	
 	$('#rfpDate').on('changeDate', function (e) {
-
-        
         var date =   new Date(e.date).getFullYear()+ "-" +  (new Date(e.date).getMonth() +1) + "-" + new Date(e.date).getDate()
-        console.log(date);
+        console.log(date);        
         var currencyCode = $('#currency1').val();
         $.ajax({
             url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&date="+date,
             type: "POST",
             success: function (data) {
-                
+        		console.log(data);        
                 $("#rate").val(data.value);
             },
             error: function (xhr, status, error) {

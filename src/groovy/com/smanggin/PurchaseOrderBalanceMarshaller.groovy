@@ -21,7 +21,7 @@ class PurchaseOrderBalanceMarshaller {
 				version : it.version,
 				dateCreated 	: it.dateCreated,
 				lastUpdated 	: it.lastUpdated,
-				
+				currency1Code 	:it.currency1?.code,
 				
 			]
         }

@@ -24,6 +24,13 @@
 		<div class="col-lg-12">
 			<g:form method="post" class="form-horizontal" >
 			<div class="box box-primary">
+				<g:hasErrors bean="${purchaseOrderInstance}">
+				<div class="alert alert-error">
+					<g:renderErrors bean="${purchaseOrderInstance}" as="list" />
+				</div>
+				</g:hasErrors>
+				
+                
 				<g:render template="headerTittle"/> 				
                 
                 <div class="box-body  ">
