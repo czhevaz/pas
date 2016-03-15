@@ -144,6 +144,7 @@ class ChartOfAccountController {
     }
 
     def jlist() {
+        println "params"+params
         if(params.masterField){
             def c = ChartOfAccount.createCriteria()
             def results = c.list {
@@ -152,13 +153,14 @@ class ChartOfAccountController {
             render results as JSON
 
         }else if(params.country){
+            println " teasdsad"
             def country = Country.findByName(params.country)
             def lob = Lob.findByCode(params.lob)
             def c = ChartOfAccount.createCriteria()
 
             def results = c.list(params) {
-                eq('segment5',lob?.coaCode)
-                eq('segment6',country?.coaCode)    
+                eq('segment05',lob?.codeCoa)
+                eq('segment06',country?.codeCoa)    
             }
             render results as JSON
         }

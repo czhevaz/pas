@@ -14,9 +14,9 @@ class ChartOfAccountMarshaller {
             return [
 				id : it.id,
 				code :it.code,		
-				country :it.country,
+				
 				description:it.description,
-				lob  :it.lob,
+				
 				active :it.active,						
 				version     : it.version?:0,
 				

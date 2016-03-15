@@ -43,29 +43,7 @@
 								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "description")}</td>
 								
 							</tr>
-						
-
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="chartOfAccount.country.label" default="Country" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "country")}</td>
-							</tr>	
-
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="chartOfAccount.lob.label" default="Lob" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "lob")}</td>
-								
-							</tr>
-						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="chartOfAccount.brand.label" default="Brand" /></td>
-								
-								<td valign="top" class="value">${fieldValue(bean: chartOfAccountInstance, field: "brand")}</td>
-								
-							</tr>
-						
-						
+												
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="chartOfAccount.segment01.label" default="Segment01" /></td>
 								

@@ -32,10 +32,6 @@
 
 								<g:sortableColumn property="coaIdServer" title="${message(code: 'chartOfAccount.coaIdServer.label', default: 'Coa Id Server')}" />
 
-								<g:sortableColumn property="country" title="${message(code: 'chartOfAccount.country.label', default: 'Country')}" />
-
-								<g:sortableColumn property="lob" title="${message(code: 'chartOfAccount.lob.label', default: 'Lob')}" />
-
 								<g:sortableColumn property="active" title="${message(code: 'chartOfAccount.active.label', default: 'Active')}" />
 							
 							
@@ -50,10 +46,7 @@
 								<td>${fieldValue(bean: chartOfAccountInstance, field: "description")}</td>
 
 								<td>${fieldValue(bean: chartOfAccountInstance, field: "coaIdServer")}</td>
-								
-								<td>${fieldValue(bean: chartOfAccountInstance, field: "country")}</td>
 							
-								<td>${fieldValue(bean: chartOfAccountInstance, field: "lob")}</td>	
 							
 								<td>${fieldValue(bean: chartOfAccountInstance, field: "active")}</td>		
 							
