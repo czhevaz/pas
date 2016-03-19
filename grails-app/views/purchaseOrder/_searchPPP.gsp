@@ -5,7 +5,7 @@
 		            
 <div class="col-sm-6">
 		
-		<div class="form-group  required">
+	<div class="form-group  required">
 		<label for="lob" class="col-sm-3 control-label"><g:message code="register.lob.label" default="Lob" /><span class="required-indicator">*</span></label>
 		<div class="col-sm-9">
 			<g:select id="lob" name="lob.code" from="${com.smanggin.Lob.list()}" optionKey="code"  value="${purchaseOrderInstance?.lob}" class="many-to-one form-control "/>

@@ -1124,4 +1124,13 @@ class PurchaseOrderController {
         printService.print("XLS", request.getLocale(), response,params,trTypeCode,file)
     }
 
+
+     def report(){
+    
+        def views = params.type 
+
+        render(view: "${views}",model:[title:'PPP Balanced Traking PO'])
+
+    }
+
 }
