@@ -34,6 +34,7 @@
 						
 						<fieldset class="form">
 							<g:render template="form"/>
+
 						</fieldset>
 					</div><!--/.box-body -->	
 
@@ -46,6 +47,7 @@
 					</div><!--/.box-footer -->	
 				</g:form>
 				<g:render template="detail"/> 	
+				<g:render template="searchPOModal"/>
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			

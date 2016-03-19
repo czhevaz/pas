@@ -88,8 +88,7 @@
 			"brandId":brandId,
 			"requestorId":requestorId,
 			"year":year,
-			"month":month,		
-			
+			"month":month,
 		}
 
 		table = $('#pppContent').DataTable( {

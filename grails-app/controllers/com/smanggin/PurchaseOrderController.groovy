@@ -378,7 +378,7 @@ class PurchaseOrderController {
     }
 
     def jlist() {
-    	
+        println " params " + params    	
         if(params.masterField){
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
@@ -507,6 +507,51 @@ class PurchaseOrderController {
                 eq('state','Approved')
             }
             render results as JSON
+        }else if(params?.searchPO){
+            println "<<<<<<<<< searchPO >>>>>>>>>> "
+            /* filter PO for RFP detail */
+            def c = PurchaseOrder.createCriteria()
+            
+            def results = c.list {
+                eq('country',params.countryPO)
+                eq('supplier',Supplier.findByCode(params.supplierCode))  
+                currency1{
+                    eq('code',params.currencyCode)
+                }
+                eq('state','Approved')
+            }
+
+            def listPO = []
+
+            results.each{
+                def map = [:]
+                map.put('number',it.number)
+                map.put('reasonforInvestment',it.reasonforInvestment)
+                map.put('purchaseOrderDate',it.purchaseOrderDate?.format('yyyy-MM-dd'))
+                map.put('supplierName',it.supplier?.name)
+                map.put('purchaseOrderId',it.id)
+                map.put('pppNumber',it.pppNumber)
+                map.put('createdBy',it.createdBy)
+                map.put('total',it.total)
+                map.put('total2',(it.total/it.rate).round(2))
+                map.put('poRemain1',it.PORemain1)
+                map.put('poRemain2',it.PORemain2)
+                map.put('country',it.country)
+                map.put('lob',it.lob)
+                map.put('brand',it.brand)
+
+                listPO.push(map)
+            }
+
+            def list=[:]
+            list.put('sEcho','')
+            list.put('iTotalRecords',results?.size())
+            list.put('iTotalDisplayRecords',results?.size())
+            list.put('aaData',listPO)
+
+            println " list " + list
+
+            render list as JSON
         }
         else
         {

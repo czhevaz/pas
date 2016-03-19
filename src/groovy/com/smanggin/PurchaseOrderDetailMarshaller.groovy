@@ -34,7 +34,7 @@ class PurchaseOrderDetailMarshaller {
 
 				remark :it.remark,
 				purchaseOrderId:it.purchaseOrder?.id,
-				purchaseOrderNumber:it.purchaseOrder?.number,
+				number:it.purchaseOrder?.number,
 				version     : it.version,
 				createdBy   : it.createdBy,
 				updatedBy   : it.updatedBy,

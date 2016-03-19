@@ -32,6 +32,7 @@ class Rfp {
 	PaymentOption paymentOption
 
 	String mustApprovedBy
+	String note
 
 	String rejectNotes
 	Date dateReject
@@ -60,6 +61,7 @@ class Rfp {
 		rejectedBy nullable:true
 		dateReject nullable:true
 		rejectNotes nullable:true
+		note nullable:true
     }
 
     def beforeInsert(){

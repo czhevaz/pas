@@ -280,10 +280,6 @@ if(actionName=='edit') {
                 alert("fail");
             }
         });
-
-        
-        
-
     });
 
 

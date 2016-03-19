@@ -12,7 +12,10 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class RfpController {
     def globalService 
+    def printService 
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    
     def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
     
 
@@ -120,7 +123,21 @@ class RfpController {
             return
         }
 
-        [rfpInstance: rfpInstance]
+        def isEdit = false
+        if(rfpInstance.state == "Waiting Approval"){
+            def approver1 = globalService?.getRfpApproverBySeq(rfpInstance,1)
+           
+            if(approver1.login == session.user){
+                isEdit = true       
+            }
+            
+        }else if(rfpInstance.state == "Draft"){
+            if(rfpInstance.createdBy == session.user){
+                isEdit = true 
+            }
+        }
+
+        [rfpInstance: rfpInstance,isEdit:isEdit]
     }
 
     def edit() {
@@ -135,6 +152,8 @@ class RfpController {
     }
 
     def update() {
+
+        println " update " + params
         def rfpInstance = Rfp.get(params.id)
         if (!rfpInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'Rfp'), params.id])
@@ -154,6 +173,18 @@ class RfpController {
         }
 
         rfpInstance.properties = params
+          if(baseCurrency){
+            def localCurrency = Currency.findByCodeAndActive(params.currency1?.code,'Yes')
+            rfpInstance.currency1=localCurrency
+            rfpInstance.currency2=baseCurrency
+            rfpInstance.rate = params.rate?params.rate.toFloat():1
+            rfpInstance.rateDetail = RateDetail.get(params.rateDetail?.id)
+        }
+
+        rfpInstance.country = Country.findByName(params.country)
+        rfpInstance.updatedBy = session.user
+        rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())
+      
 
         if (!rfpInstance.save(flush: true)) {
             render(view: "edit", model: [rfpInstance: rfpInstance])
@@ -560,6 +591,47 @@ class RfpController {
         }
 
 
+    }
+
+
+    /** generate PDF **/
+     def printPdf(){
+        def rfp = Rfp.get(params.id.toLong())
+        def trTypeCode = rfp?.transactionGroup?.transactionType?.code
+        def filename = rfp.number
+        def file  = filename.replace("/","")
+        
+        def approver1 = RfpApprover.findByRfpAndNoSeq(rfp,1)
+        def approver2 = RfpApprover.findByRfpAndNoSeq(rfp,2)
+        
+        params.put('approver1',approver1?.approver?.name)
+        params.put('approver2',approver2?.approver?.name)
+        params.put('companyName','Kalbe International '+ "${rfp?.country}"+ ' Pte. Ltd')
+        params.put('rfp_id',rfp?.id)
+        params.put('view',true)
+
+        printService.print("PDF", request.getLocale(), response,params,trTypeCode,file)
+    }
+
+
+    def downloadExcel(){
+        println " excel >>>>>>>>>>>>>>>>>>> " +params
+        def rfp = Rfp.get(params.id.toLong())
+        def trTypeCode = rfp?.transactionGroup?.transactionType?.code
+        def filename = rfp.number
+        def file  = filename.replace("/","")
+        
+        def approver1 = RfpApprover.findByRfpAndNoSeq(rfp,1)
+        def approver2 = RfpApprover.findByRfpAndNoSeq(rfp,2)
+        
+        params.put('approver1',approver1?.approver?.name)
+        params.put('approver2',approver2?.approver?.name)
+        params.put('companyName','Kalbe International '+ "${rfp?.country}"+ ' Pte. Ltd')
+        params.put('rfp_id',rfp?.id)
+        params.put('view',false)
+        
+        
+        printService.print("XLS", request.getLocale(), response,params,trTypeCode,file)
     }
 
 }

@@ -37,12 +37,19 @@ class PurchaseOrderMarshaller {
 				requestor :it.requestor,
 
 				transactionGroupId:it.transactionGroup?.id,
-				supplier:it.supplier?.id,
+				
 				purchaseOrderDate:it.purchaseOrderDate,
 				number :it.number,		
 				reasonforInvestment :it.reasonforInvestment,
 				pppNumber:it.pppNumber,
 				pppCost:it.pppCost,
+				
+				number:it.number,
+				reasonforInvestment:it.reasonforInvestment,
+				
+				supplierName:it.supplier?.name,
+				supplier:it.supplier?.id,
+
 				total:it.total,
 				total2 : it.total/it.rate,
 

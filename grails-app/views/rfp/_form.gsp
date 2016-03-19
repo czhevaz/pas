@@ -28,7 +28,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'rfpDate', 'error')} required">
 				<label for="rfpDate" class="col-sm-3 control-label"><g:message code="rfp.rfpDate.label" default="Rfp Date" /><span class="required-indicator">*</span></label>
 				
-					<g:jqDatePicker name="rfpDate" precision="day"  value="${rfpInstance?.rfpDate}" data-date-format="yyyy-mm-dd" />
+					<g:jqDatePicker name="rfpDate" precision="day"  value="${rfpInstance?.rfpDate}" data-date-format="yyyy-mm-dd" maxDate="0"/>
 					
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'rfpDate', 'error')}</span>
 				
@@ -65,10 +65,19 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'paymentOption', 'error')} required">
 				<label for="paymentOption" class="col-sm-3 control-label"><g:message code="rfp.paymentOption.label" default="Payment Option" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:select id="paymentOption" name="paymentOption.id" from="${com.smanggin.PaymentOption.values()}" optionKey="id" required="" value="${rfpInstance?.paymentOption?.values()*.name()}" class="many-to-one form-control chosen-select"/>
+					
+					<g:select id="paymentOption" name="paymentOption.id" from="${com.smanggin.PaymentOption.values()}" optionKey="id" required="" value="${rfpInstance?.paymentOption}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'paymentOption', 'error')}</span>
 				</div>
 			</div>
+
+			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'note', 'error')} ">
+	            <label for="note" class="col-sm-3 control-label"><g:message code="rfp.note.label" default="Note" /></label>
+	            <div class="col-sm-6">
+	                <g:textArea class="form-control" name="note" value="${rfpInstance?.note}" rows="5" cols="40"/>
+	                <span class="help-inline">${hasErrors(bean: rfpInstance, field: 'note', 'error')}</span>
+	            </div>
+	        </div>
 
 
 
@@ -220,6 +229,7 @@
             }
         });
     }/*-- end getSupplier  --*/
+
 	
 	$('#rfpDate').on('changeDate', function (e) {
         var date =   new Date(e.date).getFullYear()+ "-" +  (new Date(e.date).getMonth() +1) + "-" + new Date(e.date).getDate()
@@ -239,5 +249,7 @@
         //$(this).attr('value', $(this).val());
        
     });    
+
+     
 
 </r:script>

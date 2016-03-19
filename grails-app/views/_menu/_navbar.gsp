@@ -139,6 +139,24 @@ if(session.isAdmin == 'Yes') {
 					</li>
 				</ul>	
 			</li>
+
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Report<b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li class="controller">
+						<g:link controller="Ppp" action="report">
+							PPP Balance Tracking PO
+						</g:link>
+					</li>
+					<li class="divider"></li>
+					<li class="controller">
+						<g:link controller="PurchaseOrder" action="report">
+							PO Balance Tracking RFP
+						</g:link>
+					</li>
+					
+				</ul>	
+			</li>
 <%
 }/* end if session.isadmin */
 %>

@@ -8,6 +8,11 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'rfp.label', default: 'Rfp')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
+
+	<g:if test="${isEdit}" >
+		<g:set var="canEdit" value="true" scope="request" />
+		<g:set var="canDelete" value="true" scope="request" />
+	</g:if>
 </head>
 
 <body>
@@ -112,6 +117,7 @@
 			</div><!--/.box-body table-responsive -->
 
 			<g:render template="detail"/> 
+			<g:render template="searchPOModal"/>
 		</div><!--/.box box-primary -->
 		</g:form>
 	</div><!--/.row -->
