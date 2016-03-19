@@ -176,7 +176,7 @@ class PurchaseOrder {
 	Float getPORemain1(){
 		def rfpDetails = RfpDetail.createCriteria().list(){
 			eq('purchaseOrder', this)
-
+			ne('state','Rejected')
 		}
 
 		def poWO = PurchaseOrderWriteOff.createCriteria().list(){
@@ -198,7 +198,7 @@ class PurchaseOrder {
 	Float getPORemain2(){
 		def rfpDetails = RfpDetail.createCriteria().list(){
 			eq('purchaseOrder', this)
-
+			ne('state','Rejected')
 		}
 		
 		def poWO = PurchaseOrderWriteOff.createCriteria().list(){
