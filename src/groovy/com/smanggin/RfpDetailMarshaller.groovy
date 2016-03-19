@@ -25,9 +25,10 @@ class RfpDetailMarshaller {
 				dateCreated 	: it.dateCreated,
 				lastUpdated 	: it.lastUpdated,
 				purchaseOrderId  : it.purchaseOrder?.id,
+				purchaseOrderNumber:it.purchaseOrder?.number,
 				poBalance1 :it.purchaseOrder?.PORemain1,
 				poBalance2 :it.purchaseOrder?.PORemain2,
-				number : it.purchaseOrder?.number,
+				//number : it.purchaseOrder?.number,
 				paymentType: it.paymentType,
 				
 			]

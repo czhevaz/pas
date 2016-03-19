@@ -82,11 +82,13 @@
 		if (rfpDetailsEndEditing()){
         
             $('#dg-rfpDetails').datagrid('appendRow',
-            {rfpId: ${rfpInstance.id? rfpInstance.id : 0},createdBy:"${session.user}",purchaseOrderId:data.purchaseOrderId,pppNumber:data.pppNumber,number:data.number});
+            {rfpId: ${rfpInstance.id? rfpInstance.id : 0},createdBy:"${session.user}",purchaseOrderId:data.purchaseOrderId,pppNumber:data.pppNumber,purchaseOrderNumber:data.number,poBalance1:data.poRemain1,poBalance2:data.poRemain2});
             editIndex = $('#dg-rfpDetails').datagrid('getRows').length-1;
             $('#dg-rfpDetails').datagrid('selectRow', editIndex).datagrid('beginEdit', editIndex);
-            console.log(editIndex)
+            console.log(data)
             getCOA(data);
+            $('#dg-rfpDetails').datagrid('getRows')[editIndex]['poBalance1'] = data.poRemain1;
+            $('#dg-rfpDetails').datagrid('getRows')[editIndex]['poBalance2'] = data.poRemain2;
                 
 
 

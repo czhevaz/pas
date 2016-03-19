@@ -19,17 +19,17 @@ if(actionName=='edit' || actionName=='show') {
                 <thead>
                     <tr>
         
-                        <th data-options="field:'purchaseOrderId',width:200,
+                        <th data-options="field:'purchaseOrderNumber',width:200,
                             formatter:function(value,row){
                                 console.log('row');
                                 console.log(row.number);
-                                return row.number;
+                                return row.purchaseOrderNumber;
                             },
                             editor:{
                                 type:'combobox',
                                 options:{
                                     valueField:'id',
-                                    textField:'number',
+                                    textField:'purchaseOrderNumber',
                                     url:'/${meta(name:'app.name')}/purchaseOrder/jlist?country=${rfpInstance.country}&=${rfpInstance.supplier?.code}&currencyCode=${rfpInstance?.currency1?.code}',
                                     required:true,
                                     onSelect: function(rec){
@@ -66,7 +66,7 @@ if(actionName=='edit' || actionName=='show') {
                         </g:if>
                             
                         <th data-options="field:'totalCost1',align:'right',formatter:formatNumber,  
-                        width:100,
+                        width:150,
                         editor:{
                             type:'numberbox',
                             options:{
@@ -75,13 +75,13 @@ if(actionName=='edit' || actionName=='show') {
                                     exchangeRate();
                                 }
                             }
-                        }">Total Cost1</th>
+                        }">Total Cost1 (${rfpInstance?.currency1?.code})</th>
                         
-                        <th data-options="field:'totalCost2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Total Cost2</th>
+                        <th data-options="field:'totalCost2',align:'right',formatter:formatNumber,  width:150,editor:{type:'numberbox',options:{precision:2}}">Total Cost2 (${rfpInstance?.currency2?.code})</th>
 
-                        <th data-options="field:'poBalance1',align:'right',formatter:formatNumber, width:100">PO Balance</th>
+                        <th data-options="field:'poBalance1',align:'right',formatter:formatNumber, width:150">PO Balance (${rfpInstance?.currency1?.code})</th>
                         
-                        <th data-options="field:'poBalance2',align:'right',formatter:formatNumber, width:100">PO Balance (UsD)</th>
+                        <th data-options="field:'poBalance2',align:'right',formatter:formatNumber, width:150">PO Balance (${rfpInstance?.currency2?.code})</th>
 
                         <th data-options="field:'paymentType',width:200,editor:'text'">Payment Type</th>
 
@@ -114,10 +114,9 @@ if(actionName=='edit' || actionName=='show') {
                 if ($('#dg-rfpDetails').datagrid('validateRow', editIndex)){
                         //minuteOfMeetingName
 
-                    var ed = $('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'purchaseOrderId'});
+                    var ed = $('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'purchaseOrderNumber'});
                     var purchaseOrderNumber = $(ed.target).combobox('getText');
-                    console.log('purchaseOrderNumber')
-                    console.log(purchaseOrderNumber);
+                    
                     $('#dg-rfpDetails').datagrid('getRows')[editIndex]['purchaseOrderNumber'] = purchaseOrderNumber;
                     
         

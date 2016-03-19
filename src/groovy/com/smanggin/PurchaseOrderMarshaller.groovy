@@ -45,6 +45,7 @@ class PurchaseOrderMarshaller {
 				pppCost:it.pppCost,
 				
 				number:it.number,
+				purchaseOrderNumber:it.number,
 				reasonforInvestment:it.reasonforInvestment,
 				
 				supplierName:it.supplier?.name,

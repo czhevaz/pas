@@ -148,7 +148,21 @@ class RfpController {
             return
         }
 
-        [rfpInstance: rfpInstance]
+        def isEdit = false
+        if(rfpInstance.state == "Waiting Approval"){
+            def approver1 = globalService?.getRfpApproverBySeq(rfpInstance,1)
+           
+            if(approver1.login == session.user){
+                isEdit = true       
+            }
+            
+        }else if(rfpInstance.state == "Draft"){
+            if(rfpInstance.createdBy == session.user){
+                isEdit = true 
+            }
+        }
+
+        [rfpInstance: rfpInstance,isEdit:isEdit]
     }
 
     def update() {
