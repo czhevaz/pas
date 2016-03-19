@@ -28,7 +28,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'rfpDate', 'error')} required">
 				<label for="rfpDate" class="col-sm-3 control-label"><g:message code="rfp.rfpDate.label" default="Rfp Date" /><span class="required-indicator">*</span></label>
 				
-					<g:jqDatePicker name="rfpDate" precision="day"  value="${rfpInstance?.rfpDate}" data-date-format="yyyy-mm-dd" maxDate="0"/>
+					<g:jqDatePicker name="rfpDate" precision="day"  value="${rfpInstance?.rfpDate}" data-date-format="yyyy-mm-dd" endDate="0d"/>
 					
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'rfpDate', 'error')}</span>
 				

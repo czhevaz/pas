@@ -12,6 +12,7 @@ class JqueryDateTagLib {
 		def minDate = attrs.minDate
 		def maxDate = attrs.maxDate 
 		def showDay = attrs.showDay
+		def endDate = attrs.endDate
 
 		def value = attrs.value
 		
@@ -41,7 +42,13 @@ class JqueryDateTagLib {
 		//Code to parse selected date into hidden fields required by grails
 		out.println "<r:require module=\"jquery-ui-dev\"/>"
 		out.println "<script type=\"text/javascript\"> \$(document).ready(function(){"
-		//out.println "var date = \$(\".datepicker\").datepicker({ format: 'yyyy-mm-dd ', language: 'id',autoclose: true});"	
+		out.println "var date = \$(\"#${name}\").datepicker({ format: 'yyyy-mm-dd ', language: 'id',autoclose: true," 
+
+		if(endDate != null){
+			out.println "endDate: '${endDate}'"
+		}
+		
+		out.println "});"	
 		out.println "\$(\"#${name}\").on(\"changeDate\", function(e){"
 
 		out.println "\$(\"#${name}_month\").attr(\"value\",new Date(e.date).getMonth() +1);"

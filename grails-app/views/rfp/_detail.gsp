@@ -116,12 +116,8 @@ if(actionName=='edit' || actionName=='show') {
 
                     var ed = $('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'purchaseOrderNumber'});
                     var purchaseOrderNumber = $(ed.target).combobox('getText');
-                    
                     $('#dg-rfpDetails').datagrid('getRows')[editIndex]['purchaseOrderNumber'] = purchaseOrderNumber;
                     
-        
-        
-
                     $('#dg-rfpDetails').datagrid('endEdit', editIndex);
                     var row = $('#dg-rfpDetails').datagrid('getRows')[editIndex]
                     $.ajax({

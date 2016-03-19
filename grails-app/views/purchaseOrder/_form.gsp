@@ -39,7 +39,7 @@
             
         </div>
         
-        <!--
+ 
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'currency1', 'error')} ">
 			<label for="currency1" class="col-sm-3 control-label"><g:message code="purchaseOrder.currency1.label" default="Currency1" /></label>
 			<div class="col-sm-3">
@@ -57,7 +57,7 @@
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'rate', 'error')}</span>
 			</div>
 		</div>
-        -->
+   
 		
 		
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')} required">
