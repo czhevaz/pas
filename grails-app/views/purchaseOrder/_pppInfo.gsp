@@ -59,6 +59,7 @@
 				<td style="text-align:right">
 					<span id="remainTotal">
 					<g:formatNumber number="${(pppInstance?.remainCreditLimitTotalPPP)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+					
 					</span>
 				</td>
 

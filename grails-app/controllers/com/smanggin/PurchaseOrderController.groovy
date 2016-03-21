@@ -177,7 +177,7 @@ class PurchaseOrderController {
         map.put('amount',pppDetail[0]?.costDetail)
         map.put('remainCreditLimit',pppDetail[0]?.remainCreditLimit)
         map.put('ammountTotalPPP',pppInstance?.pppCost)
-        map.put('remainCreditLimitTotalPPP',pppInstance?.remainCreditLimit)
+        map.put('remainCreditLimitTotalPPP',purchaseOrderInstance?.pppRemain)
 
 
         def isEdit = false

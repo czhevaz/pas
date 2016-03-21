@@ -262,8 +262,8 @@
 
 		alert(' helllllloooooooooooooooo ');
 		$.ajax({
-            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceReport,
-            data:data,
+            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceReport",
+            data:postData,
             type: "POST",
             success: function (data) {
 
