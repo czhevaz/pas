@@ -1011,7 +1011,11 @@ class PurchaseOrderController {
     def getPPPHead(detail,params,domainPPP){
 
         def sql = " from ${domainPPP} as p "
-            sql += "where p.number LIKE '%${detail.pppNumber}%'"   
+
+            if(detail){
+                sql += "where p.number LIKE '%${detail.pppNumber}%'"       
+            }
+            
             if(params.countryId){
              sql += " AND p.country LIKE '%${params.countryId}%'"   
             }
@@ -1137,9 +1141,23 @@ class PurchaseOrderController {
     }
 
     def pppBalanceReport(){
-        def poBalance = PurchaseOrderBalance.createCriteria().list(){
-            //orderBy()
-        }
+        
+        def sql = getPPPHead(null,params,country?.domainPPP)
+        def pppHead = domainClassInstance.findAll(sql)
+         
+        pppHead.each{
+            def pppDetail = PppDetail.findAllByPppNumber(it.number)
+            pppDetail.each{ detail -> 
+                def po = PurchaseOrder.findAllByPppNumberAndBrand(detail.pppNumber,detail.brand)
+                println ' PurchaseOrder >>> ' + po
+                
+
+            }
+           
+        }        
+
+
+        render([success: true] as JSON)
 
     }
 

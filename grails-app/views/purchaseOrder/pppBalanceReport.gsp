@@ -61,7 +61,7 @@
 								<div class="form-group required">
 									<label for="pppDate" class="col-sm-1 control-label"><g:message code="register.month.label" default="Month" /><span class="required-indicator">*</span></label>
 									<div class="col-sm-3">
-										<g:select id="status" name="month" from="${months as List}"   value="${months[today[Calendar.MONTH]]}" class="many-to-one form-control chosen-select"/>
+										<g:select id="month" name="month" from="${months as List}"   value="${months[today[Calendar.MONTH]]}" class="many-to-one form-control chosen-select"/>
 										
 								
 									</div>
@@ -80,7 +80,7 @@
 					</div><!--/.box-body -->
 					<div class="box-footer clearfix">
 						<div class="form-actions">
-							<g:submitButton name="searc" class="btn btn-primary" value="${message(code: 'default.button.search.label', default: 'Prosess')}" />
+							<g:submitButton name="search" class="btn btn-primary" value="${message(code: 'default.button.search.label', default: 'Prosess')}" />
 				           
 				            
 						</div>
@@ -245,6 +245,36 @@
 		$('#lob').prepend("<option value='' > All </option>")		
 		$('#lob').chosen();
 	});	
+
+	$("#search").click(function(){ 
+		var countryTes = $("#country").val();
+		var lobId = $("#lob").val();
+		var year = $("#year").val();	
+		var month =	$("#month").val();	
+		
+		var postData = {
+			"search":"true",	
+			"countryId":countryTes,
+			"lobId":lobId,
+			"year":year,
+			"month":month,
+		}
+
+		alert(' helllllloooooooooooooooo ');
+		$.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceReport,
+            data:data,
+            type: "POST",
+            success: function (data) {
+
+               
+                
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+	});
 
 </r:script>	
 
