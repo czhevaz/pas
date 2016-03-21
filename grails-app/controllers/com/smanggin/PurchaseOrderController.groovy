@@ -283,6 +283,9 @@ class PurchaseOrderController {
         }
 
 
+        //insertTOPOBalance(purchaseOrderInstance)
+
+
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
         redirect(action: "show", id: purchaseOrderInstance.id)
     }
@@ -1130,6 +1133,13 @@ class PurchaseOrderController {
         def views = params.type 
 
         render(view: "${views}",model:[title:'PPP Balanced Traking PO'])
+
+    }
+
+    def pppBalanceReport(){
+        def poBalance = PurchaseOrderBalance.createCriteria().list(){
+            //orderBy()
+        }
 
     }
 

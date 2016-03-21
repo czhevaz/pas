@@ -160,8 +160,6 @@ class RfpDetailController {
                       "Total RFP Larger Than Total PO Balance")
             render([success: false, messages: rfpDetailInstance.errors] as JSON)
             return
-    
-            render([success: false,messages:rfpDetailInstance.errors] as JSON)
         }        
             
     }
@@ -243,15 +241,18 @@ class RfpDetailController {
             maxResults(1)
         }
 
+        println " PO Balance " + poBalance
+
         def status= false
 
         //println "PO balance1  " + poBalance[0].balance1
        // println "totalCost1  " + rfpDetailInstance.totalCost1.toFloat()
-        if(poBalance){
-            if(purchaseOrder?.PORemain1 >= totalRfpDetail){
-                status =true
-            }
+        //if(poBalance){
+        println " Total Rfp Detail "   
+        if(purchaseOrder?.total >= totalRfpDetail){
+            status =true
         }
+        //}
         
         return status
     }
