@@ -57,6 +57,8 @@ class PurchaseOrderMarshaller {
 				poRemain1:it.PORemain1,
 				poRemain2:it.PORemain2,
 
+				currency1: it.currency1,
+
 				
 				dateCreated 	: it.dateCreated,
 				lastUpdated 	: it.lastUpdated,

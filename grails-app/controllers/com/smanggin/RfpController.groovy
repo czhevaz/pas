@@ -113,6 +113,7 @@ class RfpController {
 
     def show() {
         def rfpInstance = Rfp.get(params.id)
+        //syncDatabaseService.insertRfptoProxy(rfpInstance)
         
         if(params.notifId){
             globalService.updateIsNewNotif(params.notifId)
@@ -648,7 +649,6 @@ class RfpController {
         params.put('companyName','Kalbe International '+ "${rfp?.country}"+ ' Pte. Ltd')
         params.put('rfp_id',rfp?.id)
         params.put('view',false)
-        
         
         printService.print("XLS", request.getLocale(), response,params,trTypeCode,file)
     }

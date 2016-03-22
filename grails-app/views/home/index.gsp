@@ -50,7 +50,7 @@
 					var title = 'PO Approved';
 					var count = data.length;
 					var icon = 'icon-folder';
-					var color = 'bg-aqua';
+					var color = 'bg-green';
 					var state = "Waiting Approval"
 					var link = "${createLink(action:'list',controller:'purchaseOrder',params:['state':'Approved'])}"
 					var html = addBox(title,count,icon,color,link);		
@@ -66,7 +66,7 @@
 					var title = 'PO Waiting for Approval';
 					var count = data.length;
 					var icon = 'icon-folder';
-					var color = 'bg-green';
+					var color = 'bg-yellow';
 					var state = "Waiting Approval"
 					var link = "${createLink(action:'list',controller:'purchaseOrder',params:['state':'Waiting Approval'])}"
 					var html = addBox(title,count,icon,color,link);		
@@ -99,7 +99,7 @@
 					var title = 'RFP Approved';
 					var count = data.length;
 					var icon = 'icon-folder';
-					var color = 'bg-aqua';
+					var color = 'bg-green';
 					var state = "Waiting Approval"
 					var link = "${createLink(action:'list',controller:'Rfp',params:['state':'Approved'])}"
 					var html = addBox(title,count,icon,color,link);		
@@ -115,7 +115,7 @@
 					var title = 'RFP Waiting for Approval';
 					var count = data.length;
 					var icon = 'icon-folder';
-					var color = 'bg-green';
+					var color = 'bg-yellow';
 					var state = "Waiting Approval"
 					var link = "${createLink(action:'list',controller:'Rfp',params:['state':'Waiting Approval'])}"
 					var html = addBox(title,count,icon,color,link);		

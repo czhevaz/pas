@@ -110,7 +110,7 @@ if(actionName=='edit' || actionName=='show') {
                             	}
                         	}
 
-                        }">Total Cost <span id="totalCostLabel"> </span></th>
+                        }"><g:message code="purchaseOrder.currency1.detail.label" default="Currency1" /> <span id="totalCostLabel"> </span></th>
                         
                         <th data-options="field:'totalCost2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Total Cost (${purchaseOrderInstance.currency2?.code})</th>
      

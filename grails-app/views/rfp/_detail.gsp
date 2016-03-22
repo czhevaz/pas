@@ -75,20 +75,16 @@ if(actionName=='edit' || actionName=='show') {
                                     exchangeRate();
                                 }
                             }
-                        }">Total Cost1 (${rfpInstance?.currency1?.code})</th>
+                        }"><g:message code="rfp.currency1.Detail.label" default="Currency1" /> (${rfpInstance?.currency1?.code})</th>
                         
-                        <th data-options="field:'totalCost2',align:'right',formatter:formatNumber,  width:150,editor:{type:'numberbox',options:{precision:2}}">Total Cost2 (${rfpInstance?.currency2?.code})</th>
+                        <th data-options="field:'totalCost2',align:'right',formatter:formatNumber, hidden:true, width:150,editor:{type:'numberbox',options:{precision:2}}">Total Cost2 (${rfpInstance?.currency2?.code})</th>
 
-                        <th data-options="field:'poBalance1',align:'right',formatter:formatNumber, width:150">PO Balance (${rfpInstance?.currency1?.code})</th>
-                        
-                        <th data-options="field:'poBalance2',align:'right',formatter:formatNumber, width:150">PO Balance (${rfpInstance?.currency2?.code})</th>
-
-                        <th data-options="field:'paymentType',width:200,editor:'text'">Payment Type</th>
+                        <th data-options="field:'poBalance1',align:'right',formatter:formatNumber, width:150"><g:message code="purchaseOrder.outstanding.label" default="Currency1" /> (${rfpInstance?.currency1?.code})</th>
 
                         <th data-options="field:'remarks',width:200,editor:'text'">Remarks</th>
-
                         
                         <th data-options="field:'rfpId',hidden:true">Rfp</th>
+
                         <th data-options="field:'id',hidden:true">id</th>
                     
                     </tr>
@@ -201,6 +197,22 @@ if(actionName=='edit' || actionName=='show') {
                             sDefaultContent: "n/a" ,
                             
                           },
+                          { "mData": "brand",
+                            "fnRender": function(obj) {
+                                var str = obj.aData.brand;
+                                return str;
+                            },
+                            sDefaultContent: "n/a" ,
+                            
+                          },
+                          { "mData": "country",
+                            "fnRender": function(obj) {
+                                var str = obj.aData.country;
+                                return str;
+                            },
+                            sDefaultContent: "n/a" ,
+                            
+                          },
 
                            { "mData": "supplierName",
                             "fnRender": function(obj) {
@@ -219,6 +231,14 @@ if(actionName=='edit' || actionName=='show') {
                             sDefaultContent: "n/a" ,
                             
                           },
+                          { "mData": "currency1",
+                            "fnRender": function(obj) {
+                                var str = obj.aData.currency1;
+                                return str;
+                            },
+                            sDefaultContent: "n/a" ,
+                            
+                          },
                           { "mData": "total",
                             "fnRender": function(obj) {
                                 var str = obj.aData.total;
@@ -227,14 +247,7 @@ if(actionName=='edit' || actionName=='show') {
                             sDefaultContent: "0" ,
                             
                           },
-                          { "mData": "total2",
-                            "fnRender": function(obj) {
-                                var str = obj.aData.total2;
-                                return str;
-                            },
-                            sDefaultContent: "0" ,
-                            
-                          },
+                          
                           { "mData": "poRemain1",
                             "fnRender": function(obj) {
                                 var str = obj.aData.poRemain1;
@@ -243,14 +256,7 @@ if(actionName=='edit' || actionName=='show') {
                             sDefaultContent: "0" ,
                             
                           },
-                          { "mData": "poRemain2",
-                            "fnRender": function(obj) {
-                                var str = obj.aData.poRemain2;
-                                return str;
-                            },
-                            sDefaultContent: "0" ,
-                            
-                          },
+        
                           { "mData": "purchaseOrderDate",
                             "fnRender": function(obj) {
                                 var str = obj.aData.purchaseOrderDate;
@@ -364,7 +370,7 @@ if(actionName=='edit' || actionName=='show') {
                             var total2Ed  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost2'});
                             var totalCost2 = totalCost/rate
 
-                             var round2 = Math.round(totalCost2 * 100) / 100
+                            var round2 = Math.round(totalCost2 * 100) / 100
 
                             $(total2Ed.target).numberbox('setValue',round2);
 

@@ -1,7 +1,5 @@
 package com.smanggin
 
-
-
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 

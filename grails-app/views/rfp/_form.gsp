@@ -79,6 +79,14 @@
 	            </div>
 	        </div>
 
+			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'paymentType', 'error')} ">
+				<label for="paymentType" class="col-sm-3 control-label"><g:message code="rfp.paymentType.label" default="PaymentType" /></label>
+				<div class="col-sm-5">
+					<g:textField name="paymentType" class="form-control" value="${rfpInstance?.paymentType}"/>
+					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'paymentType', 'error')}</span>
+				</div>
+			</div>
+				
 
 
 <r:script>

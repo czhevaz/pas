@@ -32,7 +32,7 @@ class BootStrap {
 
         /* sync DB */
         def syncDBInterval=AppSetting.valueDefault('sync_db_interval','60000')
-        SyncDBJob.schedule(sendInterval.toLong())
+        SyncDBJob.schedule(syncDBInterval.toLong())
         
     }
 

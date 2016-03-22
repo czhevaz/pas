@@ -168,4 +168,17 @@ class GlobalService {
           return output
 
     }
+
+
+    /*bulan*/
+
+    def monthInt(monthName){
+        Date date = new SimpleDateFormat("MMMM").parse(monthName)
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date)
+        println(cal.get(Calendar.MONTH))
+
+        return cal.setTime(date)
+    }
 }
+

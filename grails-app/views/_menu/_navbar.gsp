@@ -100,7 +100,7 @@ if(session.isAdmin == 'Yes') {
 					
 					<li class="controller">
 						<g:link controller="TransactionGroup">
-							Transaction Group
+							Approval Transaction 
 						</g:link>
 					</li>
 				

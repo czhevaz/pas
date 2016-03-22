@@ -542,6 +542,7 @@ class PurchaseOrderController {
                 map.put('country',it.country)
                 map.put('lob',it.lob)
                 map.put('brand',it.brand)
+                map.put('currency1',it.currency1?.code)
 
                 listPO.push(map)
             }
@@ -1143,7 +1144,7 @@ class PurchaseOrderController {
     def pppBalanceReport(){
        
         println "params" + params
-
+        params.month = globalService.monthInt(params.month)
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
         def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
@@ -1206,5 +1207,7 @@ class PurchaseOrderController {
         render([success: true,results:list] as JSON)
 
     }
+
+    
 
 }

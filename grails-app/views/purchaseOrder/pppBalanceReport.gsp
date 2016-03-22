@@ -50,6 +50,26 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group  required">
+									<label for="brand" class="col-sm-3 control-label"><g:message code="register.brand.label" default="Brand" /><span class="required-indicator">*</span></label>
+									<div class="col-sm-9">
+										<g:select id="brand" name="brand" from="${com.smanggin.Brand.list()}" optionKey="code" optionValue ="code"  value="${purchaseOrderInstance?.brand}" class="many-to-one form-control "/>
+									</div>
+								</div>
+							</div>	
+							<div class="col-sm-6">
+								<div class="form-group required">
+									<label for="status" class="col-sm-1 control-label"><g:message code="register.status.label" default="Status" /><span class="required-indicator">*</span></label>
+									<div class="col-sm-3">
+										<g:select id="status" name="status" from="${['All','Draft','Waiting Approval','Approved','Closed']}"   value="${params?.status}" class="many-to-one form-control chosen-select"/>
+										
+										
+									</div>
+								</div>
+							</div>	
+						</div>
+						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group required">
 									<label for="pppDate" class="col-sm-1 control-label"><g:message code="register.year.label" default="year" /><span class="required-indicator">*</span></label>
@@ -61,19 +81,12 @@
 								<div class="form-group required">
 									<label for="pppDate" class="col-sm-1 control-label"><g:message code="register.month.label" default="Month" /><span class="required-indicator">*</span></label>
 									<div class="col-sm-3">
-										<!-- <g:select id="month" name="month" from="${months as List}"   value="${months[today[Calendar.MONTH]]}"  class="many-to-one form-control chosen-select"/> -->
+										<g:select id="month" name="month" from="${months as List}"   value="${months[today[Calendar.MONTH]]}"  class="many-to-one form-control chosen-select"/>
 										
 								
 									</div>
 								</div>
-								<div class="form-group required">
-									<label for="pppDate" class="col-sm-1 control-label"><g:message code="register.status.label" default="Status" /><span class="required-indicator">*</span></label>
-									<div class="col-sm-3">
-										<g:select id="status" name="status" from="${['All','Draft','Waiting Approval','Approved','Closed']}"   value="${params?.status}" class="many-to-one form-control chosen-select"/>
-										
-										
-									</div>
-								</div>
+								
 							</div>
 						</div>
 		        		
@@ -118,115 +131,6 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td rowspan="3">
-									005/PPP/PH/ETH/01/2016
-								</td>
-								<td style="text-align:right;" rowspan="3">
-									37648
-								</td>
-								<td rowspan="3">
-									EETH
-								</td>
-								<td>
-									PO316023
-								</td>
-								<td>
-									Purchasing Form
-								</td>
-								<td>
-									Done
-								</td>
-								<td style="text-align:right;">
-									5000
-								</td>
-								<td style="text-align:right;">
-									32648
-								</td>
-							</tr>
-							<tr>
-							
-								<td>
-									PO323345
-								</td>
-								<td>
-									Purchasing Form
-								</td>
-								<td>
-									Waiting Approval
-								</td>
-								<td style="text-align:right;">
-									2000
-								</td>
-								<td style="text-align:right;">
-									30648
-								</td>
-							</tr>
-							<tr>
-							
-								<td>
-									PO332211
-								</td>
-								<td>
-									Non PO Form 
-								</td>
-								<td>
-									Draft
-								</td>
-								<td style="text-align:right;">
-									5000
-								</td>
-								<td style="text-align:right;">
-									25648
-								</td>
-							</tr>
-							<tr>
-								<td rowspan="2">
-									006/PPP/PH/ETH/02/2016
-								</td>
-								<td style="text-align:right;" rowspan="2">
-									20000
-								</td>
-								<td rowspan="2">
-									EETH
-								</td>
-								<td>
-									PO112233
-								</td>
-								<td>
-									PO Sales Marketing
-								</td>
-								<td>
-									Done
-								</td>
-								<td style="text-align:right;">
-									5000
-								</td>
-								<td style="text-align:right;">
-									32648
-								</td>
-							</tr>
-							<tr>
-							
-								<td>
-									PO334455
-								</td>
-								<td>
-									Purchasing Form 
-								</td>
-								<td>
-									Waiting Approval
-								</td>
-								<td style="text-align:right;">
-									15000
-								</td>
-								<td style="text-align:right;">
-									10000
-								</td>
-							</tr>
-
-
-
 						</tbody>
 					</table>	
 				</div>				

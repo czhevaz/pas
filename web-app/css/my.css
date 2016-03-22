@@ -338,6 +338,12 @@ td.value {
     background-color: #dd4b39 !important;
 }
 
+.bg-yellow, .callout.callout-warning, .alert-warning, .label-warning, .modal-warning .modal-body {
+    background-color: #FFEA00 !important;
+}
+
+
+
 .navbar .nav>li>a>.label {
     position: absolute;
     top: 9px;

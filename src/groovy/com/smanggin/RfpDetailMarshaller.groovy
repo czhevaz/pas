@@ -29,7 +29,6 @@ class RfpDetailMarshaller {
 				poBalance1 :it.purchaseOrder?.PORemain1,
 				poBalance2 :it.purchaseOrder?.PORemain2,
 				//number : it.purchaseOrder?.number,
-				paymentType: it.paymentType,
 				
 			]
         }
