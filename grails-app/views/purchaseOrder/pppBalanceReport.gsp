@@ -61,7 +61,7 @@
 								<div class="form-group required">
 									<label for="pppDate" class="col-sm-1 control-label"><g:message code="register.month.label" default="Month" /><span class="required-indicator">*</span></label>
 									<div class="col-sm-3">
-										<g:select id="month" name="month" from="${months as List}"   value="${months[today[Calendar.MONTH]]}" class="many-to-one form-control chosen-select"/>
+										<!-- <g:select id="month" name="month" from="${months as List}"   value="${months[today[Calendar.MONTH]]}"  class="many-to-one form-control chosen-select"/> -->
 										
 								
 									</div>
@@ -94,7 +94,7 @@
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="box-body table-responsive">
-					<table class="table table-bordered margin-top-medium">
+					<table id="table-report-pppbalance" class="table table-bordered margin-top-medium">
 						<thead>
 							<tr>
 								<th><g:message code="ppp.number.label" default="Number" /></th>
@@ -260,15 +260,34 @@
 			"month":month,
 		}
 
-		alert(' helllllloooooooooooooooo ');
+		
 		$.ajax({
             url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceReport",
             data:postData,
             type: "POST",
             success: function (data) {
+            	$("#table-report-pppbalance tbody").html("");	
+				
+				$.each(data.results , function(i,item) {
+					$.each(item.po , function(j,po) {
+						var tr ="<tr>";	
+						
+						if(j==0){
+							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppNumber +"</td>";
+							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppCost +" </td>";
+							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppBrand +" </td>";	
+						}	
 
-               
-                
+						tr += "<td > "+ po.poNumber +" </td>";
+						tr += "<td > "+ po.poType +" </td>";
+						tr += "<td > "+ po.poState +" </td>";
+						tr += "<td > "+ po.pototal +" </td>";
+						tr += "<td > "+ po.pppBalance +" </td>";
+						tr += "</tr>";
+						
+						$("#table-report-pppbalance tbody").append(tr);	
+					});	
+				});
             },
             error: function (xhr, status, error) {
                 alert("fail");

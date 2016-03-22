@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException
 class RfpController {
     def globalService 
     def printService 
+    def syncDatabaseService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     
@@ -136,6 +137,8 @@ class RfpController {
                 isEdit = true 
             }
         }
+
+        
 
         [rfpInstance: rfpInstance,isEdit:isEdit]
     }
@@ -456,6 +459,9 @@ class RfpController {
         if(countRfpApproved == countRfpApp){
             rfpDetailInsertPOBalance(rfpInstance)
 
+            /* insert to proxy*/
+            syncDatabaseService.insertRfptoProxy(rfpInstance)
+
         }
         //println "rfpDetail >>> " + 
 
@@ -539,7 +545,6 @@ class RfpController {
         notif.save()
         
     }/* SaveNotif */
-
 
     def totalCost2LargerThanPO2(rfpDetail){
         def totalCost2= rfpDetail.totalCost2

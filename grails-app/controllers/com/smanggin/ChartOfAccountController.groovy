@@ -198,4 +198,9 @@ class ChartOfAccountController {
             render([chartOfAccountInstance : chartOfAccountInstance ] as JSON)
         }
     }
+
+
+    def snycCoa(){
+        syncDatabaseService.syncCOAFromProxy()
+    }
 }

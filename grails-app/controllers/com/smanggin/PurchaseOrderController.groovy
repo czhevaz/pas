@@ -1010,14 +1010,14 @@ class PurchaseOrderController {
 
     def getPPPHead(detail,params,domainPPP){
 
-        def sql = " from ${domainPPP} as p "
+        def sql = " from ${domainPPP} as p where"
 
             if(detail){
-                sql += "where p.number LIKE '%${detail.pppNumber}%'"       
+                sql += "p.number LIKE '%${detail.pppNumber}%' AND "       
             }
             
             if(params.countryId){
-             sql += " AND p.country LIKE '%${params.countryId}%'"   
+             sql += " p.country LIKE '%${params.countryId}%'"   
             }
             
             if(params.lobId){
@@ -1141,23 +1141,69 @@ class PurchaseOrderController {
     }
 
     def pppBalanceReport(){
-        
+       
+        println "params" + params
+
+        def country = Country.findByName(params.countryId)
+        def domainClassName = "com.smanggin." + country?.domainPPP
+        def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
+    
         def sql = getPPPHead(null,params,country?.domainPPP)
         def pppHead = domainClassInstance.findAll(sql)
-         
+        params.order = params.order ?: 'asc' 
+        params.sort = params.sort ?: 'dateCreated' 
+        def list=[] 
         pppHead.each{
             def pppDetail = PppDetail.findAllByPppNumber(it.number)
-            pppDetail.each{ detail -> 
-                def po = PurchaseOrder.findAllByPppNumberAndBrand(detail.pppNumber,detail.brand)
-                println ' PurchaseOrder >>> ' + po
-                
 
+            if(pppDetail.size > 0 ){
+                pppDetail.each{ detail -> 
+                    def pos = PurchaseOrder.createCriteria().list(params){
+                        eq('pppNumber',detail.pppNumber)
+                        eq('brand', ,detail.brand)
+                    }
+                   
+                     def remain = detail.costDetail
+                    if(pos.size() > 0){
+                        def mapPPP = [:]
+                        mapPPP.put('pppNumber',detail.pppNumber)  
+                        mapPPP.put('pppCost',detail.costDetail) 
+                        mapPPP.put('pppBrand',detail.brand) 
+
+                        def listPO = []
+                       
+                        pos.each{ po -> 
+                           def poTotal2 = (po.total/po.rate).round(2)
+                            remain = remain - poTotal2
+                            def map=[:]
+                            map.put('poNumber',po.number) 
+                            map.put('poType',po.transactionGroup?.description) 
+                            map.put('poState',po.state) 
+                            map.put('pototal',poTotal2) 
+                            map.put('pppBalance',remain.round(2))
+
+                            listPO.push(map) 
+                           
+                            
+
+                        }
+
+                        mapPPP.put('po',listPO)
+
+                        list.push(mapPPP)
+                        
+                    }
+                    
+                }
             }
+            
            
         }        
 
+        println  ">>>>>>>>>>>>>> " +list
 
-        render([success: true] as JSON)
+
+        render([success: true,results:list] as JSON)
 
     }
 

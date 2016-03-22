@@ -26,11 +26,14 @@ class BootStrap {
         /* Set Time Zone Server */
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Jakarta")) 
 
+        /* send mail */
         def sendInterval=AppSetting.valueDefault('sendmail_interval','60000')
-        println "sendInterval: " + sendInterval
-        
         SendMailJob.schedule('59 59 11 * *  ?')
 
+        /* sync DB */
+        def syncDBInterval=AppSetting.valueDefault('sync_db_interval','60000')
+        SyncDBJob.schedule(sendInterval.toLong())
+        
     }
 
     def destroy = {
