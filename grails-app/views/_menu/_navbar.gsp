@@ -94,13 +94,13 @@ if(session.isAdmin == 'Yes') {
 					
 					<li class="controller">
 						<g:link controller="TransactionType">
-							Transaction Type
+							<g:message code="transactionType.label" default="Transaction Type" />
 						</g:link>
 					</li>
 					
 					<li class="controller">
 						<g:link controller="TransactionGroup">
-							Approval Transaction 
+							Transaction Group
 						</g:link>
 					</li>
 				

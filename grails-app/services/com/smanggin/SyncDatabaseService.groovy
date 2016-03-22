@@ -23,6 +23,7 @@ class SyncDatabaseService {
     def connectDBService
     def globalService
 
+
     //def conSqlProxy = { return connectDBService?.getSqlProxyKalbeConnection() }
 
 	def sync() {
@@ -31,8 +32,10 @@ class SyncDatabaseService {
 
 	/* supplier */
 	def insertSupplierToProxy(supplierInstance){
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
 		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()		
-		conSqlProxy.execute "insert into m_proxy_supplier (code, name, address, postcode, phones, telex, fax, email, city, state, country, p_date) values ($supplierInstance.code, $supplierInstance.name, $supplierInstance.address, $supplierInstance.postCode, $supplierInstance.phones, $supplierInstance.telex, $supplierInstance.fax, $supplierInstance.email, $supplierInstance.city, $supplierInstance.state, $supplierInstance.country, now())"
+		conSqlProxy.execute "insert into m_proxy_supplier (code, name, address, postcode, phones, telex, fax, email, city, state, country, countryID, p_date, p_date_change) values ($supplierInstance.code, $supplierInstance.name, $supplierInstance.address, $supplierInstance.postCode, $supplierInstance.phones, $supplierInstance.telex, $supplierInstance.fax, $supplierInstance.email, $supplierInstance.city, $supplierInstance.state, $supplierInstance.country, $supplierInstance.countryOwnerID.code, $timestamp, $timestamp)"
 		if(conSqlProxy){
 		   conSqlProxy.close()
 		}
@@ -41,6 +44,8 @@ class SyncDatabaseService {
 
 
 	def updateSupplierToProxy(supplierInstance){
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
 		
 		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()
 		
@@ -52,9 +57,9 @@ class SyncDatabaseService {
 		valEmail:supplierInstance?.email, 
 		valCity:supplierInstance?.city, 
 		valState:supplierInstance?.state, 
-		valCountry:supplierInstance?.country]  
+		valCountry:supplierInstance?.country,timestamp:timestamp]  
 
-		conSqlProxy.executeUpdate("update m_proxy_supplier set name=:valName, address=:valAddress, phones=:valPhones, telex=:valTelex, email=:valEmail, city=:valCity, state=:valState, country=:valCountry,  p_date=now() where code=:valCode", map)
+		conSqlProxy.executeUpdate("update m_proxy_supplier set name=:valName, address=:valAddress, phones=:valPhones, telex=:valTelex, email=:valEmail, city=:valCity, state=:valState, country=:valCountry,  p_date=:timestamp where code=:valCode", map)
 		if(conSqlProxy){
 		   conSqlProxy.close()	
 		}
@@ -65,6 +70,8 @@ class SyncDatabaseService {
 
 	/* COA */
 	def syncCOAFromProxy(){
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
 		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()
 		def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
 
@@ -80,11 +87,12 @@ class SyncDatabaseService {
 				updateCOAToAmatra(row,conSqlAmatra)
 			}
 
-			conSqlProxy.executeUpdate("update m_proxy_coa set p_date = now() where coa_id_orlansoft = $row.coa_id_orlansoft")
+			conSqlProxy.executeUpdate("update m_proxy_coa set p_date = $timestamp where coa_id_orlansoft = $row.coa_id_orlansoft")
 		}
 
 		if(conSqlProxy){
-		   conSqlProxy.close()	
+		   conSqlProxy.close()
+		   conSqlAmatra.close()	
 		}
 
 		return
@@ -101,7 +109,7 @@ class SyncDatabaseService {
  		conSqlAmatra.execute 'insert into M_PAS_COA(coa_id_server, code , description, segment01, segment02, segment03, segment04, segment05, segment06, segment07, active, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', params
 		
 		if(conSqlAmatra){
-		   conSqlAmatra.close()	
+		//   conSqlAmatra.close()	
 		}
 	}
 
@@ -125,7 +133,7 @@ class SyncDatabaseService {
 
 		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07, last_updated=:timestamp where coa_id_server=:valCoaIdServer", map)
 		if(conSqlAmatra){
-		   conSqlAmatra.close()	
+		  // conSqlAmatra.close()	
 		}
 	}	
 
@@ -134,18 +142,23 @@ class SyncDatabaseService {
 
 	/* RFP */
 	def insertRfptoProxy(rfpInstance){
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
+
+		def country = Country.findByName(rfpInstance.country) 
+
 		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()		
 		/* insert header*/
-		def sql = "insert into t_proxy_rfp_hdr (rfp_number, rfp_date, rfp_suppier_code, rfp_currency1_code, p_date, p_date_change) values ('$rfpInstance.number', '$rfpInstance.rfpDate', '$rfpInstance.supplier.code', '$rfpInstance.currency1.code', now(), now());\n"
+		def sql = "insert into t_proxy_rfp_hdr (rfp_number, rfp_date, rfp_suppier_code, rfp_currency1_code, countryID, p_date, p_date_change) values ('$rfpInstance.number', '$rfpInstance.rfpDate', '$rfpInstance.supplier.code', '$rfpInstance.currency1.code','$country.code', '$timestamp', '$timestamp');\n"
 		conSqlProxy.execute sql
 
 			/* insert detail*/
 			if(rfpInstance.rfpDetails){
 			
-				def sql2 = "insert into t_proxy_rfp_dtl (rfp_number, coa_code, coa_desc, country_code, total_cost1, total_cost2, p_date, p_date_change) values"	
+				def sql2 = "insert into t_proxy_rfp_dtl (rfp_number, coa_code, coa_desc, country_code, total_cost1, total_cost2, countryID, p_date, p_date_change) values"	
 				def i=1
 				rfpInstance.rfpDetails.each{
-					sql2 += "('$rfpInstance.number', '$it.coa.code', '$it.coa.description', '$rfpInstance.country', $it.totalCost1, $it.totalCost2, now(), now())"
+					sql2 += "('$rfpInstance.number', '$it.coa.code', '$it.coa.description', '$rfpInstance.country', $it.totalCost1, $it.totalCost2, '$country.code', '$timestamp', '$timestamp')"
 
 					if(i== rfpInstance.rfpDetails.size()){
 						sql2 += ";"	
@@ -160,7 +173,7 @@ class SyncDatabaseService {
 
 		
 			/* insert proxy approver*/
-			if(rfpInstance.rfpApprovers){
+			/*if(rfpInstance.rfpApprovers){
 				def sql3 = "insert into t_proxy_rfp_approver (rfp_number, approved_seq, approved_by, approved_date, status, p_date, p_date_change) values"	
 				def j=1
 				rfpInstance.rfpApprovers.each{
@@ -177,7 +190,7 @@ class SyncDatabaseService {
 				}
 
 				conSqlProxy.execute sql3
-			}
+			}*/
 		
 		if(conSqlProxy){
 		   conSqlProxy.close()
