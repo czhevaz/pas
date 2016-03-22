@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POPF" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3877e4c-8792-4ad7-88d3-ad0fcb4d01bf">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="188"/>
+	<property name="ireport.y" value="435"/>
 	<subDataset name="dataset1" uuid="f6203677-8f57-4365-b876-8b6aca3f57ff"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -554,7 +554,7 @@ WHERE
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="261" splitType="Stretch">
+		<band height="146" splitType="Stretch">
 			<rectangle>
 				<reportElement x="0" y="14" width="555" height="115" uuid="d744aff7-c9f6-46de-8ab2-c499d7a87a97"/>
 			</rectangle>
@@ -563,42 +563,140 @@ WHERE
 				<box leftPadding="4"/>
 				<text><![CDATA[Additional Instructions:]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="148" width="100" height="20" uuid="11e448db-c813-4cc6-8ffc-70e1f096e47a"/>
-				<text><![CDATA[Prepared By]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="112" y="148" width="100" height="20" uuid="6e9c11cc-fecc-4c36-920f-31d031309cce"/>
-				<text><![CDATA[Approved By]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="224" y="148" width="100" height="20" uuid="77418adb-1ac9-4a1d-9881-5dbdbf61ad8c"/>
-				<text><![CDATA[Approved By]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="418" y="148" width="100" height="20" uuid="8bd4ebfc-cd0a-49a1-a2a5-5f99ed47f7d6"/>
-				<text><![CDATA[Conforme:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="112" y="241" width="100" height="20" uuid="8f81cf70-cb2e-4981-aef0-8fcc8717b8ac"/>
-				<textFieldExpression><![CDATA[$P{approver1}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="224" y="241" width="100" height="20" uuid="54d65aaa-407c-43ed-b073-b8de817529a3"/>
-				<textFieldExpression><![CDATA[$P{approver2}]]></textFieldExpression>
-			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="34" width="555" height="95" uuid="19b27a24-9458-4f33-8e59-507697b30ecd"/>
 				<box leftPadding="5" rightPadding="1"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_add_intructions}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="241" width="100" height="20" uuid="d4e96942-1f82-48f6-be89-38f77fe440f8"/>
-				<textFieldExpression><![CDATA[$F{T_PAS_PO_created_by}]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="85" splitType="Stretch"/>
+		<band height="221" splitType="Stretch">
+			<staticText>
+				<reportElement x="444" y="31" width="109" height="80" uuid="0a1ffe91-9cbc-4900-9ff1-cd7a1e5ff4b4"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Supplier]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="336" y="31" width="108" height="80" uuid="d07730c6-556d-41b1-b650-389d1d23013b"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Country Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="10" width="109" height="20" uuid="d05efff1-5580-4dce-9f73-58ec5b9a0a5e"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Conforme:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="336" y="10" width="108" height="20" uuid="8b03372d-20eb-477f-b2d9-9e4888e2a03d"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Approved By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="100" height="81" uuid="de606686-543a-4e52-9d9c-754840e2ae2c"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="10" width="124" height="20" uuid="67a6c5a1-1a20-4ac2-abf4-1dea5cbb142f"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Requested & Reviewed By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="30" width="124" height="81" uuid="158afa91-d575-428d-9022-7f5d8aa0812a"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Marketing / Sales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="10" width="100" height="20" uuid="c544bf1e-962d-4732-9400-5c4e85991780"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Prepared By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="31" width="112" height="80" uuid="158fc753-b441-4897-9c74-67e4a6b4e40d"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Finance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="225" y="10" width="111" height="20" uuid="55a714fa-7881-42d8-95b5-9e5a48bc1a65"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Checked By]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="91" width="100" height="20" uuid="00d335bd-5601-4620-b060-421620803f33"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_PO_created_by}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>
