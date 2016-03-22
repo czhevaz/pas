@@ -1014,7 +1014,7 @@ class PurchaseOrderController {
         def sql = " from ${domainPPP} as p where"
 
             if(detail){
-                sql += "p.number LIKE '%${detail.pppNumber}%' AND "       
+                sql += " p.number LIKE '%${detail.pppNumber}%' AND "       
             }
             
             if(params.countryId){
