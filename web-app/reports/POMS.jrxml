@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cd318a97-d14f-4eca-8e94-c04af93f17f6">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="233"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="18"/>
 	<parameter name="po_id" class="java.lang.String"/>
 	<parameter name="image" class="java.lang.String"/>
 	<parameter name="companyName" class="java.lang.String"/>
@@ -378,7 +378,7 @@ WHERE
 					<textFieldExpression><![CDATA[$F{T_PAS_PO_mechanics}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="467" y="20" width="334" height="29" uuid="a389488e-619c-4cd5-a815-de17c757ffc9"/>
+					<reportElement x="467" y="20" width="335" height="29" uuid="a389488e-619c-4cd5-a815-de17c757ffc9"/>
 					<box leftPadding="3">
 						<pen lineWidth="1.25"/>
 						<topPen lineWidth="1.25"/>
@@ -613,34 +613,10 @@ WHERE
 		</band>
 	</detail>
 	<summary>
-		<band height="218" splitType="Stretch">
+		<band height="269" splitType="Stretch">
 			<rectangle>
 				<reportElement x="0" y="0" width="774" height="20" backcolor="#CCCCCC" uuid="c93fb2a0-25c2-409d-bda3-3536dbe9fa0b"/>
 			</rectangle>
-			<textField isBlankWhenNull="true">
-				<reportElement x="113" y="197" width="100" height="20" uuid="a05c3dd2-043a-4f75-a22f-d6f4a9dd2715"/>
-				<textFieldExpression><![CDATA[$P{approver1}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="225" y="137" width="100" height="20" uuid="d1af23d1-dc37-46c8-b018-161387bc4875"/>
-				<text><![CDATA[Approved By]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="419" y="137" width="100" height="20" uuid="d12a3ea3-fa2c-49ca-9256-4f7ee1e7ba12"/>
-				<text><![CDATA[Conforme:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="1" y="137" width="100" height="20" uuid="31880c81-16c7-431e-8c47-dbefc403f315"/>
-				<text><![CDATA[Prepared By]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="113" y="137" width="100" height="20" uuid="535e9255-1e05-4941-91db-c1a12c3cf318"/>
-				<text><![CDATA[Approved By]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="225" y="198" width="100" height="20" uuid="eb0a7cf4-2aad-4e1a-a5df-77897e7a9eeb"/>
-				<textFieldExpression><![CDATA[$P{approver2}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="12" y="46" width="762" height="77" uuid="026599b3-c0d5-42ce-b7d0-d0a5bff8f2fb"/>
 				<box leftPadding="4">
@@ -672,10 +648,6 @@ WHERE
 				<reportElement x="0" y="0" width="384" height="20" uuid="277b111a-8435-4c80-a242-f4e4e612e1fd"/>
 				<text><![CDATA[Grand Total]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="198" width="100" height="20" uuid="3e36ae45-5279-4e69-ad97-33e7fa240369"/>
-				<textFieldExpression><![CDATA[$F{T_PAS_PO_created_by}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="385" y="0" width="34" height="20" uuid="e92c794e-c45e-47d0-88cc-97b1b74c609f"/>
 				<box leftPadding="2">
@@ -687,6 +659,130 @@ WHERE
 				</box>
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_currency1_id}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="623" y="175" width="131" height="80" uuid="5426fd8f-67b1-493c-8352-29a7a9ae9914"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Supplier]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="469" y="155" width="154" height="20" uuid="ffba3f8c-147d-46fa-90bb-5caa7e43ef08"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Approved By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="155" width="122" height="20" uuid="b87fa474-073e-4724-bafb-3da55be99a83"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Prepared By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="623" y="155" width="131" height="20" uuid="e4d35e21-e9b0-40cc-954d-45fb0d76f503"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Conforme:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="155" width="144" height="20" uuid="7fd9e637-fefb-42a8-890d-4cc78af158f8"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Checked By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="175" width="144" height="80" uuid="f47a80e9-c3a0-4a84-927c-e8bf0977046a"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Finance]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="53" y="235" width="100" height="20" uuid="156bde80-dcd3-4271-81fa-2b5f375f379e"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_PO_created_by}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="469" y="175" width="154" height="80" uuid="67e838a5-6d92-4ca4-a641-fcbb5eab1ccb"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Country Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="174" width="161" height="81" uuid="8a3b7120-51e4-4576-8dcf-64c471b9540c"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Marketing / Sales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="175" width="122" height="80" uuid="f357ae86-8056-4375-ba90-0133a3f12a48"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="155" width="161" height="20" uuid="eb7085da-cacd-4426-ab4b-5f0b30ec59ff"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Requested & Reviewed By]]></text>
+			</staticText>
 		</band>
 	</summary>
 </jasperReport>
