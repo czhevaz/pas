@@ -20,7 +20,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'number', 'error')} ">
 				<label for="number" class="col-sm-3 control-label"><g:message code="rfp.number.label" default="Number" /></label>
 				<div class="col-sm-5">
-					<g:textField name="number" class="form-control" value="${rfpInstance?.number}"/>
+					<g:textField name="number" class="form-control" value="${rfpInstance?.number}" readonly="true"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'number', 'error')}</span>
 				</div>
 			</div>
@@ -66,8 +66,17 @@
 				<label for="paymentOption" class="col-sm-3 control-label"><g:message code="rfp.paymentOption.label" default="Payment Option" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
 					
-					<g:select id="paymentOption" name="paymentOption.id" from="${com.smanggin.PaymentOption.values()}" optionKey="id" required="" value="${rfpInstance?.paymentOption}" class="many-to-one form-control chosen-select"/>
+					<g:select id="paymentOption" name="paymentOption.id" from="${com.smanggin.PaymentOption.values()}" optionKey="id" required="" value="${rfpInstance?.paymentOption}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'paymentOption', 'error')}</span>
+				</div>
+			</div>
+
+			<div id="paidCountryDiv" class="form-group ${hasErrors(bean: rfpInstance, field: 'paidCountry', 'error')}  required" >
+				<label for="paidCountry" class="col-sm-3 control-label"><g:message code="register.paidCountry.label" default="Paid Country" /></label>
+				<div class="col-sm-5">
+			
+					<g:select id="paidCountry" name="paidCountry" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${rfpInstance?.paidCountry}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
+					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'paidCountry', 'error')}</span>
 				</div>
 			</div>
 
@@ -259,5 +268,21 @@
     });    
 
      
+    /* payment Option Onchange*/
 
+	$("#paymentOption").on('change', function() {
+		
+		var paymentOption = $(this).val();
+		if(paymentOption == 1){
+			alert(' heloooooo ');
+			alert($(this).val());
+			$("#paidCountryDiv").show();
+			$("#paidCountry").chosen({width: '100%'})
+			
+		}else{
+			$("#paidCountryDiv").hide();
+			$("#paidCountryDiv").val('');
+		}
+        
+	}); 
 </r:script>

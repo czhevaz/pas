@@ -50,11 +50,6 @@
 
 							
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="rfp.paymentOption.label" default="Payment Option" /></td>
-								<td valign="top" class="value">${rfpInstance?.paymentOption}</td>
-							</tr>
-							
-							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rfp.rfpDate.label" default="Rfp Date" /></td>
 								
 								<td valign="top" class="value"><g:formatDate date="${rfpInstance?.rfpDate}"  format="yyyy-MM-dd"/></td>
@@ -83,7 +78,12 @@
 								<td valign="top" class="value"><g:link controller="supplier" action="show" id="${rfpInstance?.supplier?.id}">${rfpInstance?.supplier?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
-							
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="rfp.paymentOption.label" default="Payment Option" /></td>
+								<td valign="top" class="value">${rfpInstance?.paymentOption} <g:if test="${rfpInstance?.paidCountry}"> : ${rfpInstance?.paidCountry} </g:if></td>
+							</tr>
+
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rfp.paymentType.label" default="Payment Type" /></td>
 								

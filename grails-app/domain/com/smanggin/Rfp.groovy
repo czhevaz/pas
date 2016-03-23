@@ -40,6 +40,8 @@ class Rfp {
 	Date dateReject
 	String rejectedBy
 	String paymentType
+
+	String paidCountry
 	
 	static	belongsTo	= [TransactionGroup, Supplier, Currency, PaymentOption]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -67,6 +69,7 @@ class Rfp {
 		rejectNotes nullable:true
 		note nullable:true
 		paymentType nullable:true
+		paidCountry nullable:true
     }
 
     def beforeInsert(){

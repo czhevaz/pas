@@ -617,21 +617,24 @@ class RfpController {
 
     /** generate PDF **/
      def printPdf(){
-        def rfp = Rfp.get(params.id.toLong())
-        def trTypeCode = rfp?.transactionGroup?.transactionType?.code
-        def filename = rfp.number
-        def file  = filename.replace("/","")
+        println " params >>>>>>>>>>>>> " +params 
+
+        def rfpInstance = Rfp.get(params.id)
+        def trTypeCode = rfpInstance?.transactionGroup?.transactionType?.code
+        def filename = rfpInstance?.number
+        println " filename" + rfpInstance?.number
+        //def file  = filename.replace("/","")
         
-        def approver1 = RfpApprover.findByRfpAndNoSeq(rfp,1)
-        def approver2 = RfpApprover.findByRfpAndNoSeq(rfp,2)
+        def approver1 = RfpApprover.findByRfpAndNoSeq(rfpInstance,1)
+        def approver2 = RfpApprover.findByRfpAndNoSeq(rfpInstance,2)
         
         params.put('approver1',approver1?.approver?.name)
         params.put('approver2',approver2?.approver?.name)
-        params.put('companyName','Kalbe International '+ "${rfp?.country}"+ ' Pte. Ltd')
-        params.put('rfp_id',rfp?.id)
+        params.put('companyName','Kalbe International '+ "${rfpInstance?.country}"+ ' Pte. Ltd')
+        params.put('rfp_id',rfpInstance?.id)
         params.put('view',true)
 
-        printService.print("PDF", request.getLocale(), response,params,trTypeCode,file)
+        printService.print("PDF", request.getLocale(), response,params,trTypeCode,filename)
     }
 
 
@@ -640,7 +643,7 @@ class RfpController {
         def rfp = Rfp.get(params.id.toLong())
         def trTypeCode = rfp?.transactionGroup?.transactionType?.code
         def filename = rfp.number
-        def file  = filename.replace("/","")
+       // def file  = filename.replace("/","")
         
         def approver1 = RfpApprover.findByRfpAndNoSeq(rfp,1)
         def approver2 = RfpApprover.findByRfpAndNoSeq(rfp,2)
@@ -651,7 +654,7 @@ class RfpController {
         params.put('rfp_id',rfp?.id)
         params.put('view',false)
         
-        printService.print("XLS", request.getLocale(), response,params,trTypeCode,file)
+        printService.print("XLS", request.getLocale(), response,params,trTypeCode,filename)
     }
 
 

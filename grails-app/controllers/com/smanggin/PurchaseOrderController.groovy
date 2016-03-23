@@ -1137,14 +1137,18 @@ class PurchaseOrderController {
     
         def views = params.type 
 
-        render(view: "${views}",model:[title:'PPP Balanced Traking PO'])
+        render(view: "${views}",model:[title:'PPP Balanced Tracking PO'])
 
     }
 
     def pppBalanceReport(){
        
         println "params" + params
-        params.month = globalService.monthInt(params.month)
+
+        if(params.month){
+            params.month = globalService.monthInt(params.month)    
+        }
+        
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
         def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
