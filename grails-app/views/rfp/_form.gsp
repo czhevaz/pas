@@ -71,14 +71,6 @@
 				</div>
 			</div>
 
-			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'note', 'error')} ">
-	            <label for="note" class="col-sm-3 control-label"><g:message code="rfp.note.label" default="Note" /></label>
-	            <div class="col-sm-6">
-	                <g:textArea class="form-control" name="note" value="${rfpInstance?.note}" rows="5" cols="40"/>
-	                <span class="help-inline">${hasErrors(bean: rfpInstance, field: 'note', 'error')}</span>
-	            </div>
-	        </div>
-
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'paymentType', 'error')} ">
 				<label for="paymentType" class="col-sm-3 control-label"><g:message code="rfp.paymentType.label" default="PaymentType" /></label>
 				<div class="col-sm-5">
@@ -86,6 +78,14 @@
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'paymentType', 'error')}</span>
 				</div>
 			</div>
+
+			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'note', 'error')} ">
+	            <label for="note" class="col-sm-3 control-label"><g:message code="rfp.note.label" default="Note" /></label>
+	            <div class="col-sm-6">
+	                <g:textArea class="form-control" name="note" value="${rfpInstance?.note}" rows="5" cols="40"/>
+	                <span class="help-inline">${hasErrors(bean: rfpInstance, field: 'note', 'error')}</span>
+	            </div>
+	        </div>
 				
 
 

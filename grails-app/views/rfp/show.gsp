@@ -48,12 +48,19 @@
 								
 							</tr>
 
-						
+							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rfp.paymentOption.label" default="Payment Option" /></td>
 								<td valign="top" class="value">${rfpInstance?.paymentOption}</td>
 							</tr>
-						
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="rfp.rfpDate.label" default="Rfp Date" /></td>
+								
+								<td valign="top" class="value"><g:formatDate date="${rfpInstance?.rfpDate}"  format="yyyy-MM-dd"/></td>
+								
+							</tr>
+							
 							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rfp.currency1.label" default="Currency1" /></td>
@@ -69,12 +76,6 @@
 								
 							</tr>
 						
-							<tr class="prop">
-								<td valign="top" class="name"><g:message code="rfp.rfpDate.label" default="Rfp Date" /></td>
-								
-								<td valign="top" class="value"><g:formatDate date="${rfpInstance?.rfpDate}"  format="yyyy-MM-dd"/></td>
-								
-							</tr>
 							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rfp.supplier.label" default="Supplier" /></td>
@@ -82,6 +83,20 @@
 								<td valign="top" class="value"><g:link controller="supplier" action="show" id="${rfpInstance?.supplier?.id}">${rfpInstance?.supplier?.encodeAsHTML()}</g:link></td>
 								
 							</tr>
+							
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="rfp.paymentType.label" default="Payment Type" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: rfpInstance, field: "paymentType")}</td>
+							</tr>
+							
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="rfp.note.label" default="Note" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: rfpInstance, field: "note")}</td>
+							</tr>
+							
 								
 						</tbody>
 					</table>

@@ -114,7 +114,7 @@ class RfpController {
     def show() {
         def rfpInstance = Rfp.get(params.id)
         //syncDatabaseService.insertRfptoProxy(rfpInstance)
-        syncDatabaseService.syncCOAFromProxy()
+        //syncDatabaseService.syncCOAFromProxy()
         
         if(params.notifId){
             globalService.updateIsNewNotif(params.notifId)
