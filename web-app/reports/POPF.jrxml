@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POPF" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3877e4c-8792-4ad7-88d3-ad0fcb4d01bf">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="175"/>
+	<property name="ireport.y" value="251"/>
 	<subDataset name="dataset1" uuid="f6203677-8f57-4365-b876-8b6aca3f57ff"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -515,7 +515,7 @@ WHERE
 	<summary>
 		<band height="272" splitType="Stretch">
 			<staticText>
-				<reportElement x="444" y="179" width="109" height="80" uuid="0a1ffe91-9cbc-4900-9ff1-cd7a1e5ff4b4"/>
+				<reportElement x="444" y="179" width="111" height="80" uuid="0a1ffe91-9cbc-4900-9ff1-cd7a1e5ff4b4"/>
 				<box leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -539,7 +539,7 @@ WHERE
 				<text><![CDATA[Country Manager]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="444" y="158" width="109" height="20" uuid="d05efff1-5580-4dce-9f73-58ec5b9a0a5e"/>
+				<reportElement x="444" y="158" width="111" height="20" uuid="d05efff1-5580-4dce-9f73-58ec5b9a0a5e"/>
 				<box leftPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>

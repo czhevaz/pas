@@ -617,7 +617,7 @@ class RfpController {
 
     /** generate PDF **/
      def printPdf(){
-        println " params >>>>>>>>>>>>> " +params 
+        //println " params >>>>>>>>>>>>> " +params 
 
         def rfpInstance = Rfp.get(params.id)
         def trTypeCode = rfpInstance?.transactionGroup?.transactionType?.code
@@ -639,7 +639,8 @@ class RfpController {
 
 
     def downloadExcel(){
-        println " excel >>>>>>>>>>>>>>>>>>> " +params
+        //println " excel >>>>>>>>>>>>>>>>>>> " +params
+
         def rfp = Rfp.get(params.id.toLong())
         def trTypeCode = rfp?.transactionGroup?.transactionType?.code
         def filename = rfp.number

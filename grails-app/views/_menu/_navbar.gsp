@@ -150,7 +150,7 @@ if(session.isAdmin == 'Yes') {
 					</li>
 					<li class="divider"></li>
 					<li class="controller">
-						<g:link controller="PurchaseOrder" action="report" >
+						<g:link controller="PurchaseOrder" action="report" params="[type:'purchaseBalanceReport']" >
 							PO Balance Tracking RFP
 						</g:link>
 					</li>

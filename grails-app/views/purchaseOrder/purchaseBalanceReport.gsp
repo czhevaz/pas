@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="PPP Balanced Tracking PO" />
+	<g:set var="entityName" value="PO Balanced Tracking RFP" />
 	<title><g:message code="default.pppBalanceReport.label" args="[entityName]" /></title>
 	<g:set var="canCreate" value="true" scope="request" />
 	<g:set var="months" value="${new java.text.DateFormatSymbols().months}"/>
@@ -95,7 +95,7 @@
 					</div><!--/.box-body -->
 					<div class="box-footer clearfix">
 						<div class="form-actions">
-							<g:submitButton name="search" class="btn btn-primary" value="${message(code: 'default.button.search.label', default: 'Prosess')}" />
+							<g:submitButton name="searchPO" class="btn btn-primary" value="${message(code: 'default.button.search.label', default: 'Prosess')}" />
 				           
 				            
 						</div>
@@ -109,27 +109,25 @@
 		<div class="col-lg-12">
 			<div class="box box-primary">
 				<div class="box-body table-responsive">
-					<table id="table-report-pppbalance" class="table table-bordered margin-top-medium">
+					<table id="table-report-pobalance" class="table table-bordered margin-top-medium">
 						<thead>
 							<tr>
-								<th><g:message code="ppp.number.label" default="Number" /></th>
-								
-								<th><g:message code="ppp.amount.label" default="Limit (USD)" /></th>
-
-								<th><g:message code="ppp.brand.label" default="PPP brand" /></th>
-
 								<th><g:message code="purchaseOrder.number.label" default="PO No." /></th>
-
-								<th><g:message code="purchaseOrder.trType.label" default="PO Type" /></th>
-							
-								<th><g:message code="purchaseOrder.state.label" default="PO Status" /></th>
-
+								
 								<th><g:message code="purchaseOrder.Total.label" default="PO Cost" /></th>
 
-								<th><g:message code="ppp.balance.label" default="PPP Balance" /></th>
-									
-								
+								<th><g:message code="purchaseOrder.trType.label" default="PO Type" /></th>
+
+								<th><g:message code="rfp.number.label" default="RFP No." /></th>
+
+								<th><g:message code="rfp.note.label" default="RFP Description" /></th>
 							
+								<th><g:message code="rfp.state.label" default="RFP Status" /></th>
+
+								<th><g:message code="rfp.Total.label" default="RFP Cost" /></th>
+
+								<th><g:message code="ppurchaseOrderpp.balance.label" default="PO Balance" /></th>
+									
 							</tr>
 						</thead>
 						<tbody>
@@ -152,7 +150,8 @@
 		$('#lob').chosen();
 	});	
 
-	$("#search").click(function(){ 
+	$("#searchPO").click(function(){ 
+		alert(' hellllloooooooooooooooooooo ');		
 		var countryTes = $("#country").val();
 		var lobId = $("#lob").val();
 		var year = $("#year").val();	
@@ -168,31 +167,35 @@
 
 		
 		$.ajax({
-            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceReport",
+            url: "/${meta(name:'app.name')}/purchaseOrder/purchaseBalanceReport",
             data:postData,
             type: "POST",
             success: function (data) {
-            	$("#table-report-pppbalance tbody").html("");	
+            	console.log(data);
+            	$("#table-report-pobalance tbody").html("");	
 				
 				$.each(data.results , function(i,item) {
-					$.each(item.po , function(j,po) {
-						var tr ="<tr>";	
-						
-						if(j==0){
-							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppNumber +"</td>";
-							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppCost +" </td>";
-							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppBrand +" </td>";	
-						}	
+					if(item.rfp){
+						$.each(item.rfp , function(j,po) {
+							var tr ="<tr>";	
+							
+							if(j==0){
+								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poNumber +"</td>";
+								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poCost +" </td>";
+								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poType +" </td>";	
+							}	
 
-						tr += "<td > "+ po.poNumber +" </td>";
-						tr += "<td > "+ po.poType +" </td>";
-						tr += "<td > "+ po.poState +" </td>";
-						tr += "<td > "+ po.pototal +" </td>";
-						tr += "<td > "+ po.pppBalance +" </td>";
-						tr += "</tr>";
-						
-						$("#table-report-pppbalance tbody").append(tr);	
-					});	
+							tr += "<td > "+ po.rfpNumber +" </td>";
+							tr += "<td > "+ po.rfpDesc +" </td>";
+							tr += "<td > "+ po.rfpStatus +" </td>";
+							tr += "<td > "+ po.rfpCost +" </td>";
+							tr += "<td > "+ po.poBalanced +" </td>";
+							tr += "</tr>";
+							
+							$("#table-report-pobalance tbody").append(tr);	
+						});
+					}	
+
 				});
             },
             error: function (xhr, status, error) {

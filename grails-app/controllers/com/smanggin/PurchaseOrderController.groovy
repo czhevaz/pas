@@ -1137,7 +1137,7 @@ class PurchaseOrderController {
     
         def views = params.type 
 
-        render(view: "${views}",model:[title:'PPP Balanced Tracking PO'])
+        render(view: "${views}")
 
     }
 
@@ -1176,7 +1176,6 @@ class PurchaseOrderController {
                         mapPPP.put('pppBrand',detail.brand) 
 
                         def listPO = []
-                       
                         pos.each{ po -> 
                            def poTotal2 = (po.total/po.rate).round(2)
                             remain = remain - poTotal2
@@ -1188,9 +1187,6 @@ class PurchaseOrderController {
                             map.put('pppBalance',remain.round(2))
 
                             listPO.push(map) 
-                           
-                            
-
                         }
 
                         mapPPP.put('po',listPO)
@@ -1212,6 +1208,55 @@ class PurchaseOrderController {
 
     }
 
-    
+    def purchaseBalanceReport(){
+        params.order = params.order ?: 'asc' 
+        params.sort = params.sort ?: 'dateCreated' 
+
+        def purchaseOrders= PurchaseOrder.createCriteria().list(){
+            if(params.countryId){
+                eq('country',params.countryId)    
+            }
+
+            if(params.countryId){
+                eq('lob',params.lobId)
+            }  
+
+            if(params.brandId){
+                eq('brand',params.brandId)    
+            }
+
+        }
+
+        def list = []
+        purchaseOrders.each{
+            def mappo =[:]
+            mappo.put('poNumber',it.number)  
+            mappo.put('poCost',(it.total/it.rate).round(2)) 
+            mappo.put('poType',it.transactionGroup?.transactionType?.name) 
+            def listRfp = []        
+            def remain = (it.total/it.rate).round(2)
+            def rfpdetails= RfpDetail.findAllByPurchaseOrder(it)
+            if(rfpdetails.size()){
+                rfpdetails.each{ detail ->
+                    remain = remain - detail.totalCost2
+                    def mapRfp =[:]
+                    mapRfp.put('rfpNumber',detail.rfp?.number)
+                    mapRfp.put('rfpDesc',detail.rfp?.note?:"")
+                    mapRfp.put('rfpStatus',detail.rfp?.state) 
+                    mapRfp.put('rfpCost',detail.totalCost2) 
+                    mapRfp.put('poBalanced',remain.round(2)) 
+                    listRfp.push(mapRfp)
+                    
+                }    
+                mappo.put('rfp',listRfp)
+            }
+
+            list.push(mappo)
+        }
+
+        println " println " + list
+        render([success: true,results:list] as JSON)
+
+    }
 
 }
