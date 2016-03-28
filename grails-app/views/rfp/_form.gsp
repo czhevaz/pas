@@ -274,8 +274,6 @@
 		
 		var paymentOption = $(this).val();
 		if(paymentOption == 1){
-			alert(' heloooooo ');
-			alert($(this).val());
 			$("#paidCountryDiv").show();
 			$("#paidCountry").chosen({width: '100%'})
 			
