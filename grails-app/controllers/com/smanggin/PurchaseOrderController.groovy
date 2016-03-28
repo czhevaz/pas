@@ -467,21 +467,21 @@ class PurchaseOrderController {
             render map as JSON
         }else if(params.state){
             /* filter PO For DAshboard*/
-            def user = User.findByLogin(auth.user())
+            def user = User.findByLogin(session.user)
             def poApprover = PurchaseOrderApprover.findAllByApprover(user)
             def c = PurchaseOrder.createCriteria()
             def results = c.list {
                 eq('state',params.state)
 
                 if(params.state == "Waiting Approval"){
-                    eq('mustApprovedBy',user.login)
+                    eq('mustApprovedBy',user?.login)
                     
                 }
 
                 if(params.state == "Rejected"){
                  or{
-                    eq('createdBy',user.login)
-                    eq('rejectedBy',user.login)
+                    eq('createdBy',user?.login)
+                    eq('rejectedBy',user?.login)
                  }   
                     
 
@@ -489,7 +489,7 @@ class PurchaseOrderController {
 
                 if (params.state == "Approved") {
                     or{
-                        eq('createdBy',user.login)    
+                        eq('createdBy',user?.login)    
                         if(poApprover?.size() > 0){
                             'in'('id',poApprover?.purchaseOrder?.id)    
                         }
