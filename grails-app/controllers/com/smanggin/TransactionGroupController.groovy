@@ -19,8 +19,13 @@ class TransactionGroupController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def results = TransactionGroup.createCriteria().list(params){}
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def results = TransactionGroup.createCriteria().list(params){
+            if(session.userRole != 'ALL'){
+                eq('country',session.userRole)    
+            }
+            
+        }
         [transactionGroupInstanceList: results, transactionGroupInstanceTotal: results.totalCount]
     }
 

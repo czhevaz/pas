@@ -58,6 +58,9 @@ if(session.isAdmin == 'Yes') {
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Master Data<b class="caret"></b></a>
 				<ul class="dropdown-menu">
+					<%
+						if(session.userRole == 'ALL') { 
+					%>
 					<li class="controller">
 						<g:link controller="Country">
 							Country
@@ -115,6 +118,23 @@ if(session.isAdmin == 'Yes') {
 							COA
 						</g:link>
 					</li>
+					<%
+						}else{ /* end if session.userRole */
+					%>
+					<li class="controller">
+						<g:link controller="Supplier">
+							Supplier
+						</g:link>
+					</li>
+					<li class="controller">
+						<g:link controller="TransactionType">
+							<g:message code="transactionType.label" default="Transaction Type" />
+						</g:link>
+					</li>
+					
+					<%
+					}/* end if session.userRole */
+					%>
 				</ul>
 			</li>
 

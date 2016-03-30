@@ -205,6 +205,7 @@ class UserController {
 		session['email'] = user?.email
 		session['country'] = user?.country
         session['isAdmin'] = user?.isAdmin
+        session['userRole'] = user?.userRole
 		//session['domainPPP'] = Country.findByName(user?.country).domainPPP 	
 		
         redirect(action: "index", controller:"home",params: params)
