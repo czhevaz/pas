@@ -75,7 +75,7 @@
 				<label for="paidCountry" class="col-sm-3 control-label"><g:message code="register.paidCountry.label" default="Paid Country" /></label>
 				<div class="col-sm-5">
 			
-					<g:select id="paidCountry" name="paidCountry" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${rfpInstance?.paidCountry}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
+					<g:select id="paidCountry" name="paidCountry" from="${com.smanggin.Country.list()}" optionKey="name"  value="${rfpInstance?.paidCountry}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'paidCountry', 'error')}</span>
 				</div>
 			</div>
