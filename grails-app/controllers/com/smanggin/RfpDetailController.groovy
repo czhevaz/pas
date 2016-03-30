@@ -218,10 +218,12 @@ class RfpDetailController {
 
         println " params rfp RfpDetail" + params
         def purchaseOrder = PurchaseOrder.get(params?.purchaseOrderId)
-        
+        def rfp = Rfp.get(params.rfpId)
+
         /*get sum total rfpDEtail for @PO*/
         def rfpDetails= RfpDetail.createCriteria().list(){
             eq('purchaseOrder',purchaseOrder)
+            eq('rfp',rfp)
             if(params?.id){
                 ne('id',params?.id?.toLong())
             }
@@ -244,12 +246,17 @@ class RfpDetailController {
         println " PO Balance " + poBalance
 
         def status= false
+        def remain = purchaseOrder?.PORemain1 
+        if(params.id){
+            def rfpDetail = RfpDetail.get(params.id)
+            remain = remain + rfpDetail.totalCost1
+        }
 
         //println "PO balance1  " + poBalance[0].balance1
        // println "totalCost1  " + rfpDetailInstance.totalCost1.toFloat()
         //if(poBalance){
         println " Total Rfp Detail "   
-        if(purchaseOrder?.total >= totalRfpDetail){
+        if(remain >= totalRfpDetail){
             status =true
         }
         //}
