@@ -66,12 +66,12 @@
 				<label for="paymentOption" class="col-sm-3 control-label"><g:message code="rfp.paymentOption.label" default="Payment Option" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
 					
-					<g:select id="paymentOption" name="paymentOption.id" from="${com.smanggin.PaymentOption.values()}" optionKey="id" required="" value="${rfpInstance?.paymentOption}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
+					<g:select id="paymentOption" name="paymentOption.id" from="${com.smanggin.PaymentOption.values()}" optionKey="id" required="" value="${rfpInstance?.paymentOption?.id}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'paymentOption', 'error')}</span>
 				</div>
 			</div>
 
-			<div id="paidCountryDiv" class="form-group ${hasErrors(bean: rfpInstance, field: 'paidCountry', 'error')}  required" style="display:none;">
+			<div id="paidCountryDiv" class="form-group ${hasErrors(bean: rfpInstance, field: 'paidCountry', 'error')}  required" style="${rfpInstance?.paymentOption?.id == 1 ?:'display:none'};">
 				<label for="paidCountry" class="col-sm-3 control-label"><g:message code="register.paidCountry.label" default="Paid Country" /></label>
 				<div class="col-sm-5">
 			

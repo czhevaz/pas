@@ -862,7 +862,7 @@ class PurchaseOrderController {
             println " po writeOff errors " + poWO.errors
         }
 
-        insertTOPOBalance(purchaseOrderInstance)
+        insertTOPOBalanceWO(purchaseOrderInstance,poWO)
 
         def totalpoWO = PurchaseOrderWriteOff.createCriteria().list(){
             eq('purchaseOrder', purchaseOrderInstance)
@@ -1054,14 +1054,36 @@ class PurchaseOrderController {
         poBalance.country = purchaseOrderInstance.country
         poBalance.purchaseOrder = purchaseOrderInstance
         poBalance.description =" insert When state " + purchaseOrderInstance?.state
-        poBalance.balance1 = purchaseOrderInstance.total?:0
+        poBalance.balance1 = purchaseOrderInstance.PORemain1?:0
         poBalance.currency1 = purchaseOrderInstance.currency1
-        poBalance.balance2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
+        poBalance.balance2 = purchaseOrderInstance.PORemain2?:0
+        poBalance.cost = purchaseOrderInstance.total?:0
+        poBalance.cost2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
+        poBalance.pppNumber = purchaseOrderInstance.pppNumber
+        poBalance.pppBalance = purchaseOrderInstance.pppRemainBrand
         if(!poBalance.save(flush:true)){
             println "poBalance " + poBalance.errors
         }
         return 
 
+    }
+
+    def insertTOPOBalanceWO(purchaseOrderInstance,poWO){
+        def poBalance = new PurchaseOrderBalance()
+        poBalance.country = purchaseOrderInstance.country
+        poBalance.purchaseOrder = purchaseOrderInstance
+        poBalance.description =" insert When state  Write Off"
+        poBalance.balance1 = purchaseOrderInstance.PORemain1?:0
+        poBalance.currency1 = purchaseOrderInstance.currency1
+        poBalance.balance2 = purchaseOrderInstance.PORemain2?:0
+        poBalance.cost = poWO.woValue1?:0
+        poBalance.cost2 = poWO.woValue2?:0
+        poBalance.pppNumber = purchaseOrderInstance.pppNumber
+        poBalance.pppBalance = purchaseOrderInstance.pppRemainBrand
+        if(!poBalance.save(flush:true)){
+            println "poBalance " + poBalance.errors
+        }
+        return         
     }
 
 

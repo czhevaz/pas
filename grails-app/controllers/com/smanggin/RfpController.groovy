@@ -203,7 +203,12 @@ class RfpController {
         rfpInstance.country = Country.findByName(params.country)
         rfpInstance.updatedBy = session.user
         rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())
-      
+        if(rfpInstance.paymentOption?.id!=1){
+
+            rfpInstance.paidCountry = null
+        }else{
+            rfpInstance.paidCountry = params.paidCountry
+        }
 
         if (!rfpInstance.save(flush: true)) {
             render(view: "edit", model: [rfpInstance: rfpInstance])
@@ -577,7 +582,7 @@ class RfpController {
         }
 
         rfpDetail.each{
-            insertTOPOBalance(it)     
+            insertTOPOBalance(it,rfpInstance)     
             updatePPPBalance(it) 
             if(it[0]?.PORemain1 == 0){
                 it[0]?.state='Closed'
@@ -589,15 +594,21 @@ class RfpController {
 
     }
 
-    def insertTOPOBalance(purchaseOrderInstance){
+    def insertTOPOBalance(purchaseOrderInstance,rfpInstance){
 
         def poBalance = new PurchaseOrderBalance()
         poBalance.country = purchaseOrderInstance[0]?.country
         poBalance.purchaseOrder = purchaseOrderInstance[0]
-        poBalance.description =" insert When state RFP Approved" 
+        poBalance.description = rfpInstance?.note
         poBalance.balance1 = purchaseOrderInstance[0].PORemain1?:0
         poBalance.currency1 = purchaseOrderInstance[0].currency1
         poBalance.balance2 = purchaseOrderInstance[0].PORemain2?:0
+        poBalance.refference = rfpInstance?.number
+        poBalance.activities = "insert When state RFP Approved"
+        poBalance.cost = purchaseOrderInstance[1]
+        poBalance.cost2 = purchaseOrderInstance[2]
+        poBalance.pppNumber = purchaseOrderInstance?.pppNumber
+        poBalance.pppBalance = purchaseOrderInstance?.pppRemainBrand
         if(!poBalance.save(flush:true)){
             println "poBalance " + poBalance?.errors
         }
