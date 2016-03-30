@@ -33,7 +33,7 @@ if(actionName=='edit' || actionName=='show') {
             url:'/${meta(name:'app.name')}/purchaseOrderDetail/jlist?masterField.name=purchaseOrder&masterField.id=${purchaseOrderInstance?.id}'">
                 <thead>
                     <tr>
-                    	<th data-options="field:'description',width:200,editor:'text'">Description</th>
+                    	<th data-options="field:'description',width:200,editor:'text'">Item</th>
                     
                     <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POMS' || purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP'}">                       
                     	<th data-options="field:'coverageArea',width:200,editor:'text'">Coverage Area</th>	
@@ -53,7 +53,7 @@ if(actionName=='edit' || actionName=='show') {
 
                         }">Qty </th>
 
-                        <th data-options="field:'pic',width:200,editor:'text'">UOM</th>
+                        <th data-options="field:'uom',width:200,editor:'text'">UOM</th>
                     </g:if>   
                         <th data-options="field:'currencyCode',width:200,
                             formatter:function(value,row){
@@ -100,7 +100,7 @@ if(actionName=='edit' || actionName=='show') {
                     
                     </g:if>       
                         
-                        <th data-options="field:'totalCost',align:'right',formatter:formatNumber,  width:100,
+                        <th data-options="field:'totalCost',align:'right',formatter:formatNumber,  width:200,
                         editor:{
                         	type:'numberbox',
                         	options:{

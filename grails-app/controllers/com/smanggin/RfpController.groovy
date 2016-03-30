@@ -35,7 +35,45 @@ class RfpController {
         def rfpApprover = RfpApprover.findAllByApprover(user)
         //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = Rfp.createCriteria().list(params){
-            if(user?.role != 'LOB'){
+            //if(user?. != 'LOB'){
+                /*or{
+                    eq('createdBy',user?.login)
+                    eq('mustApprovedBy',user?.login)    
+                    eq('rejectedBy',user.login)
+                    if(rfpApprover?.size() > 0){
+                        'in'('id',rfpApprover?.rfp?.id)    
+                    }
+                }*/
+
+                    
+            //}
+            if(params.state){
+                eq('state',params.state)
+                if(params.state == "Waiting Approval"){
+                        eq('mustApprovedBy',user.login)
+                        
+                }
+                
+                if(params.state == "Rejected"){
+                 or{
+                    eq('createdBy',user.login)
+                    eq('rejectedBy',user.login)
+                 }   
+                    
+
+                }
+
+                if (params.state == "Approved") {
+                    or{
+                        eq('createdBy',user.login)    
+                        if(rfpApprover?.size() > 0){
+                            'in'('id',rfpApprover?.rfp?.id)    
+                        }
+                        
+                    }
+                } 
+                
+            }else{
                 or{
                     eq('createdBy',user?.login)
                     eq('mustApprovedBy',user?.login)    
@@ -43,11 +81,7 @@ class RfpController {
                     if(rfpApprover?.size() > 0){
                         'in'('id',rfpApprover?.rfp?.id)    
                     }
-                } 
-            }
-            if(params.state){
-                eq('state',params.state)
-                
+                }
             }
             
         }
