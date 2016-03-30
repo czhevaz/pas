@@ -180,5 +180,11 @@ class GlobalService {
 
         return cal.setTime(date)
     }
+
+    def getCurrentYear(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        return year    
+    }
+    
 }
 

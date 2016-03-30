@@ -19,6 +19,8 @@ class PurchaseOrderBalance {
 	Currency currency1
 	Float balance1
 	Float balance2
+
+	String refference 
 			
 	static	belongsTo	= [PurchaseOrder]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -32,6 +34,7 @@ class PurchaseOrderBalance {
     
 	static	constraints = {
 		currency1 nullable:true
+		refference nullable:true
     }
 	
 	/*

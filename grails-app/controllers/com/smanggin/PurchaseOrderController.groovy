@@ -467,6 +467,8 @@ class PurchaseOrderController {
             render map as JSON
         }else if(params.state){
             /* filter PO For DAshboard*/
+
+            println params.state + " tessdsdsd"
             def user = User.findByLogin(session.user)
             def poApprover = PurchaseOrderApprover.findAllByApprover(user)
             def c = PurchaseOrder.createCriteria()
@@ -496,6 +498,8 @@ class PurchaseOrderController {
                         
                     }
                 }
+
+                eq('year',globalService.getCurrentYear())
             }
             render results as JSON
         }else if(params?.country){

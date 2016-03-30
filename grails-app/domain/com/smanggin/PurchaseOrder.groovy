@@ -74,6 +74,7 @@ class PurchaseOrder {
 	String programTittle
 
 	String addIntructions
+	Integer year
 
 	String toString() { return number } 	
 
@@ -91,6 +92,7 @@ class PurchaseOrder {
     	version true
     	isVoid defaultValue:'0'
     	isWriteOff defaultValue:'0'
+    	year formula: 'YEAR(purchase_order_date)'
     	
     }
     
@@ -133,6 +135,7 @@ class PurchaseOrder {
 		programTittle nullable:true
 		addIntructions nullable :true
 		woNotes nullable :true
+		year nullable:true
 
     }
 

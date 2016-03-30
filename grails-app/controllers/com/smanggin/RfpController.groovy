@@ -304,7 +304,11 @@ class RfpController {
                         
                     }
                 }
+
+                eq('year',globalService.getCurrentYear())
             }
+
+
 
             render results as JSON
 
