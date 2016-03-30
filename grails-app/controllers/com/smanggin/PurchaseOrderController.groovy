@@ -35,7 +35,7 @@ class PurchaseOrderController {
         def poApprover = PurchaseOrderApprover.findAllByApprover(user)
         def results = PurchaseOrder.createCriteria().list(params){
             
-            if(user?.role != 'LOB'){
+            /*if(user?.role != 'LOB'){
                 or{
                     eq('createdBy',user?.login)
                     eq('mustApprovedBy',user?.login)    
@@ -44,12 +44,43 @@ class PurchaseOrderController {
                         'in'('id',poApprover?.purchaseOrder?.id)    
                     }
                 } 
-            }
+            }*/
+            
             if(params.state){
                 eq('state',params.state)
-                
+                if(params.state == "Waiting Approval"){
+                    eq('mustApprovedBy',user?.login)
+                    
+                }
+
+                if(params.state == "Rejected"){
+                 or{
+                    eq('createdBy',user?.login)
+                    eq('rejectedBy',user?.login)
+                 }   
+                    
+
+                }
+
+                if (params.state == "Approved") {
+                    or{
+                        eq('createdBy',user?.login)    
+                        if(poApprover?.size() > 0){
+                            'in'('id',poApprover?.purchaseOrder?.id)    
+                        }
+                        
+                    }
+                }
+            }else{
+                or{
+                    eq('createdBy',user?.login)
+                    eq('mustApprovedBy',user?.login)    
+                    eq('rejectedBy',user.login)
+                    if(poApprover?.size() > 0){
+                        'in'('id',poApprover?.purchaseOrder?.id)    
+                    }
+                }   
             }
-            
             
         }
 
