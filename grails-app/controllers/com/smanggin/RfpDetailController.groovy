@@ -234,9 +234,9 @@ class RfpDetailController {
         } 
 
         def totalExistRfpDetail = rfpDetails[0]?:0
-        def totalRfpDetail= totalExistRfpDetail + params.totalCost1.toFloat()
+        def totalRfpDetail=  params.totalCost1.toFloat()
 
-        println " SUm " + totalRfpDetail
+     
         /*get po Balance */
         def poBalance = PurchaseOrderBalance.createCriteria().list(params){
             eq('purchaseOrder',purchaseOrder)
@@ -255,7 +255,8 @@ class RfpDetailController {
         //println "PO balance1  " + poBalance[0].balance1
        // println "totalCost1  " + rfpDetailInstance.totalCost1.toFloat()
         //if(poBalance){
-        println " Total Rfp Detail "   
+        println " remain "   + remain
+        println " SUm " + totalRfpDetail
         if(remain >= totalRfpDetail){
             status =true
         }
