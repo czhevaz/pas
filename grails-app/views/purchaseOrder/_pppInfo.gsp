@@ -63,7 +63,7 @@
 					</span>
 				</td>
 
-				<td><g:formatDate date="${pppInstance?.pppDate}" format="yyyy-MM-dd"/></td>
+				<td><g:formatDate date="${pppInstance?.pppDate}" format="dd MMMM yyyy"/></td>
 
 				
 			</tr>

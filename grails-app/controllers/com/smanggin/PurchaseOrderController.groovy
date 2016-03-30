@@ -527,24 +527,27 @@ class PurchaseOrderController {
             def listPO = []
 
             results.each{
-                def map = [:]
-                map.put('number',it.number)
-                map.put('reasonforInvestment',it.reasonforInvestment)
-                map.put('purchaseOrderDate',it.purchaseOrderDate?.format('yyyy-MM-dd'))
-                map.put('supplierName',it.supplier?.name)
-                map.put('purchaseOrderId',it.id)
-                map.put('pppNumber',it.pppNumber)
-                map.put('createdBy',it.createdBy)
-                map.put('total',it.total)
-                map.put('total2',(it.total/it.rate).round(2))
-                map.put('poRemain1',it.PORemain1)
-                map.put('poRemain2',it.PORemain2)
-                map.put('country',it.country)
-                map.put('lob',it.lob)
-                map.put('brand',it.brand)
-                map.put('currency1',it.currency1?.code)
+                if(it.PORemain1 > 0){
+                    def map = [:]
+                    map.put('number',it.number)
+                    map.put('reasonforInvestment',it.reasonforInvestment)
+                    map.put('purchaseOrderDate',it.purchaseOrderDate?.format('dd-MM-yyyy'))
+                    map.put('supplierName',it.supplier?.name)
+                    map.put('purchaseOrderId',it.id)
+                    map.put('pppNumber',it.pppNumber)
+                    map.put('createdBy',it.createdBy)
+                    map.put('total',it.total)
+                    map.put('total2',(it.total/it.rate).round(2))
+                    map.put('poRemain1',it.PORemain1)
+                    map.put('poRemain2',it.PORemain2)
+                    map.put('country',it.country)
+                    map.put('lob',it.lob)
+                    map.put('brand',it.brand)
+                    map.put('currency1',it.currency1?.code)
 
-                listPO.push(map)
+                    listPO.push(map)
+                }
+                
             }
 
             def list=[:]

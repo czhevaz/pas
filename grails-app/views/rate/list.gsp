@@ -38,9 +38,9 @@
 						<g:each in="${rateInstanceList}" status="i" var="rateInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${rateInstance.id}"><g:formatDate date="${rateInstance.starDate}" format="yyyy-MM-dd" /></g:link></td>
+								<td><g:link action="show" id="${rateInstance.id}"><g:formatDate date="${rateInstance.starDate}" format="dd MMMM yyyy" /></g:link></td>
 
-								<td><g:formatDate date="${rateInstance.endDate}" format="yyyy-MM-dd" /></td>
+								<td><g:formatDate date="${rateInstance.endDate}" format="dd MMMM yyyy" /></td>
 							
 								
 							

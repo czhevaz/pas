@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="layout" content="kickstart" />
-	<g:set var="entityName" value="PO Balanced Tracking RFP" />
+	<g:set var="entityName" value="Report PO Historycal Transaction" />
 	<title><g:message code="default.pppBalanceReport.label" args="[entityName]" /></title>
 	<g:set var="canCreate" value="true" scope="request" />
 	<g:set var="months" value="${new java.text.DateFormatSymbols().months}"/>

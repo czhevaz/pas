@@ -9,9 +9,9 @@
             <div class="modal-body">
         		<div class="row">
 		        	<div class="col-lg-12">
-					<div class="box box-primary">
+					<div class="box box-primary ">
 		        
-					<div id="table-content" class=" box-body table-responsive">
+					<div id="table-content" class=" box-body table-responsive" style="overflow-y:auto">
 		          	<table id="poContent" class="table table-bordered  table-striped  table-hover margin-top-medium " style="width:100%;">
 						<thead>
 							<tr>
@@ -41,6 +41,34 @@
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+							
+								<th><g:message code="purchaseOrder.number.label" default="Number" /></th>
+
+								<th style="width:30px;"><g:message code="purchaseOrder.reasonforInvestment.label" default="Purpose " /></th>
+
+								<th><g:message code="purchaseOrder.brand.label" default="Brand" /></th>
+
+								<th><g:message code="purchaseOrder.country.label" default="Country" /></th>
+
+								<th><g:message code="purchaseOrder.supplier.label" default="Supplier" /></th>
+
+								<th><g:message code="purchaseOrder.createdBy.label" default="createdBy" /></th>
+
+								<th><g:message code="purchaseOrder.currency.label" default="currency" /></th>
+
+								<th><g:message code="purchaseOrder.total.label" default="Total" /></th>
+
+								<th><g:message code="purchaseOrder.outstanding.label" default="Outstanding" /></th>
+
+								<th><g:message code="purchaseOrder.purchaseOrderDate.label" default="PO Date" /></th>
+														
+								
+															
+							
+							</tr>
+						</tfoot>
 						<tbody></tbody>
 					</table>
 					</div><!-- /. -->
@@ -65,7 +93,44 @@
 
 <r:script>
 
-	var table = $('#poContent').DataTable();
+	$('#poContent tfoot th').each( function () {
+        var title = $('#poContent thead th').eq( $(this).index() ).text();
+        console.log($(this).index())
+        
+        	$(this).html( '<input type="text" placeholder="Search '+title+'" />' );	
+        
+        
+    });
+
+	var table = $('#poContent').DataTable({
+    	"paging": true,
+	     "lengthChange": false,
+	     "searching": true,
+	     "ordering": true,
+	     "info": true,
+	     "autoWidth": true,
+	     "scrollX": true
+    });
+
+ 	// Apply the search
+    table = table.columns().eq( 0 );
+    if(table){
+    table.columns().eq( 0 ).each( function ( colIdx ) {
+    	
+    	
+    		$( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+            table
+                .column( colIdx )
+                .search( this.value )
+                .draw();
+        	} );
+    	
+    });
+    }
+
+
+
+	
 	$('#poContent tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
         console.log(data);

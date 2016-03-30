@@ -149,7 +149,7 @@ WHERE
 	<columnHeader>
 		<band height="22" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="2" width="237" height="20" uuid="bbdd9c36-9ba8-43c8-bbf0-407fdcfceea6"/>
+				<reportElement mode="Opaque" x="0" y="2" width="426" height="20" backcolor="#CCCCCC" uuid="bbdd9c36-9ba8-43c8-bbf0-407fdcfceea6"/>
 				<box leftPadding="2" rightPadding="2">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -157,11 +157,11 @@ WHERE
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[CODE]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[COA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="237" y="2" width="341" height="20" uuid="10df3a94-06c7-49fd-8fe6-67b358d8247e"/>
+				<reportElement mode="Opaque" x="426" y="2" width="152" height="20" backcolor="#CCCCCC" uuid="10df3a94-06c7-49fd-8fe6-67b358d8247e"/>
 				<box leftPadding="2" rightPadding="2">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -169,15 +169,15 @@ WHERE
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Transaction Value]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="101" splitType="Stretch">
+		<band height="97" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="0" width="578" height="96" uuid="1468eb17-611f-4673-b479-59c9faa3df38"/>
+				<reportElement x="1" y="0" width="577" height="96" uuid="1468eb17-611f-4673-b479-59c9faa3df38"/>
 				<box leftPadding="0" rightPadding="0">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -186,20 +186,24 @@ WHERE
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement x="237" y="0" width="201" height="20" uuid="73a1e874-9a78-45e4-820c-269a1b529fef"/>
+					<reportElement x="425" y="0" width="152" height="20" uuid="73a1e874-9a78-45e4-820c-269a1b529fef"/>
 					<box leftPadding="1" rightPadding="1"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$F{T_PAS_RFP_Detail_total_cost1}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="0" y="20" width="237" height="76" uuid="5d395e4a-bdeb-47d9-a275-bd879bf26d86"/>
+					<reportElement x="0" y="20" width="425" height="76" uuid="5d395e4a-bdeb-47d9-a275-bd879bf26d86"/>
 					<box leftPadding="3" rightPadding="3"/>
 					<textFieldExpression><![CDATA[$F{M_PAS_COA_description}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="0" y="0" width="237" height="20" uuid="216fdd22-f026-4617-b4db-7ed5f6421ab6"/>
+					<reportElement x="0" y="0" width="425" height="20" uuid="216fdd22-f026-4617-b4db-7ed5f6421ab6"/>
 					<box leftPadding="3" rightPadding="3"/>
 					<textFieldExpression><![CDATA[$F{M_PAS_COA_code}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="447" y="0" width="39" height="20" uuid="97f64f69-8f87-46e0-8d07-d00a316f0c10"/>
+					<textFieldExpression><![CDATA[$F{T_PAS_RFP_currency1_id}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -214,15 +218,15 @@ WHERE
 				<reportElement x="0" y="57" width="578" height="89" uuid="86e51763-466a-4a81-b199-ed1577c43be4"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_RFP_note}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="237" y="0" width="201" height="20" uuid="dfc25545-c302-4dba-9ae9-cc9de25ab2f4"/>
-				<box leftPadding="4" rightPadding="4"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$V{T_PAS_RFP_Detail_total_cost1_1}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="137" y="1" width="100" height="20" uuid="59187d2f-e911-4d20-b7e0-0b2c50c74da8"/>
-				<textElement>
+				<reportElement mode="Opaque" x="1" y="1" width="425" height="20" backcolor="#CCCCCC" uuid="59187d2f-e911-4d20-b7e0-0b2c50c74da8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
@@ -326,6 +330,21 @@ WHERE
 			<textField>
 				<reportElement x="29" y="238" width="107" height="20" uuid="12111791-da2f-4044-84ba-3e11dc2e8210"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_RFP_created_by}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="426" y="1" width="152" height="20" backcolor="#CCCCCC" uuid="dfc25545-c302-4dba-9ae9-cc9de25ab2f4"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{T_PAS_RFP_Detail_total_cost1_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="448" y="1" width="39" height="20" uuid="421fcc7b-4865-4cde-b69e-0bcd4538af4b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_currency1_id}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

@@ -21,6 +21,7 @@ $(document).ready(function () {
 	'.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
 	'.chosen-select-width'     : {width:"95%"}
 	}
+    
 	for (var selector in config) {
 		$(selector).chosen(config[selector]);
 	}

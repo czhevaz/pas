@@ -52,7 +52,7 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="rfp.rfpDate.label" default="Rfp Date" /></td>
 								
-								<td valign="top" class="value"><g:formatDate date="${rfpInstance?.rfpDate}"  format="yyyy-MM-dd"/></td>
+								<td valign="top" class="value"><g:formatDate date="${rfpInstance?.rfpDate}"  format="dd MMMM yyyy"/></td>
 								
 							</tr>
 							

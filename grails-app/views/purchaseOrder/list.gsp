@@ -82,13 +82,13 @@
 
 								<th><g:message code="ppp.country.label" default="Country" /></th>
 
-								<th><g:message code="ppp.lob.label" default="Lob" /></th>
+								<th><g:message code="ppp.lob.label" default="LOB" /></th>
 
 								<th><g:message code="ppp.brand.label" default="Brand" /></th>
 
 								<th><g:message code="ppp.requestor.label" default="Requestor" /></th>
 
-								<th><g:message code="purchaseOrder.writeoff.label" default="write Off" /></th>	
+								<th><g:message code="purchaseOrder.writeoff.label" default="Write Off" /></th>	
 								
 				            </tr>
 				        </tfoot>
@@ -102,7 +102,7 @@
 
 								<td>${purchaseOrderInstance.createdBy}</td>	
 									
-								<td><g:formatDate date="${purchaseOrderInstance.purchaseOrderDate}" format="yyyy-MM-dd"/></td>
+								<td><g:formatDate date="${purchaseOrderInstance.purchaseOrderDate}" format="dd MMMM yyyy"/></td>
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "transactionGroup")}</td>	
 
 								<td>${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	

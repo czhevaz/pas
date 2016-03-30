@@ -75,7 +75,7 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="purchaseOrder.purchaseOrderDate.label" default="Purchase Order Date" /></td>
 								
-								<td valign="top" class="value"><g:formatDate date="${purchaseOrderInstance?.purchaseOrderDate}" format="yyyy-MM-dd"/></td>
+								<td valign="top" class="value"><g:formatDate date="${purchaseOrderInstance?.purchaseOrderDate}" format="dd MMMM yyyy"/></td>
 								
 							</tr>
 

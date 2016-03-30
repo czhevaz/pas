@@ -75,7 +75,7 @@
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="pppPhilippine.pppDate.label" default="Ppp Date" /></td>
 								
-								<td valign="top" class="value"><g:formatDate date="${pppPhilippineInstance?.pppDate}" /></td>
+								<td valign="top" class="value"><g:formatDate date="${pppPhilippineInstance?.pppDate}" format="dd MMMM yyyy" /></td>
 								
 							</tr>
 						

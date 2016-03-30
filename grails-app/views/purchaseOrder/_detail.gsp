@@ -74,7 +74,7 @@ if(actionName=='edit' || actionName=='show') {
                                     }                                    
 
                                 }
-                        }">Local currency </th>
+                        }"><g:message code="purchaseOrder.currency1.label" default="Local Currency" /> </th>
                      <th data-options="field:'rate',align:'right',formatter:formatNumber,  width:100,
                         editor:{
                             type:'numberbox',
@@ -83,7 +83,7 @@ if(actionName=='edit' || actionName=='show') {
                                
                             }
 
-                        }">rate</th>    
+                        }">Rate</th>    
     
                     <g:if test="${purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'POPF'}">        
                         <th data-options="field:'unitPrice',align:'right',formatter:formatNumber,  width:100,
@@ -176,7 +176,7 @@ if(actionName=='edit' || actionName=='show') {
                     <tr>
                         <th data-options="field:'countryName',width:200">Country</th> 
                         <th data-options="field:'description',width:200">Description</th> 
-                        <th data-options="field:'currency1Code',width:200">Local Currency</th> 
+                        <th data-options="field:'currency1Code',width:200"><g:message code="purchaseOrder.currency1.label" default="Local Currency" /></th> 
                         <th data-options="field:'balance1',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Balance 1 </th>
                         <th data-options="field:'balance2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Balance 2 (${purchaseOrderInstance.currency2?.code})</th>
                         <th data-options="field:'dateCreated',width:200">Date Created</th> 
@@ -200,8 +200,8 @@ if(actionName=='edit' || actionName=='show') {
                 <thead>
                     <tr>
                        
-                        <th data-options="field:'woValue1',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Wo Value 1 </th>
-                        <th data-options="field:'woValue2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Wo Value 2 (${purchaseOrderInstance.currency2?.code})</th>
+                        <th data-options="field:'woValue1',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Wo Transaction Value </th>
+                        <th data-options="field:'woValue2',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Wo Transaction Value (${purchaseOrderInstance.currency2?.code})</th>
                         <th data-options="field:'woNotes',width:200">Notes </th> 
                         <th data-options="field:'woBy',width:200">WO By</th> 
                         <th data-options="field:'dateCreated',width:200">WO date</th> 

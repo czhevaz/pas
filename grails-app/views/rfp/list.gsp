@@ -39,8 +39,6 @@
 
 								<th><g:message code="rfp.createdBy.label" default="createdBy" /></th>
 									
-								
-							
 							</tr>
 						</thead>
 						<tbody>
@@ -49,7 +47,7 @@
 							
 								<td><g:link action="show" id="${rfpInstance.id}">${fieldValue(bean: rfpInstance, field: "number")}</g:link></td>
 							
-								<td><g:formatDate date="${rfpInstance.rfpDate}" format="yyyy-MM-dd"/></td>
+								<td><g:formatDate date="${rfpInstance.rfpDate}" format="dd MMMM yyyy"/></td>
 							
 								<td>${fieldValue(bean: rfpInstance, field: "state")}</td>
 								

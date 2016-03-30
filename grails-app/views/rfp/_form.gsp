@@ -71,7 +71,7 @@
 				</div>
 			</div>
 
-			<div id="paidCountryDiv" class="form-group ${hasErrors(bean: rfpInstance, field: 'paidCountry', 'error')}  required" >
+			<div id="paidCountryDiv" class="form-group ${hasErrors(bean: rfpInstance, field: 'paidCountry', 'error')}  required" style="display:none;">
 				<label for="paidCountry" class="col-sm-3 control-label"><g:message code="register.paidCountry.label" default="Paid Country" /></label>
 				<div class="col-sm-5">
 			
@@ -275,11 +275,12 @@
 		var paymentOption = $(this).val();
 		if(paymentOption == 1){
 			$("#paidCountryDiv").show();
-			$("#paidCountry").chosen({width: '100%'})
+			$("#paidCountry_chosen").css("width", "100%");
 			
 		}else{
 			$("#paidCountryDiv").hide();
-			$("#paidCountryDiv").val('');
+			$("#paidCountry").val('');
+			 $('#paidCountry').trigger('chosen:updated');
 		}
         
 	}); 
