@@ -607,8 +607,8 @@ class RfpController {
         poBalance.activities = "insert When state RFP Approved"
         poBalance.cost = purchaseOrderInstance[1]
         poBalance.cost2 = purchaseOrderInstance[2]
-        poBalance.pppNumber = purchaseOrderInstance?.pppNumber
-        poBalance.pppBalance = purchaseOrderInstance?.pppRemainBrand
+        poBalance.pppNumber = purchaseOrderInstance[0].pppNumber
+        poBalance.pppBalance = purchaseOrderInstance[0].pppRemainBrand
         if(!poBalance.save(flush:true)){
             println "poBalance " + poBalance?.errors
         }
