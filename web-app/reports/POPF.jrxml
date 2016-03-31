@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POPF" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3877e4c-8792-4ad7-88d3-ad0fcb4d01bf">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="70"/>
+	<property name="ireport.y" value="251"/>
 	<parameter name="po_id" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -506,7 +506,7 @@ WHERE
 	<summary>
 		<band height="272" splitType="Stretch">
 			<staticText>
-				<reportElement x="384" y="180" width="111" height="80" uuid="0a1ffe91-9cbc-4900-9ff1-cd7a1e5ff4b4"/>
+				<reportElement x="384" y="179" width="111" height="81" uuid="0a1ffe91-9cbc-4900-9ff1-cd7a1e5ff4b4"/>
 				<box leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -518,7 +518,7 @@ WHERE
 				<text><![CDATA[Supplier]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="258" y="180" width="126" height="80" uuid="d07730c6-556d-41b1-b650-389d1d23013b"/>
+				<reportElement x="258" y="179" width="126" height="81" uuid="d07730c6-556d-41b1-b650-389d1d23013b"/>
 				<box leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -554,18 +554,6 @@ WHERE
 				<text><![CDATA[Approved By]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="178" width="112" height="81" uuid="de606686-543a-4e52-9d9c-754840e2ae2c"/>
-				<box leftPadding="2" bottomPadding="2" rightPadding="2">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
-				<text><![CDATA[]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="112" y="159" width="146" height="20" uuid="67a6c5a1-1a20-4ac2-abf4-1dea5cbb142f"/>
 				<box leftPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
@@ -590,7 +578,7 @@ WHERE
 				<text><![CDATA[Marketing / Sales]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="158" width="112" height="20" uuid="c544bf1e-962d-4732-9400-5c4e85991780"/>
+				<reportElement x="0" y="159" width="112" height="20" uuid="c544bf1e-962d-4732-9400-5c4e85991780"/>
 				<box leftPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -602,7 +590,14 @@ WHERE
 				<text><![CDATA[Prepared By]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="239" width="100" height="20" uuid="00d335bd-5601-4620-b060-421620803f33"/>
+				<reportElement x="0" y="179" width="112" height="81" uuid="00d335bd-5601-4620-b060-421620803f33"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_created_by}]]></textFieldExpression>
 			</textField>
