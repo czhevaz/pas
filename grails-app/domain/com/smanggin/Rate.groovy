@@ -9,6 +9,7 @@ class Rate {
 	
 	Date starDate
 	Date endDate
+	Long xrperiod
 	
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -22,6 +23,7 @@ class Rate {
     
 	static	constraints = {
 		version nullable:true
+		xrperiod nullable:true
     }
 	
 	

@@ -3,7 +3,7 @@
               <div class="box box-primary">
                 <div class="box-header with-border">
                   <i class="icon-comments"></i>
-                  <h3 class="box-title"><g:message code="purchaseOrderInstance.pppComment.label" default="Log feedback/Comment" /></h3>
+                  <h3 class="box-title"><g:message code="purchaseOrderInstance.pppComment.label" default="Log Feedback/Comment" /></h3>
                   
                 </div>
                 <div class="box-body">

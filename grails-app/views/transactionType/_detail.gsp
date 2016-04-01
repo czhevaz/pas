@@ -165,7 +165,7 @@ if(actionName=='edit' || actionName=='show') {
                                                 
 	                                }  
                                 }
-                        }">Lob</th>
+                        }">LOB</th>
                         
                         <th data-options="field:'brandCode',width:100,sortable:true,
                             formatter:function(value,row){

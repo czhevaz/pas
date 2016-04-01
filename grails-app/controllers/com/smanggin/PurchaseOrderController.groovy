@@ -45,7 +45,7 @@ class PurchaseOrderController {
                     }
                 } 
             }*/
-            
+
             if(params.state){
                 eq('state',params.state)
                 if(params.state == "Waiting Approval"){
@@ -512,11 +512,11 @@ class PurchaseOrderController {
                 }
 
                 if(params.state == "Rejected"){
-                 or{
-                    eq('createdBy',user?.login)
-                    eq('rejectedBy',user?.login)
-                 }   
-                    
+                     or{
+                        eq('createdBy',user?.login)
+                        eq('rejectedBy',user?.login)
+                     }   
+                     eq('year',globalService.getCurrentYear())       
 
                 }
 
@@ -528,9 +528,10 @@ class PurchaseOrderController {
                         }
                         
                     }
+                    eq('year',globalService.getCurrentYear())
                 }
 
-                eq('year',globalService.getCurrentYear())
+                
             }
             render results as JSON
         }else if(params?.country){

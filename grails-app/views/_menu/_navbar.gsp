@@ -11,8 +11,8 @@
 			<a class="navbar-brand" href="${createLink(uri: '/')}">
 				<i class="icon-dashboard"></i>
 				
-				<!--<img class="logo" src="${resource(plugin: 'kickstart-with-bootstrap', dir:'kickstart/img', file:'grails.png')}" alt="${meta(name:'app.name')}" width="16px" height="16px"/> -->
-				POS
+				<!--<img class="logo" src="${resource(plugin: 'kickstart-with-bootstrap', dir:'kickstart/img', file:'grails.png')}" alt="${meta(name:'app.title')}" width="16px" height="16px"/> -->
+				${meta(name:'app.title')}
 				<small> v ${meta(name:'app.version')}</small>
 			</a>
 		</div>
@@ -68,7 +68,7 @@ if(session.isAdmin == 'Yes') {
 					</li>
 					<li class="controller">
 						<g:link controller="Lob">
-							Lob
+							LOB
 						</g:link>
 					</li>
 					<li class="controller">

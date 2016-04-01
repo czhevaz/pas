@@ -33,7 +33,7 @@
 
 								<th><g:message code="ppp.country.label" default="Country" /></th>
 
-								<th><g:message code="ppp.lob.label" default="Lob" /></th>
+								<th><g:message code="ppp.lob.label" default="LOB" /></th>
 
 								<th><g:message code="ppp.brand.label" default="Brand" /></th>
 

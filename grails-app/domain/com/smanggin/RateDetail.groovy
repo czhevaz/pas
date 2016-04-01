@@ -20,6 +20,7 @@ class RateDetail {
 	Currency currency1
 	Currency currency2
 	Float value
+	Long xrperiod
 	
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -37,6 +38,7 @@ class RateDetail {
 		lastUpdated nullable: true
 		createdBy nullable: true
 		dateCreated nullable: true
+		xrperiod nullable:true
     }
 	
 	/*

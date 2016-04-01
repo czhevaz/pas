@@ -54,9 +54,9 @@
 
 								<th><g:message code="purchaseOrder.supplier.label" default="Supplier" /></th>
 
-								<th><g:message code="purchaseOrder.createdBy.label" default="createdBy" /></th>
+								<th><g:message code="purchaseOrder.createdBy.label" default="Created By" /></th>
 
-								<th><g:message code="purchaseOrder.currency.label" default="currency" /></th>
+								<th><g:message code="purchaseOrder.currency.label" default="Currency" /></th>
 
 								<th><g:message code="purchaseOrder.total.label" default="Total" /></th>
 

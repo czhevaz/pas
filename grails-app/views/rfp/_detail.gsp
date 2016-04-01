@@ -41,7 +41,7 @@ if(actionName=='edit' || actionName=='show') {
                                 }
                         }">Purchase Order</th>
                         
-                        <th data-options="field:'pppNumber',width:200,editor:{type:'textbox',options:{required:true}}">Ppp Number</th>         
+                        <th data-options="field:'pppNumber',width:200,editor:{type:'textbox',options:{required:true}}">PPP Number</th>         
 
                         <g:if test="${rfpInstance?.paymentOption.id != 3 }">
                             <th data-options="field:'coaCode',width:300,
@@ -60,9 +60,9 @@ if(actionName=='edit' || actionName=='show') {
                                             $(coaDescriptionEd.target).textbox('setValue',rec.description);
                                         }
                                     }
-                            }">Coa</th>
+                            }">COA</th>
                                         
-                            <th data-options="field:'coaDescription',width:500,editor:{type:'textbox',options:{required:true}}">Coa Description</th>         
+                            <th data-options="field:'coaDescription',width:500,editor:{type:'textbox',options:{required:true}}">COA Description</th>         
                         </g:if>
                             
                         <th data-options="field:'totalCost1',align:'right',formatter:formatNumber,  

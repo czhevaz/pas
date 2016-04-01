@@ -20,7 +20,7 @@
 
 	</head>
 	<body>
-		<div  role="banner"><a href="http://www.smanggin.com"><img src="${resource(dir: 'images/logo', file: 'KI_Logo.jpg')}" alt="Grails"/></a></div>
+		<div  role="banner"><!-- <a href="http://www.smanggin.com"><img src="${resource(dir: 'images/logo', file: 'KI_Logo.jpg')}" alt="Grails"/> --></a></div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo">
 			Powered by PT. Surya Manggala Informatika @ 2016

@@ -9,6 +9,8 @@ class SyncDBJob {
         // execute job
         try {
             syncDatabaseService.syncCOAFromProxy()    
+            syncDatabaseService.syncRateFromProxy()
+            syncDatabaseService.syncRateDetailFromProxy()
         }
         catch(Exception e) {
             println "=== sync DB job failed === "     

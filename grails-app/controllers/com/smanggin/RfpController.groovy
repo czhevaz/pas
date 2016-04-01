@@ -331,7 +331,7 @@ class RfpController {
                     eq('rejectedBy',user.login)
                  }   
                     
-
+                 eq('year',globalService.getCurrentYear())
                 }
 
                 if (params.state == "Approved") {
@@ -342,9 +342,10 @@ class RfpController {
                         }
                         
                     }
+                    eq('year',globalService.getCurrentYear())
                 }
 
-                eq('year',globalService.getCurrentYear())
+                
             }
 
 

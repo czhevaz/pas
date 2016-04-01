@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<title><g:message code="default.welcome.title" args="[meta(name:'app.name')]"/> </title>
+	<title><g:message code="default.welcome.title" args="[meta(name:'app.title')]"/> </title>
 	<meta name="layout" content="kickstart" />
 </head>
 
@@ -111,7 +111,7 @@
 		<!-- Rfp  Waiting Approve -->
 		$.post('/${meta(name:'app.name')}/rfp/jlist',{state:'Waiting Approval'}, function(data) {
 			
-				if(data.length){
+				//if(data.length){
 					var title = 'RFP Waiting for Approval';
 					var count = data.length;
 					var icon = 'icon-folder';
@@ -120,7 +120,7 @@
 					var link = "${createLink(action:'list',controller:'Rfp',params:['state':'Waiting Approval'])}"
 					var html = addBox(title,count,icon,color,link);		
 					$('#waitingRfp').html(html);			
-				}
+				//}
 			
 		});
 	

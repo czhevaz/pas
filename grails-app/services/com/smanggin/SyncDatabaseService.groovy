@@ -131,7 +131,7 @@ class SyncDatabaseService {
 		valSegment07:splitCode[6]
 		,timestamp:timestamp]
 
-		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07, last_updated=:timestamp where coa_id_server=:valCoaIdServer", map)
+		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07,  where coa_id_server=:valCoaIdServer", map)
 		if(conSqlAmatra){
 		  // conSqlAmatra.close()	
 		}
@@ -172,26 +172,6 @@ class SyncDatabaseService {
 			}
 
 		
-			/* insert proxy approver*/
-			/*if(rfpInstance.rfpApprovers){
-				def sql3 = "insert into t_proxy_rfp_approver (rfp_number, approved_seq, approved_by, approved_date, status, p_date, p_date_change) values"	
-				def j=1
-				rfpInstance.rfpApprovers.each{
-					
-					sql3 += "('$rfpInstance.number', $it.noSeq, '$it.approver.login', '$it.approverDate', $it.status, now(), now())"
-
-					if(j== rfpInstance.rfpApprovers.size()){
-						sql3 += ";"	
-					}else{
-						sql3 += ","	
-					}
-					
-					j++;
-				}
-
-				conSqlProxy.execute sql3
-			}*/
-		
 		if(conSqlProxy){
 		   conSqlProxy.close()
 		}
@@ -200,4 +180,122 @@ class SyncDatabaseService {
 	}
 
 	/* END RFP */
+
+	/* Rate */
+	def syncRateFromProxy(){
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
+		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()
+		def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
+
+		println "conSqlProxy" +conSqlProxy
+
+		conSqlProxy?.eachRow("select * from m_proxy_Rate_hdr WHERE p_date <= p_date_change", 1, 10) { row ->
+			
+			def findCode = conSqlAmatra.firstRow("select * from M_PAS_Rate where xrperiod=:valCode", [valCode: row.Xrperiod])
+
+			if(findCode == null) {
+				insertRateToAmatra(row,conSqlAmatra)
+			}else{
+				updateRateToAmatra(row,conSqlAmatra)
+			}
+
+			conSqlProxy.executeUpdate("update m_proxy_Rate_hdr set p_date = $timestamp where xrperiod = $row.Xrperiod")
+		}
+
+		if(conSqlProxy){
+		   conSqlProxy.close()
+		   conSqlAmatra.close()	
+		}
+
+		return
+
+	}
+
+	def insertRateToAmatra(row,conSqlAmatra){
+		
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
+		
+		def params = [row.date1, row.date2, row.Xrperiod, 0, timestamp ,timestamp]
+ 		conSqlAmatra.execute 'insert into M_PAS_Rate(star_date, end_date , xrperiod, version, date_created, last_updated) values (?, ?, ?, ?, ?, ?)', params
+		
+
+	}
+
+	def updateRateToAmatra(row,conSqlAmatra){
+		
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
+		
+ 		def map =[valDate1:row.date1, 
+		valDate2:row.date2, 
+		valXrperiod:row.Xrperiod,
+		timestamp:timestamp 
+		]
+
+		conSqlAmatra.executeUpdate("update M_PAS_Rate set star_date=:valDate1, end_date=:valDate2, last_updated=:timestamp  where xrperiod=:valXrperiod", map)
+		
+	}
+
+	def syncRateDetailFromProxy(){
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
+		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()
+		def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
+
+		println "conSqlProxy" +conSqlProxy
+
+		conSqlProxy?.eachRow("select * from m_proxy_Rate_dtl WHERE p_date <= p_date_change", 1, 10) { row ->
+			
+			def findCode = conSqlAmatra.firstRow("select * from M_PAS_Rate_Detail where xrperiod=:valCode AND currency1_id=:valCcy1 AND currency2_id=:valCcy2", [valCode: row.Xrperiod,valCcy1:row.Ccy1,valCcy1:row.Ccy2])
+
+			if(findCode == null) {
+				insertRateDetailToAmatra(row,conSqlAmatra)
+			}else{
+				updateRateDetailToAmatra(row,conSqlAmatra)
+			}
+
+			conSqlProxy.executeUpdate("update m_proxy_Rate_dtl set p_date = $timestamp where xrperiod = $row.Xrperiod AND Ccy1=$row.Ccy1 AND Ccy2=$row.Ccy2")
+		}
+
+		if(conSqlProxy){
+		   conSqlProxy.close()
+		   conSqlAmatra.close()	
+		}
+
+		return
+
+	}
+
+
+	def insertRateDetailToAmatra(row,conSqlAmatra){
+		
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
+		def findCode =  conSqlAmatra.firstRow("select * from M_PAS_Rate where xrperiod=:valCode ", [valCode: row.Xrperiod])
+		def params = [row.Ccy1, row.Ccy2, row.Xrperiod, row.rate, findCode.id, 0, timestamp, timestamp]
+
+ 		conSqlAmatra.execute 'insert into M_PAS_Rate_Detail(currency1_id, currency2_id , xrperiod, value, rate_id, version, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?)', params
+		
+
+	}
+
+	def updateRateDetailToAmatra(row,conSqlAmatra){
+		
+		Calendar calendar=Calendar.getInstance();
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
+		
+ 		def map =[valCcy1:row.Ccy1, 
+		valCcy2:row.Ccy2, 
+		valXrperiod:row.Xrperiod,
+		valrate:row.rate,
+		timestamp:timestamp 
+		]
+
+		conSqlAmatra.executeUpdate("update M_PAS_Rate_Detail set currency1_id=:valCcy1, currency2_id=:valCcy2, value=:valrate, last_updated=:timestamp  where xrperiod=:valXrperiod", map)
+		
+	}
+
+	/* END Rate */
 }

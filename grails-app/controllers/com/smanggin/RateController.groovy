@@ -14,6 +14,7 @@ class RateController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     def globalService
+    def syncDatabaseService
         
     def index() {
         redirect(action: "list", params: params)
@@ -58,6 +59,7 @@ class RateController {
 
     def show() {
         def rateInstance = Rate.get(params.id)
+        //syncDatabaseService.syncRateFromProxy()
         if (!rateInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'rate.label', default: 'Rate'), params.id])
             redirect(action: "list")
