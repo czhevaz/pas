@@ -25,6 +25,10 @@ class GlobalService {
                 eq('code',purchaseOrder?.transactionGroup?.transactionType?.code)
             }
             
+            creator{
+                eq('login',purchaseOrder?.createdBy)
+            }
+
             eq('inActive',false)
             
     	}
@@ -45,7 +49,10 @@ class GlobalService {
                 eq('brand',transaction.brand)
             }
 
-
+            creator{
+                eq('login',transaction?.createdBy)
+            }
+            
            ne('inActive',true) 
            eq('noSeq',noseq?.toLong())
     	}

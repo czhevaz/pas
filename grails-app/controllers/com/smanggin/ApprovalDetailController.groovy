@@ -249,6 +249,7 @@ class ApprovalDetailController {
     }
 
     def checkApprover(params){
+        
         def transactionType = TransactionType.get(params.transactionTypeId)
         def approvalDetail = ApprovalDetail.createCriteria().list(){
             and{
@@ -270,6 +271,14 @@ class ApprovalDetailController {
                 if(params.id){
                     ne('id',params.id.toLong())   
                 }
+
+                creator{
+                    eq('login',params.creatorId)
+                }
+
+                /*approver{
+                    eq('login',params.approverId)
+                }*/
                 
             }
         }

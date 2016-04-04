@@ -1052,14 +1052,13 @@ class PurchaseOrderController {
 
         def sql = " from ${domainPPP} as p where"
 
-            if(detail){
-                sql += " p.number LIKE '%${detail.pppNumber}%' AND "       
-            }
+          
             
             if(params.countryId){
              sql += " p.country LIKE '%${params.countryId}%'"   
             }
             
+
             if(params.lobId){
              sql += " AND p.lob LIKE '%${params?.lobId}%' "   
             }
@@ -1074,6 +1073,13 @@ class PurchaseOrderController {
             if(params.month){
                sql += "AND month(p.pppDate) = ${params.month} "     
             }
+
+            if(detail){
+                sql += "AND p.number LIKE '%${detail.pppNumber}%'  "       
+            }
+
+            sql +="AND p.state='Done'"
+
             sql += "order by p.pppDate"
 
 

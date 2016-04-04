@@ -83,8 +83,10 @@ if(actionName=='edit' || actionName=='show') {
 
                 }else{
                     colcountry.editor.type = null;
+                    <g:if test="${transactionTypeInstance?.code !='RFP'}">                
                     collobCode.editor.type = null;
                     colbrandCode.editor.type= null;
+                    </g:if>
                     colcreatorId.editor.type = null;
                     colapproverId.editor.type = null;
                     if(inActive){

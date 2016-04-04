@@ -22,7 +22,7 @@ This is the standard dialog that initiates the delete action.
 
 				
 					<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'rate', 'error')} ">
-						<label for="rate" class="col-sm-3 control-label"><g:message code="purchaseOrder.outstanding.label" default="Outstanding" />${purchaseOrderInstance?.currency1?.code}</label>
+						<label for="rate" class="col-sm-3 control-label"><g:message code="purchaseOrder.amountwo.label" default="Amount to be Write Off" />${purchaseOrderInstance?.currency1?.code}</label>
 						<div class="col-sm-4">
 							<g:field type="number" name="woValue1" class="form-control" step="any" value="${formatNumber(number:purchaseOrderInstance?.PORemain1?:0, format: '#0.00')}" />
 							
@@ -30,7 +30,7 @@ This is the standard dialog that initiates the delete action.
 						</div>
 					</div>
 					<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'rate', 'error')} ">
-						<label for="rate" class="col-sm-3 control-label"><g:message code="purchaseOrder.outstanding.label" default="Outstanding" />${purchaseOrderInstance?.currency2?.code}</label>
+						<label for="rate" class="col-sm-3 control-label"><g:message code="purchaseOrder.amountwo.label" default="Amount to be Write Off" />${purchaseOrderInstance?.currency2?.code}</label>
 						<div class="col-sm-4">
 							<g:field type="number" name="woValue2" class="form-control" step="any" value="${formatNumber(number:purchaseOrderInstance?.PORemain2?:0, format: '#0.00')}"/>
 							
