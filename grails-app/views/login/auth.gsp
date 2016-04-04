@@ -86,7 +86,10 @@
 
 <body>
 <div id='login'>
-<div ><h3>Purchasing Online System</h3></div>
+<div></div>	
+<br/>
+<br/>
+<div ><h3>${meta(name:'app.title')}</h3></div>
 	<div class='inner'>
 
 		<div class='fheader'><g:message code="springSecurity.login.header"/></div>

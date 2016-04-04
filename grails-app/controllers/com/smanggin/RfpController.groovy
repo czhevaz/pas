@@ -634,12 +634,12 @@ class RfpController {
         def poBalance = new PurchaseOrderBalance()
         poBalance.country = purchaseOrderInstance[0]?.country
         poBalance.purchaseOrder = purchaseOrderInstance[0]
-        poBalance.description = rfpInstance?.note
+        poBalance.description = rfpInstance?.note +', insert When state RFP Approved '
         poBalance.balance1 = purchaseOrderInstance[0].PORemain1?:0
         poBalance.currency1 = purchaseOrderInstance[0].currency1
         poBalance.balance2 = purchaseOrderInstance[0].PORemain2?:0
         poBalance.refference = rfpInstance?.number
-        poBalance.activities = "insert When state RFP Approved"
+        poBalance.activities = rfpInstance?.state
         poBalance.cost = purchaseOrderInstance[1]
         poBalance.cost2 = purchaseOrderInstance[2]
         poBalance.pppNumber = purchaseOrderInstance[0].pppNumber

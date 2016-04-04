@@ -118,13 +118,13 @@
 
 								<th><g:message code="purchaseOrder.trType.label" default="PO Type" /></th>
 
-								<th><g:message code="rfp.number.label" default="RFP No." /></th>
+								<th><g:message code="reff.number.label" default="Refference No." /></th>
 
-								<th><g:message code="rfp.note.label" default="RFP Description" /></th>
+								<th><g:message code="reff.note.label" default="Refference Description" /></th>
 							
-								<th><g:message code="rfp.state.label" default="RFP Status" /></th>
+								<th><g:message code="reff.state.label" default="Refference Activities" /></th>
 
-								<th><g:message code="rfp.Total.label" default="RFP Cost" /></th>
+								<th><g:message code="reff.Total.label" default="Refference Cost" /></th>
 
 								<th><g:message code="ppurchaseOrderpp.balance.label" default="PO Balance" /></th>
 									
@@ -176,6 +176,7 @@
 				
 				$.each(data.results , function(i,item) {
 					if(item.rfp){
+					
 						$.each(item.rfp , function(j,po) {
 							var tr ="<tr>";	
 							

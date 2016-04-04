@@ -215,7 +215,7 @@ class PurchaseOrderController {
         if(purchaseOrderInstance.state == "Waiting Approval"){
             def approver1 = globalService?.getPOApproverBySeq(purchaseOrderInstance,1)
            
-            if(approver1.login == session.user){
+            if(approver1?.login == session.user){
                 isEdit = true       
             }
             
@@ -1099,6 +1099,7 @@ class PurchaseOrderController {
         poBalance.cost2 = purchaseOrderInstance.total?(purchaseOrderInstance.total/purchaseOrderInstance.rate):0
         poBalance.pppNumber = purchaseOrderInstance.pppNumber
         poBalance.pppBalance = purchaseOrderInstance.pppRemainBrand
+        poBalance.activities = purchaseOrderInstance.state
         if(!poBalance.save(flush:true)){
             println "poBalance " + poBalance.errors
         }
@@ -1118,6 +1119,7 @@ class PurchaseOrderController {
         poBalance.cost2 = poWO.woValue2?:0
         poBalance.pppNumber = purchaseOrderInstance.pppNumber
         poBalance.pppBalance = purchaseOrderInstance.pppRemainBrand
+        poBalance.activities = "Write Off"
         if(!poBalance.save(flush:true)){
             println "poBalance " + poBalance.errors
         }
@@ -1194,8 +1196,6 @@ class PurchaseOrderController {
         params.put('po_id',purchaseOrder?.id)
         params.put('view',false)
 
-        
-        
         printService.print("XLS", request.getLocale(), response,params,trTypeCode,file)
     }
 
@@ -1224,6 +1224,7 @@ class PurchaseOrderController {
         def pppHead = domainClassInstance.findAll(sql)
         params.order = params.order ?: 'asc' 
         params.sort = params.sort ?: 'dateCreated' 
+        
         def list=[] 
         pppHead.each{
             def pppDetail = PppDetail.findAllByPppNumber(it.number)
@@ -1269,13 +1270,12 @@ class PurchaseOrderController {
         }        
 
         println  ">>>>>>>>>>>>>> " +list
-
-
         render([success: true,results:list] as JSON)
 
     }
 
     def purchaseBalanceReport(){
+
         params.order = params.order ?: 'asc' 
         params.sort = params.sort ?: 'dateCreated' 
 
@@ -1288,20 +1288,17 @@ class PurchaseOrderController {
                 eq('lob',params.lobId)
             }  
 
-            if(params.brandId){
+            /*if(params.brandId){
                 eq('brand',params.brandId)    
-            }
+            }*/
 
         }
 
+        println "purchaseOrders" + purchaseOrders
         def list = []
         purchaseOrders.each{
-            def mappo =[:]
-            mappo.put('poNumber',it.number)  
-            mappo.put('poCost',(it.total/it.rate).round(2)) 
-            mappo.put('poType',it.transactionGroup?.transactionType?.name) 
-            def listRfp = []        
-            def remain = (it.total/it.rate).round(2)
+            
+           /* def remain = (it.total/it.rate).round(2)
             def rfpdetails= RfpDetail.findAllByPurchaseOrder(it)
             if(rfpdetails.size()){
                 rfpdetails.each{ detail ->
@@ -1316,12 +1313,42 @@ class PurchaseOrderController {
                     
                 }    
                 mappo.put('rfp',listRfp)
+            }*/
+            println " po " + it
+            def poBalanceds = PurchaseOrderBalance.createCriteria().list(params){
+                purchaseOrder{
+                    eq("number",it.number)    
+                }
+                
             }
 
-            list.push(mappo)
+           // println "poBalanceds" + poBalanceds
+            def mappo =[:]
+            def listRfp = []
+            if(poBalanceds.size()){ 
+                
+                mappo.put('poNumber',it.number)  
+                mappo.put('poCost',(it.total/it.rate).round(2)) 
+                mappo.put('poType',it.transactionGroup?.transactionType?.name) 
+               
+                poBalanceds.each{ detail ->
+                    def mapRfp =[:]
+                    mapRfp.put('rfpNumber',detail.refference)
+                    mapRfp.put('rfpDesc',detail.description)
+                    mapRfp.put('rfpStatus',detail.activities) 
+                    mapRfp.put('rfpCost',detail.cost2) 
+                    mapRfp.put('poBalanced',detail.balance2) 
+                    listRfp.push(mapRfp)
+
+                }
+
+                list.push(mappo)
+            }
+
+            
         }
 
-        println " println " + list
+        //println " println " + list
         render([success: true,results:list] as JSON)
 
     }
