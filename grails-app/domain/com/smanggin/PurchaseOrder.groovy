@@ -75,6 +75,7 @@ class PurchaseOrder {
 
 	String addIntructions
 	Integer year
+	Integer month
 
 	String toString() { return number } 	
 
@@ -83,7 +84,8 @@ class PurchaseOrder {
 	static	hasMany		= [purchaseOrderDetails:PurchaseOrderDetail, 
 	purchaseOrderComments:PurchaseOrderComment,
 	purchaseOrderApprovers:PurchaseOrderApprover,
-	purchaseOrderAllocations:PurchaseOrderAllocation
+	purchaseOrderAllocations:PurchaseOrderAllocation,
+	purchaseOrderBalances:PurchaseOrderBalance
 	]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
 //	static	mappedBy	= []	// specifies which property should be used in a mapping 
 	
@@ -93,7 +95,7 @@ class PurchaseOrder {
     	isVoid defaultValue:'0'
     	isWriteOff defaultValue:'0'
     	year formula: 'YEAR(purchase_order_date)'
-    	
+    	month formula: 'MONTH(purchase_order_date)'
     }
     
 	static	constraints = {
@@ -136,6 +138,7 @@ class PurchaseOrder {
 		addIntructions nullable :true
 		woNotes nullable :true
 		year nullable:true
+		month nullable:true
 
     }
 

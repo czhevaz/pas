@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="POMS" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="cd318a97-d14f-4eca-8e94-c04af93f17f6">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="359"/>
 	<parameter name="po_id" class="java.lang.String"/>
 	<parameter name="image" class="java.lang.String"/>
 	<parameter name="companyName" class="java.lang.String"/>
@@ -678,7 +678,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{T_PAS_PO_Detail_finish_date}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd-MMM-yy">
-				<reportElement x="341" y="0" width="47" height="20" uuid="9f7cd3f6-8f84-46a1-a02f-386c0875ee8d"/>
+				<reportElement x="344" y="1" width="47" height="20" uuid="9f7cd3f6-8f84-46a1-a02f-386c0875ee8d"/>
 				<box leftPadding="4"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>

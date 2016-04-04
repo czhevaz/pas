@@ -118,13 +118,15 @@
 
 								<th><g:message code="purchaseOrder.trType.label" default="PO Type" /></th>
 
-								<th><g:message code="reff.number.label" default="Refference No." /></th>
+								<th><g:message code="reff.number.label" default="Refference" /></th>
 
-								<th><g:message code="reff.note.label" default="Refference Description" /></th>
+								<th><g:message code="reff.note.label" default="Description" /></th>
 							
-								<th><g:message code="reff.state.label" default="Refference Activities" /></th>
+								<th><g:message code="reff.state.label" default="Activities" /></th>
 
-								<th><g:message code="reff.Total.label" default="Refference Cost" /></th>
+								<th><g:message code="reff.currency.label" default="CCY" /></th>
+
+								<th><g:message code="reff.Total.label" default="Value" /></th>
 
 								<th><g:message code="ppurchaseOrderpp.balance.label" default="PO Balance" /></th>
 									
@@ -139,6 +141,8 @@
 	</div><!--/.row -->	
 	
 <r:script>
+	var country = $('#country').val();
+
 	$("#reset").click(function(){ 
 		$('#lob').val('').trigger('chosen:updated');
 		$('#brand').val('').trigger('chosen:updated');
@@ -148,12 +152,43 @@
 	$(document).ready(function () {
 		$('#lob').prepend("<option value='' > All </option>")		
 		$('#lob').chosen();
-	});	
+		$('#brand').empty();
+		$('#brand').chosen();
+	});
+
+	$("#lob").on('change', function() {
+    	
+    	$.ajax({
+            url: "/${meta(name:'app.name')}/brand/jlist?country="+country+"&masterField.name=lob&masterField.id="+$(this).val(),
+            type: "POST",
+            success: function (data) {
+
+            	$('#brand').empty();
+              	if(data.length > 0){
+              		console.log(data);
+                     $('#brand').prepend("<option value='' > All </option>")
+                    $.each(data, function(a, b){	
+                        var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+                        $('#brand').append(opt);
+                     });
+                     $('#brand').trigger('chosen:updated');
+                }else{
+                	$('#brand').chosen("destroy");
+                	$('#brand').chosen();
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+
+    });	
 
 	$("#searchPO").click(function(){ 
 		//alert(' hellllloooooooooooooooooooo ');		
 		var countryTes = $("#country").val();
 		var lobId = $("#lob").val();
+		var brandId = $("#brand").val();
 		var year = $("#year").val();	
 		var month =	$("#month").val();	
 		
@@ -161,6 +196,7 @@
 			"search":"true",	
 			"countryId":countryTes,
 			"lobId":lobId,
+			"brandId":brandId,
 			"year":year,
 			"month":month,
 		}
@@ -171,17 +207,18 @@
             data:postData,
             type: "POST",
             success: function (data) {
-            	console.log(data);
+            	
             	$("#table-report-pobalance tbody").html("");	
 				
 				$.each(data.results , function(i,item) {
 					if(item.rfp){
-					
+
 						$.each(item.rfp , function(j,po) {
+						
 							var tr ="<tr>";	
 							
 							if(j==0){
-								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poNumber +"</td>";
+								tr += "<td rowspan='"+item.rfp.length+"'><a href='/pas/purchaseOrder/show/"+item.poId+"' target ='_blank'> "+ item.poNumber +"</a></td>";
 								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poCost +" </td>";
 								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poType +" </td>";	
 							}	
@@ -189,6 +226,7 @@
 							tr += "<td > "+ po.rfpNumber +" </td>";
 							tr += "<td > "+ po.rfpDesc +" </td>";
 							tr += "<td > "+ po.rfpStatus +" </td>";
+							tr += "<td > "+ po.rfpCurrency +" </td>";
 							tr += "<td > "+ po.rfpCost +" </td>";
 							tr += "<td > "+ po.poBalanced +" </td>";
 							tr += "</tr>";

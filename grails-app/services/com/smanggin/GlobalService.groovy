@@ -180,12 +180,14 @@ class GlobalService {
     /*bulan*/
 
     def monthInt(monthName){
+        
         Date date = new SimpleDateFormat("MMMM").parse(monthName)
+        println "date" +date
         Calendar cal = Calendar.getInstance();
         cal.setTime(date)
         println(cal.get(Calendar.MONTH))
 
-        return cal.setTime(date)
+        return cal.get(Calendar.MONTH)
     }
 
     def getCurrentYear(){
