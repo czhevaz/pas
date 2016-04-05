@@ -20,6 +20,10 @@ class PppPhilippine {
 	String state
 
 	Date dateCreated
+
+	Integer year
+	Integer month
+
 	String toString(){ pppNumber }	
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -46,11 +50,15 @@ class PppPhilippine {
 		dateCreated column:'PPP_Created_Date'
 		state column:'PPP_Status'
 		sort pppDate:"desc"
+		year formula: 'YEAR(PPP_Date_Proposed)'
+    	month formula: 'MONTH(PPP_Date_Proposed)'
     }
     
 	static	constraints = {
 		version nullable:true	
-		
+		year nullable:true
+		month nullable:true
+
     }
 	
 	static transients =['remainCreditLimit']
@@ -80,6 +88,8 @@ class PppPhilippine {
 				totalOrderReject = totalOrderReject+(it.total/it.rate)
 			}
 		}
+
+		def poBalance
 		
 		def amount = pppCost?:0
 		//println " Grand total Order "+ totalOrder

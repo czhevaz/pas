@@ -174,6 +174,18 @@ if(session.isAdmin == 'Yes') {
 							Report PO Historycal Transaction
 						</g:link>
 					</li>
+					<li class="divider"></li>
+					<li class="controller">
+						<g:link controller="PurchaseOrder" action="report" params="[type:'poTrackingSummary']" >
+							PO Online Progress Tracking Summary 
+						</g:link>
+					</li>
+					<li class="divider"></li>
+					<li class="controller">
+						<g:link controller="PurchaseOrder" action="report" params="[type:'rfpTrackingSummary']" >
+							RFP Online Progress Tracking Summary 
+						</g:link>
+					</li>
 					
 				</ul>	
 			</li>

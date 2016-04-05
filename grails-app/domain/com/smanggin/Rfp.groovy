@@ -43,6 +43,7 @@ class Rfp {
 
 	String paidCountry
 	Integer year
+	Integer month
 	
 	static	belongsTo	= [TransactionGroup, Supplier, Currency, PaymentOption]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -55,6 +56,7 @@ class Rfp {
     	isVoid defaultValue:'0'
     	isWriteOff defaultValue:'0'
     	year formula: 'YEAR(rfp_date)'
+    	month formula: 'MONTH(rfp_date)'
     }
     
 	static	constraints = {
@@ -71,6 +73,7 @@ class Rfp {
 		paymentType nullable:true
 		paidCountry nullable:true
 		year nullable:true
+		month nullable:true
     }
 
     def beforeInsert(){

@@ -59,6 +59,8 @@ class PurchaseOrderMarshaller {
 
 				currency1: it.currency1,
 				year:it.year,
+
+				transactionTypeName:it.transactionGroup?.transactionType?.name,
 				
 				dateCreated 	: it.dateCreated,
 				lastUpdated 	: it.lastUpdated,

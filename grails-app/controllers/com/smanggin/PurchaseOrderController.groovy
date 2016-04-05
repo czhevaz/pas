@@ -1198,6 +1198,9 @@ class PurchaseOrderController {
         printService.print("XLS", request.getLocale(), response,params,trTypeCode,file)
     }
 
+    /**
+    BEGIN REPORT
+    **/
 
      def report(){
     
@@ -1218,9 +1221,32 @@ class PurchaseOrderController {
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
         def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
-    
-        def sql = getPPPHead(null,params,country?.domainPPP)
-        def pppHead = domainClassInstance.findAll(sql)
+        //println "domainClassInstance " + domainClassInstance
+        //def sql = getPPPHead(null,params,country?.domainPPP)
+        
+        def pppHead = domainClassInstance.createCriteria().list(){
+            if(params.countryId){
+                eq('country',country)    
+            }
+
+            if(params.countryId){
+                eq('lob',params.lobId)
+            }  
+
+            if(params.brandId){
+                eq('brand',params.brandId)    
+            }
+
+            if(params.year){
+                eq('year',params.year?.toInteger())       
+            }
+
+            if(params.month){
+                def month = globalService.monthInt(params.month)+1
+                eq('month',month)
+            }
+        }
+
         params.order = params.order ?: 'asc' 
         params.sort = params.sort ?: 'dateCreated' 
         
@@ -1230,12 +1256,13 @@ class PurchaseOrderController {
 
             if(pppDetail.size > 0 ){
                 pppDetail.each{ detail -> 
+
                     def pos = PurchaseOrder.createCriteria().list(params){
                         eq('pppNumber',detail.pppNumber)
                         eq('brand', ,detail.brand)
                     }
                    
-                     def remain = detail.costDetail
+                    def remain = detail.costDetail
                     if(pos.size() > 0){
                         def mapPPP = [:]
                         mapPPP.put('pppNumber',detail.pppNumber)  
@@ -1270,7 +1297,7 @@ class PurchaseOrderController {
 
         render([success: true,results:list] as JSON)
 
-    }
+    }//End pppBalanceReport
 
     def purchaseBalanceReport(){
         params.order = params.order ?: 'asc' 
@@ -1336,6 +1363,166 @@ class PurchaseOrderController {
 
         render([success: true,results:list] as JSON)
 
+    } // End purchaseBalanceReport
+
+    def poTrackingSummary(){
+        params.order = params.order ?: 'asc' 
+        params.sort = params.sort ?: 'dateCreated' 
+
+        def purchaseOrders= PurchaseOrder.createCriteria().list(){
+            if(params.countryId){
+                eq('country',params.countryId)    
+            }
+
+            if(params.countryId){
+                eq('lob',params.lobId)
+            }  
+
+            if(params.brandId){
+                eq('brand',params.brandId)    
+            }
+
+            if(params.year){
+                eq('year',params.year?.toInteger())       
+            }
+
+            if(params.month){
+                def month = globalService.monthInt(params.month)+1
+                eq('month',month)
+            }
+
+            if(params.pppNumber){
+                eq('pppNumber',params.pppNumber)
+            }
+
+        }
+
+        def list=[]
+        purchaseOrders.each{
+            def date = it.purchaseOrderDate.format('EEEEE dd MMMMM yyyy')
+            def mappo =[:]
+            mappo.put('poId',it.id)  
+            mappo.put('poNumber',it.number)  
+            mappo.put('poCost',(it.total/it.rate).round(2)) 
+            mappo.put('poType',it.transactionGroup?.transactionType?.name)
+            mappo.put('poDescription',it.reasonforInvestment?:'')
+            mappo.put('poStatus',it.state)
+            mappo.put('poCreatedBy',it.createdBy)
+            mappo.put('poMustApprovedBy',it.mustApprovedBy?:'')
+            mappo.put('podate',date)  
+            list.push(mappo)
+               
+        }
+
+
+
+        render([success: true,results:list] as JSON)
+
     }
 
+    def rfpTrackingSummary(){
+        println params
+        def rfpDetails = RfpDetail.createCriteria().list(){
+            
+            if(params.countryId){
+                rfp{
+                    eq('country',params.countryId)        
+
+                    if(params.year){
+                        eq('year',params.year?.toInteger())       
+                    }
+
+                    if(params.month){
+                        def month = globalService.monthInt(params.month)+1
+                        eq('month',month)
+                    }
+                }    
+            }
+
+            if(params.poNumber){
+                purchaseOrder{
+                    eq('number',params.poNumber)    
+                }    
+            }
+        }
+
+        def list=[]
+        rfpDetails.each{
+            def date = it.rfp?.rfpDate.format('EEEEE dd MMMMM yyyy')
+            def map=[:]
+            map.put('rfpNumber',it.rfp?.number)
+            map.put('rfpCreatedBy',it.rfp?.createdBy)
+            map.put('rfpNote',it.rfp?.note?:'')
+            map.put('rfpCost',it.totalCost2.round(2))
+            map.put('rfpDate',date)
+            map.put('rfpMustApprovedBy',it.rfp?.mustApprovedBy?:'')
+            list.push(map)
+        }
+
+        render([success: true,results:list] as JSON)
+    }
+
+    /*---------------------
+    END REport
+    --------------------------*/
+
+    def pppAutoComplete(){
+        println "params: " +params
+        def query = {
+            or {
+                like("number", "%${params.term}%") // term is the parameter send by jQuery autocomplete
+            }
+
+            country{
+                eq('name',params.country)
+            }
+        }
+        
+        def clist = PppPhilippine.createCriteria().list(query) // execute  to the get the list of companies
+        def custList = [] // to add each company details
+
+        clist.each {
+            def customer = [:] // add to map. jQuery autocomplete expects the JSON object to be with id/label/value.
+            
+            customer.put("label", it.number)
+            customer.put("value", it.number)
+            
+            
+            custList.add(customer) // add to the arraylist
+        }
+
+       // println " custList ppp " + custList
+        
+        render custList as JSON
+    }
+
+    def poAutoComplete(){
+        println "params: " +params
+        def query = {
+            or {
+                like("number", "%${params.term}%") // term is the parameter send by jQuery autocomplete
+            }
+
+            
+            eq('country',params.country)
+            
+        }
+        
+        def clist = PurchaseOrder.createCriteria().list(query) // execute  to the get the list of companies
+        def custList = [] // to add each company details
+
+        clist.each {
+            def customer = [:] // add to map. jQuery autocomplete expects the JSON object to be with id/label/value.
+            
+            customer.put("label", it.number)
+            customer.put("value", it.number)
+            
+            
+            custList.add(customer) // add to the arraylist
+        }
+
+       // println " custList ppp " + custList
+        
+        render custList as JSON
+    }
 }
