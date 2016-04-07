@@ -142,7 +142,7 @@
 	
 <r:script>
 	var country = $('#country').val();
-	
+
 	$("#reset").click(function(){ 
 		$('#lob').val('').trigger('chosen:updated');
 		$('#brand').val('').trigger('chosen:updated');
@@ -213,15 +213,15 @@
 						
 						if(j==0){
 							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppNumber +"</td>";
-							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppCost +" </td>";
+							tr += "<td rowspan='"+item.po.length+"' style='text-align:right;'> "+ item.pppCost +" </td>";
 							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppBrand +" </td>";	
 						}	
 
-						tr += "<td > "+ po.poNumber +" </td>";
+						tr += "<td > <a href='/pas/purchaseOrder/show/"+po.poId+"' target ='_blank'>"+ po.poNumber +"</a> </td>";
 						tr += "<td > "+ po.poType +" </td>";
 						tr += "<td > "+ po.poState +" </td>";
-						tr += "<td > "+ po.pototal +" </td>";
-						tr += "<td > "+ po.pppBalance +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.pototal +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.pppBalance +" </td>";
 						tr += "</tr>";
 						
 						$("#table-report-pppbalance tbody").append(tr);	

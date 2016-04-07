@@ -359,11 +359,10 @@ if(actionName=='edit' || actionName=='show') {
                 if(editIndex != undefined){
                     
                     $.ajax({
-                    url: "/${meta(name:'app.name')}/currency/jlist?code=${rfpInstance?.currency1?.code}",
+                    url: "/${meta(name:'app.name')}/currency/jlist?code=${rfpInstance?.currency1?.code}&countryCode=${rfpInstance?.country}",
                     type: "POST",
                         success: function (data) {
              
-                            
                             var totalEd  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'totalCost1'});
                             var totalCost = $(totalEd.target).numberbox('getValue');
 

@@ -224,7 +224,7 @@ if(session.isAdmin == 'Yes') {
     				<a class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" href="#">
 						<!-- TODO: Only show menu items based on permissions (e.g., Guest has no account page) -->
 						<i class="icon-bell icon-white"></i>
-						<span class="label label-warning" id="notifsize"></span>
+						<span class="label label-info" id="notifsize"></span>
 					</a>
 					<ul class="dropdown-menu" role="menu" id="notifnuieu"></ul>
     			</li>

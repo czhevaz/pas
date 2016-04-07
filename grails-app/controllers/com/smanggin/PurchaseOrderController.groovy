@@ -1214,9 +1214,6 @@ class PurchaseOrderController {
        
         println "params" + params
 
-        if(params.month){
-            params.month = globalService.monthInt(params.month)    
-        }
         
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
@@ -1274,6 +1271,7 @@ class PurchaseOrderController {
                            def poTotal2 = (po.total/po.rate).round(2)
                             remain = remain - poTotal2
                             def map=[:]
+                            map.put('poId',po.id)
                             map.put('poNumber',po.number) 
                             map.put('poType',po.transactionGroup?.description) 
                             map.put('poState',po.state) 
@@ -1288,7 +1286,41 @@ class PurchaseOrderController {
                         list.push(mapPPP)
                         
                     }
-                    
+
+                    /*def pbs = PurchaseOrderBalance.createCriteria().list(){
+                        purchaseOrder{
+                            eq('pppNumber',detail.pppNumber)
+                            eq('brand', ,detail.brand)
+                        }
+                    }
+
+                    if(pbs.size() > 0){
+                        def mapPPP = [:]
+                        mapPPP.put('pppNumber',detail.pppNumber)  
+                        mapPPP.put('pppCost',detail.costDetail) 
+                        mapPPP.put('pppBrand',detail.brand) 
+
+                        def listPO = []
+                        pbs.each{ pb -> 
+                           def poTotal2 = (pb.purchaseOrder?.total/pb.purchaseOrder?.rate).round(2)
+                            //remain = remain - poTotal2
+                            def map=[:]
+                            map.put('poNumber',pb.purchaseOrder?.number) 
+                            map.put('poType',pb.purchaseOrder?.transactionGroup?.description) 
+                            map.put('poState',pb.purchaseOrder?.state) 
+                            map.put('pototal',poTotal2) 
+                            map.put('pppBalance',pb.pppBalance)
+
+                            listPO.push(map) 
+                        }
+
+                        mapPPP.put('po',listPO)
+
+                        list.push(mapPPP)
+                        
+                    }
+
+                    */
                 }
             }
             
@@ -1350,7 +1382,7 @@ class PurchaseOrderController {
                     mapRfp.put('rfpStatus',detail.activities?:'') 
                     mapRfp.put('rfpCurrency',detail.currency1?detail.currency1?.code:'') 
                     mapRfp.put('rfpCost',detail.cost2?.round(2)?:'') 
-                    mapRfp.put('poBalanced',detail.balance2?:'') 
+                    mapRfp.put('poBalanced',detail.balance2.round(2)?:'') 
                     listRfp.push(mapRfp)
 
                 }
@@ -1421,7 +1453,7 @@ class PurchaseOrderController {
     }
 
     def rfpTrackingSummary(){
-        println params
+        
         def rfpDetails = RfpDetail.createCriteria().list(){
             
             if(params.countryId){
@@ -1467,7 +1499,7 @@ class PurchaseOrderController {
     --------------------------*/
 
     def pppAutoComplete(){
-        println "params: " +params
+        
         def query = {
             or {
                 like("number", "%${params.term}%") // term is the parameter send by jQuery autocomplete
@@ -1497,7 +1529,7 @@ class PurchaseOrderController {
     }
 
     def poAutoComplete(){
-        println "params: " +params
+        
         def query = {
             or {
                 like("number", "%${params.term}%") // term is the parameter send by jQuery autocomplete

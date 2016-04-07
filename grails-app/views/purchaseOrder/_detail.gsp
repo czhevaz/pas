@@ -374,7 +374,7 @@ if(actionName=='edit' || actionName=='show') {
             var currencyCode = $(currEd.target).numberbox('getValue');
 
             $.ajax({
-            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&poId=${purchaseOrderInstance?.id}",
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&poId=${purchaseOrderInstance?.id}&countryCode=${purchaseOrderInstance.country}",
             type: "POST",
                 success: function (data) {
      

@@ -278,7 +278,6 @@ class SyncDatabaseService {
 		def params = [row.Ccy1, row.Ccy2, row.Xrperiod, row.rate, findCode.id, row.CountryID, 0, timestamp, timestamp]
 
  		conSqlAmatra.execute 'insert into M_PAS_Rate_Detail(currency1_id, currency2_id , xrperiod, value, rate_id, country_code, version, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', params
-		
 
 	}
 

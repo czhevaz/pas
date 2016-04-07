@@ -219,7 +219,7 @@
 							
 							if(j==0){
 								tr += "<td rowspan='"+item.rfp.length+"'><a href='/pas/purchaseOrder/show/"+item.poId+"' target ='_blank'> "+ item.poNumber +"</a></td>";
-								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poCost +" </td>";
+								tr += "<td rowspan='"+item.rfp.length+"' style='text-align:right;'> "+ item.poCost +" </td>";
 								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poType +" </td>";	
 							}	
 
@@ -227,8 +227,8 @@
 							tr += "<td > "+ po.rfpDesc +" </td>";
 							tr += "<td > "+ po.rfpStatus +" </td>";
 							tr += "<td > "+ po.rfpCurrency +" </td>";
-							tr += "<td > "+ po.rfpCost +" </td>";
-							tr += "<td > "+ po.poBalanced +" </td>";
+							tr += "<td style='text-align:right;'> "+ po.rfpCost +" </td>";
+							tr += "<td style='text-align:right;'> "+ po.poBalanced +" </td>";
 							tr += "</tr>";
 							
 							$("#table-report-pobalance tbody").append(tr);	
