@@ -146,7 +146,7 @@
         console.log("date");
         console.log(date);
         $.ajax({
-            url: "/${meta(name:'app.name')}/currency/jlist?code="+$(this).val()+"&date="+date,
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+$(this).val()+"&date="+date+"&countryCode="+country,
             type: "POST",
             success: function (data) {
 				console.log(data);
@@ -253,7 +253,7 @@
         console.log(date);        
         var currencyCode = $('#currency1').val();
         $.ajax({
-            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&date="+date,
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&date="+date+"&countryCode="+country,
             type: "POST",
             success: function (data) {
         		console.log(data);        

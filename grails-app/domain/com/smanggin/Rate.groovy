@@ -9,6 +9,7 @@ class Rate {
 	
 	Date starDate
 	Date endDate
+	String countryCode
 	Long xrperiod
 	
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
@@ -24,6 +25,7 @@ class Rate {
 	static	constraints = {
 		version nullable:true
 		xrperiod nullable:true
+		countryCode nullable:true
     }
 	
 	

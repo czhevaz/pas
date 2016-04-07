@@ -128,7 +128,7 @@
 
 								<th>PO Description</th>
 
-								<th><g:message code="purchaseOrder.Total.label" default="PO Cost" /> USD</th>
+								<th><g:message code="purchaseOrder.Total.label" default="PO Cost" /> (USD)</th>
 
 								<th>PO Proposed Date</th>
 

@@ -212,10 +212,13 @@ class CurrencyController {
         }else if(params.code){
         	def value=1
             def rateDetailId
-
+            def country = Country.findByName(params.countryCode)
         	def localCurrency = Currency.findByCodeAndActive(params.code,'Yes')
         	def rate = Rate.createCriteria().list(params){
-        	
+        	    if(params.countryCode){
+                    eq('country',country.codeCoa)    
+                }
+                
 	        	le('starDate',date)
 	        	ge('endDate',date)
 	        	maxResults(1)
@@ -255,6 +258,7 @@ class CurrencyController {
 	         
 	        
         }else if(params.country){
+            def country = Country.findByName(params.country)
             if(params.country == "Indonesia"){
                 params.country = "Head Office"
             }
@@ -263,7 +267,7 @@ class CurrencyController {
         
             def localCurrency = Currency.findByCountryAndActive(params.country,'Yes')
             def rate = Rate.createCriteria().list(params){
-            
+                eq('countryCode', country?.codeCoa)
                 le('starDate',date)
                 ge('endDate',date)
                 maxResults(1)

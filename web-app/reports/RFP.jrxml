@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RFP" language="groovy" pageWidth="595" pageHeight="842" columnWidth="579" leftMargin="8" rightMargin="8" topMargin="8" bottomMargin="8" uuid="2fd1561b-4468-4119-b5d5-ef62a0359a88">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RFP" language="groovy" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="15" bottomMargin="15" uuid="2fd1561b-4468-4119-b5d5-ef62a0359a88">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="66"/>
+	<property name="ireport.y" value="120"/>
 	<parameter name="rfp_id" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -82,10 +82,12 @@ WHERE
 		<band height="213" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="173" height="26" uuid="3bad6737-795e-46fb-9c6c-31ffb67cd1e7"/>
+				<box leftPadding="5"/>
 				<text><![CDATA[REQUEST FOR PAYMENT]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="26" width="73" height="20" uuid="2884e59a-f5c4-41d0-9a55-e2721476c16c"/>
+				<box leftPadding="5"/>
 				<text><![CDATA[Date:]]></text>
 			</staticText>
 			<line>
@@ -109,14 +111,17 @@ WHERE
 			</textField>
 			<staticText>
 				<reportElement x="0" y="60" width="112" height="20" uuid="5fa23ea9-5b87-4833-9f89-871e6c23458d"/>
+				<box leftPadding="5"/>
 				<text><![CDATA[Supplier Id                     :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="80" width="112" height="20" uuid="34a5ab2a-0f76-41b6-aa6a-9d72e2480490"/>
+				<box leftPadding="5"/>
 				<text><![CDATA[Supplier Name             :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="100" width="112" height="20" uuid="91ff97ac-2654-4d75-9438-246524b386c3"/>
+				<box leftPadding="5"/>
 				<text><![CDATA[Supplier Address           :]]></text>
 			</staticText>
 			<textField>
@@ -135,6 +140,7 @@ WHERE
 			</textField>
 			<staticText>
 				<reportElement x="0" y="179" width="112" height="20" uuid="39041427-662f-466a-8daa-038e4106d324"/>
+				<box leftPadding="5"/>
 				<text><![CDATA[Currency                       :]]></text>
 			</staticText>
 			<line>
@@ -161,7 +167,7 @@ WHERE
 				<text><![CDATA[COA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="426" y="2" width="152" height="20" backcolor="#CCCCCC" uuid="10df3a94-06c7-49fd-8fe6-67b358d8247e"/>
+				<reportElement mode="Opaque" x="426" y="2" width="139" height="20" backcolor="#CCCCCC" uuid="10df3a94-06c7-49fd-8fe6-67b358d8247e"/>
 				<box leftPadding="2" rightPadding="2">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -172,23 +178,20 @@ WHERE
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Transaction Value]]></text>
 			</staticText>
-			<line>
-				<reportElement x="456" y="141" width="100" height="1" uuid="a0577780-ad56-4453-b2ec-0c436339d07b"/>
-			</line>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="60" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="426" height="20" uuid="216fdd22-f026-4617-b4db-7ed5f6421ab6"/>
-				<box leftPadding="3" rightPadding="3">
-					<leftPen lineWidth="1.0" lineStyle="Solid"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				<box leftPadding="5">
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
 				</box>
 				<textFieldExpression><![CDATA[$F{M_PAS_COA_code}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="465" y="0" width="114" height="60" uuid="73a1e874-9a78-45e4-820c-269a1b529fef"/>
+				<reportElement x="465" y="0" width="100" height="60" uuid="73a1e874-9a78-45e4-820c-269a1b529fef"/>
 				<box leftPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.0"/>
 					<rightPen lineWidth="1.0"/>
@@ -198,9 +201,12 @@ WHERE
 			</textField>
 			<textField>
 				<reportElement x="0" y="20" width="426" height="40" uuid="5d395e4a-bdeb-47d9-a275-bd879bf26d86"/>
-				<box leftPadding="3" rightPadding="3">
-					<leftPen lineWidth="1.0" lineStyle="Solid"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
 				</box>
 				<textFieldExpression><![CDATA[$F{M_PAS_COA_description}]]></textFieldExpression>
 			</textField>
@@ -213,13 +219,10 @@ WHERE
 	<summary>
 		<band height="296" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="37" width="579" height="109" uuid="ee72faac-ad7d-4270-bfbd-9e0ad37b10fd"/>
+				<reportElement x="0" y="37" width="565" height="109" uuid="ee72faac-ad7d-4270-bfbd-9e0ad37b10fd"/>
+				<box leftPadding="5"/>
 				<text><![CDATA[Note :]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="57" width="578" height="89" uuid="86e51763-466a-4a81-b199-ed1577c43be4"/>
-				<textFieldExpression><![CDATA[$F{T_PAS_RFP_note}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="147" y="177" width="139" height="81" uuid="2318d9a6-acf2-4578-bfa6-7f69bda912b4"/>
 				<box leftPadding="2" bottomPadding="2" rightPadding="2">
@@ -321,7 +324,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{T_PAS_RFP_created_by}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="465" y="1" width="113" height="20" backcolor="#CCCCCC" uuid="dfc25545-c302-4dba-9ae9-cc9de25ab2f4"/>
+				<reportElement mode="Opaque" x="465" y="1" width="100" height="20" backcolor="#CCCCCC" uuid="dfc25545-c302-4dba-9ae9-cc9de25ab2f4"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -357,6 +360,11 @@ WHERE
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="0" y="54" width="565" height="92" uuid="a47a6faa-7714-40a1-8e7b-4c31bca4f4b8"/>
+				<box leftPadding="5"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_note}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>

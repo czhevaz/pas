@@ -371,7 +371,7 @@ if(actionName=='edit') {
         console.log("date");
         console.log(date);
         $.ajax({
-            url: "/${meta(name:'app.name')}/currency/jlist?country="+country+"&date="+date,
+            url: "/${meta(name:'app.name')}/currency/jlist?country="+country+"&date="+date+"&countryCode="+country,
             type: "POST",
             success: function (data) {
                 console.log(data);
@@ -462,10 +462,10 @@ if(actionName=='edit') {
 
         
         var date =   new Date(e.date).getFullYear()+ "-" +  (new Date(e.date).getMonth() +1) + "-" + new Date(e.date).getDate()
-        console.log(date);
+        
         var currencyCode = $('#currency1').val();
         $.ajax({
-            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&date="+date,
+            url: "/${meta(name:'app.name')}/currency/jlist?code="+currencyCode+"&date="+date+"&countryCode="+country,
             type: "POST",
             success: function (data) {
                 

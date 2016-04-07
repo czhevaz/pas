@@ -97,7 +97,7 @@
 								
 								<th>RFP Note</th>
 
-								<th><g:message code="rfp.Total.label" default="RFP Cost" /> USD</th>
+								<th><g:message code="rfp.Total.label" default="RFP Cost" /> (USD)</th>
 
 								<th>RFP Proposed Date</th>
 
