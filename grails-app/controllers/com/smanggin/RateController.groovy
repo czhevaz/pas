@@ -59,7 +59,7 @@ class RateController {
 
     def show() {
         def rateInstance = Rate.get(params.id)
-        //syncDatabaseService.syncRateFromProxy()
+        syncDatabaseService.syncRateDetailFromProxy()
         if (!rateInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'rate.label', default: 'Rate'), params.id])
             redirect(action: "list")
