@@ -216,7 +216,7 @@ class CurrencyController {
         	def localCurrency = Currency.findByCodeAndActive(params.code,'Yes')
         	def rate = Rate.createCriteria().list(params){
         	    if(params.countryCode){
-                    eq('country',country.codeCoa)    
+                    eq('countryCode',country.codeCoa)    
                 }
                 
 	        	le('starDate',date)

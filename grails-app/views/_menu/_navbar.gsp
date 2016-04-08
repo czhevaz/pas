@@ -170,6 +170,12 @@ if(session.isAdmin == 'Yes') {
 					</li>
 					<li class="divider"></li>
 					<li class="controller">
+						<g:link controller="PurchaseOrder" action="report" params="[type:'pppBalanceHistory']">
+							PPP Balance History Tracking PO
+						</g:link>
+					</li>
+					<li class="divider"></li>
+					<li class="controller">
 						<g:link controller="PurchaseOrder" action="report" params="[type:'purchaseBalanceReport']" >
 							Report PO Historycal Transaction
 						</g:link>

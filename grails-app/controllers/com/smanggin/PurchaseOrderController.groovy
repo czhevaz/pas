@@ -1211,9 +1211,6 @@ class PurchaseOrderController {
     }
 
     def pppBalanceReport(){
-       
-        println "params" + params
-
         
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
@@ -1276,10 +1273,10 @@ class PurchaseOrderController {
                             map.put('poType',po.transactionGroup?.description) 
                             map.put('poState',po.state) 
                             map.put('pototal',poTotal2) 
-                            map.put('pppBalance',remain.round(2))
-
                             listPO.push(map) 
                         }
+
+                        mapPPP.put('pppBalance',detail.balanceWriteOff?detail.balanceWriteOff.round(2):detail?.costDetail) 
 
                         mapPPP.put('po',listPO)
 
@@ -1493,6 +1490,90 @@ class PurchaseOrderController {
 
         render([success: true,results:list] as JSON)
     }
+
+
+    def pppBalanceHistory(){
+        
+        def country = Country.findByName(params.countryId)
+        def domainClassName = "com.smanggin." + country?.domainPPP
+        def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
+        //println "domainClassInstance " + domainClassInstance
+        //def sql = getPPPHead(null,params,country?.domainPPP)
+        
+        def pppHead = domainClassInstance.createCriteria().list(){
+            if(params.countryId){
+                eq('country',country)    
+            }
+
+            if(params.countryId){
+                eq('lob',params.lobId)
+            }  
+
+            if(params.brandId){
+                eq('brand',params.brandId)    
+            }
+
+            if(params.year){
+                eq('year',params.year?.toInteger())       
+            }
+
+            if(params.month){
+                def month = globalService.monthInt(params.month)+1
+                eq('month',month)
+            }
+        }
+
+        params.order = params.order ?: 'asc' 
+        params.sort = params.sort ?: 'dateCreated' 
+        
+        def list=[] 
+        pppHead.each{
+            def pppDetail = PppDetail.findAllByPppNumber(it.number)
+
+            if(pppDetail.size > 0 ){
+                pppDetail.each{ detail -> 
+
+
+                    def pbs = PurchaseOrderBalance.createCriteria().list(params){
+                        eq('pppNumber',detail.pppNumber)
+                    }
+
+                    if(pbs.size() > 0){
+                        def mapPPP = [:]
+                        mapPPP.put('pppNumber',detail.pppNumber)  
+                        mapPPP.put('pppCost',detail.costDetail) 
+                        mapPPP.put('pppBrand',detail.brand) 
+
+                        def listPO = []
+                        pbs.each{ pb -> 
+                           
+                            //remain = remain - poTotal2
+                            def map=[:]
+                            map.put('poId',pb.purchaseOrder?.id) 
+                            map.put('poNumber',pb.purchaseOrder?.number) 
+                            map.put('poType',pb.purchaseOrder?.transactionGroup?.description) 
+                            map.put('poState',pb.purchaseOrder?.state) 
+                            map.put('pototal',pb.cost2?pb.cost2.round(2):0)
+                            map.put('poDescription',pb.description) 
+                            map.put('pppBalance',pb.pppBalance?pb.pppBalance.round(2):0)
+
+                            listPO.push(map) 
+                        }
+
+                        mapPPP.put('po',listPO)
+
+                        list.push(mapPPP)
+                        
+                    }
+                }
+            }
+            
+           
+        }        
+
+        render([success: true,results:list] as JSON)
+
+    }//End pppBalanceReport
 
     /*---------------------
     END REport

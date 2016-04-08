@@ -124,8 +124,14 @@
 							
 								<th><g:message code="purchaseOrder.state.label" default="PO Status" /></th>
 
-								<th><g:message code="purchaseOrder.Total.label" default="PO Cost" /></th>
-	
+								<th><g:message code="purchaseOrder.description.label" default="Description" /></th>
+
+								<th><g:message code="purchaseOrder.Total.label" default="Value" /></th>
+
+								<th><g:message code="ppp.balance.label" default="PPP Balance" /></th>
+									
+								
+							
 							</tr>
 						</thead>
 						<tbody>
@@ -197,7 +203,7 @@
 
 		
 		$.ajax({
-            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceReport",
+            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceHistory",
             data:postData,
             type: "POST",
             success: function (data) {
@@ -216,23 +222,14 @@
 						tr += "<td > <a href='/pas/purchaseOrder/show/"+po.poId+"' target ='_blank'>"+ po.poNumber +"</a> </td>";
 						tr += "<td > "+ po.poType +" </td>";
 						tr += "<td > "+ po.poState +" </td>";
+						tr += "<td > "+ po.poDescription +" </td>";
 						tr += "<td style='text-align:right;'> "+ po.pototal +" </td>";
-						
+						tr += "<td style='text-align:right;'> "+ po.pppBalance +" </td>";
 						tr += "</tr>";
 						
 						$("#table-report-pppbalance tbody").append(tr);	
-						
-						
-					});
-					var tr2 ="<tr>";
-						
-						tr2 += "<td colspan='6' style='text-align:right;'> PPP Balance </td>";
-						tr2 += "<td style='text-align:right;'> "+ item.pppBalance +"</td>";
-						tr2 += "</tr>";
-						$("#table-report-pppbalance tbody").append(tr2);	
-
+					});	
 				});
-
             },
             error: function (xhr, status, error) {
                 alert("fail");
