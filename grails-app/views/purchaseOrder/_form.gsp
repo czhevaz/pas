@@ -205,7 +205,7 @@ if(actionName=='edit') {
 			$('#country').val(country);	
 			$('#country option:not(:selected)').prop('disabled', true).trigger('chosen:updated');
 			getLob(country);
-			getCurrency(country);
+		    getCurrency(country);
 			getTrGroup(country);
 			getSupplier(country)
             getRequestor(country);
