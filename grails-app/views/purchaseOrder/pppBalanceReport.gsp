@@ -125,6 +125,7 @@
 								<th><g:message code="purchaseOrder.state.label" default="PO Status" /></th>
 
 								<th><g:message code="purchaseOrder.Total.label" default="PO Cost" /></th>
+								<th><g:message code="purchaseOrder.Total.label" default="Write Off Value" /></th>
 	
 							</tr>
 						</thead>
@@ -217,17 +218,16 @@
 						tr += "<td > "+ po.poType +" </td>";
 						tr += "<td > "+ po.poState +" </td>";
 						tr += "<td style='text-align:right;'> "+ po.pototal +" </td>";
-						
+						tr += "<td style='text-align:right;'> "+ po.poWO +" </td>";
 						tr += "</tr>";
 						
-						$("#table-report-pppbalance tbody").append(tr);	
-						
-						
+						$("#table-report-pppbalance tbody").append(tr);
 					});
 					var tr2 ="<tr>";
 						
 						tr2 += "<td colspan='6' style='text-align:right;'> PPP Balance </td>";
 						tr2 += "<td style='text-align:right;'> "+ item.pppBalance +"</td>";
+						tr2 += "<td></td>"
 						tr2 += "</tr>";
 						$("#table-report-pppbalance tbody").append(tr2);	
 

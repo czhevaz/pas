@@ -1273,6 +1273,13 @@ class PurchaseOrderController {
                             map.put('poType',po.transactionGroup?.description) 
                             map.put('poState',po.state) 
                             map.put('pototal',poTotal2) 
+                            map.put('poWO',totalWOperPO(po))
+                            def totalrfp = 0
+                            if(po.state == 'Closed' && po.poRemain1 == 0){
+                                totalrfp = po.poRemain2
+                            }
+                            map.put('poRfp',totalrfp) 
+                            //println "totalWOperPO" + totalWOperPO(po)
                             listPO.push(map) 
                         }
 
@@ -1327,6 +1334,23 @@ class PurchaseOrderController {
         render([success: true,results:list] as JSON)
 
     }//End pppBalanceReport
+
+    def totalWOperPO(po){
+        def poWO= PurchaseOrderWriteOff.createCriteria().list(){
+            eq('purchaseOrder',po)
+            projections{
+                sum('woValue2')
+            }
+        }
+        Float total=0
+        if(poWO.size() > 0)
+        {
+            total = poWO[0]?:0 
+        }
+
+        return total.round(2)
+
+    }
 
     def purchaseBalanceReport(){
         params.order = params.order ?: 'asc' 
