@@ -124,8 +124,14 @@
 							
 								<th><g:message code="purchaseOrder.state.label" default="PO Status" /></th>
 
-								<th><g:message code="purchaseOrder.Total.label" default="PO Cost" /></th>
-								<th><g:message code="purchaseOrder.Total.label" default="Write Off Value" /></th>
+								<th><g:message code="purchaseOrder.Total.label" default="PO Proposed Cost (A)" /></th>
+
+								<th><g:message code="purchaseOrder.Total.label" default="Write Off Value (B)" /></th>
+
+								<th><g:message code="purchaseOrder.Total.label" default="RFP adjust (C)" /></th>
+
+								<th><g:message code="purchaseOrder.Total.label" default="PO Actual Cost (C)" /></th>
+
 	
 							</tr>
 						</thead>
@@ -205,6 +211,7 @@
             	$("#table-report-pppbalance tbody").html("");	
 				
 				$.each(data.results , function(i,item) {
+				var endcost = 0 ;
 					$.each(item.po , function(j,po) {
 						var tr ="<tr>";	
 						
@@ -219,15 +226,19 @@
 						tr += "<td > "+ po.poState +" </td>";
 						tr += "<td style='text-align:right;'> "+ po.pototal +" </td>";
 						tr += "<td style='text-align:right;'> "+ po.poWO +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.poRfp +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.poEndCost +" </td>";
 						tr += "</tr>";
+
+						endcost = endcost +  po.poEndCost
 						
 						$("#table-report-pppbalance tbody").append(tr);
 					});
-					var tr2 ="<tr>";
+					var tr2 ="<tr style='background-color:gray;'>";
 						
-						tr2 += "<td colspan='6' style='text-align:right;'> PPP Balance </td>";
-						tr2 += "<td style='text-align:right;'> "+ item.pppBalance +"</td>";
-						tr2 += "<td></td>"
+						tr2 += "<td colspan='6' style='text-align:right;'> PPP Balance (ppp value - Actual Cost) </td>";
+						tr2 += "<td colspan='4' style='text-align:right;'>"+ item.pppCost +" - "+ endcost+" = "+  item.pppBalance +"</td>";
+						
 						tr2 += "</tr>";
 						$("#table-report-pppbalance tbody").append(tr2);	
 

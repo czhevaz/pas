@@ -1274,11 +1274,17 @@ class PurchaseOrderController {
                             map.put('poState',po.state) 
                             map.put('pototal',poTotal2) 
                             map.put('poWO',totalWOperPO(po))
-                            def totalrfp = 0
-                            if(po.state == 'Closed' && po.poRemain1 == 0){
-                                totalrfp = po.poRemain2
+                            Float totalrfp = 0
+                            if(po.state == 'Closed' && po.PORemain1 == 0){
+                                totalrfp = po.PORemain2
                             }
-                            map.put('poRfp',totalrfp) 
+                            map.put('poRfp',totalrfp.round(2))
+                            Float endCost = 0
+                            if(po.state != 'Rejected'){
+                                endCost = poTotal2 - totalWOperPO(po) - totalrfp.round(2)
+                            }
+                            map.put('poRfp',totalrfp.round(2)) 
+                            map.put('poEndCost',endCost.round(2))  
                             //println "totalWOperPO" + totalWOperPO(po)
                             listPO.push(map) 
                         }
