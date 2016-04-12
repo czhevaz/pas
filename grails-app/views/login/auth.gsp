@@ -1,3 +1,9 @@
+<%@ page import="com.smanggin.ConnectDBService" %>
+<%
+    def connectDB= grailsApplication.classLoader.loadClass('com.smanggin.ConnectDBService').newInstance()
+    println connectDB.getSqlProxyKalbeConnection(grailsApplication)
+%>
+
 <html>
 <head>
 	<meta name='layout' content='main'/>
@@ -92,54 +98,59 @@
 <div ><h3>${meta(name:'app.title')}</h3></div>
 	<div class='inner'>
 
-		<div class='fheader'><g:message code="springSecurity.login.header"/></div>
+		
 
-		<g:if test="${flash.authenticationFailure}">
-			<div class='login_message'>
-				Sorry, we were not able to find a user with that username and password.<br/>
-			</div>
+		<g:if test="${!connectDB.getSqlProxyKalbeConnection(grailsApplication)}">
+			<div class='fheader'> DB PROXY Can't Connect, Please Setting in Config! And Restart Tomcat</div>
 		</g:if>
-			<div class='login_message'>
-				<g:hasErrors bean="${flash.loginFormErrors}" field="login">
-					<g:renderErrors bean="${flash.loginFormErrors}" as="list" field="login"/>
-				</g:hasErrors>
-				<g:hasErrors bean="${flash.loginFormErrors}" field="password">
-					<g:renderErrors bean="${flash.loginFormErrors}" as="list" field="password"/>
-				</g:hasErrors>
-			</div>	
-		<auth:ifUnconfirmed>
-			<div class='login_message'>
-				You've registered but we're still waiting to confirm your account. <g:link action="reconfirm">Click here to send a new confirmation request</g:link> if you missed it the first time.
-			</div>
-		</auth:ifUnconfirmed>
+		<g:else>
+			<div class='fheader'><g:message code="springSecurity.login.header"/></div>
+			<g:if test="${flash.authenticationFailure}">
+				<div class='login_message'>
+					Sorry, we were not able to find a user with that username and password.<br/>
+				</div>
+			</g:if>
+				<div class='login_message'>
+					<g:hasErrors bean="${flash.loginFormErrors}" field="login">
+						<g:renderErrors bean="${flash.loginFormErrors}" as="list" field="login"/>
+					</g:hasErrors>
+					<g:hasErrors bean="${flash.loginFormErrors}" field="password">
+						<g:renderErrors bean="${flash.loginFormErrors}" as="list" field="password"/>
+					</g:hasErrors>
+				</div>	
+			<auth:ifUnconfirmed>
+				<div class='login_message'>
+					You've registered but we're still waiting to confirm your account. <g:link action="reconfirm">Click here to send a new confirmation request</g:link> if you missed it the first time.
+				</div>
+			</auth:ifUnconfirmed>
 
-		<auth:form authAction="login" success="[controller:'user', action:'postLogin']" 
-			error="[controller:'login', action:'auth']" class="form-horizontal"  target="_parent" id='loginForm' class='cssform'>
+			<auth:form authAction="login" success="[controller:'user', action:'postLogin']" 
+				error="[controller:'login', action:'auth']" class="form-horizontal"  target="_parent" id='loginForm' class='cssform'>
+					
+				<p>
+					<label for='username'><g:message code="springSecurity.login.username.label"/>:</label>
+					<input type='text' class='text_' name='login' id='username'/>
 				
-			<p>
-				<label for='username'><g:message code="springSecurity.login.username.label"/>:</label>
-				<input type='text' class='text_' name='login' id='username'/>
-			
-			</p>
+				</p>
 
-			<p>
-				<label for='password'><g:message code="springSecurity.login.password.label"/>:</label>
-				<input type='password' class='text_' name='password' id='password'/>
-				
-			</p>
+				<p>
+					<label for='password'><g:message code="springSecurity.login.password.label"/>:</label>
+					<input type='password' class='text_' name='password' id='password'/>
+					
+				</p>
 
-			<!--
-			<p id="remember_me_holder">
-				<input type='checkbox' class='chk' name='${rememberMeParameter}' id='remember_me' <g:if test='${hasCookie}'>checked='checked'</g:if>/>
-				<label for='remember_me'><g:message code="springSecurity.login.remember.me.label"/></label>
-			</p>
-			-->
+				<!--
+				<p id="remember_me_holder">
+					<input type='checkbox' class='chk' name='${rememberMeParameter}' id='remember_me' <g:if test='${hasCookie}'>checked='checked'</g:if>/>
+					<label for='remember_me'><g:message code="springSecurity.login.remember.me.label"/></label>
+				</p>
+				-->
 
-			<p>
-				<input type='submit' id="submit" value='${message(code: "springSecurity.login.button")}'/>
-			</p>
-		</auth:form>
-
+				<p>
+					<input type='submit' id="submit" value='${message(code: "springSecurity.login.button")}'/>
+				</p>
+			</auth:form>
+		</g:else>
 	</div>
 </div>
 <script type='text/javascript'>

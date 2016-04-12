@@ -13,7 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException
 class UserController {
     def syncDatabaseService
 	def authenticationService
-
+    def connectDBService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -44,6 +44,7 @@ class UserController {
     def show() {
         
         def userInstance = User.get(params.id)
+        println "connectDBService " +connectDBService.getSqlProxyKalbeConnection()
         if (!userInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
             redirect(action: "list")

@@ -130,7 +130,7 @@
 
 								<th><g:message code="purchaseOrder.Total.label" default="RFP adjust (C)" /></th>
 
-								<th><g:message code="purchaseOrder.Total.label" default="PO Actual Cost (C)" /></th>
+								<th><g:message code="purchaseOrder.Total.label" default="PO Actual Cost" /></th>
 
 	
 							</tr>
