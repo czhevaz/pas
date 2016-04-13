@@ -263,11 +263,11 @@ class RfpController {
 
         try {
             rfpInstance.delete(flush: true)
-			flash.message = message(code: 'default.deleted.message', args: [message(code: 'rfp.label', default: 'Rfp'), params.id])
+			flash.message = message(code: 'default.deleted.message', args: [message(code: 'rfp.label', default: 'Rfp'), rfpInstance.number])
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
-			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'rfp.label', default: 'Rfp'), params.id])
+			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'rfp.label', default: 'Rfp'), rfpInstance.number])
             redirect(action: "show", id: params.id)
         }
     }
