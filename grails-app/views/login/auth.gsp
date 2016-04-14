@@ -1,7 +1,7 @@
 <%@ page import="com.smanggin.ConnectDBService" %>
 <%
     def connectDB= grailsApplication.classLoader.loadClass('com.smanggin.ConnectDBService').newInstance()
-    println connectDB.getSqlProxyKalbeConnection(grailsApplication)
+    
 %>
 
 <html>

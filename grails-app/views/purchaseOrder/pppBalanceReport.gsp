@@ -132,7 +132,6 @@
 
 								<th><g:message code="purchaseOrder.Total.label" default="PO Actual Cost" /></th>
 
-	
 							</tr>
 						</thead>
 						<tbody>

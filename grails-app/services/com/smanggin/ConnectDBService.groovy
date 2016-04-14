@@ -24,7 +24,11 @@ class ConnectDBService {
 	 }
 
     /* proxy Kalbe */
-	def getSqlProxyKalbeConnection(grailsApplication) {
+	def getSqlProxyKalbeConnection(grailsApp=null) {
+		if(grailsApp){
+			grailsApplication = grailsApp
+		}
+		
 	 	def url = grailsApplication.config.proxy.kalbe.url
 	 	def username = grailsApplication.config.proxy.kalbe.username
 	 	def password = grailsApplication.config.proxy.kalbe.password
