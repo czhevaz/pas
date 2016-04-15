@@ -194,6 +194,30 @@ class GlobalService {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         return year    
     }
-    
+
+
+    def yearList(domainInstance,grailsApplication,country){
+        def domainClassName = "com.smanggin."+domainInstance
+        def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
+
+        def years = domainClassInstance.createCriteria().list(){
+            if(domainInstance == 'PurchaseOrder' || domainInstance == 'Rfp'){
+                println "country " 
+                eq('country',country.name)
+                
+            }else{
+                eq('country',country)
+            }
+
+            projections{
+                groupProperty('year')
+            }
+        }
+        
+
+
+        return years.sort{ it }
+
+    }   
 }
 

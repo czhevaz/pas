@@ -34,7 +34,7 @@
 									<div class="col-sm-9">
 									<!--	<p class="form-control-static">${session.country}</p>	
 										<g:hiddenField name="country" value="${session.country}"/> -->
-										<g:select id="country" name="country" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${purchaseOrderInstance?.country}" class="many-to-one form-control chosen-select" />
+										<g:select id="country" name="country" from="${com.smanggin.Country.list()}" optionKey="name" value="${purchaseOrderInstance?.country}" class="many-to-one form-control chosen-select" />
 										<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'country', 'error')}</span>
 									</div>
 								</div>
@@ -74,8 +74,7 @@
 								<div class="form-group required">
 									<label for="year" class="col-sm-3 control-label"><g:message code="register.year.label" default="year" /><span class="required-indicator">*</span></label>
 									<div class="col-sm-9">
-										<g:textField name="year" id="year" class="form-control" value="${params?.year}"/>
-										
+										<g:select id="year" name="year" from="${yearList}"    noSelection="['':'']" class="many-to-one form-control chosen-select"/>
 									</div>
 								</div>
 							</div>	
@@ -84,8 +83,6 @@
 									<label for="month" class="col-sm-3 control-label"><g:message code="register.month.label" default="Month" /><span class="required-indicator">*</span></label>
 									<div class="col-sm-9">
 										<g:select id="month" name="month" from="${months as List}"    noSelection="['':'']" class="many-to-one form-control chosen-select"/>
-										
-								
 									</div>
 								</div>
 								
@@ -108,7 +105,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box box-primary">
-				<div class="box-body table-responsive">
+				<div class="box-body table-responsive" style="overflow-y:auto">
 					<table id="table-report-pobalance" class="table table-bordered margin-top-medium">
 						<thead>
 							<tr>
@@ -118,11 +115,13 @@
 
 								<th><g:message code="purchaseOrder.trType.label" default="PO Type" /></th>
 
+								<th><g:message code="reff.poPurposed.label" default="PO Purposed" /></th>
+
+								<th><g:message code="reff.state.label" default="PO Status" /></th>
+
 								<th><g:message code="reff.number.label" default="Refference" /></th>
 
-								<th><g:message code="reff.note.label" default="Description" /></th>
-							
-								<th><g:message code="reff.state.label" default="Activities" /></th>
+								<th><g:message code="reff.note.label" default="Activities" /></th>
 
 								<th><g:message code="reff.currency.label" default="CCY" /></th>
 
@@ -154,6 +153,15 @@
 		$('#lob').chosen();
 		$('#brand').empty();
 		$('#brand').chosen();
+		$('#month').prepend("<option value='' >All</option>")
+		$('#month').trigger('chosen:updated');
+		<g:if test="${session.country}" >
+			country ='${session.country}';
+			$('#country').val(country);	
+			//$('#country option:not(:selected)').prop('disabled', true).trigger('chosen:updated');
+			//getLob(country);
+            getYear(country);
+		</g:if>
 	});
 
 	$("#lob").on('change', function() {
@@ -191,7 +199,8 @@
 		var brandId = $("#brand").val();
 		var year = $("#year").val();	
 		var month =	$("#month").val();	
-		
+		var status= $("#status").val();	
+
 		var postData = {
 			"search":"true",	
 			"countryId":countryTes,
@@ -199,6 +208,7 @@
 			"brandId":brandId,
 			"year":year,
 			"month":month,
+			"status":status
 		}
 
 		
@@ -221,12 +231,14 @@
 								tr += "<td rowspan='"+item.rfp.length+"'><a href='/pas/purchaseOrder/show/"+item.poId+"' target ='_blank'> "+ item.poNumber +"</a></td>";
 								tr += "<td rowspan='"+item.rfp.length+"' style='text-align:right;'> "+ item.poCost +" </td>";
 								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poType +" </td>";	
+								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poPurposed +" </td>";
+								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poStatus +" </td>";
+						
 							}	
 
 							tr += "<td > "+ po.rfpNumber +" </td>";
 							tr += "<td > "+ po.rfpDesc +" </td>";
-							tr += "<td > "+ po.rfpStatus +" </td>";
-							tr += "<td > "+ po.rfpCurrency +" </td>";
+								tr += "<td > "+ po.rfpCurrency +" </td>";
 							tr += "<td style='text-align:right;'> "+ po.rfpCost +" </td>";
 							tr += "<td style='text-align:right;'> "+ po.poBalanced +" </td>";
 							tr += "</tr>";
@@ -242,6 +254,79 @@
             }
         });
 	});
+
+	function getLob(country) {
+
+    	$.ajax({
+            url: "/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id="+country,
+            
+            type: "POST",
+            success: function (data) {
+
+              	$('#lob').empty()
+              	if(data.length > 0){
+                    
+                    $('#lob').chosen();
+                    $('#lob').prepend("<option value='' >All</option>")
+                    $.each(data, function(a, b){
+                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+                        $('#lob').append(opt);
+                        
+                    });
+
+                    $('#lob').trigger('chosen:updated');
+                    $('#brand').empty();
+                    $('#brand').prepend("<option value='' >All</option>")
+	               	$('#brand').chosen();
+                }else{
+                 
+                    $('#lob').chosen("destroy");
+            		$('#lob').chosen();   	
+                   
+                }
+                
+              	
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }/*-- end getlob  --*/
+
+    function getYear(country){
+        $.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/getYear?country="+country+"&domain=PurchaseOrder",
+            
+            type: "POST",
+            success: function (data) {
+
+                $('#year').empty()
+                if(data.length > 0){
+                    
+                    $('#year').chosen();
+                    $('#year').prepend("<option value='' >All</option>")
+                    $.each(data, function(a, b){
+                        var opt = "<option value='"+b+"'> "+ b +" </option>";
+                        $('#year').append(opt);
+                        
+                    });
+
+                    $('#year').trigger('chosen:updated');
+                    $('#year').chosen();
+                }else{
+                 
+                    $('#year').chosen('destroy');
+                    $('#year').chosen();
+                   
+                }
+                
+                
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }
 
 </r:script>	
 

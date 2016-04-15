@@ -11,9 +11,11 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class UserController {
+    def globalService
     def syncDatabaseService
 	def authenticationService
     def connectDBService
+    def grailsApplication
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -45,6 +47,7 @@ class UserController {
         
         def userInstance = User.get(params.id)
        // println "connectDBService " +connectDBService.getSqlProxyKalbeConnection()
+        println globalService.yearList('PppPhilippine',grailsApplication)
         if (!userInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
             redirect(action: "list")

@@ -31,7 +31,7 @@
 	<div class="form-group required">
 		<label for="pppDate" class="col-sm-2 control-label"><g:message code="register.year.label" default="year" /><span class="required-indicator">*</span></label>
 		<div class="col-sm-4">
-			<g:textField name="year" id="year" class="form-control" value="${params?.year}"/>
+			<g:select id="year" name="requestor" from="${yearList}"   value="${params?.year}" class="many-to-one form-control chosen-select" noSelection="['': '']"/>
 			
 		</div>
 	</div>

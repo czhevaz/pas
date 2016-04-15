@@ -195,7 +195,7 @@ if(actionName=='edit') {
 		<% 
 		}
 		%>
-        $('#brand').prepend("<option value='' >-- All --</option>")
+        $('#brand').prepend("<option value='' >All</option>")
 		$('#brand').chosen();
 		$('#lob').chosen();
 		$('#transactionGroup').chosen();
@@ -209,6 +209,7 @@ if(actionName=='edit') {
 			getTrGroup(country);
 			getSupplier(country)
             getRequestor(country);
+            getYear(country);
 		</g:if>
 		
 	});
@@ -240,7 +241,7 @@ if(actionName=='edit') {
             success: function (data) {
             	$('#brand').empty();
               	if(data.length > 0){
-                     $('#brand').prepend("<option value='' >-- All</option>")
+                     $('#brand').prepend("<option value='' >All</option>")
                     $.each(data, function(a, b){	
                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
                         $('#brand').append(opt);
@@ -294,6 +295,7 @@ if(actionName=='edit') {
 		getCurrency(urlCurrency);
 		getSupplier(urlSupplier);
         getRequestor(country);
+        getYear(country);
 	});		
 
 	function getLob(country) {
@@ -308,7 +310,7 @@ if(actionName=='edit') {
               	if(data.length > 0){
                     
                     $('#lob').chosen();
-                    $('#lob').prepend("<option value='' >-- All --</option>")
+                    $('#lob').prepend("<option value='' >All</option>")
                     $.each(data, function(a, b){
                          var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
                         $('#lob').append(opt);
@@ -434,7 +436,7 @@ if(actionName=='edit') {
                 if(data.length > 0){
                     
                     $('#requestor').chosen();
-                    $('#requestor').prepend("<option value='' >-- All --</option>")
+                    $('#requestor').prepend("<option value='' >All</option>")
                     $.each(data, function(a, b){
                          var opt = "<option value='"+b.name+"'> "+ b.name +" </option>";
                         $('#requestor').append(opt);
@@ -478,6 +480,42 @@ if(actionName=='edit') {
         //$(this).attr('value', $(this).val());
        
     });
+
+    //* function get year* /
+    function getYear(country){
+        $.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/getYear?country="+country,
+            
+            type: "POST",
+            success: function (data) {
+
+                $('#year').empty()
+                if(data.length > 0){
+                    
+                    $('#year').chosen();
+                    $('#year').prepend("<option value='' >All</option>")
+                    $.each(data, function(a, b){
+                        var opt = "<option value='"+b+"'> "+ b +" </option>";
+                        $('#year').append(opt);
+                        
+                    });
+
+                    $('#year').trigger('chosen:updated');
+                    $('#year').chosen();
+                }else{
+                 
+                    $('#year').chosen('destroy');
+                    $('#year').chosen();
+                   
+                }
+                
+                
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }
 		
 </r:script>	
 

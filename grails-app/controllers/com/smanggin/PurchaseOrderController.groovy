@@ -87,9 +87,9 @@ class PurchaseOrderController {
         [purchaseOrderInstanceList: results, purchaseOrderInstanceTotal: results.totalCount]
     }
 
-    def create() {
-
-        [purchaseOrderInstance: new PurchaseOrder(params) ,baseCurrency :baseCurrency]
+    def create() { 
+        def yearList = globalService.yearList('PppPhilippine',grailsApplication)
+        [purchaseOrderInstance: new PurchaseOrder(params) ,baseCurrency:baseCurrency, yearList:yearList]
     }
 
     def save() {
@@ -274,9 +274,9 @@ class PurchaseOrderController {
             }
         }
 
-        
+        def yearList = globalService.yearList('PppPhilippine',grailsApplication)
 
-        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails,isEdit:isEdit,baseCurrency :baseCurrency]
+        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails,isEdit:isEdit,baseCurrency :baseCurrency,yearList:yearList]
     }
 
     def update() {
@@ -1090,7 +1090,7 @@ class PurchaseOrderController {
         def poBalance = new PurchaseOrderBalance()
         poBalance.country = purchaseOrderInstance.country
         poBalance.purchaseOrder = purchaseOrderInstance
-        poBalance.description =" insert When PO " + purchaseOrderInstance?.state
+        poBalance.description =" insert when PO " + purchaseOrderInstance?.state
         poBalance.balance1 = purchaseOrderInstance.PORemain1?:0
         poBalance.currency1 = purchaseOrderInstance.currency1
         poBalance.balance2 = purchaseOrderInstance.PORemain2?:0
@@ -1110,7 +1110,7 @@ class PurchaseOrderController {
         def poBalance = new PurchaseOrderBalance()
         poBalance.country = purchaseOrderInstance.country
         poBalance.purchaseOrder = purchaseOrderInstance
-        poBalance.description =" insert When PO  Write Off"
+        poBalance.description =" insert when PO  Write Off"
         poBalance.balance1 = purchaseOrderInstance.PORemain1?:0
         poBalance.currency1 = purchaseOrderInstance.currency1
         poBalance.balance2 = purchaseOrderInstance.PORemain2?:0
@@ -1205,13 +1205,13 @@ class PurchaseOrderController {
      def report(){
     
         def views = params.type 
-
+        //def yearList = globalService.yearList(params.domain,grailsApplication)
         render(view: "${views}")
 
     }
 
     def pppBalanceReport(){
-        
+        println " params  ppp Balance report " + params 
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
         def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
@@ -1223,7 +1223,7 @@ class PurchaseOrderController {
                 eq('country',country)    
             }
 
-            if(params.countryId){
+            if(params.lobId){
                 eq('lob',params.lobId)
             }  
 
@@ -1359,15 +1359,13 @@ class PurchaseOrderController {
     }
 
     def purchaseBalanceReport(){
-        params.order = params.order ?: 'asc' 
-        params.sort = params.sort ?: 'dateCreated' 
-
+        println 'params'  + params
         def purchaseOrders= PurchaseOrder.createCriteria().list(){
             if(params.countryId){
                 eq('country',params.countryId)    
             }
 
-            if(params.countryId){
+            if(params.lobId){
                 eq('lob',params.lobId)
             }  
 
@@ -1383,6 +1381,12 @@ class PurchaseOrderController {
                 def month = globalService.monthInt(params.month)+1
                 eq('month',month)
             }
+
+            if(params.status != 'All'){
+                eq('state',params.status)
+            }
+
+            order('purchaseOrderDate','desc')
 
         }
 
@@ -1401,12 +1405,13 @@ class PurchaseOrderController {
                 mappo.put('poNumber',it.number)  
                 mappo.put('poCost',(it.total/it.rate).round(2)) 
                 mappo.put('poType',it.transactionGroup?.transactionType?.name) 
-               
+                mappo.put('poPurposed',it.reasonforInvestment?:'')
+                mappo.put('poStatus',it.state) 
                 poBalanceds.each{ detail ->
                     def mapRfp =[:]
                     mapRfp.put('rfpNumber',detail.refference?:'')
                     mapRfp.put('rfpDesc',detail.description?:'')
-                    mapRfp.put('rfpStatus',detail.activities?:'') 
+
                     mapRfp.put('rfpCurrency',detail.currency1?detail.currency1?.code:'') 
                     mapRfp.put('rfpCost',detail.cost2?.round(2)?:'') 
                     mapRfp.put('poBalanced',detail.balance2.round(2)?:'') 
@@ -1425,15 +1430,13 @@ class PurchaseOrderController {
     } // End purchaseBalanceReport
 
     def poTrackingSummary(){
-        params.order = params.order ?: 'asc' 
-        params.sort = params.sort ?: 'dateCreated' 
-
+      
         def purchaseOrders= PurchaseOrder.createCriteria().list(){
             if(params.countryId){
                 eq('country',params.countryId)    
             }
 
-            if(params.countryId){
+            if(params.lobId){
                 eq('lob',params.lobId)
             }  
 
@@ -1454,6 +1457,12 @@ class PurchaseOrderController {
                 eq('pppNumber',params.pppNumber)
             }
 
+             if(params.status != 'All'){
+                eq('state',params.status)
+            }
+
+            order('purchaseOrderDate','desc')
+
         }
 
         def list=[]
@@ -1473,15 +1482,14 @@ class PurchaseOrderController {
                
         }
 
-
-
         render([success: true,results:list] as JSON)
 
     }
 
     def rfpTrackingSummary(){
-        
-        def rfpDetails = RfpDetail.createCriteria().list(){
+       
+                
+        def rfpDetails = RfpDetail.createCriteria().list(params){
             
             if(params.countryId){
                 rfp{
@@ -1495,6 +1503,7 @@ class PurchaseOrderController {
                         def month = globalService.monthInt(params.month)+1
                         eq('month',month)
                     }
+                       order("rfpDate", "desc")
                 }    
             }
 
@@ -1514,6 +1523,7 @@ class PurchaseOrderController {
             map.put('rfpNote',it.rfp?.note?:'')
             map.put('rfpCost',it.totalCost2.round(2))
             map.put('rfpDate',date)
+            map.put('rfpStatus',it.rfp?.state)
             map.put('rfpMustApprovedBy',it.rfp?.mustApprovedBy?:'')
             list.push(map)
         }
@@ -1535,7 +1545,7 @@ class PurchaseOrderController {
                 eq('country',country)    
             }
 
-            if(params.countryId){
+            if(params.lobId){
                 eq('lob',params.lobId)
             }  
 
@@ -1551,6 +1561,8 @@ class PurchaseOrderController {
                 def month = globalService.monthInt(params.month)+1
                 eq('month',month)
             }
+
+            
         }
 
         params.order = params.order ?: 'asc' 
@@ -1620,8 +1632,12 @@ class PurchaseOrderController {
                 eq('name',params.country)
             }
         }
-        
-        def clist = PppPhilippine.createCriteria().list(query) // execute  to the get the list of companies
+
+        def country = Country.findByName(params.country)
+        def domainClassName = "com.smanggin." + country.domainPPP
+        def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
+
+        def clist = domainClassInstance.createCriteria().list(query) // execute  to the get the list of companies
         def custList = [] // to add each company details
 
         clist.each {
@@ -1667,5 +1683,20 @@ class PurchaseOrderController {
        // println " custList ppp " + custList
         
         render custList as JSON
+    }
+
+
+    def getYear(){
+
+        def country = Country.findByName(params.country)
+        def domain = country.domainPPP
+
+        if(params.domain){
+            domain = params.domain
+        }
+        
+        def yearList = globalService.yearList(domain,grailsApplication,country)
+
+        render yearList as  JSON
     }
 }

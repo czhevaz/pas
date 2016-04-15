@@ -74,7 +74,7 @@
 								<div class="form-group required">
 									<label for="year" class="col-sm-3 control-label"><g:message code="register.year.label" default="year" /><span class="required-indicator">*</span></label>
 									<div class="col-sm-9">
-										<g:textField name="year" id="year" class="form-control" value="${params?.year}"/>
+										<g:select id="year" name="year" from="${[:]}"    noSelection="['':'']" class="many-to-one form-control chosen-select"/>
 										
 									</div>
 								</div>
@@ -126,13 +126,13 @@
 								
 								<th>PO Type</th>
 
-								<th>PO Description</th>
+								<th>PO Purposed</th>
 
 								<th><g:message code="purchaseOrder.Total.label" default="PO Cost" /> (USD)</th>
 
 								<th>PO Proposed Date</th>
 
-								<th>Status</th>
+								<th>PO Status</th>
 
 								<th>Next Approval</th>
 							
@@ -160,6 +160,15 @@
 		$('#lob').chosen();
 		$('#brand').empty();
 		$('#brand').chosen();
+		$('#month').prepend("<option value='' >All</option>")
+		$('#month').trigger('chosen:updated');
+		<g:if test="${session.country}" >
+			country ='${session.country}';
+			$('#country').val(country);	
+			//$('#country option:not(:selected)').prop('disabled', true).trigger('chosen:updated');
+			getLob(country);
+            getYear(country);
+		</g:if>
 	});
 
 	$("#lob").on('change', function() {
@@ -191,13 +200,14 @@
     });	
 
 	$("#searchPO").click(function(){ 
-		//alert(' hellllloooooooooooooooooooo ');		
+		
 		var countryTes = $("#country").val();
 		var lobId = $("#lob").val();
 		var brandId = $("#brand").val();
 		var year = $("#year").val();	
 		var month =	$("#month").val();
 		var pppNumber = $("#pppNumber").val();	
+		var status= $("#status").val();	
 		
 		var postData = {
 			"search":"true",	
@@ -207,6 +217,7 @@
 			"year":year,
 			"month":month,
 			"pppNumber":pppNumber,
+			"status":status
 		}
 		
 		$.ajax({
@@ -238,7 +249,7 @@
 
 					var tr2 ="<tr>";
 							tr2 += "<td colspan='4' style='text-align:right;'> Total </td>";
-							tr2 += "<td style='text-align:right;'> "+total+" </td>";
+							tr2 += "<td style='text-align:right;'> "+Math.round(total * 100) / 100+" </td>";
 							tr2 += "<td > </td>";
 							tr2 += "<td > </td>";
 							tr2 += "<td > </td>";
@@ -252,6 +263,88 @@
             }
         });
 	});
+
+	$("#country").on('change', function() {
+		country = $(this).val();
+		
+
+		getLob(country);			
+        getYear(country);
+	});		
+
+	function getLob(country) {
+
+    	$.ajax({
+            url: "/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id="+country,
+            
+            type: "POST",
+            success: function (data) {
+
+              	$('#lob').empty()
+              	if(data.length > 0){
+                    
+                    $('#lob').chosen();
+                    $('#lob').prepend("<option value='' >All</option>")
+                    $.each(data, function(a, b){
+                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+                        $('#lob').append(opt);
+                        
+                    });
+
+                    $('#lob').trigger('chosen:updated');
+                    $('#brand').empty();
+                    $('#brand').prepend("<option value='' >All</option>")
+	               	$('#brand').chosen();
+                }else{
+                 
+                    $('#lob').chosen("destroy");
+            		$('#lob').chosen();   	
+                   
+                }
+                
+              	
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }/*-- end getlob  --*/
+
+
+	function getYear(country){
+        $.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/getYear?country="+country+"&domain=PurchaseOrder",
+            
+            type: "POST",
+            success: function (data) {
+
+                $('#year').empty()
+                if(data.length > 0){
+                    
+                    $('#year').chosen();
+                    $('#year').prepend("<option value='' >All</option>")
+                    $.each(data, function(a, b){
+                        var opt = "<option value='"+b+"'> "+ b +" </option>";
+                        $('#year').append(opt);
+                        
+                    });
+
+                    $('#year').trigger('chosen:updated');
+                    $('#year').chosen();
+                }else{
+                 
+                    $('#year').chosen('destroy');
+                    $('#year').chosen();
+                   
+                }
+                
+                
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }
 </r:script>
 <script type="text/javascript">
 	    //autocomplete PPP

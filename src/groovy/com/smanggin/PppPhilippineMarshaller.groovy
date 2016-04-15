@@ -26,6 +26,7 @@ class PppPhilippineMarshaller {
 				remainCreditLimit:it.remainCreditLimit,
 				//remainCreditLimit2:it.remainCreditLimit2,
 				version     : it.version,
+				year: it.year,
 				
 			]
         }

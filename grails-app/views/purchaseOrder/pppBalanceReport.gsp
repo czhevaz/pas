@@ -74,7 +74,7 @@
 								<div class="form-group required">
 									<label for="year" class="col-sm-3 control-label"><g:message code="register.year.label" default="year" /><span class="required-indicator">*</span></label>
 									<div class="col-sm-9">
-										<g:textField name="year" id="year" class="form-control" value="${params?.year}"/>
+										<g:select id="year" name="year" from="${[:]}"    noSelection="['':'']" class="many-to-one form-control chosen-select"/>
 										
 									</div>
 								</div>
@@ -156,6 +156,15 @@
 		$('#lob').chosen();
 		$('#brand').empty();
 		$('#brand').chosen();
+		$('#month').prepend("<option value='' >All</option>")
+		$('#month').trigger('chosen:updated');
+		<g:if test="${session.country}" >
+			country ='${session.country}';
+			$('#country').val(country);	
+			//$('#country option:not(:selected)').prop('disabled', true).trigger('chosen:updated');
+			getLob(country);
+            getYear(country);
+		</g:if>
 	});
 
 	$("#lob").on('change', function() {
@@ -249,6 +258,79 @@
             }
         });
 	});
+
+	function getLob(country) {
+
+    	$.ajax({
+            url: "/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id="+country,
+            
+            type: "POST",
+            success: function (data) {
+
+              	$('#lob').empty()
+              	if(data.length > 0){
+                    
+                    $('#lob').chosen();
+                    $('#lob').prepend("<option value='' >All</option>")
+                    $.each(data, function(a, b){
+                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+                        $('#lob').append(opt);
+                        
+                    });
+
+                    $('#lob').trigger('chosen:updated');
+                    $('#brand').empty();
+                    $('#brand').prepend("<option value='' >All</option>")
+	               	$('#brand').chosen();
+                }else{
+                 
+                    $('#lob').chosen("destroy");
+            		$('#lob').chosen();   	
+                   
+                }
+                
+              	
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }/*-- end getlob  --*/
+
+    function getYear(country){
+        $.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/getYear?country="+country,
+            
+            type: "POST",
+            success: function (data) {
+
+                $('#year').empty()
+                if(data.length > 0){
+                    
+                    $('#year').chosen();
+                    $('#year').prepend("<option value='' >All</option>")
+                    $.each(data, function(a, b){
+                        var opt = "<option value='"+b+"'> "+ b +" </option>";
+                        $('#year').append(opt);
+                        
+                    });
+
+                    $('#year').trigger('chosen:updated');
+                    $('#year').chosen();
+                }else{
+                 
+                    $('#year').chosen('destroy');
+                    $('#year').chosen();
+                   
+                }
+                
+                
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }
 
 </r:script>	
 

@@ -164,31 +164,31 @@ if(session.isAdmin == 'Yes') {
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Report<b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li class="controller">
-						<g:link controller="PurchaseOrder" action="report" params="[type:'pppBalanceReport']">
+						<g:link controller="PurchaseOrder" action="report" params="[type:'pppBalanceReport',domain:'PppPhilippine']">
 							PPP Balance Tracking PO
 						</g:link>
 					</li>
 					<li class="divider"></li>
 					<li class="controller">
-						<g:link controller="PurchaseOrder" action="report" params="[type:'pppBalanceHistory']">
+						<g:link controller="PurchaseOrder" action="report" params="[type:'pppBalanceHistory',domain:'PppPhilippine']">
 							PPP Balance History Tracking PO
 						</g:link>
 					</li>
 					<li class="divider"></li>
 					<li class="controller">
-						<g:link controller="PurchaseOrder" action="report" params="[type:'purchaseBalanceReport']" >
-							Report PO Historycal Transaction
+						<g:link controller="PurchaseOrder" action="report" params="[type:'purchaseBalanceReport', domain:'PurchaseOrder']" >
+							Report PO Historical Transaction
 						</g:link>
 					</li>
 					<li class="divider"></li>
 					<li class="controller">
-						<g:link controller="PurchaseOrder" action="report" params="[type:'poTrackingSummary']" >
+						<g:link controller="PurchaseOrder" action="report" params="[type:'poTrackingSummary', domain:'PurchaseOrder']" >
 							PO Online Progress Tracking Summary 
 						</g:link>
 					</li>
 					<li class="divider"></li>
 					<li class="controller">
-						<g:link controller="PurchaseOrder" action="report" params="[type:'rfpTrackingSummary']" >
+						<g:link controller="PurchaseOrder" action="report" params="[type:'rfpTrackingSummary', domain:'Rfp']" >
 							RFP Online Progress Tracking Summary 
 						</g:link>
 					</li>
