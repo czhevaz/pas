@@ -31,15 +31,14 @@
 	<div class="form-group required">
 		<label for="pppDate" class="col-sm-2 control-label"><g:message code="register.year.label" default="year" /><span class="required-indicator">*</span></label>
 		<div class="col-sm-4">
-			<g:select id="year" name="requestor" from="${yearList}"   value="${params?.year}" class="many-to-one form-control chosen-select" noSelection="['': '']"/>
+			<g:select id="year" name="requestor" from="${[:]}"   value="${params?.year}" class="many-to-one form-control chosen-select" noSelection="['': '']"/>
 			
 		</div>
 	</div>
 	<div class="form-group required">
 		<label for="pppDate" class="col-sm-2 control-label"><g:message code="register.month.label" default="Month" /><span class="required-indicator">*</span></label>
 		<div class="col-sm-4">
-			<g:textField name="month" id="month" class="form-control" value="${params?.month}"/>
-			
+			<g:select id="month" name="month" from="${months as List}"    noSelection="['':'']" class="many-to-one form-control chosen-select"/>
 		</div>
 	</div>
 	<div class="form-group">

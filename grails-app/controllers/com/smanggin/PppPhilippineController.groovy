@@ -20,7 +20,14 @@ class PppPhilippineController {
 
     def list() {
         //params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def results = PppPhilippine.createCriteria().list(params){}
+        def results = PppPhilippine.createCriteria().list(params){
+            if(params.countryName){
+                country{
+                    eq('name',params.countryName)
+                }    
+            }
+    
+        }
         [pppPhilippineInstanceList: results, pppPhilippineInstanceTotal: results.totalCount]
     }
 

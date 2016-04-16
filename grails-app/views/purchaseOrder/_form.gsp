@@ -1,3 +1,4 @@
+
 <%@ page import="com.smanggin.PurchaseOrder" %>
 
 		<div class="form-group ${hasErrors(bean: purchaseOrderInstance, field: 'country', 'error')}  required">
@@ -199,7 +200,8 @@ if(actionName=='edit') {
 		$('#brand').chosen();
 		$('#lob').chosen();
 		$('#transactionGroup').chosen();
-
+        $('#month').prepend("<option value='' >All</option>")
+        $('#month').trigger('chosen:updated');
 		<g:if test="${session.country}" >
 			country ='${session.country}';
 			$('#country').val(country);	
@@ -484,7 +486,7 @@ if(actionName=='edit') {
     //* function get year* /
     function getYear(country){
         $.ajax({
-            url: "/${meta(name:'app.name')}/purchaseOrder/getYear?country="+country,
+            url: "/${meta(name:'app.name')}/purchaseOrder/getYear?country="+country+"&domain=PurchaseOrder",
             
             type: "POST",
             success: function (data) {

@@ -28,7 +28,7 @@
 						<ul class="dropdown-menu">
 	                  		<g:each in="${com.smanggin.Country.list()}" status="i" var="country">
 			                  	<li>
-			                  		<g:link controller="${country?.domainPPP}">
+			                  		<g:link controller="${country?.domainPPP}" action="list" params="[countryName:country.name]">
 										${country?.name}
 									</g:link>
 								</li>

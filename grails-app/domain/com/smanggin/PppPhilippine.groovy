@@ -31,7 +31,8 @@ class PppPhilippine {
 //	static	mappedBy	= []	// specifies which property should be used in a mapping 
 	
     static	mapping = {
-    	table 'T_Transaksi_PPP'
+    	//table 'T_Transaksi_PPP'
+    	table 'T_Transaksi_PPP_DW'
     	version true
     	id 	column: "PPP_Number",
         	name : 'number',

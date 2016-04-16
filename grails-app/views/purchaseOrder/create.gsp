@@ -8,6 +8,7 @@
 	<g:set var="entityName" value="${message(code: 'purchaseOrder.label', default: 'PurchaseOrder')}" />
 	<title><g:message code="default.create.label" args="[entityName]" /></title>
 	<g:set var="canCreate" value="true" scope="request" />
+	<g:set var="months" value="${new java.text.DateFormatSymbols().months}"/>
 </head>
 
 <body>

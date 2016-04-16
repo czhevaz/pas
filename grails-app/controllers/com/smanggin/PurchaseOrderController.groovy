@@ -88,8 +88,8 @@ class PurchaseOrderController {
     }
 
     def create() { 
-        def yearList = globalService.yearList('PppPhilippine',grailsApplication)
-        [purchaseOrderInstance: new PurchaseOrder(params) ,baseCurrency:baseCurrency, yearList:yearList]
+        
+        [purchaseOrderInstance: new PurchaseOrder(params) ,baseCurrency:baseCurrency]
     }
 
     def save() {
@@ -274,9 +274,9 @@ class PurchaseOrderController {
             }
         }
 
-        def yearList = globalService.yearList('PppPhilippine',grailsApplication)
+        
 
-        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails,isEdit:isEdit,baseCurrency :baseCurrency,yearList:yearList]
+        [purchaseOrderInstance: purchaseOrderInstance,pppInstance:map,pppDetails:pppDetails,isEdit:isEdit,baseCurrency :baseCurrency]
     }
 
     def update() {
@@ -440,6 +440,7 @@ class PurchaseOrderController {
                 
                 def sql = getPPPHead(it,params,country?.domainPPP)
                 def pppHead = domainClassInstance.findAll(sql)
+               //def pppHead = getPPPHead2
                 
                 if(pppHead?.size() > 0){
                     if(it.remainCreditLimit > 0 && pppHead[0]?.remainCreditLimit > 0){
@@ -1070,7 +1071,8 @@ class PurchaseOrderController {
                sql += "AND year(p.pppDate) = ${params.year} "     
             }
             if(params.month){
-               sql += "AND month(p.pppDate) = ${params.month} "     
+                def month = globalService.monthInt(params.month)+1
+               sql += "AND month(p.pppDate) = ${month} "     
             }
 
             if(detail){
@@ -1083,6 +1085,34 @@ class PurchaseOrderController {
 
 
         return sql
+    }
+
+    def getPPPHead2(domainInstance,params){
+        def pppHead = domainClassInstance.createCriteria().list(params){
+            if(params.countryId){
+                eq('country',country)    
+            }
+
+            if(params.lobId){
+                eq('lob',params.lobId)
+            }  
+
+            if(params.brandId){
+                eq('brand',params.brandId)    
+            }
+
+            if(params.year){
+                eq('year',params.year?.toInteger())       
+            }
+
+            if(params.month){
+                def month = globalService.monthInt(params.month)+1
+                eq('month',month)
+            }
+
+            eq('state', 'Done')
+        }
+        return pppHead
     }
 
 
@@ -1562,7 +1592,7 @@ class PurchaseOrderController {
                 eq('month',month)
             }
 
-            
+
         }
 
         params.order = params.order ?: 'asc' 
@@ -1694,7 +1724,7 @@ class PurchaseOrderController {
         if(params.domain){
             domain = params.domain
         }
-        
+
         def yearList = globalService.yearList(domain,grailsApplication,country)
 
         render yearList as  JSON
