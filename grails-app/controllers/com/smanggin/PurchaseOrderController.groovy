@@ -145,6 +145,7 @@ class PurchaseOrderController {
         
         if(approvals?.size() > 0){
             if (!purchaseOrderInstance.save(flush: true)) {
+                println "<<<<<<< errors >>>>>> " + purchaseOrderInstance.errors
                 render(view: "create", model: [purchaseOrderInstance: purchaseOrderInstance])
                 return
             }
