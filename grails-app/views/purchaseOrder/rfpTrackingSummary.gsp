@@ -115,7 +115,9 @@
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->	
 	
-<script type="text/javascript">
+<r:script>
+	var table;
+
 	var country = $('#country').val();
 
 	$("#reset").click(function(){ 
@@ -262,11 +264,21 @@
 							tr2 += "<td style='text-align:right;'> "+Math.round(total * 100) / 100+" </td>";
 							tr2 += "<td > </td>";
 							tr2 += "<td > </td>";
-							
+							tr2 += "<td > </td>";
 						tr2 += "</tr>";  
 						$("#table-report-rfpTracking tbody").append(tr2);	
+					/*$("#table-report-rfpTracking").DataTable({
+				    	"paging": false,
+					     "lengthChange": false,
+					     "searching": true,
+					     "ordering": true,
+					     "info": true,
+					     "autoWidth": true,
+					     "scrollX": true
+				    })*/
 
 				}	
+
 					
             },
             error: function (xhr, status, error) {
@@ -274,35 +286,7 @@
             }
         });
 	});
-
-	$("#poNumber").autocomplete({
-        source: function(request, response){
-        	
-        	request.country=$('#country').val();
-            $.ajax({
-                url: "${createLink(controller:'purchaseOrder', action:'poAutoComplete')}", // remote datasource
-                data: request,
-                success: function(data){
-                    if(data.length > 0){
-                        console.log('testing')
-                        response(data); // set the response
-                    } else {
-                        alert("PO  not found. Try type another PO Number.");
-                    }
-                },
-                error: function(){ // handle server errors
-                    /*$.jGrowl("Unable to retrieve Companies", {
-                        theme: 'ui-state-error ui-corner-all'   
-                    });*/
-                },
-            });
-        },
-        minLength: 2, // triggered only after minimum 2 characters have been entered.
-        select: function(event, ui) { // event handler when user selects a field from the list.
-            $("#partnerID").val(ui.item.id); // update the hidden field.
-        },
-    });
-
+	
     function getYear(country){
         $.ajax({
             url: "/${meta(name:'app.name')}/purchaseOrder/getYear?country="+country+"&domain=Rfp",
@@ -341,8 +325,36 @@
     function tes(){
     	alert('hello world');
     }
-</script>	
-
+</r:script>	
+<script>
+	$("#poNumber").autocomplete({
+        source: function(request, response){
+        	
+        	request.country=$('#country').val();
+            $.ajax({
+                url: "${createLink(controller:'purchaseOrder', action:'poAutoComplete')}", // remote datasource
+                data: request,
+                success: function(data){
+                    if(data.length > 0){
+                        console.log('testing')
+                        response(data); // set the response
+                    } else {
+                        alert("PO  not found. Try type another PO Number.");
+                    }
+                },
+                error: function(){ // handle server errors
+                    /*$.jGrowl("Unable to retrieve Companies", {
+                        theme: 'ui-state-error ui-corner-all'   
+                    });*/
+                },
+            });
+        },
+        minLength: 2, // triggered only after minimum 2 characters have been entered.
+        select: function(event, ui) { // event handler when user selects a field from the list.
+            $("#partnerID").val(ui.item.id); // update the hidden field.
+        },
+    });
+</script>
 </section>
 
 </body>

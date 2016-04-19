@@ -239,6 +239,7 @@
 						$("#table-report-pppbalance tbody").append(tr);	
 					});	
 				});
+				$("#table-report-pppbalance").stupidtable();
             },
             error: function (xhr, status, error) {
                 alert("fail");

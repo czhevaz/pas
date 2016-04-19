@@ -436,13 +436,55 @@ class PurchaseOrderController {
             }
             def results = []
             def pppDetails = PppDetail.findAll(sqlDetail)
-            pppDetails.each{
+            
+            def sqltes = getPPPHead(null,params,country?.domainPPP)
+            def domaintes= domainClassInstance.findAll(sqltes)
+            println "sqltes" + domaintes.size()
+            domaintes.each{
+               // println "number" + it.number
+                def pppNumber =  it.number
+                def  pppDetails2 = PppDetail.createCriteria().list(){
+                    eq('pppNumber',pppNumber)
+                    if(params?.brandId){
+                        eq('brand',brand?.code)
+                    }
+                    
+                }
+
+                //println " pppDetails "+ pppDetails2.size()
+                if(pppDetails2?.size() > 0){
+                    pppDetails2.each{ detail ->
+                        def map = [:]
+                        if(detail.remainCreditLimit > 0 && it?.remainCreditLimit > 0){
+                        map.put('requestorName',it?.requestor)
+                        map.put('pppNumber',it?.number)
+                        map.put('pppDate',it?.pppDate?.format('yyyy-MM-dd'))
+                        map.put('pppDescription',it?.pppProgram)
+                      //  map.put('countryName',pppHead[0]?.country?.name)
+                        map.put('lobName',it?.lob)
+                        map.put('brandName',detail?.brand)
+                       // map.put('state',pppHead[0]?.state)
+                        map.put('amount',detail.costDetail)
+                        map.put('remainCreditLimit',detail.remainCreditLimit)
+                        map.put('ammountTotalPPP',it?.pppCost)
+                        map.put('remainCreditLimitTotalPPP',it?.remainCreditLimit)
+                        results.push(map)
+                        }
+                        //println "map " + map
+                        
+                    }
+                }
+
+                 println "pppDetails2" + pppDetails2.size()
+            }
+
+            /*pppDetails.each{
                 def map = [:]
                 
                 def sql = getPPPHead(it,params,country?.domainPPP)
                 def pppHead = domainClassInstance.findAll(sql)
                //def pppHead = getPPPHead2
-                
+                // println "sql" + sql.size()
                 if(pppHead?.size() > 0){
                     if(it.remainCreditLimit > 0 && pppHead[0]?.remainCreditLimit > 0){
                         map.put('requestorName',pppHead[0]?.requestor)
@@ -462,13 +504,13 @@ class PurchaseOrderController {
                     }
                 }
                 
-            }
+            }*/
 
             
             def list=[:]
             list.put('sEcho','')
-            list.put('iTotalRecords',pppDetails?.size())
-            list.put('iTotalDisplayRecords',pppDetails?.size())
+            list.put('iTotalRecords',domaintes?.size())
+            list.put('iTotalDisplayRecords',domaintes?.size())
             list.put('aaData',results)
             
             
