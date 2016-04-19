@@ -8,8 +8,7 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'rate.label', default: 'Rate')}" />
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
-	<g:set var="canCreate" value="true" scope="request" />
-	<g:set var="canEdit" value="true" scope="request" />
+
 </head>
 
 <body>
@@ -24,8 +23,16 @@
                 <div class="box-body table-responsive">
 					<table class="table table-striped">
 						<tbody>
-						
 							<tr class="prop">
+								
+								<td valign="top" class="name"><g:message code="rate.countryCode.label" default="Country Id" /></td>
+								
+								<td valign="top" class="value">${rateInstance?.countryCode}</td>
+								
+							</tr>
+
+							<tr class="prop">
+
 								<td valign="top" class="name"><g:message code="rate.starDate.label" default="Star Date" /></td>
 								
 								<td valign="top" class="value"><g:formatDate date="${rateInstance?.starDate}" format="dd MMMM yyyy"/></td>

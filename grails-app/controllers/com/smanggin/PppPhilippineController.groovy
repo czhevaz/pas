@@ -19,11 +19,16 @@ class PppPhilippineController {
     }
 
     def list() {
+        if(params.countryName){
+            session.countryName = params.countryName
+        }
+
+        
         //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = PppPhilippine.createCriteria().list(params){
-            if(params.countryName){
+            if(session.countryName){
                 country{
-                    eq('name',params.countryName)
+                    eq('name',session.countryName)
                 }    
             }
     

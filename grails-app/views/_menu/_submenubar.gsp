@@ -12,7 +12,7 @@ This menu is used to show function that can be triggered on the content (an obje
 
 }">
 	<ul id="Menu" class="nav nav-pills">
-
+				
 		<g:set var="entityName" value="${message(code: params.controller+'.label', default: params.controller.substring(0,1).toUpperCase() + params.controller.substring(1).toLowerCase())}" />
 		
 			<li class="${ params.action == "list" ? 'active' : '' }">

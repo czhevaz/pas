@@ -30,7 +30,8 @@
 								<g:sortableColumn property="starDate" title="${message(code: 'rate.starDate.label', default: 'Star Date')}" />
 	
 								<g:sortableColumn property="endDate" title="${message(code: 'rate.endDate.label', default: 'End Date')}" />
-							
+								
+								<g:sortableColumn property="ID" title="${message(code: 'rate.country.label', default: 'Country ID')}" />
 							
 							</tr>
 						</thead>
@@ -41,6 +42,8 @@
 								<td><g:link action="show" id="${rateInstance.id}"><g:formatDate date="${rateInstance.starDate}" format="dd MMMM yyyy" /></g:link></td>
 
 								<td><g:formatDate date="${rateInstance.endDate}" format="dd MMMM yyyy" /></td>
+
+								<td>${rateInstance.countryCode}</td>
 							
 								
 							
