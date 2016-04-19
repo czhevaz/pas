@@ -91,7 +91,7 @@
 					<table id="table-report-rfpTracking" class="table table-bordered margin-top-medium ">
 						<thead>
 							<tr>
-								<th><g:message code="rfp.number.label" default="RFP No." /></th>
+								<th onclick="tes()"><g:message code="rfp.number.label" default="RFP No." /></th>
 
 								<th>RFP Requestor</th>
 								
@@ -208,7 +208,7 @@
 
 
 	$("#searchPO").click(function(){ 
-		//alert(' hellllloooooooooooooooooooo ');		
+		
 		var countryTes = $("#country").val();
 		var lobId = $("#lob").val();
 		var brandId = $("#brand").val();
@@ -336,6 +336,10 @@
                 alert("fail");
             }
         });
+    }
+
+    function tes(){
+    	alert('hello world');
     }
 </script>	
 

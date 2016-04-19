@@ -123,11 +123,9 @@
 
 								<th><g:message code="reff.note.label" default="Activities" /></th>
 
-								<th><g:message code="reff.currency.label" default="CCY" /></th>
+								<th><g:message code="reff.Total.label" default="PO Start Balance (USD)" /></th>
 
-								<th><g:message code="reff.Total.label" default="Value" /></th>
-
-								<th><g:message code="ppurchaseOrderpp.balance.label" default="PO Balance" /></th>
+								<th><g:message code="ppurchaseOrderpp.balance.label" default="PO End Balance (USD)" /></th>
 									
 							</tr>
 						</thead>
@@ -238,7 +236,6 @@
 
 							tr += "<td > "+ po.rfpNumber +" </td>";
 							tr += "<td > "+ po.rfpDesc +" </td>";
-								tr += "<td > "+ po.rfpCurrency +" </td>";
 							tr += "<td style='text-align:right;'> "+ po.rfpCost +" </td>";
 							tr += "<td style='text-align:right;'> "+ po.poBalanced +" </td>";
 							tr += "</tr>";
