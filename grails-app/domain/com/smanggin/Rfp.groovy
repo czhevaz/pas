@@ -76,6 +76,26 @@ class Rfp {
 		month nullable:true
     }
 
+    static transients =['totalRFP1','totalRFP2']
+
+    Float getTotalRFP1() {
+		def total = 0
+		rfpDetails.each{
+			total = total + it.totalCost1
+		}
+
+		return total
+	}
+
+	Float getTotalRFP2() {
+		def total = 0
+		rfpDetails.each{
+			total = total + it.totalCost2
+		}
+
+		return total
+	}
+
     def beforeInsert(){
     	Integer count= Rfp.countByTransactionGroup(transactionGroup)+1
 		Integer width= transactionGroup.width

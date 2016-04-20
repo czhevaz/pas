@@ -1280,7 +1280,18 @@ class PurchaseOrderController {
     
         def views = params.type 
         //def yearList = globalService.yearList(params.domain,grailsApplication)
-        render(view: "${views}")
+        def sortList = []
+    
+        sortList = [
+                [id:'rfp.number',value:'RFP No.'],
+                [id:'rfp.createdBy',value:'Requestor'],
+                [id:'rfp.note',value:'Note'],
+                [id:'rfp.state',value:'Status'],
+                [id:'rfp.rfpDate',value:'RFP Proposed Date'],
+                [id:'rfp.mustApprovedBy',value:'Next Approval'],
+        ]
+
+        render(view: "${views}",model:['sortList':sortList])
 
     }
 
@@ -1561,7 +1572,7 @@ class PurchaseOrderController {
     }
 
     def rfpTrackingSummary(){
-       
+        println " rfp poTrackingSummary " + params
                 
         def rfpDetails = RfpDetail.createCriteria().list(params){
             
@@ -1577,7 +1588,7 @@ class PurchaseOrderController {
                         def month = globalService.monthInt(params.month)+1
                         eq('month',month)
                     }
-                       order("rfpDate", "desc")
+                      // order("rfpDate", "desc")
                 }    
             }
 
@@ -1595,7 +1606,9 @@ class PurchaseOrderController {
             map.put('rfpNumber',it.rfp?.number)
             map.put('rfpCreatedBy',it.rfp?.createdBy)
             map.put('rfpNote',it.rfp?.note?:'')
-            map.put('rfpCost',it.totalCost2.round(2))
+            map.put('rfpCost',it.rfp?.totalRFP2.round(2))
+            map.put('poNumber',it.purchaseOrder?.number)
+            map.put('poValue',it.totalCost2.round(2))
             map.put('rfpDate',date)
             map.put('rfpStatus',it.rfp?.state)
             map.put('rfpMustApprovedBy',it.rfp?.mustApprovedBy?:'')
