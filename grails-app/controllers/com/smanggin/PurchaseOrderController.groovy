@@ -451,11 +451,12 @@ class PurchaseOrderController {
                     
                 }
 
-                //println " pppDetails "+ pppDetails2.size()
+                //println "pppDetails2:  " + pppDetails2.size() + " >>>> " +it.number
+
                 if(pppDetails2?.size() > 0){
                     pppDetails2.each{ detail ->
                         def map = [:]
-                        if(detail.remainCreditLimit > 0 && it?.remainCreditLimit > 0){
+                       if(detail.remainCreditLimit > 0 && it?.remainCreditLimit > 0){
                         map.put('requestorName',it?.requestor)
                         map.put('pppNumber',it?.number)
                         map.put('pppDate',it?.pppDate?.format('yyyy-MM-dd'))
@@ -475,7 +476,7 @@ class PurchaseOrderController {
                     }
                 }
 
-                 println "pppDetails2" + pppDetails2.size()
+                 //println "pppDetails2" + pppDetails2.size()
             }
 
             /*pppDetails.each{

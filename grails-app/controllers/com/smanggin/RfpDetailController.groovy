@@ -145,7 +145,7 @@ class RfpDetailController {
             rfpDetailInstance.pppNumber = params.pppNumber
             rfpDetailInstance.coa = ChartOfAccount.findByCode(params?.coaCode)
             rfpDetailInstance.rfp = Rfp.get(params.rfpId)
-
+            rfpDetailInstance.totalCost2 = (params.totalCost1.toFloat()/ rfpDetailInstance.rfp?.rate).round(2)
                            
             if (!rfpDetailInstance.save(flush: true)) {
                 render([success: false, messages: rfpDetailInstance.errors] as JSON)

@@ -147,7 +147,7 @@ class RfpController {
 
     def show() {
         def rfpInstance = Rfp.get(params.id)
-        //syncDatabaseService.insertRfptoProxy(rfpInstance)
+        syncDatabaseService.insertRfptoProxy(rfpInstance)
         //syncDatabaseService.syncCOAFromProxy()
         
         if(params.notifId){
@@ -392,7 +392,7 @@ class RfpController {
     Action Waiting Approve
     **/
     def actionWaitingApprove() {
-        println "params approvals" + params
+        
         def rfpInstance = Rfp.get(params.id)
         if (!rfpInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'RFP'), params.id])
@@ -501,7 +501,7 @@ class RfpController {
             saveNotif(rfpInstance,rfpInstance.mustApprovedBy)/* --insert TO Notif */
            // sendApproveEmail(rfpInstance)/* --Send Email */
         }
-
+        syncDatabaseService.insertRfptoProxy(rfpInstance)
         if(countRfpApproved == countRfpApp){
             rfpDetailInsertPOBalance(rfpInstance)
 
