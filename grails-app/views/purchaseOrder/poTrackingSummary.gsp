@@ -115,6 +115,28 @@
 
 	<div class="row">
 		<div class="col-lg-12">
+			<div class="box-header with-border">
+				<div class="row">
+    				<div class="col-sm-6">
+    					<div class="form-group required">
+							<label for="sortBy" class="col-sm-3 control-label"><g:message code="poTracking.sortBy.label" default="Sort By" /></label>
+							<div class="col-sm-9">
+								<g:select id="sortBy" name="sortBy" from="${sortList}"  optionKey="id" optionValue="value"  noSelection="['':'']" class="many-to-one form-control chosen-select"/>	
+							</div>
+						</div>	
+    				</div>
+    				<div class="col-sm-6">
+    					<div class="form-group required">
+							<label for="order" class="col-sm-3 control-label"><g:message code="poTracking.order.label" default="order" /></label>
+							<div class="col-sm-9">
+								<g:select id="order" name="order" from="${['asc','desc']}"  class="many-to-one form-control chosen-select"/>	
+							</div>
+						</div>
+						
+    				</div>
+    			</div>	
+    		</div><!--/.box-header with-border -->	
+				
 			<div class="box box-primary">
 				<div class="box-body table-responsive">
 					<table id="table-report-poTracking" class="table table-bordered margin-top-medium">
@@ -201,67 +223,7 @@
 
 	$("#searchPO").click(function(){ 
 		
-		var countryTes = $("#country").val();
-		var lobId = $("#lob").val();
-		var brandId = $("#brand").val();
-		var year = $("#year").val();	
-		var month =	$("#month").val();
-		var pppNumber = $("#pppNumber").val();	
-		var status= $("#status").val();	
-		
-		var postData = {
-			"search":"true",	
-			"countryId":countryTes,
-			"lobId":lobId,
-			"brandId":brandId,
-			"year":year,
-			"month":month,
-			"pppNumber":pppNumber,
-			"status":status
-		}
-		
-		$.ajax({
-            url: "/${meta(name:'app.name')}/purchaseOrder/poTrackingSummary",
-            data:postData,
-            type: "POST",
-            success: function (data) {
-            	console.log(data);
-            	$("#table-report-poTracking tbody").html("");	
-				var total= 0;
-
-				if(data.results.length){
-					$.each(data.results , function(i,item) {
-						var tr ="<tr>";		
-
-							tr += "<td > "+ item.poNumber +" </td>";
-							tr += "<td > "+ item.poCreatedBy +" </td>";
-							tr += "<td > "+ item.poType +" </td>";
-							tr += "<td > "+ item.poDescription +" </td>";
-							tr += "<td style='text-align:right;'> "+ item.poCost +" </td>";
-							tr += "<td > "+ item.podate +" </td>";
-							tr += "<td > "+ item.poStatus +" </td>";
-							tr += "<td > "+ item.poMustApprovedBy +" </td>";
-
-							tr += "</tr>";  
-							$("#table-report-poTracking tbody").append(tr);	
-							total = total + item.poCost;
-					});
-
-					var tr2 ="<tr>";
-							tr2 += "<td colspan='4' style='text-align:right;'> Total </td>";
-							tr2 += "<td style='text-align:right;'> "+Math.round(total * 100) / 100+" </td>";
-							tr2 += "<td > </td>";
-							tr2 += "<td > </td>";
-							tr2 += "<td > </td>";
-						tr2 += "</tr>";  
-						$("#table-report-poTracking tbody").append(tr2);	
-				}	
-
-            },
-            error: function (xhr, status, error) {
-                alert("fail");
-            }
-        });
+		filterData(sort,order);		
 	});
 
 	$("#country").on('change', function() {
@@ -345,6 +307,74 @@
             }
         });
     }
+
+    function filterData(sort,order){
+
+    	var countryTes = $("#country").val();
+		var lobId = $("#lob").val();
+		var brandId = $("#brand").val();
+		var year = $("#year").val();	
+		var month =	$("#month").val();
+		var pppNumber = $("#pppNumber").val();	
+		var status= $("#status").val();	
+		
+		var postData = {
+			"search":"true",	
+			"countryId":countryTes,
+			"lobId":lobId,
+			"brandId":brandId,
+			"year":year,
+			"month":month,
+			"pppNumber":pppNumber,
+			"status":status,
+			"sort":sort,
+			"order":order
+		}
+		
+		$.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/poTrackingSummary",
+            data:postData,
+            type: "POST",
+            success: function (data) {
+            	console.log(data);
+            	$("#table-report-poTracking tbody").html("");	
+				var total= 0;
+
+				if(data.results.length){
+					$.each(data.results , function(i,item) {
+						var tr ="<tr>";		
+
+							tr += "<td > "+ item.poNumber +" </td>";
+							tr += "<td > "+ item.poCreatedBy +" </td>";
+							tr += "<td > "+ item.poType +" </td>";
+							tr += "<td > "+ item.poDescription +" </td>";
+							tr += "<td style='text-align:right;'> "+ item.poCost +" </td>";
+							tr += "<td > "+ item.podate +" </td>";
+							tr += "<td > "+ item.poStatus +" </td>";
+							tr += "<td > "+ item.poMustApprovedBy +" </td>";
+
+							tr += "</tr>";  
+							$("#table-report-poTracking tbody").append(tr);	
+							total = total + item.poCost;
+					});
+
+					var tr2 ="<tr>";
+							tr2 += "<td colspan='4' style='text-align:right;'> Total </td>";
+							tr2 += "<td style='text-align:right;'> "+Math.round(total * 100) / 100+" </td>";
+							tr2 += "<td > </td>";
+							tr2 += "<td > </td>";
+							tr2 += "<td > </td>";
+						tr2 += "</tr>";  
+						$("#table-report-poTracking tbody").append(tr2);	
+				}	
+
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }
+
 </r:script>
 <script type="text/javascript">
 	    //autocomplete PPP

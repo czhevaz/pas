@@ -280,6 +280,12 @@
     	filterData(sort,order);
     });
 
+    $("#order").on('change', function() {
+    	var sort = $(sortBy).val();
+    	var order = $(this).val();
+    	filterData(sort,order);
+    });
+
     function filterData(sort,order){
     	var countryTes = $("#country").val();
 		var lobId = $("#lob").val();

@@ -501,7 +501,7 @@ class RfpController {
             saveNotif(rfpInstance,rfpInstance.mustApprovedBy)/* --insert TO Notif */
            // sendApproveEmail(rfpInstance)/* --Send Email */
         }
-        syncDatabaseService.insertRfptoProxy(rfpInstance)
+
         if(countRfpApproved == countRfpApp){
             rfpDetailInsertPOBalance(rfpInstance)
 
@@ -707,9 +707,5 @@ class RfpController {
         
         printService.print("XLS", request.getLocale(), response,params,trTypeCode,filename)
     }
-
-    
-
-
 
 }
