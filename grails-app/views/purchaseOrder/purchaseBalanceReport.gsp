@@ -105,6 +105,28 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box box-primary">
+				<div class="box-header with-border">
+					<div class="row">
+	    				<div class="col-sm-6">
+	    					<div class="form-group required">
+								<label for="sortBy" class="col-sm-3 control-label"><g:message code="poTracking.sortBy.label" default="Sort By" /></label>
+								<div class="col-sm-9">
+									<g:select id="sortBy" name="sortBy" from="${sortList}"  optionKey="id" optionValue="value"  noSelection="['':'']" class="many-to-one form-control chosen-select"/>	
+								</div>
+							</div>	
+	    				</div>
+	    				<div class="col-sm-6">
+	    					<div class="form-group required">
+								<label for="order" class="col-sm-3 control-label"><g:message code="poTracking.order.label" default="order" /></label>
+								<div class="col-sm-9">
+									<g:select id="order" name="order" from="${['asc','desc']}"  class="many-to-one form-control chosen-select"/>	
+								</div>
+							</div>
+							
+	    				</div>
+	    			</div>	
+	    		</div><!--/.box-header with-border -->	
+				
 				<div class="box-body table-responsive" style="overflow-y:auto">
 					<table id="table-report-pobalance" class="table table-bordered margin-top-medium">
 						<thead>

@@ -115,29 +115,30 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="box-header with-border">
-				<div class="row">
-    				<div class="col-sm-6">
-    					<div class="form-group required">
-							<label for="sortBy" class="col-sm-3 control-label"><g:message code="poTracking.sortBy.label" default="Sort By" /></label>
-							<div class="col-sm-9">
-								<g:select id="sortBy" name="sortBy" from="${sortList}"  optionKey="id" optionValue="value"  noSelection="['':'']" class="many-to-one form-control chosen-select"/>	
-							</div>
-						</div>	
-    				</div>
-    				<div class="col-sm-6">
-    					<div class="form-group required">
-							<label for="order" class="col-sm-3 control-label"><g:message code="poTracking.order.label" default="order" /></label>
-							<div class="col-sm-9">
-								<g:select id="order" name="order" from="${['asc','desc']}"  class="many-to-one form-control chosen-select"/>	
-							</div>
-						</div>
-						
-    				</div>
-    			</div>	
-    		</div><!--/.box-header with-border -->	
 				
 			<div class="box box-primary">
+				<div class="box-header with-border">
+					<div class="row">
+	    				<div class="col-sm-6">
+	    					<div class="form-group required">
+								<label for="sortBy" class="col-sm-3 control-label"><g:message code="poTracking.sortBy.label" default="Sort By" /></label>
+								<div class="col-sm-9">
+									<g:select id="sortBy" name="sortBy" from="${sortList}"  optionKey="id" optionValue="value"  noSelection="['':'']" class="many-to-one form-control chosen-select"/>	
+								</div>
+							</div>	
+	    				</div>
+	    				<div class="col-sm-6">
+	    					<div class="form-group required">
+								<label for="order" class="col-sm-3 control-label"><g:message code="poTracking.order.label" default="order" /></label>
+								<div class="col-sm-9">
+									<g:select id="order" name="order" from="${['asc','desc']}"  class="many-to-one form-control chosen-select"/>	
+								</div>
+							</div>
+							
+	    				</div>
+	    			</div>	
+	    		</div><!--/.box-header with-border -->	
+				
 				<div class="box-body table-responsive">
 					<table id="table-report-poTracking" class="table table-bordered margin-top-medium">
 						<thead>
@@ -221,16 +222,26 @@
 
     });	
 
-	$("#searchPO").click(function(){ 
-		
-		filterData(sort,order);		
+	$("#searchPO").click(function(){
+		filterData();	
 	});
+
+	$("#sortBy").on('change', function() {
+    	var sort = $(this).val();
+    	var order = $('#order').val();
+    	filterData(sort,order);
+    });
+
+    $("#order").on('change', function() {
+    	var sort = $(sortBy).val();
+    	var order = $(this).val();
+    	filterData(sort,order);
+    });
+
 
 	$("#country").on('change', function() {
 		country = $(this).val();
-		
-
-		getLob(country);			
+		getLob(country);	
         getYear(country);
 	});		
 

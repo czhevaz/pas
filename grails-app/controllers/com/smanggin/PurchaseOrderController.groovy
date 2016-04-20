@@ -1282,21 +1282,46 @@ class PurchaseOrderController {
         //def yearList = globalService.yearList(params.domain,grailsApplication)
         def sortList = []
     
-        sortList = [
+        if(params.type == 'rfpTrackingSummary'){
+            sortList = [
                 [id:'rfp.number',value:'RFP No.'],
                 [id:'rfp.createdBy',value:'Requestor'],
                 [id:'rfp.note',value:'Note'],
                 [id:'rfp.state',value:'Status'],
                 [id:'rfp.rfpDate',value:'RFP Proposed Date'],
                 [id:'rfp.mustApprovedBy',value:'Next Approval'],
-        ]
+            ]
+        }
+
+        if(params.type == 'poTrackingSummary'){
+            sortList = [
+                [id:'number',value:'PO No.'],
+                [id:'createdBy',value:'Requestor'],
+                [id:'reasonforInvestment',value:'PO purpose'],
+                [id:'state',value:'Status'],
+                [id:'purchaseOrderDate',value:'PO Proposed Date'],
+                [id:'mustApprovedBy',value:'Next Approval'],
+            ]
+        }
+
+        if(params.type == 'purchaseBalanceReport'){
+            sortList = [
+                [id:'number',value:'PO No.'],
+                [id:'transactionGroup.transactionType?.name',value:'PO Type'],
+                [id:'createdBy',value:'Requestor'],
+                [id:'reasonforInvestment',value:'PO purpose'],
+                [id:'state',value:'Status'],
+                
+            ]   
+        }
+        
 
         render(view: "${views}",model:['sortList':sortList])
 
     }
 
     def pppBalanceReport(){
-        println " params  ppp Balance report " + params 
+        //println " params  ppp Balance report " + params 
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
         def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
@@ -1516,7 +1541,7 @@ class PurchaseOrderController {
 
     def poTrackingSummary(){
       
-        def purchaseOrders= PurchaseOrder.createCriteria().list(){
+        def purchaseOrders= PurchaseOrder.createCriteria().list(params){
             if(params.countryId){
                 eq('country',params.countryId)    
             }
@@ -1546,7 +1571,7 @@ class PurchaseOrderController {
                 eq('state',params.status)
             }
 
-            order('purchaseOrderDate','desc')
+            //order('purchaseOrderDate','desc')
 
         }
 
