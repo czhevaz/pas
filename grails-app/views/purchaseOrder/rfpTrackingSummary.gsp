@@ -91,7 +91,7 @@
 					<table id="table-report-rfpTracking" class="table table-bordered margin-top-medium ">
 						<thead>
 							<tr>
-								<th onclick="tes()"><g:message code="rfp.number.label" default="RFP No." /></th>
+								<th ><g:message code="rfp.number.label" default="RFP No." /></th>
 
 								<th>RFP Requestor</th>
 								
