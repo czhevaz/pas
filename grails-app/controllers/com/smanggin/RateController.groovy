@@ -21,7 +21,7 @@ class RateController {
     }
 
     def list() {
-     
+//        syncDatabaseService.syncRateDetailFromProxy()
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = Rate.createCriteria().list(params){}
         [rateInstanceList: results, rateInstanceTotal: results.totalCount]

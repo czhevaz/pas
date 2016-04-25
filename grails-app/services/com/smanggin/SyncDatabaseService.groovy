@@ -351,9 +351,11 @@ class SyncDatabaseService {
 		Calendar calendar=Calendar.getInstance();
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
 		def findCode =  conSqlAmatra.firstRow("select * from M_PAS_Rate where xrperiod=:valCode AND country_code=:valCountry", [valCode: row.Xrperiod, valCountry: row.CountryID])
-		def params = [row.Ccy1, row.Ccy2, row.Xrperiod, row.rate, findCode.id, row.CountryID, 0, timestamp, timestamp]
-
- 		conSqlAmatra.execute 'insert into M_PAS_Rate_Detail(currency1_id, currency2_id , xrperiod, value, rate_id, country_code, version, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', params
+		
+		if(findCode){
+			def params = [row.Ccy1, row.Ccy2, row.Xrperiod, row.rate, findCode?.id, row.CountryID, 0, timestamp, timestamp]
+ 			conSqlAmatra.execute 'insert into M_PAS_Rate_Detail(currency1_id, currency2_id , xrperiod, value, rate_id, country_code, version, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', params
+ 		}
 
 	}
 
