@@ -132,6 +132,7 @@
     			</div><!--/.box-header with-border -->	
 				
 				<div class="box-body table-responsive">
+				<img src="http://dkclasses.com/images/loading.gif" id="loading-indicator" style="display:none" />
 					<table id="table-report-pppbalance" class="table table-bordered margin-top-medium">
 						<thead>
 							<tr>
@@ -166,6 +167,12 @@
 	</div><!--/.row -->	
 	
 <r:script>
+	$(document).bind("ajaxSend", function(){
+	   $("#loading-indicator").show();
+	 }).bind("ajaxComplete", function(){
+	   $("#loading-indicator").hide();
+	 });
+
 	var country = $('#country').val();
 
 	$("#reset").click(function(){ 

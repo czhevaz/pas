@@ -17,6 +17,7 @@
 <body>
 
 <section id="create-purchaseOrder" class="first">
+	
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box box-primary">
@@ -109,7 +110,7 @@
     				</div>
     			</div>	
     			</div><!--/.box-header with-border -->	
-				
+				<img src="http://dkclasses.com/images/loading.gif" id="loading-indicator" style="display:none" />
 				<div class="box-body table-responsive">
 					<table id="table-report-rfpTracking" class="table table-bordered margin-top-medium ">
 						<thead>
@@ -143,6 +144,12 @@
 	</div><!--/.row -->	
 	
 <r:script>
+	$(document).bind("ajaxSend", function(){
+	   $("#loading-indicator").show();
+	 }).bind("ajaxComplete", function(){
+	   $("#loading-indicator").hide();
+	 });
+
 	var table;
 
 	var country = $('#country').val();

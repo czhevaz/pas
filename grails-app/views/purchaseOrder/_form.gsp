@@ -372,8 +372,8 @@ if(actionName=='edit') {
 
     function getCurrency(country){
         var date = $('#purchaseOrderDate_year').val() + "-" + $('#purchaseOrderDate_month').val() + "-" + $('#purchaseOrderDate_day').val()
-        console.log("date");
-        console.log(date);
+        //console.log("date");
+        //console.log(date);
         $.ajax({
             url: "/${meta(name:'app.name')}/currency/jlist?country="+country+"&date="+date+"&countryCode="+country,
             type: "POST",

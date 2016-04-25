@@ -63,11 +63,11 @@
 </style>
 
 <r:script>
-	$(document).bind("ajaxSend", function(){
+	/*$(document).bind("ajaxSend", function(){
 	   $("#loading-indicator").show();
 	 }).bind("ajaxComplete", function(){
 	   $("#loading-indicator").hide();
-	 });
+	 });*/
 	var table = $('#pppContent').DataTable();
 
 	$("#search2").click(function(){
