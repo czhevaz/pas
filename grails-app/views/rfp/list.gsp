@@ -22,9 +22,11 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
+								<th> No. </th>
+
 								<th><g:message code="rfp.number.label" default="Number" /></th>
 								
 								<th><g:message code="rfp.rfpDate.label" default="RfpDate" /></th>
@@ -41,10 +43,32 @@
 									
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<th> No. </th>
+
+								<th><g:message code="rfp.number.label" default="Number" /></th>
+								
+								<th><g:message code="rfp.rfpDate.label" default="RfpDate" /></th>
+
+								<th><g:message code="rfp.state.label" default="State" /></th>
+
+								<th><g:message code="rfp.transactionGroup.label" default="TransactionGroup" /></th>
+
+								<th><g:message code="rfp.supplier.label" default="Supplier" /></th>
+							
+								<th><g:message code="rfp.paymentOption.label" default="paymentOption" /></th>
+
+								<th><g:message code="rfp.createdBy.label" default="createdBy" /></th>
+									
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${rfpInstanceList}" status="i" var="rfpInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-							
+								
+								<td> ${i+1} </td>
+
 								<td><g:link action="show" id="${rfpInstance.id}">${fieldValue(bean: rfpInstance, field: "number")}</g:link></td>
 							
 								<td><g:formatDate date="${rfpInstance.rfpDate}" format="dd MMMM yyyy"/></td>
@@ -65,9 +89,9 @@
 					</table>
 				</div><!--/.box-body table-responsive -->
 
-				<div class="box-footer clearfix">
+				<!-- <div class="box-footer clearfix">
 					<bs:paginate total="${rfpInstanceTotal}" />
-				</div><!--/.box-footer clearfix -->
+				</div>--><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			

@@ -86,6 +86,8 @@ class RfpController {
             
         }
 
+        println " total "+ results.totalCount
+
         [rfpInstanceList: results, rfpInstanceTotal: results.totalCount]
     }
 

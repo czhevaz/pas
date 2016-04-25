@@ -1314,6 +1314,14 @@ class PurchaseOrderController {
                 
             ]   
         }
+
+        if(params.type == 'pppBalanceReport'){
+            sortList = [
+                [id:'number',value:'PPP No.'],
+                [id:'brand',value:'PPP Brand'],
+                [id:'costDetail',value:'PPP Value'],
+            ]   
+        }
         
 
         render(view: "${views}",model:['sortList':sortList])
@@ -1321,13 +1329,16 @@ class PurchaseOrderController {
     }
 
     def pppBalanceReport(){
+        println " params > " + params
         //println " params  ppp Balance report " + params 
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
         def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz 
         //println "domainClassInstance " + domainClassInstance
         //def sql = getPPPHead(null,params,country?.domainPPP)
-        
+        //params.order = params.order ?: 'asc' 
+        //params.sort = params.sort ?: 'pppDate'
+
         def pppHead = domainClassInstance.createCriteria().list(){
             if(params.countryId){
                 eq('country',country)    
@@ -1337,9 +1348,9 @@ class PurchaseOrderController {
                 eq('lob',params.lobId)
             }  
 
-            if(params.brandId){
+            /*if(params.brandId){
                 eq('brand',params.brandId)    
-            }
+            }*/
 
             if(params.year){
                 eq('year',params.year?.toInteger())       
@@ -1349,19 +1360,30 @@ class PurchaseOrderController {
                 def month = globalService.monthInt(params.month)+1
                 eq('month',month)
             }
+
         }
 
-        params.order = params.order ?: 'asc' 
-        params.sort = params.sort ?: 'dateCreated' 
+         
         
+
         def list=[] 
+
         pppHead.each{
-            def pppDetail = PppDetail.findAllByPppNumber(it.number)
+            def pppNumber = it.number
+            def pppDetail = PppDetail.createCriteria().list(){
+                eq('pppNumber',pppNumber)
+                if(params.brandId){
+                    eq('brand',params.brandId)    
+                }
+                if(params.sort){
+                    order(params.sort,params.order)
+                }
+            }
 
             if(pppDetail.size > 0 ){
                 pppDetail.each{ detail -> 
 
-                    def pos = PurchaseOrder.createCriteria().list(params){
+                    def pos = PurchaseOrder.createCriteria().list(){
                         eq('pppNumber',detail.pppNumber)
                         eq('brand', ,detail.brand)
                     }

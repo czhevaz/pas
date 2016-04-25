@@ -34,7 +34,7 @@
 									<div class="col-sm-9">
 									<!--	<p class="form-control-static">${session.country}</p>	
 										<g:hiddenField name="country" value="${session.country}"/> -->
-										<g:select id="country" name="country" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${purchaseOrderInstance?.country}" class="many-to-one form-control chosen-select" />
+										<g:select id="country" name="country" from="${com.smanggin.Country.list()}" optionKey="name"  value="${purchaseOrderInstance?.country}" class="many-to-one form-control chosen-select" />
 										<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'country', 'error')}</span>
 									</div>
 								</div>
@@ -108,6 +108,29 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box box-primary">
+				<div class="box-header with-border">
+				<div class="row">
+    				<div class="col-sm-6">
+    					<div class="form-group required">
+							<label for="sortBy" class="col-sm-3 control-label"><g:message code="rfpTracking.sortBy.label" default="Sort By" /></label>
+							<div class="col-sm-9">
+								<g:select id="sortBy" name="sortBy" from="${sortList}"  optionKey="id" optionValue="value"  noSelection="['':'']" class="many-to-one form-control chosen-select"/>	
+							</div>
+						</div>
+								
+    				</div>
+    				<div class="col-sm-6">
+    					<div class="form-group required">
+							<label for="order" class="col-sm-3 control-label"><g:message code="rfpTracking.order.label" default="order" /></label>
+							<div class="col-sm-9">
+								<g:select id="order" name="order" from="${['asc','desc']}"  class="many-to-one form-control chosen-select"/>	
+							</div>
+						</div>
+						
+    				</div>
+    			</div>	
+    			</div><!--/.box-header with-border -->	
+				
 				<div class="box-body table-responsive">
 					<table id="table-report-pppbalance" class="table table-bordered margin-top-medium">
 						<thead>
@@ -197,66 +220,9 @@
 
 
 	$("#search").click(function(){ 
-		var countryTes = $("#country").val();
-		var lobId = $("#lob").val();
-		var year = $("#year").val();	
-		var month =	$("#month").val();	
-		
-		var postData = {
-			"search":"true",	
-			"countryId":countryTes,
-			"lobId":lobId,
-			"year":year,
-			"month":month,
-		}
-
-		
-		$.ajax({
-            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceReport",
-            data:postData,
-            type: "POST",
-            success: function (data) {
-            	$("#table-report-pppbalance tbody").html("");	
-				
-				$.each(data.results , function(i,item) {
-				var endcost = 0 ;
-					$.each(item.po , function(j,po) {
-						var tr ="<tr>";	
-						
-						if(j==0){
-							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppNumber +"</td>";
-							tr += "<td rowspan='"+item.po.length+"' style='text-align:right;'> "+ item.pppCost +" </td>";
-							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppBrand +" </td>";	
-						}	
-
-						tr += "<td > <a href='/pas/purchaseOrder/show/"+po.poId+"' target ='_blank'>"+ po.poNumber +"</a> </td>";
-						tr += "<td > "+ po.poType +" </td>";
-						tr += "<td > "+ po.poState +" </td>";
-						tr += "<td style='text-align:right;'> "+ po.pototal +" </td>";
-						tr += "<td style='text-align:right;'> "+ po.poWO +" </td>";
-						tr += "<td style='text-align:right;'> "+ po.poRfp +" </td>";
-						tr += "<td style='text-align:right;'> "+ po.poEndCost +" </td>";
-						tr += "</tr>";
-
-						endcost = endcost +  po.poEndCost
-						
-						$("#table-report-pppbalance tbody").append(tr);
-					});
-					var tr2 ="<tr style='background-color:gray;'>";
-						
-						tr2 += "<td colspan='6' style='text-align:right;'> PPP Balance (ppp value - Actual Cost) </td>";
-						tr2 += "<td colspan='4' style='text-align:right;'>"+ item.pppCost +" - "+ endcost+" = "+  item.pppBalance +"</td>";
-						
-						tr2 += "</tr>";
-						$("#table-report-pppbalance tbody").append(tr2);	
-
-				});
-
-            },
-            error: function (xhr, status, error) {
-                alert("fail");
-            }
-        });
+		var sort = $(sortBy).val();
+    	var order = $(this).val();
+		filterData(sort,order)		
 	});
 
 	function getLob(country) {
@@ -330,6 +296,85 @@
                 alert("fail");
             }
         });
+    }
+
+    $("#sortBy").on('change', function() {
+    	var sort = $(this).val();
+    	var order = $('#order').val();
+    	filterData(sort,order);
+    });
+
+    $("#order").on('change', function() {
+    	var sort = $(sortBy).val();
+    	var order = $(this).val();
+    	filterData(sort,order);
+    });
+
+    function filterData(sort,order){
+		var countryTes = $("#country").val();
+		var lobId = $("#lob").val();
+		var brandId = $("#brand").val();
+		var year = $("#year").val();	
+		var month =	$("#month").val();	
+		
+		var postData = {
+			"search":"true",	
+			"countryId":countryTes,
+			"lobId":lobId,
+			"brandId":brandId,
+			"year":year,
+			"month":month,
+			"sort":sort,
+			"order":order,
+		}
+
+		
+		$.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceReport",
+            data:postData,
+            type: "POST",
+            success: function (data) {
+            	$("#table-report-pppbalance tbody").html("");	
+				
+				$.each(data.results , function(i,item) {
+				var endcost = 0 ;
+					$.each(item.po , function(j,po) {
+						var tr ="<tr>";	
+						
+						if(j==0){
+							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppNumber +"</td>";
+							tr += "<td rowspan='"+item.po.length+"' style='text-align:right;'> "+ item.pppCost +" </td>";
+							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppBrand +" </td>";	
+						}	
+
+						tr += "<td > <a href='/pas/purchaseOrder/show/"+po.poId+"' target ='_blank'>"+ po.poNumber +"</a> </td>";
+						tr += "<td > "+ po.poType +" </td>";
+						tr += "<td > "+ po.poState +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.pototal +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.poWO +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.poRfp +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.poEndCost +" </td>";
+						tr += "</tr>";
+
+						endcost = endcost +  po.poEndCost
+						
+						$("#table-report-pppbalance tbody").append(tr);
+					});
+					var tr2 ="<tr style='background-color:gray;'>";
+						
+						tr2 += "<td colspan='6' style='text-align:right;'> PPP Balance (ppp value - Actual Cost) </td>";
+						tr2 += "<td colspan='4' style='text-align:right;'>"+ item.pppCost +" - "+ endcost+" = "+  item.pppBalance +"</td>";
+						
+						tr2 += "</tr>";
+						$("#table-report-pppbalance tbody").append(tr2);	
+
+				});
+
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });    
     }
 
 </r:script>	
