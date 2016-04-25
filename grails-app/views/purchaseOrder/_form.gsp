@@ -219,8 +219,8 @@ if(actionName=='edit') {
 
     $("#currency1").on('change', function() {
     	
-        console.log("date");
-        console.log(date);
+//        console.log("date");
+//        console.log(date);
         $.ajax({
             url: "/${meta(name:'app.name')}/currency/jlist?code="+$(this).val()+"&date="+date,
             type: "POST",
