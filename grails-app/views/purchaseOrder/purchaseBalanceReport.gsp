@@ -166,7 +166,7 @@
 	 }).bind("ajaxComplete", function(){
 	   $("#loading-indicator").hide();
 	 });
-	 
+
 	var country = $('#country').val();
 
 	$("#reset").click(function(){ 
@@ -220,65 +220,7 @@
     });	
 
 	$("#searchPO").click(function(){ 
-		//alert(' hellllloooooooooooooooooooo ');		
-		var countryTes = $("#country").val();
-		var lobId = $("#lob").val();
-		var brandId = $("#brand").val();
-		var year = $("#year").val();	
-		var month =	$("#month").val();	
-		var status= $("#status").val();	
-
-		var postData = {
-			"search":"true",	
-			"countryId":countryTes,
-			"lobId":lobId,
-			"brandId":brandId,
-			"year":year,
-			"month":month,
-			"status":status
-		}
-
-		
-		$.ajax({
-            url: "/${meta(name:'app.name')}/purchaseOrder/purchaseBalanceReport",
-            data:postData,
-            type: "POST",
-            success: function (data) {
-            	
-            	$("#table-report-pobalance tbody").html("");	
-				
-				$.each(data.results , function(i,item) {
-					if(item.rfp){
-
-						$.each(item.rfp , function(j,po) {
-						
-							var tr ="<tr>";	
-							
-							if(j==0){
-								tr += "<td rowspan='"+item.rfp.length+"'><a href='/pas/purchaseOrder/show/"+item.poId+"' target ='_blank'> "+ item.poNumber +"</a></td>";
-								tr += "<td rowspan='"+item.rfp.length+"' style='text-align:right;'> "+ item.poCost +" </td>";
-								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poType +" </td>";	
-								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poPurposed +" </td>";
-								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poStatus +" </td>";
-						
-							}	
-
-							tr += "<td > "+ po.rfpNumber +" </td>";
-							tr += "<td > "+ po.rfpDesc +" </td>";
-							tr += "<td style='text-align:right;'> "+ po.rfpCost +" </td>";
-							tr += "<td style='text-align:right;'> "+ po.poBalanced +" </td>";
-							tr += "</tr>";
-							
-							$("#table-report-pobalance tbody").append(tr);	
-						});
-					}	
-
-				});
-            },
-            error: function (xhr, status, error) {
-                alert("fail");
-            }
-        });
+		filterData();		
 	});
 
 	function getLob(country) {
@@ -352,6 +294,81 @@
                 alert("fail");
             }
         });
+    }
+    $("#sortBy").on('change', function() {
+    	var sort = $(this).val();
+    	var order = $('#order').val();
+    	filterData(sort,order);
+    });
+
+    $("#order").on('change', function() {
+    	var sort = $(sortBy).val();
+    	var order = $(this).val();
+    	filterData(sort,order);
+    });
+
+    function filterData(sort,order){
+		//alert(' hellllloooooooooooooooooooo ');		
+		var countryTes = $("#country").val();
+		var lobId = $("#lob").val();
+		var brandId = $("#brand").val();
+		var year = $("#year").val();	
+		var month =	$("#month").val();	
+		var status= $("#status").val();	
+
+		var postData = {
+			"search":"true",	
+			"countryId":countryTes,
+			"lobId":lobId,
+			"brandId":brandId,
+			"year":year,
+			"month":month,
+			"status":status,
+			"sort":sort,
+			"order":order,
+		}
+
+		
+		$.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/purchaseBalanceReport",
+            data:postData,
+            type: "POST",
+            success: function (data) {
+            	
+            	$("#table-report-pobalance tbody").html("");	
+				
+				$.each(data.results , function(i,item) {
+					if(item.rfp){
+
+						$.each(item.rfp , function(j,po) {
+						
+							var tr ="<tr>";	
+							
+							if(j==0){
+								tr += "<td rowspan='"+item.rfp.length+"'><a href='/pas/purchaseOrder/show/"+item.poId+"' target ='_blank'> "+ item.poNumber +"</a></td>";
+								tr += "<td rowspan='"+item.rfp.length+"' style='text-align:right;'> "+ item.poCost +" </td>";
+								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poType +" </td>";	
+								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poPurposed +" </td>";
+								tr += "<td rowspan='"+item.rfp.length+"'> "+ item.poStatus +" </td>";
+						
+							}	
+
+							tr += "<td > "+ po.rfpNumber +" </td>";
+							tr += "<td > "+ po.rfpDesc +" </td>";
+							tr += "<td style='text-align:right;'> "+ po.rfpCost +" </td>";
+							tr += "<td style='text-align:right;'> "+ po.poBalanced +" </td>";
+							tr += "</tr>";
+							
+							$("#table-report-pobalance tbody").append(tr);	
+						});
+					}	
+
+				});
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });    
     }
 
 </r:script>	

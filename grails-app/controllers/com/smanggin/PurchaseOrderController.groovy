@@ -1307,7 +1307,7 @@ class PurchaseOrderController {
         if(params.type == 'purchaseBalanceReport'){
             sortList = [
                 [id:'number',value:'PO No.'],
-                [id:'transactionGroup.transactionType?.name',value:'PO Type'],
+                [id:'transactionGroup.transactionType.name',value:'PO Type'],
                 [id:'createdBy',value:'Requestor'],
                 [id:'reasonforInvestment',value:'PO purpose'],
                 [id:'state',value:'Status'],
@@ -1492,7 +1492,7 @@ class PurchaseOrderController {
 
     def purchaseBalanceReport(){
         println 'params'  + params
-        def purchaseOrders= PurchaseOrder.createCriteria().list(){
+        def purchaseOrders= PurchaseOrder.createCriteria().list(params){
             if(params.countryId){
                 eq('country',params.countryId)    
             }
@@ -1518,7 +1518,7 @@ class PurchaseOrderController {
                 eq('state',params.status)
             }
 
-            order('purchaseOrderDate','desc')
+            //order('purchaseOrderDate','desc')
 
         }
 
