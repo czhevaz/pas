@@ -167,12 +167,7 @@
 	</div><!--/.row -->	
 	
 <r:script>
-	$(document).bind("ajaxSend", function(){
-	   $("#loading-indicator").show();
-	 }).bind("ajaxComplete", function(){
-	   $("#loading-indicator").hide();
-	 });
-
+	
 	var country = $('#country').val();
 
 	$("#reset").click(function(){ 
@@ -182,6 +177,12 @@
 	});
 
 	$(document).ready(function () {
+		$(document).bind("ajaxSend", function(){
+		   $("#loading-indicator").show();
+		 }).bind("ajaxComplete", function(){
+		   $("#loading-indicator").hide();
+		 });
+
 		$('#lob').prepend("<option value='' > All </option>")		
 		$('#lob').chosen();
 		$('#brand').empty();

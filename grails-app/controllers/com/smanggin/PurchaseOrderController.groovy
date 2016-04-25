@@ -1317,9 +1317,9 @@ class PurchaseOrderController {
 
         if(params.type == 'pppBalanceReport'){
             sortList = [
-                [id:'number',value:'PPP No.'],
-                [id:'brand',value:'PPP Brand'],
-                [id:'costDetail',value:'PPP Value'],
+                [id:'pppNumber',value:'PPP No.'],
+                [id:'pppBrand',value:'PPP Brand'],
+                [id:'pppCost',value:'PPP Value'],
             ]   
         }
         
@@ -1329,7 +1329,7 @@ class PurchaseOrderController {
     }
 
     def pppBalanceReport(){
-        println " params > " + params
+        //println " params > " + params
         //println " params  ppp Balance report " + params 
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
@@ -1375,9 +1375,7 @@ class PurchaseOrderController {
                 if(params.brandId){
                     eq('brand',params.brandId)    
                 }
-                if(params.sort){
-                    order(params.sort,params.order)
-                }
+                
             }
 
             if(pppDetail.size > 0 ){
@@ -1467,8 +1465,18 @@ class PurchaseOrderController {
             }
             
            
-        }        
+        }
 
+        if(params.order == 'asc'){
+            list.sort { 
+                it."$params.sort"
+            }    
+        }
+
+        if(params.order == 'desc'){
+            list.reverse()
+        }        
+        
         render([success: true,results:list] as JSON)
 
     }//End pppBalanceReport
