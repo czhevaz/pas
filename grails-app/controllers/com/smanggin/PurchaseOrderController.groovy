@@ -1329,7 +1329,7 @@ class PurchaseOrderController {
     }
 
     def pppBalanceReport(){
-        //println " params > " + params
+        println " params > " + params
         //println " params  ppp Balance report " + params 
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
@@ -1474,7 +1474,10 @@ class PurchaseOrderController {
         }
 
         if(params.order == 'desc'){
-            list.reverse()
+            list.sort { 
+                it."$params.sort"
+            }
+            list.reverse(true)
         }        
         
         render([success: true,results:list] as JSON)
