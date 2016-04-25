@@ -105,7 +105,45 @@ class SyncDatabaseService {
 		Calendar calendar=Calendar.getInstance();
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
 		
-		def params = [row.coa_id_orlansoft,row.code,row.description,splitCode[0],splitCode[1],splitCode[2],splitCode[3],splitCode[4],splitCode[5],splitCode[6], 1, timestamp, timestamp]
+		def splitCode_0 = ''
+		def splitCode_1 = ''
+		def splitCode_2 = ''
+		def splitCode_3 = ''
+		def splitCode_4 = ''
+		def splitCode_5 = ''
+		def splitCode_6 = ''
+		
+		def length=splitCode.size()
+		if(length >= 1){
+			splitCode_0 = splitCode[0]
+		}
+		
+		if(length >= 2){
+			splitCode_1 = splitCode[1]
+		}		
+
+		if(length >= 3){
+			splitCode_2 = splitCode[2]
+		}
+
+		if(length >= 4){
+			splitCode_3 = splitCode[3]
+		}
+
+		if(length >= 5){
+			splitCode_4 = splitCode[4]
+		}
+
+		if(length >= 6){
+			splitCode_5 = splitCode[5]
+		}
+
+		if(length >= 7){
+			splitCode_6 = splitCode[6]
+		}
+		
+
+		def params = [row.coa_id_orlansoft,row.code,row.description,splitCode_0,splitCode_1,splitCode_2,splitCode_3,splitCode_4,splitCode_5,splitCode_6, 1, timestamp, timestamp]
  		conSqlAmatra.execute 'insert into M_PAS_COA(coa_id_server, code , description, segment01, segment02, segment03, segment04, segment05, segment06, segment07, active, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', params
 		
 		if(conSqlAmatra){
@@ -118,17 +156,54 @@ class SyncDatabaseService {
 		def splitCode =code.split('\\.')
 		Calendar calendar=Calendar.getInstance();
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
+		def splitCode_0 = ''
+		def splitCode_1 = ''
+		def splitCode_2 = ''
+		def splitCode_3 = ''
+		def splitCode_4 = ''
+		def splitCode_5 = ''
+		def splitCode_6 = ''
 		
+		def length=splitCode.size()
+		if(length >= 1){
+			splitCode_0 = splitCode[0]
+		}
+		
+		if(length >= 2){
+			splitCode_1 = splitCode[1]
+		}		
+
+		if(length >= 3){
+			splitCode_2 = splitCode[2]
+		}
+
+		if(length >= 4){
+			splitCode_3 = splitCode[3]
+		}
+
+		if(length >= 5){
+			splitCode_4 = splitCode[4]
+		}
+
+		if(length >= 6){
+			splitCode_5 = splitCode[5]
+		}
+
+		if(length >= 7){
+			splitCode_6 = splitCode[6]
+		}
+		
+
  		def map =[valCoaIdServer:row.coa_id_orlansoft, 
 		valCode:row.code, 
 		valDescription:row.description, 
-		valSegment01:splitCode[0], 
-		valSegment02:splitCode[1], 
-		valSegment03:splitCode[2], 
-		valSegment04:splitCode[3], 
-		valSegment05:splitCode[4], 
-		valSegment06:splitCode[5],
-		valSegment07:splitCode[6]
+		valSegment01:splitCode_0, 
+		valSegment02:splitCode_1, 
+		valSegment03:splitCode_2, 
+		valSegment04:splitCode_3, 
+		valSegment05:splitCode_4, 
+		valSegment06:splitCode_5,
+		valSegment07:splitCode_6
 		,timestamp:timestamp]
 
 		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07,  where coa_id_server=:valCoaIdServer", map)

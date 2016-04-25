@@ -9,7 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class ChartOfAccountController {
-
+    def syncDatabaseService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -21,6 +21,7 @@ class ChartOfAccountController {
         def results = ChartOfAccount.createCriteria().list(params){}
         [chartOfAccountInstanceList: results, chartOfAccountInstanceTotal: results.totalCount]
     }
+
 
     def create() {
         [chartOfAccountInstance: new ChartOfAccount(params)]

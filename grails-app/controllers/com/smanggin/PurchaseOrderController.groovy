@@ -1315,7 +1315,7 @@ class PurchaseOrderController {
             ]   
         }
 
-        if(params.type == 'pppBalanceReport'){
+        if(params.type == 'pppBalanceReport' || params.type == 'pppBalanceHistory'){
             sortList = [
                 [id:'pppNumber',value:'PPP No.'],
                 [id:'pppBrand',value:'PPP Brand'],
@@ -1721,7 +1721,7 @@ class PurchaseOrderController {
                 pppDetail.each{ detail -> 
 
 
-                    def pbs = PurchaseOrderBalance.createCriteria().list(params){
+                    def pbs = PurchaseOrderBalance.createCriteria().list(){
                         eq('pppNumber',detail.pppNumber)
                     }
 
@@ -1756,6 +1756,19 @@ class PurchaseOrderController {
             }
             
            
+        }        
+
+        if(params.order == 'asc'){
+            list.sort { 
+                it."$params.sort"
+            }    
+        }
+
+        if(params.order == 'desc'){
+            list.sort { 
+                it."$params.sort"
+            }
+            list.reverse(true)
         }        
 
         render([success: true,results:list] as JSON)

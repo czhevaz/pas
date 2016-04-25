@@ -108,6 +108,29 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box box-primary">
+				<div class="box-header with-border">
+				<div class="row">
+    				<div class="col-sm-6">
+    					<div class="form-group required">
+							<label for="sortBy" class="col-sm-3 control-label"><g:message code="rfpTracking.sortBy.label" default="Sort By" /></label>
+							<div class="col-sm-9">
+								<g:select id="sortBy" name="sortBy" from="${sortList}"  optionKey="id" optionValue="value"  noSelection="['':'']" class="many-to-one form-control chosen-select"/>	
+							</div>
+						</div>
+								
+    				</div>
+    				<div class="col-sm-6">
+    					<div class="form-group required">
+							<label for="order" class="col-sm-3 control-label"><g:message code="rfpTracking.order.label" default="order" /></label>
+							<div class="col-sm-9">
+								<g:select id="order" name="order" from="${['asc','desc']}"  class="many-to-one form-control chosen-select"/>	
+							</div>
+						</div>
+						
+    				</div>
+    			</div>	
+    			</div><!--/.box-header with-border -->	
+				
 				<div class="box-body table-responsive">
 				<img src="http://dkclasses.com/images/loading.gif" id="loading-indicator" style="display:none" />
 					<table id="table-report-pppbalance" class="table table-bordered margin-top-medium">
@@ -203,54 +226,7 @@
 
 
 	$("#search").click(function(){ 
-		var countryTes = $("#country").val();
-		var lobId = $("#lob").val();
-		var year = $("#year").val();	
-		var month =	$("#month").val();	
-		
-		var postData = {
-			"search":"true",	
-			"countryId":countryTes,
-			"lobId":lobId,
-			"year":year,
-			"month":month,
-		}
-
-		
-		$.ajax({
-            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceHistory",
-            data:postData,
-            type: "POST",
-            success: function (data) {
-            	$("#table-report-pppbalance tbody").html("");	
-				
-				$.each(data.results , function(i,item) {
-					$.each(item.po , function(j,po) {
-						var tr ="<tr>";	
-						
-						if(j==0){
-							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppNumber +"</td>";
-							tr += "<td rowspan='"+item.po.length+"' style='text-align:right;'> "+ item.pppCost +" </td>";
-							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppBrand +" </td>";	
-						}	
-
-						tr += "<td > <a href='/pas/purchaseOrder/show/"+po.poId+"' target ='_blank'>"+ po.poNumber +"</a> </td>";
-						tr += "<td > "+ po.poType +" </td>";
-						tr += "<td > "+ po.poState +" </td>";
-						tr += "<td > "+ po.poDescription +" </td>";
-						tr += "<td style='text-align:right;'> "+ po.pototal +" </td>";
-						tr += "<td style='text-align:right;'> "+ po.pppBalance +" </td>";
-						tr += "</tr>";
-						
-						$("#table-report-pppbalance tbody").append(tr);	
-					});	
-				});
-				$("#table-report-pppbalance").stupidtable();
-            },
-            error: function (xhr, status, error) {
-                alert("fail");
-            }
-        });
+		filterData()
 	});
 
 		function getLob(country) {
@@ -319,6 +295,71 @@
                 }
                 
                 
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+    }
+
+    $("#sortBy").on('change', function() {
+    	var sort = $(this).val();
+    	var order = $('#order').val();
+    	filterData(sort,order);
+    });
+
+    $("#order").on('change', function() {
+    	var sort = $(sortBy).val();
+    	var order = $(this).val();
+    	filterData(sort,order);
+    });
+
+    function filterData(sort,order){
+    	var countryTes = $("#country").val();
+		var lobId = $("#lob").val();
+		var year = $("#year").val();	
+		var month =	$("#month").val();	
+		
+		var postData = {
+			"search":"true",	
+			"countryId":countryTes,
+			"lobId":lobId,
+			"year":year,
+			"month":month,
+			"sort" :sort,
+			"order":order,
+		}
+
+		
+		$.ajax({
+            url: "/${meta(name:'app.name')}/purchaseOrder/pppBalanceHistory",
+            data:postData,
+            type: "POST",
+            success: function (data) {
+            	$("#table-report-pppbalance tbody").html("");	
+				
+				$.each(data.results , function(i,item) {
+					$.each(item.po , function(j,po) {
+						var tr ="<tr>";	
+						
+						if(j==0){
+							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppNumber +"</td>";
+							tr += "<td rowspan='"+item.po.length+"' style='text-align:right;'> "+ item.pppCost +" </td>";
+							tr += "<td rowspan='"+item.po.length+"'> "+ item.pppBrand +" </td>";	
+						}	
+
+						tr += "<td > <a href='/pas/purchaseOrder/show/"+po.poId+"' target ='_blank'>"+ po.poNumber +"</a> </td>";
+						tr += "<td > "+ po.poType +" </td>";
+						tr += "<td > "+ po.poState +" </td>";
+						tr += "<td > "+ po.poDescription +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.pototal +" </td>";
+						tr += "<td style='text-align:right;'> "+ po.pppBalance +" </td>";
+						tr += "</tr>";
+						
+						$("#table-report-pppbalance tbody").append(tr);	
+					});	
+				});
+				$("#table-report-pppbalance").stupidtable();
             },
             error: function (xhr, status, error) {
                 alert("fail");
