@@ -38,7 +38,7 @@
 							<g:render template="form"/>
 						</fieldset>
 
-						<g:if test = "${purchaseOrderInstance?.state == 'Draft'}" >
+						<g:if test = "${isEdit}" >
 							<g:render template="modal"/>	
 							<g:render template="searchPPP"/>	
 						</g:if>
