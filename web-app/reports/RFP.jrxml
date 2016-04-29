@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RFP" language="groovy" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="15" bottomMargin="15" uuid="2fd1561b-4468-4119-b5d5-ef62a0359a88">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="281"/>
+	<property name="ireport.y" value="102"/>
 	<parameter name="rfp_id" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -10,7 +10,6 @@
 		<![CDATA[SELECT
      M_PAS_COA."active" AS M_PAS_COA_active,
      M_PAS_COA."code" AS M_PAS_COA_code,
-     M_PAS_COA."country" AS M_PAS_COA_country,
      M_PAS_COA."description" AS M_PAS_COA_description,
      T_PAS_RFP."country" AS T_PAS_RFP_country,
      T_PAS_RFP."currency1_id" AS T_PAS_RFP_currency1_id,
@@ -45,7 +44,6 @@ WHERE
 	</queryString>
 	<field name="M_PAS_COA_active" class="java.lang.String"/>
 	<field name="M_PAS_COA_code" class="java.lang.String"/>
-	<field name="M_PAS_COA_country" class="java.lang.String"/>
 	<field name="M_PAS_COA_description" class="java.lang.String"/>
 	<field name="T_PAS_RFP_country" class="java.lang.String"/>
 	<field name="T_PAS_RFP_currency1_id" class="java.lang.String"/>
