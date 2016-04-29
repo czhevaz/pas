@@ -152,7 +152,7 @@ class ChartOfAccountController {
             render results as JSON
 
         }else if(params.country){
-            println " teasdsad"
+            
             def country = Country.findByName(params.country)
             def lob = Lob.findByCode(params.lob)
             def c = ChartOfAccount.createCriteria()

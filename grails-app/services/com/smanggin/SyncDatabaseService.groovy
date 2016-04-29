@@ -120,7 +120,7 @@ class SyncDatabaseService {
 		
 		if(length >= 2){
 			splitCode_1 = splitCode[1]
-		}		
+		}
 
 		if(length >= 3){
 			splitCode_2 = splitCode[2]

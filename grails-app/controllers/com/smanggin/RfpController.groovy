@@ -114,7 +114,10 @@ class RfpController {
 
         rfpInstance.country = Country.findByName(params.country)
         rfpInstance.createdBy = auth.user()
-        rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())
+        if(params.paymentOption){
+            rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())    
+        }
+        
         rfpInstance.state = 'Draft'
         def approvals = globalService.getApprovals(rfpInstance)        
 
@@ -682,7 +685,7 @@ class RfpController {
         
         params.put('approver1',approver1?.approver?.name)
         params.put('approver2',approver2?.approver?.name)
-        params.put('companyName','Kalbe International '+ "${rfpInstance?.country}"+ ' Pte. Ltd')
+        params.put('companyName','Kalbe International  Pte. Ltd')
         params.put('rfp_id',rfpInstance?.id)
         params.put('view',true)
 
