@@ -25,7 +25,6 @@
      T_PAS_RFP_Detail."ppp_number" AS T_PAS_RFP_Detail_ppp_number,
      T_PAS_RFP_Detail."total_cost1" AS T_PAS_RFP_Detail_total_cost1,
      T_PAS_RFP_Detail."total_cost2" AS T_PAS_RFP_Detail_total_cost2,
-     T_PAS_RFP_Detail."payment_type" AS T_PAS_RFP_Detail_payment_type,
      T_PAS_PO."number" AS T_PAS_PO_number,
      M_PAS_Supplier."code" AS M_PAS_Supplier_code,
      M_PAS_Supplier."address" AS M_PAS_Supplier_address,
@@ -59,7 +58,6 @@ WHERE
 	<field name="T_PAS_RFP_Detail_ppp_number" class="java.lang.String"/>
 	<field name="T_PAS_RFP_Detail_total_cost1" class="java.lang.Double"/>
 	<field name="T_PAS_RFP_Detail_total_cost2" class="java.lang.Double"/>
-	<field name="T_PAS_RFP_Detail_payment_type" class="java.lang.String"/>
 	<field name="T_PAS_PO_number" class="java.lang.String"/>
 	<field name="M_PAS_Supplier_code" class="java.lang.String"/>
 	<field name="M_PAS_Supplier_address" class="java.lang.String"/>
