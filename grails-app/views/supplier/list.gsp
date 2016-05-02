@@ -23,10 +23,12 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
-							
+								
+								<th> No. </th>
+
 								<g:sortableColumn property="code" title="${message(code: 'supplier.code.label', default: 'Code')}" />
 							
 								<g:sortableColumn property="name" title="${message(code: 'supplier.name.label', default: 'Name')}" />
@@ -44,11 +46,33 @@
 								
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								
+								<th> No. </th>
+								
+								<g:sortableColumn property="code" title="${message(code: 'supplier.code.label', default: 'Code')}" />
+							
+								<g:sortableColumn property="name" title="${message(code: 'supplier.name.label', default: 'Name')}" />
+							
+								<th><g:message code="supplier.countryOwnerID.label" default="Country Owner ID" /></th>
+
+								<g:sortableColumn property="address" title="${message(code: 'supplier.address.label', default: 'Address')}" />
+							
+							
+								<g:sortableColumn property="email" title="${message(code: 'supplier.email.label', default: 'Email')}" />
+							
+								<g:sortableColumn property="createdBy" title="${message(code: 'supplier.createdBy.label', default: 'Created By')}" />
+								
+							
+								
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${supplierInstanceList}" status="i" var="supplierInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								
+								<td> ${i+1} </td>
 
 								<td><g:link action="show" id="${supplierInstance.id}">${fieldValue(bean: supplierInstance, field: "code")}</g:link></td>
 
@@ -67,10 +91,10 @@
 						</tbody>
 					</table>
 				</div><!--/.box-body table-responsive -->
-
+				<!--
 				<div class="box-footer clearfix">
 					<bs:paginate total="${supplierInstanceTotal}" />
-				</div><!--/.box-footer clearfix -->
+				</div>--><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			

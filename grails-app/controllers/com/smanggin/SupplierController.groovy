@@ -20,8 +20,18 @@ class SupplierController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def results = Supplier.createCriteria().list(params){}
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
+
+        def results = Supplier.createCriteria().list(params){
+            if(session.user != 'admin'){
+                if(session.country){
+                    countryOwnerID{
+                        eq('name',session.country)
+                    }    
+                }
+                
+            }
+        }
         [supplierInstanceList: results, supplierInstanceTotal: results.totalCount]
     }
 
