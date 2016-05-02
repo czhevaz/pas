@@ -1219,20 +1219,31 @@ class PurchaseOrderController {
         String absolutePath = getServletContext().getRealPath(routes.toString());
 
         def areaList = []
+        def outletList=[]
+        def attachmentList = []
         purchaseOrder?.purchaseOrderDetails?.each{
             areaList.push(it.coverageArea)
+            outletList.push(it.outlet)
+
         }
+        outletList.unique()
         areaList.unique();
 
+        def attachments = Attachment.findAllByPurchaseOrder(purchaseOrder)
+        purchaseOrder.attachments.each{
+            attachmentList.push(it.originalName)
+        }
+        attachmentList.unique()
+
         params.put('area',areaList.join(','))
+        params.put('outlet',outletList.join(','))
+        params.put('attachment',attachmentList.join(','))
         params.put('approver1',approver1?.approver?.name)
         params.put('approver2',approver2?.approver?.name)
         params.put('companyName','Kalbe International '+ "${purchaseOrder?.country}"+ ' Pte. Ltd')
         params.put('image',absolutePath)
         params.put('po_id',purchaseOrder?.id)
         params.put('view',true)
-
-        
         
         printService.print("PDF", request.getLocale(), response,params,trTypeCode,file)
     }
@@ -1329,7 +1340,7 @@ class PurchaseOrderController {
     }
 
     def pppBalanceReport(){
-        println " params > " + params
+        //println " params > " + params
         //println " params  ppp Balance report " + params 
         def country = Country.findByName(params.countryId)
         def domainClassName = "com.smanggin." + country?.domainPPP
