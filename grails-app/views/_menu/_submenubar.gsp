@@ -58,7 +58,7 @@ This menu is used to show function that can be triggered on the content (an obje
 		<g:if test="${ (params.action == 'show' || params.action == 'edit') && params.controller == 'purchaseOrder' }">
 		<li class="">
 			<g:form method="post"  controller="purchaseOrder" action="printPdf" target="_blank" class="form-horizontal" >
-				<g:hiddenField name="id"  value="${params.id}" />
+				<g:textField name="id"  value="${params.id}" />
 				<button type="submit" class="btn btn-danger" id="printPdf" style="display:block;">
 					<img src="${resource(dir: 'images/icon', file: 'pdf.png')}" width="20" /> Print To PDF
 				</button>

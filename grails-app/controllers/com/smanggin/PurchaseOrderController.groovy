@@ -1201,10 +1201,12 @@ class PurchaseOrderController {
 
 
     def printPdf(){
-        def purchaseOrder = PurchaseOrder.get(params.id.toLong())
+        println "params " + params 
+        def purchaseOrder = PurchaseOrder.get(params.id)
+        println "purchaseOrder" + purchaseOrder
         def trTypeCode = purchaseOrder?.transactionGroup?.transactionType?.code
-        def filename = purchaseOrder.number
-        def file  = filename.replace("/","")
+        def filename = purchaseOrder?.number
+        def file  = filename?.replace("/","")
         
         def appSettingLogo = AppSetting.valueDefault('default_logo','KI_Logo2.jpg')
         def approver1 = PurchaseOrderApprover.findByPurchaseOrderAndNoSeq(purchaseOrder,1)
@@ -1230,7 +1232,7 @@ class PurchaseOrderController {
         areaList.unique();
 
         def attachments = Attachment.findAllByPurchaseOrder(purchaseOrder)
-        purchaseOrder.attachments.each{
+        attachments.each{
             attachmentList.push(it.originalName)
         }
         attachmentList.unique()
