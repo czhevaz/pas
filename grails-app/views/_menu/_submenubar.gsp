@@ -58,7 +58,7 @@ This menu is used to show function that can be triggered on the content (an obje
 		<g:if test="${ (params.action == 'show' || params.action == 'edit') && params.controller == 'purchaseOrder' }">
 		<li class="">
 			<g:form method="post"  controller="purchaseOrder" action="printPdf" target="_blank" class="form-horizontal" >
-				<g:textField name="id"  value="${params.id}" />
+				<g:hiddenField name="printId"  value="${params.id}" />
 				<button type="submit" class="btn btn-danger" id="printPdf" style="display:block;">
 					<img src="${resource(dir: 'images/icon', file: 'pdf.png')}" width="20" /> Print To PDF
 				</button>
@@ -66,7 +66,7 @@ This menu is used to show function that can be triggered on the content (an obje
 		</li>
 		<li class="">
 			<g:form method="post"  controller="purchaseOrder" action="downloadExcel" target="_blank" class="form-horizontal" >
-				<g:hiddenField name="id"  value="${params.id}" />
+				<g:hiddenField name="printId"  value="${params.id}" />
 				<button type="submit" class="btn btn-primary" id="downloadExcel" style="display:block;">
 					<img src="${resource(dir: 'images/icon', file: 'xls.png')}" width="20" /> Download Excel
 				</button>
