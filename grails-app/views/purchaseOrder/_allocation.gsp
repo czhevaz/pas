@@ -96,7 +96,7 @@
     function purchaseOrderAllocationsAppend(){
         if (purchaseOrderAllocationsEndEditing()){
             $('#dg-purchaseOrderAllocations').datagrid('appendRow',
-            {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${auth.user()}' });
+            {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${session.user}' });
             editIndex = $('#dg-purchaseOrderAllocations').datagrid('getRows').length-1;
             $('#dg-purchaseOrderAllocations').datagrid('selectRow', editIndex).datagrid('beginEdit', editIndex);
         }

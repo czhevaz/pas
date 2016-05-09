@@ -294,12 +294,12 @@ if(actionName=='edit' || actionName=='show') {
             console.log(rowcount);
             if(rowcount == 0){
                 $('#dg-purchaseOrderDetails').datagrid('appendRow',
-            {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${auth.user()}' });
+            {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${session.user}' });
             }else{
                 var code = $('#dg-purchaseOrderDetails').datagrid('getRows')[0].currencyCode;
                 var rate = $('#dg-purchaseOrderDetails').datagrid('getRows')[0].rate;
                 $('#dg-purchaseOrderDetails').datagrid('appendRow',
-                {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${auth.user()}' ,currencyCode:code,rate:rate});
+                {purchaseOrderId: ${purchaseOrderInstance.id? purchaseOrderInstance.id : 0},createdBy:'${session.user}' ,currencyCode:code,rate:rate});
             }
             
             editIndex = $('#dg-purchaseOrderDetails').datagrid('getRows').length-1;

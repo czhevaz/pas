@@ -159,11 +159,11 @@ class RateDetailController {
         }else{
             rateDetailInstance.properties = params
              if (params.id) {
-                rateDetailInstance.updatedBy = auth.user()
+                rateDetailInstance.updatedBy = session.user
                 rateDetailInstance.lastUpdated = new Date()
             
             }else{
-                rateDetailInstance.createdBy = auth.user()
+                rateDetailInstance.createdBy = session.user
                 rateDetailInstance.dateCreated = new Date()
             }
             

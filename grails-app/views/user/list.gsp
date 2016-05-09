@@ -80,7 +80,7 @@
 				</div><!--/.box-body table-responsive -->
 
 				<div class="box-footer clearfix">
-					<bs:paginate total="${userInstanceTotal}" />
+					<!-- <bs:paginate total="${userInstanceTotal}" /> -->
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	

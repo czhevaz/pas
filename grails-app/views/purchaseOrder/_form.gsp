@@ -288,7 +288,7 @@ if(actionName=='edit') {
 
 	$("#country").on('change', function() {
 		country = $(this).val();
-		urlGroup = "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+country;
+		urlGroup = "/${meta(name:'app.name')}/transactionGroup/jlist?login=${session.user}&country="+country;
 		urlCurrency = "/${meta(name:'app.name')}/currency/jlist?country="+country;
 		urlSupplier = "/${meta(name:'app.name')}/supplier/jlist?masterField.name=countryOwnerID&masterField.id="+country;
 
@@ -340,7 +340,7 @@ if(actionName=='edit') {
 
     function getTrGroup(country){
         $.ajax({
-            url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+country,
+            url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${session.user}&country="+country,
         
             type: "POST",
             success: function (data) {

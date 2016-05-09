@@ -189,7 +189,7 @@
 					
 					<g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
 					<g:hiddenField name="version" value="${purchaseOrderInstance?.version}" />
-					<g:hiddenField name="updatedBy" value="${auth.user()}"/>
+					<g:hiddenField name="updatedBy" value="${session.user}"/>
 					
 					<g:hiddenField id ="rejectNotes" name="rejectNotes" value="${purchaseOrderInstance?.rejectNotes}" />
 

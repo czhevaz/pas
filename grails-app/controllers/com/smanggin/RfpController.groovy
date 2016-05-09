@@ -31,7 +31,7 @@ class RfpController {
         }
         params.order = params.order ?: 'desc' 
         params.sort = params.sort ?: 'dateCreated' 
-        def user = User.findByLogin(auth.user())
+        def user = User.findByLogin(session.user)
         def rfpApprover = RfpApprover.findAllByApprover(user)
         //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = Rfp.createCriteria().list(params){
@@ -113,7 +113,7 @@ class RfpController {
         }
 
         rfpInstance.country = Country.findByName(params.country)
-        rfpInstance.createdBy = auth.user()
+        rfpInstance.createdBy = session.user
         if(params.paymentOption){
             rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())    
         }
@@ -469,7 +469,7 @@ class RfpController {
             }
         }
         
-        def user = User.findByLogin(auth.user()?.toString())
+        def user = User.findByLogin(session.user)
 
         
         if(globalService.getNextApproverRfp(rfpInstance,user)){
@@ -547,7 +547,7 @@ class RfpController {
         
         rfpInstance.mustApprovedBy = null   
         rfpInstance.dateReject = new Date()
-        rfpInstance.rejectedBy = auth.user()
+        rfpInstance.rejectedBy = session.user
        
         
         rfpInstance.state = 'Rejected'    
@@ -591,7 +591,7 @@ class RfpController {
         notif.docNumber = rfpInstance.number
         notif.state = rfpInstance.state
         notif.forUser = forUser
-        notif.createdBy = auth.user()
+        notif.createdBy = session.user
         notif.isNew = true
         notif.save()
         

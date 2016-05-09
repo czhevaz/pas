@@ -28,7 +28,7 @@ class PurchaseOrderController {
     def list() {
         session.trType = null
         
-        def user = User.findByLogin(auth.user())
+        def user = User.findByLogin(session.user)
         params.order = params.order ?: 'desc' 
         params.sort = params.sort ?: 'dateCreated' 
         //params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -769,9 +769,9 @@ class PurchaseOrderController {
             }
         }
         
-        def user = User.findByLogin(auth.user()?.toString())
+        def user = User.findByLogin(session.user)
 
-        purchaseOrderInstance.approvedBy = auth.user()?.toString()
+        purchaseOrderInstance.approvedBy = session.user
         purchaseOrderInstance.dateApproved = new Date()
         
         if(globalService.getNextApprover(purchaseOrderInstance,user)){
@@ -864,7 +864,7 @@ class PurchaseOrderController {
         }
 
         /* update Po Approver*/
-        def user = User.findByLogin(auth.user()?.toString())
+        def user = User.findByLogin(session.user)
         def poApprover = PurchaseOrderApprover.findByPurchaseOrderAndApprover(purchaseOrderInstance,user)
         
         if(poApprover){
@@ -971,7 +971,7 @@ class PurchaseOrderController {
         def userReceiver = User.findByLogin(purchaseOrderInstance.mustApprovedBy)
         def receiver = userReceiver?.email
 
-        def authUser = User.findByLogin( auth.user() )
+        def authUser = User.findByLogin(session.user )
         def sender = authUser?.email 
 
         Outbox.newEmail( subject,  msg,  sender,  receiver, null, null, null, 'PurchaseOrder',purchaseOrderInstance.id)
@@ -985,7 +985,7 @@ class PurchaseOrderController {
     save PoComment
     **/  
     def savePoComment(purchaseOrderInstance,params){
-        def user = User.findByLogin(auth.user())
+        def user = User.findByLogin(session.user)
         if(params.comment){
             
             def logChatInstance =new PurchaseOrderComment()

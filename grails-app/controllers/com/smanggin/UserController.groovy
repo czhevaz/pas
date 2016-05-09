@@ -23,7 +23,7 @@ class UserController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = User.createCriteria().list(params){}
         [userInstanceList: results, userInstanceTotal: results.totalCount]
     }
@@ -203,8 +203,8 @@ class UserController {
     }
 
     def postLogin() {
-		println "postlogin >>>>>>>>>> " +auth.user()
-		def user = User.findByLogin( auth.user() )
+		//println "postlogin >>>>>>>>>> " +auth.user()
+		def user = User.findByLogin(auth.user().trim())
         session['user'] = user?.login 
 		session['email'] = user?.email
 		session['country'] = user?.country

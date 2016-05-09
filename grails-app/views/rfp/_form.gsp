@@ -129,14 +129,14 @@
 	$("#country").on('change', function() {
 		
 		country = $(this).val();
-		urlGroup = "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+country;
-		urlCurrency = "/${meta(name:'app.name')}/currency/jlist?country="+country;
-		urlSupplier = "/${meta(name:'app.name')}/supplier/jlist?masterField.name=countryOwnerID&masterField.id="+country;
+		var urlGroup = "/${meta(name:'app.name')}/transactionGroup/jlist?login=${session.user}&country="+country;
+		var urlCurrency = "/${meta(name:'app.name')}/currency/jlist?country="+country;
+		var urlSupplier = "/${meta(name:'app.name')}/supplier/jlist?masterField.name=countryOwnerID&masterField.id="+country;
 
 		
-		getTrGroup(urlGroup);			
-		getCurrency(urlCurrency);
-		getSupplier(urlSupplier);
+		getTrGroup(country);			
+		getCurrency(country);
+		getSupplier(country);
         
 	});
 
@@ -162,10 +162,12 @@
 
 	function getTrGroup(country){
         $.ajax({
-            url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${auth.user()}&country="+country,
+            url: "/${meta(name:'app.name')}/transactionGroup/jlist?login=${session.user}&country="+country,
         
             type: "POST",
             success: function (data) {
+            console.log('tesss');
+            console.log(data);
                 
                 if(data.length > 0){
                     

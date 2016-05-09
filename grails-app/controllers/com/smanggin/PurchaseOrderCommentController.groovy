@@ -135,7 +135,7 @@ class PurchaseOrderCommentController {
         def purchaseOrderInstance= PurchaseOrder.get(params.purchaseOrderId)
         purchaseOrderCommentInstance.properties = params
         purchaseOrderCommentInstance.purchaseOrder = purchaseOrderInstance
-        purchaseOrderCommentInstance.createdBy = auth.user()
+        purchaseOrderCommentInstance.createdBy = session.user
                        
         if (!purchaseOrderCommentInstance.save(flush: true)) {
             render([success: false, messages: purchaseOrderCommentInstance.errors] as JSON)
