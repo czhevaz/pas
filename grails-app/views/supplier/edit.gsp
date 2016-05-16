@@ -11,6 +11,7 @@
 	<title><g:message code="default.edit.label" args="[entityName]" /></title>
 	<g:set var="canCreate" value="true" scope="request" />
 	<g:set var="canEdit" value="true" scope="request" />
+	<g:set var="canDelete" value="true" scope="request" />
 </head>
 
 <body>

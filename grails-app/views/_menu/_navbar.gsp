@@ -159,7 +159,9 @@ if(session.isAdmin == 'Yes') {
 					</li>
 				</ul>	
 			</li>
-
+<%
+}/* end if session.isadmin */
+%>
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Report<b class="caret"></b></a>
 				<ul class="dropdown-menu">
@@ -195,9 +197,7 @@ if(session.isAdmin == 'Yes') {
 					
 				</ul>	
 			</li>
-<%
-}/* end if session.isadmin */
-%>
+
 
 		</ul>
 		<!-- <ul class="nav navbar-nav">

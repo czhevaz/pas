@@ -34,7 +34,7 @@
 									<div class="col-sm-9">
 									<!--	<p class="form-control-static">${session.country}</p>	
 										<g:hiddenField name="country" value="${session.country}"/> -->
-										<g:select id="country" name="country" from="${com.smanggin.Country.list()}" optionKey="name" value="${purchaseOrderInstance?.country}" class="many-to-one form-control chosen-select" />
+										<g:select id="country" name="country" from="${countryList}" optionKey="name" value="${purchaseOrderInstance?.country}" class="many-to-one form-control chosen-select" />
 										<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'country', 'error')}</span>
 									</div>
 								</div>

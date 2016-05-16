@@ -159,7 +159,10 @@ class ChartOfAccountController {
 
             def results = c.list(params) {
                 eq('segment05',lob?.codeCoa)
-                eq('segment06',country?.codeCoa)    
+                if(country?.codeCoa != '999'){
+                    eq('segment06',country?.codeCoa)        
+                }
+                
             }
             render results as JSON
         }

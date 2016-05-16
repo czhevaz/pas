@@ -1294,7 +1294,11 @@ class PurchaseOrderController {
         def views = params.type 
         //def yearList = globalService.yearList(params.domain,grailsApplication)
         def sortList = []
-    
+        def countryList = Country.createCriteria().list(){
+            if(session.userRole != 'ALL'){
+                eq('name',session.country)
+            }
+        }
         if(params.type == 'rfpTrackingSummary'){
             sortList = [
                 [id:'rfp.number',value:'RFP No.'],
@@ -1337,7 +1341,7 @@ class PurchaseOrderController {
         }
         
 
-        render(view: "${views}",model:['sortList':sortList])
+        render(view: "${views}",model:['sortList':sortList,'countryList':countryList])
 
     }
 

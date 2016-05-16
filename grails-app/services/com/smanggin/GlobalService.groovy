@@ -219,5 +219,17 @@ class GlobalService {
         return years.sort{ it }
 
     }   
+
+    /* Country List*/
+    def countryList(){
+        
+        def country = Country.createCriteria().list(){
+            if(session.isAdmin != 'Yes'){
+                eq('name',session.country)
+            }
+        }
+
+        return country
+    }
 }
 
