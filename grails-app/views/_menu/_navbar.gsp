@@ -51,9 +51,7 @@
               
 				</ul>	
 			</li>
-<%
-if(session.isAdmin == 'Yes') { 
-%>
+
 			
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Master Data<b class="caret"></b></a>
@@ -121,23 +119,32 @@ if(session.isAdmin == 'Yes') {
 					<%
 						}else{ /* end if session.userRole */
 					%>
+
 					<li class="controller">
 						<g:link controller="Supplier">
 							Supplier
 						</g:link>
 					</li>
+					<%
+						if(session.isAdmin == 'Yes') { 
+					%>
 					<li class="controller">
 						<g:link controller="TransactionType">
 							<g:message code="transactionType.label" default="Transaction Type" />
 						</g:link>
 					</li>
-					
+					<%
+						}/* end if session.isadmin */
+					%>					
 					<%
 					}/* end if session.userRole */
 					%>
 				</ul>
 			</li>
 
+<%
+if(session.isAdmin == 'Yes') { 
+%>
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Configuration<b class="caret"></b></a>
 				<ul class="dropdown-menu">

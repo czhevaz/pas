@@ -29,7 +29,12 @@ class SupplierController {
                         eq('name',session.country)
                     }    
                 }
-                
+
+                                    
+            }
+
+            if(session.isAdmin != 'Yes') {
+                eq('createdBy',session.user)        
             }
         }
         [supplierInstanceList: results, supplierInstanceTotal: results.totalCount]
