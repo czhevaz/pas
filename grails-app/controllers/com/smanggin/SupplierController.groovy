@@ -41,7 +41,13 @@ class SupplierController {
     }
 
     def create() {
-        [supplierInstance: new Supplier(params)]
+        def countryList = Country.createCriteria().list(){
+            if(session.userRole != 'ALL'){
+                eq('name',session.country)
+            }
+        }
+
+        [supplierInstance: new Supplier(params),countryList:countryList]
     }
 
     def save() {
@@ -70,6 +76,12 @@ class SupplierController {
     }
 
     def edit() {
+        def countryList = Country.createCriteria().list(){
+            if(session.userRole != 'ALL'){
+                eq('name',session.country)
+            }
+        }
+       
         def supplierInstance = Supplier.get(params.id)
         if (!supplierInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'supplier.label', default: 'Supplier'), params.id])
@@ -77,7 +89,7 @@ class SupplierController {
             return
         }
 
-        [supplierInstance: supplierInstance]
+        [supplierInstance: supplierInstance,countryList:countryList]
     }
 
     def update() {

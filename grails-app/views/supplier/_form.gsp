@@ -4,7 +4,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: supplierInstance, field: 'countryOwnerID', 'error')} required">
 				<label for="countryOwnerID" class="col-sm-3 control-label"><g:message code="supplier.countryOwnerID.label" default="Country Owner ID" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-9">
-					<g:select id="countryOwnerID" name="countryOwnerID.name" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${supplierInstance?.countryOwnerID?.name}" class="many-to-one form-control chosen-select"/>
+					<g:select id="countryOwnerID" name="countryOwnerID.name" from="${countryList}" optionKey="name" required="" value="${supplierInstance?.countryOwnerID?.name}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: supplierInstance, field: 'countryOwnerID', 'error')}</span>
 				</div>
 			</div>
