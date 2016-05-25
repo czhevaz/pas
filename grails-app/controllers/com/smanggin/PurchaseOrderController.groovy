@@ -598,7 +598,7 @@ class PurchaseOrderController {
             
             def results = c.list {
                 eq('country',params.countryPO)
-                eq('supplier',Supplier.findByCode(params.supplierCode))  
+                eq('supplier',Supplier.findByServerId(params.supplierID))
                 currency1{
                     eq('code',params.currencyCode)
                 }

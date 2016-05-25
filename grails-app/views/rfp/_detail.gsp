@@ -154,7 +154,7 @@ if(actionName=='edit' || actionName=='show') {
                     $('#searchPO').modal('show');
 
                     var country =  "${rfpInstance.country}";
-                    var supplierCode = "${rfpInstance.supplier?.code}";
+                    var supplierID = "${rfpInstance.supplier?.id}";
                     var currencyCode = "${rfpInstance.currency1?.code}";
                     
                     $('#poContent').DataTable().destroy();
@@ -167,7 +167,7 @@ if(actionName=='edit' || actionName=='show') {
                           
                           aoData.push( { "name": "searchPO","value" : "true"});
                           aoData.push( { "name": "countryPO", "value": country } );
-                          aoData.push( { "name": "supplierCode", "value": supplierCode } );
+                          aoData.push( { "name": "supplierID", "value": supplierID } );
                           aoData.push( { "name": "currencyCode", "value": currencyCode } );
                           
 
