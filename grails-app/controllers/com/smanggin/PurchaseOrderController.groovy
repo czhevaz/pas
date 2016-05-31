@@ -1201,7 +1201,7 @@ class PurchaseOrderController {
 
 
     def printPdf(){
-        println "params " + params 
+        
         def purchaseOrder = PurchaseOrder.get(params.printId)
         println "purchaseOrder" + purchaseOrder
         def trTypeCode = purchaseOrder?.transactionGroup?.transactionType?.code
@@ -1251,7 +1251,7 @@ class PurchaseOrderController {
     }
 
     def downloadExcel(){
-        def purchaseOrder = PurchaseOrder.get(params.id.toLong())
+        def purchaseOrder = PurchaseOrder.get(params.printId)
         def trTypeCode = purchaseOrder?.transactionGroup?.transactionType?.code
         def filename = purchaseOrder.number
         def file  = filename.replace("/","")
