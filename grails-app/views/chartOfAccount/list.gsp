@@ -21,7 +21,7 @@
                 </div><!--/.box-header with-border -->
 
 				<div class="box-body table-responsive">	
-					<table class="table table-bordered margin-top-medium">
+					<table class="table table-bordered margin-top-medium dataTablesList">
 						<thead>
 							<tr>
 															
@@ -55,10 +55,10 @@
 						</tbody>
 					</table>
 				</div><!--/.box-body table-responsive -->
-
+				<!--
 				<div class="box-footer clearfix">
 					<bs:paginate total="${chartOfAccountInstanceTotal}" />
-				</div><!--/.box-footer clearfix -->
+				</div>--><!--/.box-footer clearfix -->
 			</div><!--/.box box-primary -->	
 		</div><!--/.col-lg-12 -->	
 	</div><!--/.row -->			
