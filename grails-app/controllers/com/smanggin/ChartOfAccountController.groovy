@@ -162,6 +162,9 @@ class ChartOfAccountController {
                 if(country?.codeCoa != '999'){
                     eq('segment06',country?.codeCoa)        
                 }
+                if(params.brand){
+                    eq('segment04',params.brand)
+                }
                 
             }
             render results as JSON
