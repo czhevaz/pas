@@ -49,7 +49,7 @@ class SyncDatabaseService {
 		
 		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()
 		
-		def map =[valCode:supplierInstance?.code, 
+		def map =[valCode:supplierInstance.code, 
 		valName:supplierInstance?.name, 
 		valAddress:supplierInstance?.address, 
 		valPhones:supplierInstance?.phones, 
@@ -57,9 +57,10 @@ class SyncDatabaseService {
 		valEmail:supplierInstance?.email, 
 		valCity:supplierInstance?.city, 
 		valState:supplierInstance?.state, 
-		valCountry:supplierInstance?.country,timestamp:timestamp]  
+		valCountry:supplierInstance?.country,timestamp:timestamp,countryOwnerID:supplierInstance.countryOwnerID?.code]  
 
-		conSqlProxy.executeUpdate("update m_proxy_supplier set name=:valName, address=:valAddress, phones=:valPhones, telex=:valTelex, email=:valEmail, city=:valCity, state=:valState, country=:valCountry,  p_date=:timestamp where code=:valCode", map)
+		
+		conSqlProxy.executeUpdate("update m_proxy_supplier set code=:valCode, name=:valName, address=:valAddress, phones=:valPhones, telex=:valTelex, email=:valEmail, city=:valCity, state=:valState, country=:valCountry,  p_date=:timestamp where code=:valCode and CountryID=:countryOwnerID", map)
 		if(conSqlProxy){
 		   conSqlProxy.close()	
 		}
@@ -206,7 +207,7 @@ class SyncDatabaseService {
 		valSegment07:splitCode_6
 		,timestamp:timestamp]
 
-		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07,  where coa_id_server=:valCoaIdServer", map)
+		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07  where coa_id_server=:valCoaIdServer", map)
 		if(conSqlAmatra){
 		  // conSqlAmatra.close()	
 		}
