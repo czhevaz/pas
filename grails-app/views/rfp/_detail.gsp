@@ -51,6 +51,11 @@ if(actionName=='edit' || actionName=='show') {
                                 editor:{
                                     type:'combobox',
                                     options:{
+                                        filter:function(q,row){
+                                            console.log(row.code);
+
+                                            return row.code.toLowerCase().search(q.toLowerCase()) != -1;
+                                        },
                                         valueField:'code',
                                         textField:'code',
                                         url:'/${meta(name:'app.name')}/chartOfAccount/jlist?country=${rfpInstance?.country}',
