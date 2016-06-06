@@ -97,7 +97,21 @@ class Rfp {
 	}
 
     def beforeInsert(){
-    	Integer count= Rfp.countByTransactionGroup(transactionGroup)+1
+    	//Integer count= Rfp.countByTransactionGroup(transactionGroup)+1
+		
+		def rfp = Rfp.createCriteria().list(){
+            order("dateCreated", "desc")
+            eq('transactionGroup',transactionGroup)
+            
+        }
+
+        Integer count = 1
+        if(rfp){
+        	int length = Math.log10(rfp.size()) + 1;
+        	def lastnumber = rfp[0].number.reverse().take(length).reverse()
+        	count = lastnumber.toInteger() + 1
+        }
+
 		Integer width= transactionGroup.width
 		String  prefix = transactionGroup.prefix
 		
