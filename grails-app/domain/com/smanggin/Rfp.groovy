@@ -106,13 +106,14 @@ class Rfp {
         }
 
         Integer count = 1
+        Integer width= transactionGroup.width
+
         if(rfp){
-        	int length = Math.log10(rfp.size()) + 1;
-        	def lastnumber = rfp[0].number.reverse().take(length).reverse()
+        	def lastnumber = rfp[0].number.reverse().take(width).reverse().replaceFirst('^0+(?!$)', '')
         	count = lastnumber.toInteger() + 1
         }
 
-		Integer width= transactionGroup.width
+		
 		String  prefix = transactionGroup.prefix
 		
 		String c = sprintf("%0${width}d",count)
