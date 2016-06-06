@@ -17,7 +17,7 @@ class ChartOfAccountController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = ChartOfAccount.createCriteria().list(params){}
         [chartOfAccountInstanceList: results, chartOfAccountInstanceTotal: results.totalCount]
     }
