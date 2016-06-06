@@ -155,8 +155,22 @@ class PurchaseOrder {
 	}
 	
 	def beforeInsert(){
-		Integer count= PurchaseOrder.countByTransactionGroup(transactionGroup)+1
+		//Integer count= PurchaseOrder.countByTransactionGroup(transactionGroup)+1
+		
+		def po = PurchaseOrder.createCriteria().list(){
+            order("dateCreated", "desc")
+            eq('transactionGroup',transactionGroup)
+            
+        }
+
+		Integer count =1
 		Integer width= transactionGroup.width
+		
+		if(po){
+        	def lastnumber = po[0].number.reverse().take(width).reverse().replaceFirst('^0+(?!$)', '')
+        	count = lastnumber.toInteger() + 1
+        }
+
 		String  prefix = transactionGroup.prefix
 
 		
