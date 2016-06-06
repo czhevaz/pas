@@ -37,6 +37,21 @@
 							
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+															
+								
+								<g:sortableColumn property="code" title="${message(code: 'chartOfAccount.code.label', default: 'Code')}" />
+							
+								<g:sortableColumn property="description" title="${message(code: 'chartOfAccount.description.label', default: 'Description')}" />
+
+								<g:sortableColumn property="coaIdServer" title="${message(code: 'chartOfAccount.coaIdServer.label', default: 'Coa Id Server')}" />
+
+								<g:sortableColumn property="active" title="${message(code: 'chartOfAccount.active.label', default: 'Active')}" />
+							
+							
+							</tr>
+						</tfoot>
 						<tbody>
 						<g:each in="${chartOfAccountInstanceList}" status="i" var="chartOfAccountInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
