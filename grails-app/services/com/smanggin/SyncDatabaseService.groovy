@@ -77,8 +77,8 @@ class SyncDatabaseService {
 		def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
 
 		conSqlProxy?.eachRow("select * from m_proxy_coa WHERE p_date <= p_date_change", 1, 10) { row ->
-			println row.code
-			def findCode = conSqlAmatra.firstRow("select * from M_PAS_COA where code=:valCode and countryCode=:countryCode", [valCode: row.code,countryCode:row.country_code])
+			
+			def findCode = conSqlAmatra.firstRow("select * from M_PAS_COA where code=:valCode and country_code=:countryCode", [valCode: row.code,valcountryCode:row.CountryID])
 
 			if(findCode == null) {
 				insertCOAToAmatra(row,conSqlAmatra)
@@ -86,7 +86,7 @@ class SyncDatabaseService {
 				updateCOAToAmatra(row,conSqlAmatra)
 			}
 
-			conSqlProxy.executeUpdate("update m_proxy_coa set p_date = $timestamp where code = $row.code and country_code= $row.country_code")
+			conSqlProxy.executeUpdate("update m_proxy_coa set p_date = $timestamp where code = $row.code and CountryID= $row.CountryID")
 		}
 
 		if(conSqlProxy){
@@ -143,7 +143,7 @@ class SyncDatabaseService {
 		
 
 		def params = [row.coa_id_orlansoft,row.code,row.description,splitCode_0,splitCode_1,splitCode_2,splitCode_3,splitCode_4,splitCode_5,splitCode_6, 1, row.CountryID, timestamp, timestamp]
- 		conSqlAmatra.execute 'insert into M_PAS_COA(coa_id_server, code , description, segment01, segment02, segment03, segment04, segment05, segment06, segment07, active, countryCode, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', params
+ 		conSqlAmatra.execute 'insert into M_PAS_COA(coa_id_server, code , description, segment01, segment02, segment03, segment04, segment05, segment06, segment07, active, country_code, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', params
 		
 		if(conSqlAmatra){
 		//   conSqlAmatra.close()	
