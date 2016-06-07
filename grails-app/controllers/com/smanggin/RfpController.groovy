@@ -224,7 +224,7 @@ class RfpController {
 
     def update() {
 
-        println " update " + params
+        
         def rfpInstance = Rfp.get(params.id)
         if (!rfpInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'Rfp'), params.id])
@@ -243,8 +243,8 @@ class RfpController {
             }
         }
 
-        rfpInstance.properties = params
-          if(baseCurrency){
+        //rfpInstance.properties = params
+         if(baseCurrency){
             def localCurrency = Currency.findByCodeAndActive(params.currency1?.code,'Yes')
             rfpInstance.currency1=localCurrency
             rfpInstance.currency2=baseCurrency
@@ -255,6 +255,7 @@ class RfpController {
         rfpInstance.country = Country.findByName(params.country)
         rfpInstance.updatedBy = session.user
         rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())
+
         if(rfpInstance.paymentOption?.id!=1){
 
             rfpInstance.paidCountry = null
