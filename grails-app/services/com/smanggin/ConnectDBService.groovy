@@ -19,7 +19,7 @@ class ConnectDBService {
 	 	def password = grailsApplication.config.dataSource.password
 	 	def sql = Sql.newInstance(url, username, password, "com.microsoft.sqlserver.jdbc.SQLServerDriver") // Sql.newInstance("jdbc:mysql://localhost:3306/sjs?useUnicode=yes&characterEncoding=UTF-8", "root", "", "com.mysql.jdbc.Driver")
 
-	 	print " sync db Amatra " + sql
+	 	//print " sync db PAS " + sql
 	 	return sql
 	 }
 
@@ -38,7 +38,7 @@ class ConnectDBService {
 	 	
 	 	try {
 	 		def sql = Sql.newInstance(url, username, password, driver) // Sql.newInstance("jdbc:mysql://localhost:3306/sjs?useUnicode=yes&characterEncoding=UTF-8", "root", "", "com.mysql.jdbc.Driver")
-	 		print " sync db proxy " + sql
+	 		//print " sync db proxy " + sql
 	 		return sql
 	 	}
 	 	catch(Exception e) {

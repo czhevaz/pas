@@ -46,8 +46,8 @@ class UserController {
     def show() {
         
         def userInstance = User.get(params.id)
-       // println "connectDBService " +connectDBService.getSqlProxyKalbeConnection()
-        println globalService.yearList('PppPhilippine',grailsApplication)
+       println "syncDatabaseService " +syncDatabaseService.syncCOAFromProxy()
+       // println globalService.yearList('PppPhilippine',grailsApplication)
         if (!userInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
             redirect(action: "list")

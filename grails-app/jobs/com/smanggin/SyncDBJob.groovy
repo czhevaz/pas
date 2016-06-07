@@ -8,7 +8,24 @@ class SyncDBJob {
     def execute() {
         // execute job
         try {
-            syncDatabaseService.syncCOAFromProxy()    
+
+            def coas = ChartOfAccount.createCriteria().list(){
+                isNull('countryCode')
+            }
+
+            if(coas.size() > 0 ){
+                coas.each(){
+                    def country = Country.findByCodeCoa(it.segment06)
+                    
+                    it.countryCode = country?.code
+                    it.save()
+                }
+
+                println "=== Country _code di M_PAS_COA masih ada yg null isi manual === "
+            }else{
+                syncDatabaseService.syncCOAFromProxy()            
+            }
+            
            
         }
         catch(Exception e) {

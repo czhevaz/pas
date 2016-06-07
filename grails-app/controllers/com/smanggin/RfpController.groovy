@@ -152,8 +152,21 @@ class RfpController {
 
     def show() {
         def rfpInstance = Rfp.get(params.id)
-        //syncDatabaseService.insertRfptoProxy(rfpInstance)
-        //syncDatabaseService.syncCOAFromProxy()
+        
+        Integer count= Rfp.countByTransactionGroup(rfpInstance.transactionGroup)+1
+
+        def rfp = Rfp.createCriteria().list(){
+            order("dateCreated", "desc")
+            eq('transactionGroup',rfpInstance.transactionGroup)
+            
+        }
+
+        int length = Math.log10(rfp.size()) + 1;
+        println "rfp Data" + rfp[0]
+        println 'digit' +length
+        def lastNumber = rfp[0].number.reverse().take(5).reverse().replaceFirst('^0+(?!$)', '')
+        println " last number " +lastNumber
+
         
         if(params.notifId){
             globalService.updateIsNewNotif(params.notifId)

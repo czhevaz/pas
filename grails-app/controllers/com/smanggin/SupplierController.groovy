@@ -117,7 +117,7 @@ class SupplierController {
             render(view: "edit", model: [supplierInstance: supplierInstance])
             return
         }
-
+        
         syncDatabaseService.updateSupplierToProxy(supplierInstance)
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'supplier.label', default: 'Supplier'), supplierInstance.id])

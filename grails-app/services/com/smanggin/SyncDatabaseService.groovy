@@ -76,11 +76,9 @@ class SyncDatabaseService {
 		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()
 		def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
 
-		println "conSqlProxy" +conSqlProxy
-
 		conSqlProxy?.eachRow("select * from m_proxy_coa WHERE p_date <= p_date_change", 1, 10) { row ->
 			
-			def findCode = conSqlAmatra.firstRow("select * from M_PAS_COA where coa_id_server=:valCode", [valCode: row.coa_id_orlansoft])
+			def findCode = conSqlAmatra.firstRow("select * from M_PAS_COA where code=:valCode and countryCode=", [valCode: row.code,countryCode:row.country_code])
 
 			if(findCode == null) {
 				insertCOAToAmatra(row,conSqlAmatra)
@@ -88,7 +86,7 @@ class SyncDatabaseService {
 				updateCOAToAmatra(row,conSqlAmatra)
 			}
 
-			conSqlProxy.executeUpdate("update m_proxy_coa set p_date = $timestamp where coa_id_orlansoft = $row.coa_id_orlansoft")
+			conSqlProxy.executeUpdate("update m_proxy_coa set p_date = $timestamp where code = $row.code and country_code= $row.country_code")
 		}
 
 		if(conSqlProxy){
@@ -144,8 +142,8 @@ class SyncDatabaseService {
 		}
 		
 
-		def params = [row.coa_id_orlansoft,row.code,row.description,splitCode_0,splitCode_1,splitCode_2,splitCode_3,splitCode_4,splitCode_5,splitCode_6, 1, timestamp, timestamp]
- 		conSqlAmatra.execute 'insert into M_PAS_COA(coa_id_server, code , description, segment01, segment02, segment03, segment04, segment05, segment06, segment07, active, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', params
+		def params = [row.coa_id_orlansoft,row.code,row.description,splitCode_0,splitCode_1,splitCode_2,splitCode_3,splitCode_4,splitCode_5,splitCode_6, 1, row.CountryID, timestamp, timestamp]
+ 		conSqlAmatra.execute 'insert into M_PAS_COA(coa_id_server, code , description, segment01, segment02, segment03, segment04, segment05, segment06, segment07, active, countryCode, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', params
 		
 		if(conSqlAmatra){
 		//   conSqlAmatra.close()	
@@ -204,10 +202,12 @@ class SyncDatabaseService {
 		valSegment04:splitCode_3, 
 		valSegment05:splitCode_4, 
 		valSegment06:splitCode_5,
-		valSegment07:splitCode_6
-		,timestamp:timestamp]
+		valSegment07:splitCode_6,
+		timestamp:timestamp,
+		countryCode:row.CountryID
+		]
 
-		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07  where coa_id_server=:valCoaIdServer", map)
+		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07,countryCode=:countryCode  where coa_id_server=:valCoaIdServer", map)
 		if(conSqlAmatra){
 		  // conSqlAmatra.close()	
 		}
@@ -264,8 +264,6 @@ class SyncDatabaseService {
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
 		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()
 		def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
-
-		println "conSqlProxy" +conSqlProxy
 
 		conSqlProxy?.eachRow("select * from m_proxy_Rate_hdr WHERE p_date <= p_date_change", 1, 10) { row ->
 			
