@@ -4,7 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException
 class SyncDBJob {
 
 	def syncDatabaseService
- 
+    def connectDBService
     def execute() {
         // execute job
         try {
@@ -12,16 +12,28 @@ class SyncDBJob {
             def coas = ChartOfAccount.createCriteria().list(){
                 isNull('countryCode')
             }
-
+            
+            
             if(coas.size() > 0 ){
-                coas.each(){
+                def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
+                coas.each{
                     def country = Country.findByCodeCoa(it.segment06)
                     
-                    it.countryCode = country?.code
-                    it.save()
+                    if(country){
+                        conSqlAmatra.executeUpdate("update M_PAS_COA set country_code = $country.code where code = $it.code")
+                    }else{
+                        conSqlAmatra.executeUpdate("update M_PAS_COA set country_code = 'ID' where code = $it.code")
+                    }
+                    
+                    
+                }
+
+                if(conSqlAmatra){
+                   conSqlAmatra.close() 
                 }
 
                 println "=== Country _code di M_PAS_COA masih ada yg null isi manual === "
+
             }else{
                 syncDatabaseService.syncCOAFromProxy()            
             }
