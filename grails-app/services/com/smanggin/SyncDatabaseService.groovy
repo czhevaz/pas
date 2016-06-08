@@ -75,7 +75,7 @@ class SyncDatabaseService {
 
 		conSqlProxy?.eachRow("select * from m_proxy_coa WHERE p_date <= p_date_change", 1, 10) { row ->
 			
-			def findCode = conSqlAmatra.firstRow("select * from M_PAS_COA where code=:valCode and country_code=:countryCode", [valCode: row.code,valcountryCode:row.CountryID])
+			def findCode = conSqlAmatra.firstRow("select * from M_PAS_COA where code=:valCode and country_code=:valcountryCode", [valCode: row.code,valcountryCode:row.CountryID])
 
 			if(findCode == null) {
 				insertCOAToAmatra(row,conSqlAmatra)
