@@ -1,5 +1,9 @@
 
 <%@ page import="com.smanggin.PurchaseOrder" %>
+<%@ page import="com.smanggin.GlobalService" %>
+<%
+    def globalService = grailsApplication.classLoader.loadClass('com.smanggin.GlobalService').newInstance()
+%>
 
 		<div class="form-group ${hasErrors(bean: purchaseOrderInstance, field: 'country', 'error')}  required">
 			<label for="country" class="col-sm-3 control-label"><g:message code="register.country.label" default="Country" /></label>
@@ -44,7 +48,7 @@
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'currency1', 'error')} ">
 			<label for="currency1" class="col-sm-3 control-label"><g:message code="purchaseOrder.currency1.label" default="Currency1" /></label>
 			<div class="col-sm-3">
-				<g:select id="currency1" name="currency1.code" from="${com.smanggin.Currency.list()}" optionKey="code" value="${purchaseOrderInstance?.currency1?.code}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
+				<g:select id="currency1" name="currency" from="${com.smanggin.Currency.list()}" optionKey="code" value="${purchaseOrderInstance?.currency1?.code}" class="many-to-one form-control chosen-select" noSelection="['null': '']"/>
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'currency1', 'error')}</span>
 			</div>
 		</div>
@@ -64,7 +68,7 @@
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')} required">
 			<label for="supplier" class="col-sm-3 control-label"><g:message code="purchaseOrder.supplier.label" default="Supplier" /><span class="required-indicator">*</span></label>
 			<div class="col-sm-3">
-				<g:select id="supplier" name="supplier.id" from="${com.smanggin.Supplier.list()}" optionKey="id" optionValue="name" required="" value="${purchaseOrderInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
+				<g:select id="supplier" name="supplier.id" from="${purchaseOrderInstance?.country?globalService.supplierFindALLByCountry(purchaseOrderInstance?.country):com.smanggin.Supplier.list()}" optionKey="id" optionValue="name" required="" value="${purchaseOrderInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')}</span>
 			</div>
 		</div>
@@ -206,11 +210,17 @@ if(actionName=='edit') {
 			country ='${session.country}';
 			$('#country').val(country);	
 			$('#country option:not(:selected)').prop('disabled', true).trigger('chosen:updated');
-			getLob(country);
+			<%
+            if(actionName=='create') { 
+            %>
+            getLob(country);
 		    getCurrency(country);
 			getTrGroup(country);
 			getSupplier(country)
             getRequestor(country);
+            <% 
+            }
+            %>
             getYear(country);
 		</g:if>
 		

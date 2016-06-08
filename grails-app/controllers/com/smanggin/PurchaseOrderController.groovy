@@ -127,7 +127,7 @@ class PurchaseOrderController {
 
 
         if(baseCurrency){
-        	def localCurrency = Currency.findByCodeAndActive(params.currency1?.code,'Yes')
+        	def localCurrency = Currency.findByCodeAndActive(params.currency,'Yes')
         	purchaseOrderInstance.currency1=localCurrency
         	purchaseOrderInstance.currency2=baseCurrency
         	purchaseOrderInstance.rate = params.rate?params.rate.toFloat():1
@@ -146,7 +146,7 @@ class PurchaseOrderController {
         if(approvals?.size() > 0){
             if (!purchaseOrderInstance.save(flush: true)) {
                 println "<<<<<<< errors >>>>>> " + purchaseOrderInstance.errors
-                render(view: "create", model: [purchaseOrderInstance: purchaseOrderInstance])
+                render(view: "list", model: [purchaseOrderInstance: purchaseOrderInstance])
                 return
             }
 
@@ -171,7 +171,7 @@ class PurchaseOrderController {
             redirect(action: "show", id: purchaseOrderInstance.id)
         }else{
             flash.error = message(code: 'default.setApprover.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder')])
-            redirect(action: "create")
+            redirect(action: "list")
         }    
     }
 
@@ -306,6 +306,14 @@ class PurchaseOrderController {
         purchaseOrderInstance.properties = params
         purchaseOrderInstance.updatedBy = session.user
         purchaseOrderInstance.lastUpdated = new Date()
+        if(baseCurrency){
+            def localCurrency = Currency.findByCodeAndActive(params.currency,'Yes')
+            purchaseOrderInstance.currency1=localCurrency
+            purchaseOrderInstance.currency2=baseCurrency
+            purchaseOrderInstance.rate = params.rate?params.rate.toFloat():1
+            purchaseOrderInstance.rateDetail = RateDetail.get(params.rateDetail?.id)
+        }
+
         //savePoComment(purchaseOrderInstance,params)
 
         if (!purchaseOrderInstance.save(flush: true)) {

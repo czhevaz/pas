@@ -22,8 +22,8 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td><g:formatDate date="${purchaseOrderInstance.dateCreated}" /></td>
-					<td><g:formatDate date="${purchaseOrderInstance.lastUpdated}" /></td>
+					<td><g:formatDate date="${purchaseOrderInstance.dateCreated}"  format="dd MMMM yyyy"/></td>
+					<td><g:formatDate date="${purchaseOrderInstance.lastUpdated}" format="dd MMMM yyyy" /></td>
 					<td></td>
 					<td></td>
 					<td></td>	
