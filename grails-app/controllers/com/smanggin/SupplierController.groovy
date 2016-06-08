@@ -53,15 +53,29 @@ class SupplierController {
     def save() {
         def supplierInstance = new Supplier(params)
         supplierInstance.countryOwnerID = Country.findByName(params.countryOwnerID?.name)
-        if (!supplierInstance.save(flush: true)) {
-            render(view: "create", model: [supplierInstance: supplierInstance])
-            return
+        
+        def findexist = Supplier.createCriteria().list(){
+            eq('code',params.code)
+            eq('countryOwnerID',supplierInstance.countryOwnerID)   
         }
 
-        syncDatabaseService.insertSupplierToProxy(supplierInstance)
+        println findexist 
+        if(findexist){
+            flash.error = message(code: 'default.exist.message', args: [message(code: 'supplier.label', default: 'Supplier'), params.code])
+            redirect(action: "create", model: [supplierInstance: supplierInstance])
+        }else{
+            if (!supplierInstance.save(flush: true)) {
+                render(view: "create", model: [supplierInstance: supplierInstance])
+                return
+            }
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'supplier.label', default: 'Supplier'), supplierInstance.id])
-        redirect(action: "show", id: supplierInstance.id)
+            syncDatabaseService.insertSupplierToProxy(supplierInstance)
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'supplier.label', default: 'Supplier'), supplierInstance.name])
+            redirect(action: "show", id: supplierInstance.id)    
+        }
+
+        
     }
 
     def show() {
