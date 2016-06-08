@@ -23,9 +23,6 @@ class SyncDatabaseService {
     def connectDBService
     def globalService
 
-
-    //def conSqlProxy = { return connectDBService?.getSqlProxyKalbeConnection() }
-
 	def sync() {
 
 	}

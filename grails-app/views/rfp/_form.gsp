@@ -1,5 +1,8 @@
 <%@ page import="com.smanggin.Rfp" %>
-
+<%@ page import="com.smanggin.GlobalService" %>
+<%
+    def globalService = grailsApplication.classLoader.loadClass('com.smanggin.GlobalService').newInstance()
+%>
 			<div class="form-group ${hasErrors(bean: rfpInstance, field: 'country', 'error')}  required">
 				<label for="country" class="col-sm-3 control-label"><g:message code="register.country.label" default="Country" /></label>
 				<div class="col-sm-3">
@@ -12,7 +15,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'transactionGroup', 'error')} required">
 				<label for="transactionGroup" class="col-sm-3 control-label"><g:message code="rfp.transactionGroup.label" default="Transaction Group" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:select id="transactionGroup" name="transactionGroup.id" from="${com.smanggin.TransactionGroup.list()}" optionKey="id" required="" value="${rfpInstance?.transactionGroup?.id}" class="many-to-one form-control chosen-select"/>
+					<g:select id="transactionGroup" name="transactionGroup.id" from="${rfpInstance?.country?globalService.trgroupFindALLByCountry(rfpInstance?.country):com.smanggin.TransactionGroup.list()}" optionKey="id" required="" value="${rfpInstance?.transactionGroup?.id}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'transactionGroup', 'error')}</span>
 				</div>
 			</div>
@@ -37,7 +40,8 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'currency1', 'error')} required">
 				<label for="currency1" class="col-sm-3 control-label"><g:message code="rfp.currency1.label" default="Currency1" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:select id="currency1" name="currency1.code" from="${com.smanggin.Currency.list()}" optionKey="code" required="" value="${rfpInstance?.currency1?.id}" class="many-to-one form-control chosen-select"/>
+
+					<g:select id="currency1" name="currency1.code" from="${com.smanggin.Currency.list()}" optionKey="code" required="" value="${rfpInstance?.currency1?.code}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'currency1', 'error')}</span>
 				</div>
 			</div>
@@ -51,13 +55,10 @@
 				</div>
 			</div>
 			
-		
-
-
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'supplier', 'error')} required">
 				<label for="supplier" class="col-sm-3 control-label"><g:message code="rfp.supplier.label" default="Supplier" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:select id="supplier" name="supplier.id" from="${com.smanggin.Supplier.list()}" optionKey="id" required="" value="${rfpInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
+					<g:select id="supplier" name="supplier.id" from="${rfpInstance?.country?globalService.supplierFindALLByCountry(rfpInstance?.country):com.smanggin.Supplier.list()}" optionKey="id" required="" value="${rfpInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'supplier', 'error')}</span>
 				</div>
 			</div>
@@ -119,9 +120,19 @@
 			$('#country').val(country);	
 			$('#country option:not(:selected)').prop('disabled', true).trigger('chosen:updated');
 			
-			getCurrency(country);
-			getTrGroup(country);
-			getSupplier(country);
+			
+			
+			<%
+			if(actionName=='create') { 
+			%>
+				getCurrency(country);
+				getTrGroup(country);
+				getSupplier(country);
+			<% 
+			}
+			%>
+
+			
 		</g:if>
 		
 	});
@@ -199,7 +210,8 @@
         
             type: "POST",
             success: function (data) {
-                console.log(data);
+                
+
                 $("#currency1").val(data.code);
                 $('#currency1').trigger('chosen:updated');
                    
@@ -220,12 +232,13 @@
             type: "POST",
             success: function (data) {
 
-                $('#supplier').empty()
+                //$('#supplier').empty()
                 if(data.length > 0){
                     
                     $('#supplier').chosen();
 
                     $.each(data, function(a, b){
+                    	
                          var opt = "<option value='"+b.id+"'> "+ b.name +" </option>";
                         $('#supplier').append(opt);
                         

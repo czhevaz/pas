@@ -141,7 +141,7 @@ class RfpController {
                 rfpApprover.save(flush:true)
             }
 
-    		flash.message = message(code: 'default.created.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.id])
+    		flash.message = message(code: 'default.created.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
             redirect(action: "show", id: rfpInstance.id)
 
         }else{
@@ -252,9 +252,13 @@ class RfpController {
             rfpInstance.rateDetail = RateDetail.get(params.rateDetail?.id)
         }
 
+
         rfpInstance.country = Country.findByName(params.country)
         rfpInstance.updatedBy = session.user
         rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())
+        rfpInstance.supplier = Supplier.findById(params.supplier.id?.toInteger())
+        rfpInstance.paymentType = params.paymentType
+        rfpInstance.note = params.note
 
         if(rfpInstance.paymentOption?.id!=1){
 
@@ -268,7 +272,7 @@ class RfpController {
             return
         }
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'rfp.label', default: 'Rfp'), rfpInstance.id])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'rfp.label', default: 'Rfp'), rfpInstance.number])
         redirect(action: "show", id: rfpInstance.id)
     }
 

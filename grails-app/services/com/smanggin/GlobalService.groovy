@@ -231,5 +231,17 @@ class GlobalService {
 
         return country
     }
+
+
+    def supplierFindALLByCountry(country){
+        def countryOwner = Country.findByName(country)
+        def supplier = Supplier.findAllByCountryOwnerID(countryOwner)
+        return supplier
+    }
+
+    def trgroupFindALLByCountry(country){
+        def trGroup = TransactionGroup.findAllByCountry(country)
+        return trGroup
+    }
 }
 

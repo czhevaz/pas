@@ -12,7 +12,8 @@ class SyncDBJob {
             def coas = ChartOfAccount.createCriteria().list(){
                 isNull('countryCode')
             }
-            
+
+            println "count "+ coas
             
             if(coas.size() > 0 ){
                 def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
@@ -35,6 +36,7 @@ class SyncDBJob {
                 println "=== Country _code di M_PAS_COA masih ada yg null isi manual === "
 
             }else{
+                println "=== Start SyncDBJob COA === "
                 syncDatabaseService.syncCOAFromProxy()            
             }
             

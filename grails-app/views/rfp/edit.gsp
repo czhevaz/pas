@@ -10,8 +10,10 @@
 	<g:set var="entityName" value="${message(code: 'rfp.label', default: 'Rfp')}" />
 	<title><g:message code="default.edit.label" args="[entityName]" /></title>
 	<g:if test="${isEdit}" >
+		<g:set var="canCreate" value="true" scope="request" />
 		<g:set var="canEdit" value="true" scope="request" />
 		<g:set var="canDelete" value="true" scope="request" />
+
 	</g:if>
 </head>
 
