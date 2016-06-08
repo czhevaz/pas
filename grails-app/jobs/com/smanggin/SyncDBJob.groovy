@@ -7,6 +7,9 @@ class SyncDBJob {
     def connectDBService
     def execute() {
         // execute job
+        
+        syncDatabaseService.deleteDoubleCoa()
+
         try {
 
             def coas = ChartOfAccount.createCriteria().list(){
@@ -66,6 +69,10 @@ class SyncDBJob {
     }
 
 
-    
+    def deleteDoubleCOA(){
+        def coa = ChartOfAccount.createCriteria().list(){
+
+        }   
+    }        
 
 }

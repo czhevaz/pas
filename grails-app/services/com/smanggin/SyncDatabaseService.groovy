@@ -373,4 +373,27 @@ class SyncDatabaseService {
 	}
 
 	/* END Rate */
+	def deleteDoubleCoa(){
+		def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
+		conSqlAmatra?.eachRow("SELECT code ,country_code,COUNT(*) count FROM M_PAS_COA GROUP BY code,country_code Having COUNT(*) > 1") { row ->
+			def coa= ChartOfAccount.createCriteria().list(){
+				eq('code',row.code)
+				eq('countryCode',row.country_code)
+				order('dateCreated','desc')
+			}
+
+			def rfpDetails = RfpDetail.findByCoa(coa[0])
+			println "rfpDetails >> " + rfpDetails
+			if(!rfpDetails){
+				println "code delete>>> "+coa[0].code +" ---- " +coa[0].id
+
+				conSqlAmatra.executeUpdate("delete FROM M_PAS_COA where id=:id ",[id:coa[0].id])
+			}
+		}
+
+		if(conSqlAmatra){
+			conSqlAmatra.close()
+		}
+	}
+	
 }
