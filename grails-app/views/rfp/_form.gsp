@@ -232,7 +232,7 @@
             type: "POST",
             success: function (data) {
 
-                //$('#supplier').empty()
+                $('#supplier').empty()
                 if(data.length > 0){
                     
                     $('#supplier').chosen();
