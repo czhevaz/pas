@@ -161,7 +161,7 @@ class ChartOfAccountController {
                 eq('segment05',lob?.codeCoa)
 
                 //if(country?.codeCoa != '999'){
-                    eq('country_code',country?.code)        
+                    eq('countryCode',country?.code)        
                 //}
 
                 if(params.brand){
