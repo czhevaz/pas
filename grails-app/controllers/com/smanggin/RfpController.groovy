@@ -243,6 +243,7 @@ class RfpController {
             }
         }
 
+        println params
         //rfpInstance.properties = params
          if(baseCurrency){
             def localCurrency = Currency.findByCodeAndActive(params.currency1?.code,'Yes')

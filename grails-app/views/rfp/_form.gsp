@@ -50,7 +50,7 @@
 				<label for="rate" class="col-sm-3 control-label"><g:message code="rfp.rate.label" default="Rate" /></label>
 				<div class="col-sm-4">
 					<g:field type="number" name="rate" class="form-control" step="any" value="${rfpInstance?.rate}"/>
-					<g:field type="hidden" id ="rateDetailId" name="rateDetail.id" value="${rfpInstance.rateDetail}"/> 
+					<g:field type="hidden" id ="rateDetailId" name="rateDetail.id" value="${rfpInstance.rateDetail?.id}"/> 
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'rate', 'error')}</span>
 				</div>
 			</div>
