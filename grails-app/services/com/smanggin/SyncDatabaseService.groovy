@@ -204,7 +204,7 @@ class SyncDatabaseService {
 		countryCode:row.CountryID
 		]
 
-		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07,countryCode=:countryCode  where coa_id_server=:valCoaIdServer", map)
+		conSqlAmatra.executeUpdate("update M_PAS_COA set coa_id_server=:valCoaIdServer, code=:valCode, description=:valDescription, segment01=:valSegment01, segment02=:valSegment02, segment03=:valSegment03, segment04=:valSegment04, segment05=:valSegment05, segment06=:valSegment06, segment07=:valSegment07,country_code=:countryCode  where coa_id_server=:valCoaIdServer", map)
 		if(conSqlAmatra){
 		  // conSqlAmatra.close()	
 		}
@@ -377,18 +377,24 @@ class SyncDatabaseService {
 		def conSqlAmatra = connectDBService?.getSqlAmatraConnection()
 		conSqlAmatra?.eachRow("SELECT code ,country_code,COUNT(*) count FROM M_PAS_COA GROUP BY code,country_code Having COUNT(*) > 1") { row ->
 			def coa= ChartOfAccount.createCriteria().list(){
-				eq('code',row.code)
-				eq('countryCode',row.country_code)
+				and{
+					eq('code',row.code)
+					eq('countryCode',row.country_code)	
+				}
+				
 				order('dateCreated','desc')
 			}
 
-			def rfpDetails = RfpDetail.findByCoa(coa[0])
-			println "rfpDetails >> " + rfpDetails
-			if(!rfpDetails){
-				println "code delete>>> "+coa[0].code +" ---- " +coa[0].id
+			if(coa.size() > 1){
+				def rfpDetails = RfpDetail.findByCoa(coa[0])
+				println "rfpDetails >> " + rfpDetails
+				if(!rfpDetails){
+					println "code delete>>> "+row.code +" ---- " +coa[0].id +" ----- " +row.country_code
 
-				conSqlAmatra.executeUpdate("delete FROM M_PAS_COA where id=:id ",[id:coa[0].id])
+					conSqlAmatra.executeUpdate("delete FROM M_PAS_COA where id=:id ",[id:coa[0].id])
+				}	
 			}
+			
 		}
 
 		if(conSqlAmatra){
