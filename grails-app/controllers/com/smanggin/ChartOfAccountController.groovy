@@ -154,7 +154,7 @@ class ChartOfAccountController {
         }else if(params.country){
             
             def country = Country.findByName(params.country)
-            def lob = Lob.findByCode(params.lob)
+            def lob = Lob.findByCodeAndCountry(params.lob,country?.name)
             def c = ChartOfAccount.createCriteria()
 
             def results = c.list(params) {
