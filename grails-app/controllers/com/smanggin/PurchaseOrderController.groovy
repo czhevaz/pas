@@ -708,10 +708,10 @@ class PurchaseOrderController {
             }
         }
         
-        def attachment = Attachment.findByPurchaseOrder(purchaseOrderInstance)
+        //def attachment = Attachment.findByPurchaseOrder(purchaseOrderInstance)
 
-        if (purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP' && !attachment) {
-            
+        //if (purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP' && !attachment) {
+        if(false){    
            
             
                 flash.error = message(code: 'default.have.attachment.failure', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])

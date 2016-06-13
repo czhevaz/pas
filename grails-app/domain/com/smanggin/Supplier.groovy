@@ -44,7 +44,7 @@ class Supplier {
     
 	static	constraints = {
 		version nullable: true
-		code nullable: true
+		code nullable: true, size:1..10
 		postCode nullable: true
 		phones nullable: true
 		telex nullable: true
