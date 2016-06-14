@@ -165,7 +165,7 @@ class ChartOfAccountController {
                 //}
 
                 if(params.brand){
-                    eq('segment04',params.brand)
+                   // eq('segment04',params.brand)
                 }
                 
             }
