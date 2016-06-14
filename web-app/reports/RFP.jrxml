@@ -2,12 +2,13 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RFP" language="groovy" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="15" bottomMargin="15" uuid="2fd1561b-4468-4119-b5d5-ef62a0359a88">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="359"/>
+	<property name="ireport.y" value="402"/>
 	<parameter name="rfp_id" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="paymentType" class="java.lang.String"/>
 	<parameter name="remarks" class="java.lang.String"/>
+	<parameter name="paidBy" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
      M_PAS_COA."active" AS M_PAS_COA_active,
@@ -18,6 +19,7 @@
      T_PAS_RFP."currency2_id" AS T_PAS_RFP_currency2_id,
      T_PAS_RFP."number" AS T_PAS_RFP_number,
      T_PAS_RFP."payment_option" AS T_PAS_RFP_payment_option,
+T_PAS_RFP."payment_type" AS T_PAS_RFP_payment_type,
      T_PAS_RFP."rate" AS T_PAS_RFP_rate,
      T_PAS_RFP."rfp_date" AS T_PAS_RFP_rfp_date,
      T_PAS_RFP."state" AS T_PAS_RFP_state,
@@ -215,14 +217,14 @@ WHERE
 		</band>
 	</detail>
 	<summary>
-		<band height="296" splitType="Stretch">
+		<band height="339" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="37" width="565" height="69" uuid="ee72faac-ad7d-4270-bfbd-9e0ad37b10fd"/>
 				<box leftPadding="5"/>
 				<text><![CDATA[Note :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="147" y="158" width="139" height="81" uuid="2318d9a6-acf2-4578-bfa6-7f69bda912b4"/>
+				<reportElement x="147" y="193" width="139" height="81" uuid="2318d9a6-acf2-4578-bfa6-7f69bda912b4"/>
 				<box leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -234,7 +236,7 @@ WHERE
 				<text><![CDATA[Marketing / Sales]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="426" y="159" width="124" height="80" uuid="a083ba26-5f0e-4796-be5e-243cfc4b78a5"/>
+				<reportElement x="426" y="194" width="124" height="80" uuid="a083ba26-5f0e-4796-be5e-243cfc4b78a5"/>
 				<box leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -246,7 +248,7 @@ WHERE
 				<text><![CDATA[Country Manager / LOB Head]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="286" y="159" width="140" height="80" uuid="4feb149b-f76e-483a-8810-27d8db6c1289"/>
+				<reportElement x="286" y="194" width="140" height="80" uuid="4feb149b-f76e-483a-8810-27d8db6c1289"/>
 				<box leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -258,7 +260,7 @@ WHERE
 				<text><![CDATA[Finance]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="286" y="139" width="140" height="20" uuid="17b10ae3-184b-48a4-8d5f-846f9beca92d"/>
+				<reportElement x="286" y="174" width="140" height="20" uuid="17b10ae3-184b-48a4-8d5f-846f9beca92d"/>
 				<box leftPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -270,7 +272,7 @@ WHERE
 				<text><![CDATA[Checked By]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="147" y="139" width="139" height="20" uuid="ad2b7c3d-9df4-48da-b336-bccc53f33d6e"/>
+				<reportElement x="147" y="174" width="139" height="20" uuid="ad2b7c3d-9df4-48da-b336-bccc53f33d6e"/>
 				<box leftPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -282,7 +284,7 @@ WHERE
 				<text><![CDATA[Requested & Reviewed By]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="17" y="139" width="130" height="20" uuid="204cbcfb-a6b3-4bf6-b287-9056582fe5da"/>
+				<reportElement x="17" y="174" width="130" height="20" uuid="204cbcfb-a6b3-4bf6-b287-9056582fe5da"/>
 				<box leftPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -294,7 +296,7 @@ WHERE
 				<text><![CDATA[Prepared By]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="17" y="158" width="130" height="81" uuid="b3638d0c-bfab-4a0e-a3cb-b5d8b99ca8af"/>
+				<reportElement x="17" y="193" width="130" height="81" uuid="b3638d0c-bfab-4a0e-a3cb-b5d8b99ca8af"/>
 				<box leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -306,7 +308,7 @@ WHERE
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="426" y="139" width="124" height="20" uuid="f08166a9-e184-4368-96e3-feb7418a748e"/>
+				<reportElement x="426" y="174" width="124" height="20" uuid="f08166a9-e184-4368-96e3-feb7418a748e"/>
 				<box leftPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -318,7 +320,7 @@ WHERE
 				<text><![CDATA[Approved By]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="29" y="219" width="107" height="20" uuid="12111791-da2f-4044-84ba-3e11dc2e8210"/>
+				<reportElement x="29" y="254" width="107" height="20" uuid="12111791-da2f-4044-84ba-3e11dc2e8210"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_RFP_created_by}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
@@ -364,23 +366,33 @@ WHERE
 				<textFieldExpression><![CDATA[$F{T_PAS_RFP_note}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="106" width="100" height="20" uuid="ec1f5702-49d1-4a47-b4e6-ad48207a3c14"/>
-				<box leftPadding="3"/>
+				<reportElement x="0" y="106" width="83" height="20" uuid="ec1f5702-49d1-4a47-b4e6-ad48207a3c14"/>
+				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Payment Type :]]></text>
+				<text><![CDATA[Paid By ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="106" width="450" height="20" uuid="f0016a91-7699-45ff-8e45-ed417ee770a2"/>
+				<reportElement x="83" y="126" width="467" height="20" uuid="f0016a91-7699-45ff-8e45-ed417ee770a2"/>
 				<box leftPadding="2"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{paymentType}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="17" y="251" width="533" height="45" uuid="26e02544-3629-475e-868b-6ab71c9a6815"/>
+				<reportElement x="17" y="278" width="533" height="45" uuid="26e02544-3629-475e-868b-6ab71c9a6815"/>
 				<textElement>
 					<font isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{remarks}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="126" width="83" height="20" uuid="86683c92-62db-4c96-9ea2-56bbdd21d7de"/>
+				<box leftPadding="5"/>
+				<text><![CDATA[Paymen tType]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="106" width="467" height="20" uuid="95d4ed6c-42ef-42bc-bcfb-ca62632e9e35"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paidBy}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
