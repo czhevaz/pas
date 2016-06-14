@@ -714,7 +714,7 @@ class RfpController {
 
         def list =[]
         rfpInstance.rfpDetails.each{
-            def string = "No. PPP "+it.pppNumber+" : No.PO "+it.purchaseOrder?.number 
+            def string = "No. PPP "+it.pppNumber+" (No.PO "+it.purchaseOrder?.number}+")" 
             list.push(string)
         }
 
