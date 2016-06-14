@@ -79,9 +79,9 @@ WHERE
 	<title>
 		<band height="233" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="173" height="26" uuid="3bad6737-795e-46fb-9c6c-31ffb67cd1e7"/>
+				<reportElement x="0" y="0" width="238" height="26" uuid="3bad6737-795e-46fb-9c6c-31ffb67cd1e7"/>
 				<box leftPadding="5"/>
-				<text><![CDATA[REQUEST FOR PAYMENT]]></text>
+				<text><![CDATA[REQUEST FOR PAYMENT EXTRACT SYSTEM]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="54" width="73" height="20" uuid="2884e59a-f5c4-41d0-9a55-e2721476c16c"/>
@@ -148,11 +148,6 @@ WHERE
 				<reportElement x="73" y="54" width="100" height="20" uuid="eb609ca6-d765-4bbc-aee0-97a57af2c533"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_RFP_rfp_date}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="26" width="173" height="20" uuid="3edf96fc-ab1a-4672-87e2-c2cab50c73b4"/>
-				<box leftPadding="5"/>
-				<text><![CDATA[EXTRACT SYSTEM]]></text>
-			</staticText>
 		</band>
 	</title>
 	<columnHeader>
@@ -383,7 +378,7 @@ WHERE
 			<textField>
 				<reportElement x="17" y="251" width="533" height="45" uuid="26e02544-3629-475e-868b-6ab71c9a6815"/>
 				<textElement>
-					<font size="9" isItalic="true"/>
+					<font isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{remarks}]]></textFieldExpression>
 			</textField>
