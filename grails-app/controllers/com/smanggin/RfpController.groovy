@@ -709,6 +709,13 @@ class RfpController {
         params.put('view',true)
         params.put('paymentType',rfpInstance?.paidCountry?rfpInstance?.paymentOption +'/'+rfpInstance?.paidCountry:rfpInstance?.paymentOption +' : '+rfpInstance?.paymentType)
 
+        def list =[]
+        rfpInstance.rfpDetails.each{
+            list.push(it.pppNumber +' : '+it.purchaseOrder?.number)
+        }
+
+        def remarks = list.join(',')
+         params.put('remarks',list)
         printService.print("PDF", request.getLocale(), response,params,trTypeCode,filename)
     }
 
