@@ -716,7 +716,7 @@ class RfpController {
         }
 
         def remarks = list.join(',')
-         params.put('remarks',list)
+         params.put('remarks',remarks)
         printService.print("PDF", request.getLocale(), response,params,trTypeCode,filename)
     }
 
