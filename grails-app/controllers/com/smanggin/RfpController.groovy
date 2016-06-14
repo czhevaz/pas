@@ -708,9 +708,10 @@ class RfpController {
         params.put('rfp_id',rfpInstance?.id)
         params.put('view',true)
         def paymentType = (rfpInstance?.paidCountry?(rfpInstance?.paymentOption.name() +'/'+rfpInstance?.paidCountry):rfpInstance?.paymentOption.name())
-        def concat = paymentType +'/'+rfpInstance?.paymentType
+        
 
-        params.put('paymentType',concat)
+        params.put('paidBy',paymentType)
+        params.put('paymentType',rfpInstance?.paymentType)
 
         def list =[]
         rfpInstance.rfpDetails.each{
