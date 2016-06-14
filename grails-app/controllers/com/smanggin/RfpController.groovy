@@ -707,8 +707,8 @@ class RfpController {
         params.put('companyName','Kalbe International  Pte. Ltd')
         params.put('rfp_id',rfpInstance?.id)
         params.put('view',true)
-		def paymentType = rfpInstance?.paidCountry?rfpInstance?.paymentOption +'/'+rfpInstance?.paidCountry:rfpInstance?.paymentOption 
-        params.put('paymentType',paymentType +'/ '+rfpInstance?.paymentType)
+		def paymentType = (rfpInstance?.paidCountry?(rfpInstance?.paymentOption +'/'+rfpInstance?.paidCountry):rfpInstance?.paymentOption)+ " / "+rfpInstance?.paymentType
+        params.put('paymentType',paymentType.toString())
 
         def list =[]
         rfpInstance.rfpDetails.each{
