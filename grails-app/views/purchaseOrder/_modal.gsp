@@ -279,7 +279,7 @@
                         var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
                         $('#brand').append(opt);
                      });
-                     $('#brand').trigger('chosen:updated');
+                     $("#brand").val(data.brandName).trigger('chosen:updated');
                 }else{
                 	$('#brand').chosen("destroy");
                 	$('#brand').chosen();
@@ -292,7 +292,7 @@
 
 		$('#searchPpp').modal('hide');
 		$("#lob").val(data.lobName).trigger('chosen:updated');
-		$("#brand").val(data.brandName).trigger('chosen:updated');
+		
 		
 		$('#requestor').val(data.requestorName).trigger('chosen:updated');
 		$("#pppNumber").val(data.pppNumber);
