@@ -231,7 +231,7 @@ class SyncDatabaseService {
 				def sql2 = "insert into t_proxy_rfp_dtl (rfp_number, coa_code, coa_desc, country_code, total_cost1, total_cost2, countryID, id_pols ,ppp_number, po_number, p_date, p_date_change) values"	
 				def i=1
 				rfpInstance.rfpDetails.each{
-					def coa_desc= it.coa.description?.replaceAll('\'','\"')
+					def coa_desc= it.coa?.description?.replaceAll('\'','\"')
 					sql2 += "('$rfpInstance.number', '$it.coa.code', '$coa_desc', '$rfpInstance.country', $it.totalCost1, $it.totalCost2, '$country.code', $it.id, '$it.pppNumber','$it.purchaseOrder.number', '$timestamp', '$timestamp')"
 
 					if(i== rfpInstance.rfpDetails.size()){
