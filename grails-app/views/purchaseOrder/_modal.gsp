@@ -267,11 +267,33 @@
 			tr += "<td > "+  formatNumber(data.remainCreditLimitTotalPPP) +" </td>";
 			tr += "<td > "+  data.pppDate +" </td>";
 			tr += "</tr>";
-		$("#table-ppp tbody").append(tr);										    
-		
+		$("#table-ppp tbody").append(tr);										    	
+		$.ajax({
+            url: "/${meta(name:'app.name')}/brand/jlist?country="+countryTes+"&masterField.name=lob&masterField.id="+data.lobName,
+            type: "POST",
+            success: function (data) {
+            	$('#brand').empty();
+              	if(data.length > 0){
+                     $('#brand').prepend("<option value='' >All</option>")
+                    $.each(data, function(a, b){	
+                        var opt = "<option value='"+b.code+"'> "+ b.code +" </option>";
+                        $('#brand').append(opt);
+                     });
+                     $('#brand').trigger('chosen:updated');
+                }else{
+                	$('#brand').chosen("destroy");
+                	$('#brand').chosen();
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("fail");
+            }
+        });
+
 		$('#searchPpp').modal('hide');
-		$("#brand").val(data.brandName).trigger('chosen:updated');
 		$("#lob").val(data.lobName).trigger('chosen:updated');
+		$("#brand").val(data.brandName).trigger('chosen:updated');
+		
 		$('#requestor').val(data.requestorName).trigger('chosen:updated');
 		$("#pppNumber").val(data.pppNumber);
 
