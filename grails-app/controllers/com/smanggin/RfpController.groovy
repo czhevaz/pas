@@ -708,14 +708,12 @@ class RfpController {
         params.put('rfp_id',rfpInstance?.id)
         params.put('view',true)
         def paymentType = (rfpInstance?.paidCountry?(rfpInstance?.paymentOption.name() +'/'+rfpInstance?.paidCountry):rfpInstance?.paymentOption.name())
-        
-
         params.put('paidBy',paymentType)
         params.put('paymentType',rfpInstance?.paymentType)
 
         def list =[]
         rfpInstance.rfpDetails.each{
-            def string = "No. PPP "+it.pppNumber+" (No.PO "+it.purchaseOrder?.number+")" 
+            def string = "No. PPP : "+it.pppNumber+" (No.PO : "+it.purchaseOrder?.number+")" 
             list.push(string)
         }
 
