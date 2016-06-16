@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RFP" language="groovy" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="15" bottomMargin="15" uuid="2fd1561b-4468-4119-b5d5-ef62a0359a88">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="402"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="rfp_id" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -79,75 +79,75 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="233" splitType="Stretch">
+		<band height="219" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="238" height="26" uuid="3bad6737-795e-46fb-9c6c-31ffb67cd1e7"/>
 				<box leftPadding="5"/>
 				<text><![CDATA[REQUEST FOR PAYMENT EXTRACT SYSTEM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="54" width="73" height="20" uuid="2884e59a-f5c4-41d0-9a55-e2721476c16c"/>
+				<reportElement x="0" y="37" width="73" height="20" uuid="2884e59a-f5c4-41d0-9a55-e2721476c16c"/>
 				<box leftPadding="5"/>
 				<text><![CDATA[Date:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="74" width="578" height="1" uuid="2da27e04-d2db-484e-9895-f4bb81fa2bcc"/>
+				<reportElement x="0" y="57" width="578" height="1" uuid="2da27e04-d2db-484e-9895-f4bb81fa2bcc"/>
 			</line>
 			<staticText>
-				<reportElement x="395" y="55" width="53" height="20" uuid="dca29eff-9305-4b9e-8444-3c37a3557157"/>
+				<reportElement x="395" y="38" width="53" height="20" uuid="dca29eff-9305-4b9e-8444-3c37a3557157"/>
 				<text><![CDATA[NO. RFP :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="448" y="54" width="114" height="20" uuid="a408aa7e-cb6a-40dd-b165-1fe33521aca0"/>
+				<reportElement x="448" y="37" width="114" height="20" uuid="a408aa7e-cb6a-40dd-b165-1fe33521aca0"/>
 				<textElement>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{T_PAS_RFP_number}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="112" y="88" width="174" height="20" uuid="2ad06315-d850-49d1-916a-f2e7ab2e6891"/>
+				<reportElement x="112" y="71" width="174" height="20" uuid="2ad06315-d850-49d1-916a-f2e7ab2e6891"/>
 				<box leftPadding="3"/>
 				<textFieldExpression><![CDATA[$F{M_PAS_Supplier_code}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="88" width="112" height="20" uuid="5fa23ea9-5b87-4833-9f89-871e6c23458d"/>
+				<reportElement x="0" y="71" width="112" height="20" uuid="5fa23ea9-5b87-4833-9f89-871e6c23458d"/>
 				<box leftPadding="5"/>
-				<text><![CDATA[Supplier Id                     :]]></text>
+				<text><![CDATA[Supplier Id                :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="108" width="112" height="20" uuid="34a5ab2a-0f76-41b6-aa6a-9d72e2480490"/>
+				<reportElement x="0" y="91" width="112" height="20" uuid="34a5ab2a-0f76-41b6-aa6a-9d72e2480490"/>
 				<box leftPadding="5"/>
-				<text><![CDATA[Supplier Name             :]]></text>
+				<text><![CDATA[Supplier Name          :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="128" width="112" height="20" uuid="91ff97ac-2654-4d75-9438-246524b386c3"/>
+				<reportElement x="0" y="111" width="112" height="20" uuid="91ff97ac-2654-4d75-9438-246524b386c3"/>
 				<box leftPadding="5"/>
-				<text><![CDATA[Supplier Address           :]]></text>
+				<text><![CDATA[Supplier Address       :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="112" y="108" width="174" height="20" uuid="7bf08aa9-80e4-41d6-b5dd-de221bf4118f"/>
+				<reportElement x="112" y="91" width="174" height="20" uuid="7bf08aa9-80e4-41d6-b5dd-de221bf4118f"/>
 				<box leftPadding="3"/>
 				<textFieldExpression><![CDATA[$F{M_PAS_Supplier_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="112" y="128" width="174" height="63" uuid="70812273-a30b-4d4b-9067-0c17ef1c3f00"/>
+				<reportElement x="112" y="111" width="174" height="63" uuid="70812273-a30b-4d4b-9067-0c17ef1c3f00"/>
 				<box leftPadding="3"/>
 				<textFieldExpression><![CDATA[$F{M_PAS_Supplier_address}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="112" y="207" width="174" height="20" uuid="73e05831-9fb1-4eed-b343-bfd44cef3262"/>
+				<reportElement x="112" y="190" width="174" height="20" uuid="73e05831-9fb1-4eed-b343-bfd44cef3262"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_RFP_currency1_id}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="207" width="112" height="20" uuid="39041427-662f-466a-8daa-038e4106d324"/>
+				<reportElement x="0" y="190" width="112" height="20" uuid="39041427-662f-466a-8daa-038e4106d324"/>
 				<box leftPadding="5"/>
 				<text><![CDATA[Currency                       :]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="226" width="578" height="1" uuid="9b806626-53a1-4989-9eed-f3a554ccba6a"/>
+				<reportElement x="0" y="209" width="578" height="1" uuid="9b806626-53a1-4989-9eed-f3a554ccba6a"/>
 			</line>
 			<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
-				<reportElement x="73" y="54" width="100" height="20" uuid="eb609ca6-d765-4bbc-aee0-97a57af2c533"/>
+				<reportElement x="73" y="37" width="100" height="20" uuid="eb609ca6-d765-4bbc-aee0-97a57af2c533"/>
 				<textFieldExpression><![CDATA[$F{T_PAS_RFP_rfp_date}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -369,11 +369,11 @@ WHERE
 				<reportElement x="0" y="106" width="83" height="20" uuid="ec1f5702-49d1-4a47-b4e6-ad48207a3c14"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Paid By ]]></text>
+				<text><![CDATA[Paid By           :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="83" y="126" width="467" height="20" uuid="f0016a91-7699-45ff-8e45-ed417ee770a2"/>
-				<box leftPadding="2"/>
+				<box leftPadding="5"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{paymentType}]]></textFieldExpression>
 			</textField>
@@ -387,10 +387,11 @@ WHERE
 			<staticText>
 				<reportElement x="0" y="126" width="83" height="20" uuid="86683c92-62db-4c96-9ea2-56bbdd21d7de"/>
 				<box leftPadding="5"/>
-				<text><![CDATA[Paymen tType]]></text>
+				<text><![CDATA[Paymen Type :]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="83" y="106" width="467" height="20" uuid="95d4ed6c-42ef-42bc-bcfb-ca62632e9e35"/>
+				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{paidBy}]]></textFieldExpression>
 			</textField>

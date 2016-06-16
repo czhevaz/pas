@@ -222,17 +222,17 @@ class SyncDatabaseService {
 
 		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()		
 		/* insert header*/
-		def sql = "insert into t_proxy_rfp_hdr (rfp_number, rfp_date, rfp_supplier_code, rfp_currency1_code, countryID, p_date, p_date_change) values ('$rfpInstance.number', '$rfpInstance.rfpDate', '$rfpInstance.supplier.code', '$rfpInstance.currency1.code','$country.code', '$timestamp', '$timestamp');\n"
+		def sql = "insert into t_proxy_rfp_hdr (rfp_number, rfp_date, rfp_supplier_code, rfp_currency1_code, countryID,paid_by, paid_by_country, payment_type, p_date, p_date_change) values ('$rfpInstance.number', '$rfpInstance.rfpDate', '$rfpInstance.supplier.code', '$rfpInstance.currency1.code','$country.code','$rfpInstance.paymentOption.name()', '$rfpInstance.paidCountry', '$rfpInstance.paymentType', '$timestamp', '$timestamp');\n"
 		conSqlProxy.execute sql
 
 			/* insert detail*/
 			if(rfpInstance.rfpDetails){
 				
-				def sql2 = "insert into t_proxy_rfp_dtl (rfp_number, coa_code, coa_desc, country_code, total_cost1, total_cost2, countryID, id_pols ,p_date, p_date_change) values"	
+				def sql2 = "insert into t_proxy_rfp_dtl (rfp_number, coa_code, coa_desc, country_code, total_cost1, total_cost2, countryID, id_pols ,ppp_number, po_number, p_date, p_date_change) values"	
 				def i=1
 				rfpInstance.rfpDetails.each{
 					def coa_desc= it.coa.description?.replaceAll('\'','\"')
-					sql2 += "('$rfpInstance.number', '$it.coa.code', '$coa_desc', '$rfpInstance.country', $it.totalCost1, $it.totalCost2, '$country.code', $it.id, '$timestamp', '$timestamp')"
+					sql2 += "('$rfpInstance.number', '$it.coa.code', '$coa_desc', '$rfpInstance.country', $it.totalCost1, $it.totalCost2, '$country.code', $it.id, '$it.pppNumber','$it.purchaseOrder.number', '$timestamp', '$timestamp')"
 
 					if(i== rfpInstance.rfpDetails.size()){
 						sql2 += ";"	
