@@ -234,9 +234,19 @@ class GlobalService {
 
 
     def supplierFindALLByCountry(country){
-        def countryOwner = Country.findByName(country)
-        def supplier = Supplier.findAllByCountryOwnerID(countryOwner)
-        return supplier
+       def c = Supplier.createCriteria()
+        def list = []
+        list.push('Indonesia')
+        list.push(country)
+        list.unique()
+        
+        def results = c.list {
+           countryOwnerID{
+                'in'('name',list)
+           }
+        }
+        
+        return results
     }
 
     def trgroupFindALLByCountry(country){

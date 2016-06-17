@@ -30,7 +30,7 @@ class Supplier {
 	String country
 	String contactPerson
 	String mobileNo
-	String toString() { return name } 
+	String toString() { return name +" - ("+ countryOwnerID.name +")"} 
 
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping

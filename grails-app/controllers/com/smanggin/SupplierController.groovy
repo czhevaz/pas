@@ -191,6 +191,7 @@ class SupplierController {
     }
 
     def jlist() {
+        println params
         if(params.masterField){
             def c = Supplier.createCriteria()
             def results = c.list {
@@ -198,10 +199,23 @@ class SupplierController {
             }
             render results as JSON
 
+        }else if(params.countryOwnerID){
+            def c = Supplier.createCriteria()
+            def list = []
+            list.push('Indonesia')
+            list.push(params.countryOwnerID)
+            list.unique()
+            
+            def results = c.list {
+               countryOwnerID{
+                    'in'('name',list)
+               }
+            }
+            render results as JSON
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+          //  params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render Supplier.list(params) as JSON           
         }
         

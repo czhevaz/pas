@@ -30,7 +30,8 @@ beans = {
             new PurchaseOrderMarshaller(),
             new PurchaseOrderBalanceMarshaller(),
             new PurchaseOrderApproverMarshaller(),
-            new PurchaseOrderWriteOffMarshaller()
+            new PurchaseOrderWriteOffMarshaller(),
+            new SupplierMarshaller()
         ]
      }
 }

@@ -404,7 +404,7 @@ if(actionName=='edit') {
     function getSupplier(country) {
 
         $.ajax({
-            url: "/${meta(name:'app.name')}/supplier/jlist?masterField.name=countryOwnerID&masterField.id="+country,
+            url: "/${meta(name:'app.name')}/supplier/jlist?countryOwnerID="+country,
             
             type: "POST",
             success: function (data) {
@@ -415,7 +415,7 @@ if(actionName=='edit') {
                     $('#supplier').chosen();
 
                     $.each(data, function(a, b){
-                         var opt = "<option value='"+b.id+"'> "+ b.name +" </option>";
+                        var opt = "<option value='"+b.id+"'> "+ b.name +" - ("+b.countryOwnerID.name+") </option>";
                         $('#supplier').append(opt);
                         
                     });

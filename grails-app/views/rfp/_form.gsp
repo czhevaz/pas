@@ -58,7 +58,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: rfpInstance, field: 'supplier', 'error')} required">
 				<label for="supplier" class="col-sm-3 control-label"><g:message code="rfp.supplier.label" default="Supplier" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-5">
-					<g:select id="supplier" name="supplier.id" from="${rfpInstance?.country?globalService.supplierFindALLByCountry(rfpInstance?.country):com.smanggin.Supplier.list()}" optionKey="id" required="" value="${rfpInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
+					<g:select id="supplier" name="supplier.id" from="${rfpInstance?.country?globalService.supplierFindALLByCountry(rfpInstance?.country):com.smanggin.Supplier.list()}" optionKey="id" optionValue="name" required="" value="${rfpInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: rfpInstance, field: 'supplier', 'error')}</span>
 				</div>
 			</div>
@@ -227,7 +227,7 @@
     function getSupplier(country) {
 
         $.ajax({
-            url: "/${meta(name:'app.name')}/supplier/jlist?masterField.name=countryOwnerID&masterField.id="+country,
+            url: "/${meta(name:'app.name')}/supplier/jlist?countryOwnerID="+country,
             
             type: "POST",
             success: function (data) {
@@ -238,8 +238,7 @@
                     $('#supplier').chosen();
 
                     $.each(data, function(a, b){
-                    	
-                         var opt = "<option value='"+b.id+"'> "+ b.name +" </option>";
+                        var opt = "<option value='"+b.id+"'> "+ b.name +" - ("+b.countryOwnerID.name+") </option>";
                         $('#supplier').append(opt);
                         
                     });
