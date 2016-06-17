@@ -116,6 +116,9 @@ class RfpController {
         rfpInstance.createdBy = session.user
         if(params.paymentOption){
             rfpInstance.paymentOption = PaymentOption.byId(params.paymentOption?.id?.toInteger())    
+            if(rfpInstance.paymentOption.id == 2){
+                rfpInstance.paidCountry = 'Indonesia'
+            }
         }
         
         rfpInstance.state = 'Draft'
@@ -262,8 +265,12 @@ class RfpController {
         rfpInstance.note = params.note
 
         if(rfpInstance.paymentOption?.id!=1){
-
-            rfpInstance.paidCountry = null
+            if(rfpInstance.paymentOption.id == 2){
+                rfpInstance.paidCountry = 'Indonesia'
+            }else{
+                rfpInstance.paidCountry = null
+            }
+            
         }else{
             rfpInstance.paidCountry = params.paidCountry
         }
@@ -529,8 +536,11 @@ class RfpController {
         if(countRfpApproved == countRfpApp){
             rfpDetailInsertPOBalance(rfpInstance)
 
+            if(rfpInstance.paymentOption.id != 3){
+                syncDatabaseService.insertRfptoProxy(rfpInstance)
+            }
             /* insert to proxy*/
-            syncDatabaseService.insertRfptoProxy(rfpInstance)
+            
 
         }
         //println "rfpDetail >>> " + 

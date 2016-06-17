@@ -219,10 +219,11 @@ class SyncDatabaseService {
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
 		def paymentOption = rfpInstance?.paymentOption.name()
 		def country = Country.findByName(rfpInstance.country) 
-
+		def paidCountry = Country.findByName(rfpInstance.paidCountry)
+		
 		def conSqlProxy = connectDBService?.getSqlProxyKalbeConnection()		
 		/* insert header*/
-		def sql = "insert into t_proxy_rfp_hdr (rfp_number, rfp_date, rfp_supplier_code, rfp_currency1_code, countryID,paid_by, paid_by_country, payment_type, p_date, p_date_change) values ('$rfpInstance.number', '$rfpInstance.rfpDate', '$rfpInstance.supplier.code', '$rfpInstance.currency1.code','$country.code','$paymentOption', '$rfpInstance.paidCountry', '$rfpInstance.paymentType', '$timestamp', '$timestamp');\n"
+		def sql = "insert into t_proxy_rfp_hdr (rfp_number, rfp_date, rfp_supplier_code, rfp_currency1_code, countryID,paid_by, paid_by_country, payment_type, p_date, p_date_change) values ('$rfpInstance.number', '$rfpInstance.rfpDate', '$rfpInstance.supplier.code', '$rfpInstance.currency1.code','$country.code','$paymentOption', '$paidCountry.code', '$rfpInstance.paymentType', '$timestamp', '$timestamp');\n"
 		conSqlProxy.execute sql
 
 			/* insert detail*/
