@@ -68,7 +68,7 @@
 		<div class="form-group fieldcontain ${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')} required">
 			<label for="supplier" class="col-sm-3 control-label"><g:message code="purchaseOrder.supplier.label" default="Supplier" /><span class="required-indicator">*</span></label>
 			<div class="col-sm-3">
-				<g:select id="supplier" name="supplier.id" from="${purchaseOrderInstance?.country?globalService.supplierFindALLByCountry(purchaseOrderInstance?.country):com.smanggin.Supplier.list()}" optionKey="id" optionValue="name" required="" value="${purchaseOrderInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
+				<g:select id="supplier" name="supplier.id" from="${purchaseOrderInstance?.country?globalService.supplierFindALLByCountry(purchaseOrderInstance?.country):com.smanggin.Supplier.list()}" optionKey="id" required="" value="${purchaseOrderInstance?.supplier?.id}" class="many-to-one form-control chosen-select"/>
 				<span class="help-inline">${hasErrors(bean: purchaseOrderInstance, field: 'supplier', 'error')}</span>
 			</div>
 		</div>
