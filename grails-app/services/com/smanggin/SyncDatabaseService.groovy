@@ -233,7 +233,7 @@ class SyncDatabaseService {
 				def i=1
 				rfpInstance.rfpDetails.each{
 					def coa_desc= it.coa?.description?.replaceAll('\'','\"')
-					sql2 += "('$rfpInstance.number', '$it.coa.code', '$coa_desc', '$paidCountry.code', $it.totalCost1, $it.totalCost2, '$country.code', $it.id, '$it.pppNumber','$it.purchaseOrder.number', '$timestamp', '$timestamp')"
+					sql2 += "('$rfpInstance.number', '$it.coa.code', '$coa_desc', '$rfpInstance.country', $it.totalCost1, $it.totalCost2, '$paidCountry.code', $it.id, '$it.pppNumber','$it.purchaseOrder.number', '$timestamp', '$timestamp')"
 
 					if(i== rfpInstance.rfpDetails.size()){
 						sql2 += ";"	
