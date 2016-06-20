@@ -159,9 +159,10 @@ class ChartOfAccountController {
 
             def results = c.list(params) {
                 eq('segment05',lob?.codeCoa)
-
+                'in'('countryCode',['ID',country?.code])
+                
                 //if(country?.codeCoa != '999'){
-                    eq('countryCode',country?.code)        
+                    //eq('countryCode',country?.code)        
                 //}
 
                 if(params.brand){
