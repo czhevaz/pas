@@ -443,7 +443,7 @@ class RfpController {
         }
 
         if(rfpInstance.rfpDetails.size() == 0){
-            flash.errors = message(code: 'default.fillDetails.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
+            flash.error = message(code: 'default.fillDetails.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
                 
             redirect(action: "show", id: rfpInstance.id)
         } else{
