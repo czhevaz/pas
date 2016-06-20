@@ -442,33 +442,39 @@ class RfpController {
             }
         }
 
-        
-        def mustApprovedBy = globalService.getApprovalBySeq(rfpInstance,1)
-         
-        if(mustApprovedBy){
-            rfpInstance.mustApprovedBy = mustApprovedBy[0]?.approver
-        }
-    
-        rfpInstance.state = 'Waiting Approval'    
-
-            
-        if (!rfpInstance.save(flush: true)) {
-            println rfpInstance.errors
-
-            render(view: "edit", model: [rfpInstance: rfpInstance])
-            return
-        }
-
-        //sendApproveEmail(rfpInstance)/* --Send Email */
-
-        saveNotif(rfpInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
+        if(rfpInstance.rfpDetails.size() == 0){
+            flash.errors = message(code: 'default.fillDetails.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
                 
-        //insertTOPOBalance(rfpInstance)
+            redirect(action: "show", id: rfpInstance.id)
+        } else{
+            def mustApprovedBy = globalService.getApprovalBySeq(rfpInstance,1)
+         
+            if(mustApprovedBy){
+                rfpInstance.mustApprovedBy = mustApprovedBy[0]?.approver
+            }
+        
+            rfpInstance.state = 'Waiting Approval'    
 
-            
-        flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
-            
-        redirect(action: "show", id: rfpInstance.id)
+                
+            if (!rfpInstance.save(flush: true)) {
+                println rfpInstance.errors
+
+                render(view: "edit", model: [rfpInstance: rfpInstance])
+                return
+            }
+
+            //sendApproveEmail(rfpInstance)/* --Send Email */
+
+            saveNotif(rfpInstance,mustApprovedBy[0]?.approver)/* --insert TO Notif */
+                    
+            //insertTOPOBalance(rfpInstance)
+
+                
+            flash.message = message(code: 'default.waitingApproved.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
+                
+            redirect(action: "show", id: rfpInstance.id)
+        }
+        
         
     }
 

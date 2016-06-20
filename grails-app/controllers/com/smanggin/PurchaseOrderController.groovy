@@ -689,7 +689,7 @@ class PurchaseOrderController {
     Action Waiting Approve
     **/
     def actionWaitingApprove() {
-        println "params po Waiting >>>>>>>> " + params
+        //println "params po Waiting >>>>>>>> " + params
         def purchaseOrderInstance = PurchaseOrder.get(params.id)
         if (!purchaseOrderInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), params.id])
@@ -711,10 +711,9 @@ class PurchaseOrderController {
         //def attachment = Attachment.findByPurchaseOrder(purchaseOrderInstance)
 
         //if (purchaseOrderInstance?.transactionGroup?.transactionType?.code == 'PONP' && !attachment) {
-        if(false){    
+        if(purchaseOrderInstance.purchaseOrderDetails.size() == 0){    
            
-            
-                flash.error = message(code: 'default.have.attachment.failure', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
+                flash.error = message(code: 'default.fillDetails.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.number])
                 redirect(action: "show", id: purchaseOrderInstance.id)  
            
         }else{
