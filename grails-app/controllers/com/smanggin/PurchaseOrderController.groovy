@@ -94,6 +94,7 @@ class PurchaseOrderController {
 
     def save() {
         
+        params.month = globalService.monthInt(params.month)+1
         def purchaseOrderInstance = new PurchaseOrder(params)
         
         def country = Country.findByName(params.country)
