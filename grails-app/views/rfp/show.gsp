@@ -105,7 +105,7 @@
 								<tr class="prop">
 									<td valign="top" class="name"><g:message code="rfp.voidBy.label" default="Void By" /></td>
 								
-									<td valign="top" class="value">${fieldValue(bean: rfpInstance, field: "voidBy")} @ <g:formatDate date="${rfpInstance?.voidDate}"  format="dd MMMM yyyy"/></td>
+									<td valign="top" class="value">${fieldValue(bean: rfpInstance, field: "voidBy")} @ <g:formatDate date="${rfpInstance?.dateVoid}"  format="dd MMMM yyyy"/></td>
 								</tr>
 							</g:if>
 
