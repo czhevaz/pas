@@ -108,7 +108,7 @@
 									<td valign="top" class="value">${fieldValue(bean: rfpInstance, field: "voidBy")} @ <g:formatDate date="${rfpInstance?.voidDate}"  format="dd MMMM yyyy"/></td>
 								</tr>
 							</g:if>
-							
+
 							<g:if test="${rfpInstance.rejectNote}">
 								<tr class="prop">
 									<td valign="top" class="name"><g:message code="rfp.rejectNote.label" default="Note Void /Reject" /></td>
@@ -147,7 +147,8 @@
 							<g:if test="${rfpInstance?.state=='Approved'}">
 								<g:if test="${rfpInstance?.mustApprovedBy == session.user}">
 									<g:actionSubmit id="void" class="btn btn-primary btn-sm" action="actionVoid" value="${message(code: 'default.button.void.label', default: 'Void')}" />
-
+									
+								</g:if>	
 							</g:if>
 							
 						</div>	
