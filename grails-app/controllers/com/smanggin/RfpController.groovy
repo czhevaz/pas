@@ -600,7 +600,7 @@ class RfpController {
         def rfpApprover = RfpApprover.findByRfpAndApprover(rfpInstance,user)
         
         if(rfpApprover){
-            rfpApprover.status = 2
+            rfpApprover.status = 3
             rfpApprover.approverDate = new Date()
             rfpApprover.save(flush:true)
 
@@ -781,6 +781,7 @@ class RfpController {
         }
         
         def user = User.findByLogin(session.user)
+        
         rfpInstance.state = 'Void'
         rfpInstance.isVoid = true
         rfpInstance.voidBy = session.user
@@ -791,6 +792,16 @@ class RfpController {
             println rfpInstance.errors
             render(view: "edit", model: [rfpInstance: rfpInstance])
             return
+        }
+
+
+        def rfpApprover = RfpApprover.findByRfpAndApprover(rfpInstance,user)
+        
+        if(rfpApprover){
+            rfpApprover.status = 2
+            rfpApprover.approverDate = new Date()
+            rfpApprover.save(flush:true)
+
         }
 
         

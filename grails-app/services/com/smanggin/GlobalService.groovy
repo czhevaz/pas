@@ -118,6 +118,9 @@ class GlobalService {
 	        case 2:
 	            result = 'Rejected'
 	            break
+            case 3:  
+                result = 'Void'
+                break  
 	        default:
 	            result = 'Not Approved'
 	            break
