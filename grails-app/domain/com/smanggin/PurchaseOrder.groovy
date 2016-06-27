@@ -205,6 +205,10 @@ class PurchaseOrder {
 			eq('purchaseOrder', this)
 			rfp{
 				ne('state','Rejected')
+				or{
+					ne('state','Rejected')
+					ne('state','Void')	
+				}
 			}
 		}
 
@@ -228,7 +232,11 @@ class PurchaseOrder {
 		def rfpDetails = RfpDetail.createCriteria().list(){
 			eq('purchaseOrder', this)
 			rfp{
-				ne('state','Rejected')
+				or{
+					ne('state','Rejected')
+					ne('state','Void')	
+				}
+				
 			}	
 		}
 		

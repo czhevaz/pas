@@ -99,7 +99,24 @@
 								<td valign="top" class="value">${fieldValue(bean: rfpInstance, field: "note")}</td>
 							</tr>
 							
+							
+							
+							<g:if test="${rfpInstance.voidBy}">
+								<tr class="prop">
+									<td valign="top" class="name"><g:message code="rfp.voidBy.label" default="Void By" /></td>
 								
+									<td valign="top" class="value">${fieldValue(bean: rfpInstance, field: "voidBy")} @ <g:formatDate date="${rfpInstance?.voidDate}"  format="dd MMMM yyyy"/></td>
+								</tr>
+							</g:if>
+							
+							<g:if test="${rfpInstance.rejectNote}">
+								<tr class="prop">
+									<td valign="top" class="name"><g:message code="rfp.rejectNote.label" default="Note Void /Reject" /></td>
+								
+									<td valign="top" class="value">${fieldValue(bean: rfpInstance, field: "rejectNote")}</td>
+								</tr>
+							
+							</g:if>	
 						</tbody>
 					</table>
 				</div><!--/.row -->
@@ -108,7 +125,7 @@
 						<g:hiddenField name="id" value="${rfpInstance?.id}" />
 						<g:hiddenField name="version" value="${rfpInstance?.version}" />
 						<g:hiddenField name="updatedBy" value="${session.user}"/>
-					
+						<g:hiddenField id ="rejectNotes" name="rejectNotes" value="${purchaseOrderInstance?.rejectNotes}" />
 
 						<div class="form-actions">
 					
@@ -127,6 +144,11 @@
 									
 								</g:if>	
 							</g:if>
+							<g:if test="${rfpInstance?.state=='Approved'}">
+								<g:if test="${rfpInstance?.mustApprovedBy == session.user}">
+									<g:actionSubmit id="void" class="btn btn-primary btn-sm" action="actionVoid" value="${message(code: 'default.button.void.label', default: 'Void')}" />
+
+							</g:if>
 							
 						</div>	
 					
@@ -138,6 +160,12 @@
 		</div><!--/.box box-primary -->
 		</g:form>
 	</div><!--/.row -->
+	<script type="text/javascript">
+		$('#void').on('click', function(){
+            var r= prompt('note');
+            $('#rejectNotes').val(r);        
+        });
+	</script>
 </section>
 
 </body>
