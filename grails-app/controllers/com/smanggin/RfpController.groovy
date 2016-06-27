@@ -759,4 +759,43 @@ class RfpController {
         printService.print("XLS", request.getLocale(), response,params,trTypeCode,filename)
     }
 
+    def actionVoid(){
+        
+        def rfpInstance = Rfp.get(params.id)
+        
+        if (!rfpInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'rfp.label', default: 'RFP'), params.id])
+            redirect(action: "list")
+            return
+        }
+
+        if (params.version) {
+            def version = params.version.toLong()
+            if (rfpInstance.version > version) {
+                rfpInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                          [message(code: 'rfp.label', default: 'RFP')] as Object[],
+                          "Another user has updated this RFP while you were editing")
+                render(view: "edit", model: [rfpInstance: rfpInstance])
+                return
+            }
+        }
+        
+        def user = User.findByLogin(session.user)
+        rfpInstance.state = 'Void'
+        rfpInstance.isVoid = true
+        rfpInstance.voidBy = session.user
+        rfpInstance.dateVoid= new Date()
+        rfpInstance.rejectNotes = params.rejectNotes        
+
+        if (!rfpInstance.save(flush: true)) {
+            println rfpInstance.errors
+            render(view: "edit", model: [rfpInstance: rfpInstance])
+            return
+        }
+
+        
+        flash.message = message(code: 'default.approved.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
+        redirect(action: "show", id: rfpInstance.id)        
+    }
+
 }
