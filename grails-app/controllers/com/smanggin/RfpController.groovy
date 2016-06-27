@@ -600,7 +600,7 @@ class RfpController {
         def rfpApprover = RfpApprover.findByRfpAndApprover(rfpInstance,user)
         
         if(rfpApprover){
-            rfpApprover.status = 3
+            rfpApprover.status = 2
             rfpApprover.approverDate = new Date()
             rfpApprover.save(flush:true)
 
@@ -798,7 +798,7 @@ class RfpController {
         def rfpApprover = RfpApprover.findByRfpAndApprover(rfpInstance,user)
         
         if(rfpApprover){
-            rfpApprover.status = 2
+            rfpApprover.status = 3
             rfpApprover.approverDate = new Date()
             rfpApprover.save(flush:true)
 

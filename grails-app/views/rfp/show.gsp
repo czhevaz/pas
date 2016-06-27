@@ -164,7 +164,10 @@
 	<script type="text/javascript">
 		$('#void').on('click', function(){
             var r= prompt('note');
-            $('#rejectNotes').val(r);        
+            
+            if (r != null) {
+            	$('#rejectNotes').val(r);   
+            }     
         });
 
         $(document).ready(function() {
