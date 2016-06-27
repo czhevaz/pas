@@ -109,7 +109,7 @@
 								</tr>
 							</g:if>
 
-							<g:if test="${rfpInstance.rejectNote}">
+							<g:if test="${rfpInstance.rejectNotes}">
 								<tr class="prop">
 									<td valign="top" class="name"><g:message code="rfp.rejectNote.label" default="Note Void /Reject" /></td>
 								
