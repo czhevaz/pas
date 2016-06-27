@@ -287,8 +287,6 @@
                     $('#year').chosen();
                    
                 }
-                
-                
             },
             error: function (xhr, status, error) {
                 alert("fail");

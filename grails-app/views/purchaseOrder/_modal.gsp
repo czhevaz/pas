@@ -92,8 +92,6 @@
 		}
 
 		table = $('#pppContent').DataTable( {
-			
-			
 	        "bProcessing": true,
 		    "sAjaxSource": "/${meta(name:'app.name')}/purchaseOrder/jlist",
 		    "fnServerData": function ( sSource, aoData, fnCallback, oSettings ) {

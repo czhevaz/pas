@@ -289,6 +289,14 @@
 		</div>
 		<g:render template="modalWriteOff"/>
 		<r:script>
+			$(document).ready(function() {
+			  $(window).keydown(function(event){
+			    if(event.keyCode == 13) {
+			      event.preventDefault();
+			      return false;
+			    }
+			  });
+			});
 			$( "#addIntructions2" ).keyup(function() {
 				$("#addIntructions").val($(this).val());
   				
@@ -304,6 +312,10 @@
 				$("#modalWriteOff").modal('show');
 			}
 			
+			$('#reject').on('click', function(){
+            	var r= prompt('note');
+            	$('#rejectNotes').val(r);        
+        	});
 		/*	$('#reject').on('click', function(){
             	var r= prompt('note');
             	$('#rejectNotes').val(r);        

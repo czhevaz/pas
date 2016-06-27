@@ -794,7 +794,7 @@ class RfpController {
         }
 
         
-        flash.message = message(code: 'default.approved.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
+        flash.message = message(code: 'default.void.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
         redirect(action: "show", id: rfpInstance.id)        
     }
 
