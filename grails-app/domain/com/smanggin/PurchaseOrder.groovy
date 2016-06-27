@@ -204,11 +204,7 @@ class PurchaseOrder {
 		def rfpDetails = RfpDetail.createCriteria().list(){
 			eq('purchaseOrder', this)
 			rfp{
-				
-				or{
-					ne('state','Rejected')
-					ne('state','Void')	
-				}
+				not { 'in'('state',['Rejected','Void']) }
 			}
 		}
 
@@ -223,7 +219,7 @@ class PurchaseOrder {
 		rfpDetails.each{
 			totaRfp1 = totaRfp1 + it.totalCost1
 		}
-
+		
 		def remainTotal = this.total - totaRfp1 - (poWO[0]?:0)
 		return remainTotal
 	}
@@ -232,11 +228,7 @@ class PurchaseOrder {
 		def rfpDetails = RfpDetail.createCriteria().list(){
 			eq('purchaseOrder', this)
 			rfp{
-				or{
-					ne('state','Rejected')
-					ne('state','Void')	
-				}
-				
+				not { 'in'('state',['Rejected','Void']) }
 			}	
 		}
 		
