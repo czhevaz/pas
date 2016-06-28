@@ -406,7 +406,7 @@ class SyncDatabaseService {
 
 	def endDateTime(date){
 		Calendar cal=Calendar.getInstance();
-		cal.setTime(d);
+		cal.setTime(date);
 		cal.add(Calendar.HOUR, 23);
 		cal.add(Calendar.MINUTE, 59);
 		cal.add(Calendar.SECOND, 59);
