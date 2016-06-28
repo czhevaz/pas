@@ -289,7 +289,7 @@ class SyncDatabaseService {
 		
 		Calendar calendar=Calendar.getInstance();
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
-		
+		Date endDateTime = endDateTime(row.date2)
 		def params = [row.date1, row.date2, row.Xrperiod, row.CountryID, 0, timestamp ,timestamp]
  		conSqlAmatra.execute 'insert into M_PAS_Rate(star_date, end_date , xrperiod, country_code, version, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?)', params
 		
@@ -300,9 +300,10 @@ class SyncDatabaseService {
 		
 		Calendar calendar=Calendar.getInstance();
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
+		Date endDateTime = endDateTime(row.date2)
 		
  		def map =[valDate1:row.date1, 
-		valDate2:row.date2, 
+		valDate2:endDateTime, 
 		valXrperiod:row.Xrperiod,
 		timestamp:timestamp,
 		countryCode:row.CountryID 
@@ -401,6 +402,16 @@ class SyncDatabaseService {
 		if(conSqlAmatra){
 			conSqlAmatra.close()
 		}
+	}
+
+	def endDateTime(date){
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(d);
+		cal.add(Calendar.HOUR, 23);
+		cal.add(Calendar.MINUTE, 59);
+		cal.add(Calendar.SECOND, 59);
+		Date end = cal.getTime();
+		return end
 	}
 	
 }
