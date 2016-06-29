@@ -410,8 +410,9 @@ class SyncDatabaseService {
 		cal.add(Calendar.HOUR, 23);
 		cal.add(Calendar.MINUTE, 59);
 		cal.add(Calendar.SECOND, 59);
-		java.sql.Date end = new java.sql.Date(cal.getTime())
-		return end
+		//java.sql.Date end = new java.sql.Date(cal.getTime())
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(cal.getTimeInMillis())
+		return timestamp
 	}
 	
 }
