@@ -289,8 +289,9 @@ class SyncDatabaseService {
 		
 		Calendar calendar=Calendar.getInstance();
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
-		Date endDateTime = endDateTime(row.date2)
-		def params = [row.date1, row.date2, row.Xrperiod, row.CountryID, 0, timestamp ,timestamp]
+		java.sql.Timestamp endDateTime = new java.sql.Timestamp(endDateTime(row.date2))
+		
+		def params = [row.date1, endDateTime, row.Xrperiod, row.CountryID, 0, timestamp ,timestamp]
  		conSqlAmatra.execute 'insert into M_PAS_Rate(star_date, end_date , xrperiod, country_code, version, date_created, last_updated) values (?, ?, ?, ?, ?, ?, ?)', params
 		
 
@@ -300,7 +301,7 @@ class SyncDatabaseService {
 		
 		Calendar calendar=Calendar.getInstance();
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(calendar.getTimeInMillis())
-		Date endDateTime = endDateTime(row.date2)
+		java.sql.Timestamp endDateTime = new java.sql.Timestamp(endDateTime(row.date2))
 		
  		def map =[valDate1:row.date1, 
 		valDate2:endDateTime, 
@@ -410,9 +411,11 @@ class SyncDatabaseService {
 		cal.add(Calendar.HOUR, 23);
 		cal.add(Calendar.MINUTE, 59);
 		cal.add(Calendar.SECOND, 59);
-		java.sql.Date end = new java.sql.Date(cal.getTime())
+		//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//String reportDate = df.format(cal.getTime())
+		//java.sql.Date end = new Date(cal.getTime())
 		
-		return end
+		return cal.getTimeInMillis()
 	}
 	
 }
