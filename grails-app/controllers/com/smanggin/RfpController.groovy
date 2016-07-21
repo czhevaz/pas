@@ -804,6 +804,10 @@ class RfpController {
 
         }
 
+        rfpInstance.rfpDetails.each{
+            it.purchaseOrder.state = "Approved"
+            it.save(flush:true)
+        }
         
         flash.message = message(code: 'default.void.message', args: [message(code: 'rfp.label', default: 'RFP'), rfpInstance.number])
         redirect(action: "show", id: rfpInstance.id)        
