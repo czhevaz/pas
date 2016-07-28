@@ -58,7 +58,7 @@ if(actionName=='edit' || actionName=='show') {
                                         },
                                         valueField:'code',
                                         textField:'code',
-                                        url:'/${meta(name:'app.name')}/chartOfAccount/jlist?country=${rfpInstance?.country}',
+                                        url:'/${meta(name:'app.name')}/chartOfAccount/jlist?country=${rfpInstance?.country}&paidBy=${rfpInstance.paymentOption}',
                                         required:true,
                                         onSelect: function(rec){
                                             var coaDescriptionEd  =$('#dg-rfpDetails').datagrid('getEditor',{index:editIndex,field:'coaDescription'});
