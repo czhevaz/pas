@@ -161,7 +161,7 @@ class ChartOfAccountController {
                 eq('segment05',lob?.codeCoa)
                 
 
-                if(params.paidBy = 2){
+                if(params.paidBy == 2){
                     //'in'('countryCode',['ID',country?.code])
                     'in'('countryCode',['ID'])
                      eq('segment06',country?.codeCoa)
