@@ -152,19 +152,22 @@ class ChartOfAccountController {
             render results as JSON
 
         }else if(params.country){
-            
+            println params
             def country = Country.findByName(params.country)
             def lob = Lob.findByCodeAndCountry(params.lob,country?.name)
             def c = ChartOfAccount.createCriteria()
 
             def results = c.list(params) {
-                eq('segment05',lob?.codeCoa)
+                and{
+				
+				eq('segment05',lob?.codeCoa)
                 
 
-                if(params.paidBy == 2){
+                if(params.paidBy == '2'){
+				println "masuk sini " +country?.codeCoa
                     //'in'('countryCode',['ID',country?.code])
-                    'in'('countryCode',['ID'])
-                     eq('segment06',country?.codeCoa)
+                    eq('countryCode','ID')
+                    eq('segment06',country?.codeCoa)
                         
                 }else{
                     eq('countryCode',country?.code)
@@ -177,6 +180,7 @@ class ChartOfAccountController {
                 if(params.brand){
                    // eq('segment04',params.brand)
                 }
+				}
                 
             }
             render results as JSON

@@ -472,6 +472,7 @@ class PurchaseOrderController {
                 if(pppDetails2?.size() > 0){
                     pppDetails2.each{ detail ->
                         def map = [:]
+						println "detail.remainCreditLimit " +detail.remainCreditLimit + "it?.remainCreditLimit " + it?.remainCreditLimit
                        if(detail.remainCreditLimit > 0 && it?.remainCreditLimit > 0){
                         map.put('requestorName',it?.requestor)
                         map.put('pppNumber',it?.number)

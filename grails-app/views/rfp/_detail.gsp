@@ -58,7 +58,7 @@ if(actionName=='edit' || actionName=='show') {
                                         },
                                         valueField:'code',
                                         textField:'code',
-                                        url:'/${meta(name:'app.name')}/chartOfAccount/jlist?country=${rfpInstance?.country}&paidBy=${rfpInstance.paymentOption}',
+                                        url:'/${meta(name:'app.name')}/chartOfAccount/jlist?country=${rfpInstance?.country}&paidBy=${rfpInstance.paymentOption?.getId()}',
                                         required:true,
                                         onSelect: function(rec){
                                             var coaDescriptionEd  =$('#dg-rfpDetails').datagrid('getEditor',{index:editIndex,field:'coaDescription'});
@@ -341,7 +341,7 @@ if(actionName=='edit' || actionName=='show') {
             function getCOA(rec){
                 if(editIndex != undefined){
                     var coaCodeEd  =$('#dg-rfpDetails').datagrid('getEditor', {index:editIndex,field:'coaCode'});
-                    var coa = $(coaCodeEd.target).combobox('reload', '/${meta(name:'app.name')}/chartOfAccount/jlist?country='+rec.country+'&brand='+rec.brand+'&lob='+rec.lob);
+                    var coa = $(coaCodeEd.target).combobox('reload', '/${meta(name:'app.name')}/chartOfAccount/jlist?country='+rec.country+'&brand='+rec.brand+'&lob='+rec.lob+'&paidBy=${rfpInstance.paymentOption?.getId()}');
                 }
 
             }

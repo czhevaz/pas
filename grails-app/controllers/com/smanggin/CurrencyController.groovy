@@ -224,8 +224,8 @@ class CurrencyController {
 	        	maxResults(1)
 	        }
 
-	        /*println "rate code" +rate
-            println "localCurrency" + localCurrency
+	        println "rate code" +rate
+            /*println "localCurrency" + localCurrency
             println "baseCurrency" + baseCurrency
             println " poId" +params.poId*/
 	        if(rate){

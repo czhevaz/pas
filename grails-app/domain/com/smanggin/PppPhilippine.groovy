@@ -76,10 +76,21 @@ class PppPhilippine {
 		}
 
 		def totalOrderApp = 0
+		def totalPOremain = 0
+		def totalpoWO = 0
+		def totalRfp = 0
 		//println "purchaseOrders" + purchaseOrders
 		if(poApp.size() > 0){
 			poApp.each{
 				totalOrderApp = totalOrderApp+(it.total/it.rate)
+				totalRfp = totalRfp + totalRfpPO(it)
+				totalpoWO = totalpoWO + totalPowriteOff(it)
+				//totalOrderApp = totalOrderApp+(it.PORemain2)
+				if(it.PORemain1 == 0){
+					totalPOremain = totalPOremain + it.PORemain2	
+				}
+				
+				
 			}
 		}
 
@@ -90,10 +101,39 @@ class PppPhilippine {
 			}
 		}
 
-		def poBalance
+		
 		
 		def amount = pppCost?:0
+		def endBalance = amount-totalOrderApp+totalpoWO+totalPOremain
 		//println " Grand total Order "+ totalOrder
-		return (amount-totalOrderApp)
+		return endBalance.round(2)
+	}
+
+	/* sum total @PO yg di write OF*/
+	Float totalPowriteOff(purchaseOrder){
+		def totalpoWO = PurchaseOrderWriteOff.createCriteria().list(){
+            eq('purchaseOrder', purchaseOrder)
+            projections{
+                sum('woValue2')
+            }           
+        }
+
+        return totalpoWO[0]?totalpoWO[0].round(2):0
+	}
+
+	Float totalRfpPO(purchaseOrder){
+		def rfp = RfpDetail.createCriteria().list(){
+			eq('purchaseOrder', purchaseOrder)
+			rfp{
+				eq('state','Approved')	
+			}
+			
+			projections{
+                sum('totalCost2')
+            }
+		}
+		println "rfp" +rfp
+		return rfp[0]?:0
+
 	}
 }
