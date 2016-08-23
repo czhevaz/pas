@@ -28,18 +28,26 @@ class PurchaseOrderDetailMarshaller {
 				finishDate :it.finishDate?.format('yyyy-MM-dd'),
 
 				qty : it.qty,
-				unitprice: it.unitPrice,
+				unitPrice: it.unitPrice,
 
 				transactionDate:it.transactionDate?.format('yyyy-MM-dd'),
 
 				remark :it.remark,
 				purchaseOrderId:it.purchaseOrder?.id,
-				purchaseOrderNumber:it.purchaseOrder?.number,
+				number:it.purchaseOrder?.number,
 				version     : it.version,
 				createdBy   : it.createdBy,
 				updatedBy   : it.updatedBy,
 				dateCreated : it.dateCreated,
-				lastUpdated : it.lastUpdated
+				lastUpdated : it.lastUpdated,
+
+				currencyCode : it.currency1?.code,
+				rate : it.rate,
+				targetSales : it.targetSales,
+				uom :it.uom,
+
+
+				purchaseOrderVersion:it.purchaseOrder?.version,
 			]
         }
     }

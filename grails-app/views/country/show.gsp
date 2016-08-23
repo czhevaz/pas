@@ -24,7 +24,7 @@
 						<tbody>
 						
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="country.code.label" default="Code" /></td>
+								<td valign="top" class="name"><g:message code="country.code.label" default="Id" /></td>
 								
 								<td valign="top" class="value">${fieldValue(bean: countryInstance, field: "code")}</td>
 								
@@ -35,6 +35,13 @@
 								<td valign="top" class="name"><g:message code="country.name.label" default="Name" /></td>
 								
 								<td valign="top" class="value">${fieldValue(bean: countryInstance, field: "name")}</td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="country.code.label" default="Code" /></td>
+								
+								<td valign="top" class="value">${fieldValue(bean: countryInstance, field: "codeCoa")}</td>
 								
 							</tr>
 						

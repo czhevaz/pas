@@ -47,6 +47,10 @@ class LoginController {
 	 */
 	def auth = {
 
+		if (authenticationService.isLoggedIn(request)) {
+			redirect uri:'/home'
+		}
+		
 		/*def config = SpringSecurityUtils.securityConfig
 		println "springSecurityService.isLoggedIn(): " + springSecurityService.isLoggedIn()
 		if (springSecurityService.isLoggedIn()) {

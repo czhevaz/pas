@@ -19,8 +19,20 @@ class PppPhilippineController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def results = PppPhilippine.createCriteria().list(params){}
+        if(params.countryName){
+            session.countryName = params.countryName
+        }
+
+        
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def results = PppPhilippine.createCriteria().list(params){
+            if(session.countryName){
+                country{
+                    eq('name',session.countryName)
+                }    
+            }
+    
+        }
         [pppPhilippineInstanceList: results, pppPhilippineInstanceTotal: results.totalCount]
     }
 
@@ -40,7 +52,8 @@ class PppPhilippineController {
     }
 
     def show() {
-        def pppPhilippineInstance = PppPhilippine.get(params.id)
+        //def pppPhilippineInstance = PppPhilippine.get(params.id)
+        def pppPhilippineInstance = PppPhilippine.findByNumber(params.number)
         if (!pppPhilippineInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'pppPhilippine.label', default: 'PppPhilippine'), params.id])
             redirect(action: "list")
@@ -154,7 +167,7 @@ class PppPhilippineController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            //params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render PppPhilippine.list(params) as JSON           
         }
         

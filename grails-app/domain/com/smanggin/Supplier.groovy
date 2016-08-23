@@ -11,6 +11,8 @@ class Supplier {
 //	Long	version
 	
 	/* Automatic timestamping of GORM */
+	
+	String  createdBy
 	Date	dateCreated
 	Date	lastUpdated
 
@@ -26,7 +28,9 @@ class Supplier {
 	String city
 	String state
 	String country
-	String toString() { return name } 
+	String contactPerson
+	String mobileNo
+	String toString() { return name +" - ("+ countryOwnerID.name +")"} 
 
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -40,6 +44,7 @@ class Supplier {
     
 	static	constraints = {
 		version nullable: true
+		code nullable: true, size:1..10
 		postCode nullable: true
 		phones nullable: true
 		telex nullable: true
@@ -48,6 +53,9 @@ class Supplier {
 		city nullable: true
 		state nullable: true
 		country nullable: true
+		contactPerson nullable:true
+		mobileNo nullable:true
+		createdBy nullable:true
     }
 	
 	/*

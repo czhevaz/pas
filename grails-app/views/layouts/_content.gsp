@@ -14,7 +14,9 @@
 		<g:if test="${flash.message && !layout_noflashmessage}">
 			<div class="alert alert-info">${flash.message}</div>
 		</g:if>
-
+		<g:if test="${flash.error}">
+	  		<div class="alert alert-error" style="display: block">${flash.error}</div>
+		</g:if>
 		<!-- Show page's content -->
 		<g:layoutBody />
 		<g:pageProperty name="page.body" />

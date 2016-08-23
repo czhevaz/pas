@@ -14,12 +14,14 @@ class ApprovalDetail {
 	User 	 creator
 	User 	 approver
 	Boolean  isSequential
-	TransactionType transactionType 
+	TransactionType transactionType
+	Boolean inActive 
+	Date dateInActive 
 	String toString() { brand +" - "+approver }	
 
-	static	belongsTo	= [Approval]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
+//	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
-//	static	hasMany		= []	// tells GORM to associate other domain objects for a 1-n or n-m mapping
+	static	hasMany		= [purchaseOrderApprovers:PurchaseOrderApprover]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
 //	static	mappedBy	= []	// specifies which property should be used in a mapping 
 	
     static	mapping = {
@@ -30,6 +32,12 @@ class ApprovalDetail {
 	static	constraints = {
 		version nullable: true
 		isSequential nullable: true
+		lob nullable:true
+		brand nullable:true
+		inActive nullable: true
+		dateInActive nullable: true
+		country nullable:true
+		//country(unique: ['lob', 'brand','noSeq','transactionType','inActive'])
     }
 	
 	/*

@@ -144,6 +144,7 @@ class BrandController {
     }
 
     def jlist() {
+        println params
         if(params.masterField){
             def c = Brand.createCriteria()
             def results = c.list {
@@ -152,6 +153,8 @@ class BrandController {
             	}
                 eq(params.masterField.name,params.masterField.id)    
             }
+
+            println " results "+results
             render results as JSON
 
         }

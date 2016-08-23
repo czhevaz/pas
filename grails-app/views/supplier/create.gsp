@@ -27,6 +27,7 @@
 				</g:hasErrors>
 				
 				<g:form action="save" class="form-horizontal" >
+					<g:hiddenField name="createdBy" value="${session.user}" />
 					<div class="box-body">
 						<fieldset class="form">
 							<g:render template="form"/>

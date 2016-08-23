@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class SupplierController {
+    def syncDatabaseService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -19,25 +20,62 @@ class SupplierController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def results = Supplier.createCriteria().list(params){}
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
+
+        def results = Supplier.createCriteria().list(params){
+            if(session.user != 'admin'){
+                if(session.country){
+                    countryOwnerID{
+                        eq('name',session.country)
+                    }    
+                }
+
+                                    
+            }
+
+            if(session.isAdmin != 'Yes') {
+                eq('createdBy',session.user)        
+            }
+        }
         [supplierInstanceList: results, supplierInstanceTotal: results.totalCount]
     }
 
     def create() {
-        [supplierInstance: new Supplier(params)]
+        def countryList = Country.createCriteria().list(){
+            if(session.userRole != 'ALL'){
+                eq('name',session.country)
+            }
+        }
+
+        [supplierInstance: new Supplier(params),countryList:countryList]
     }
 
     def save() {
         def supplierInstance = new Supplier(params)
         supplierInstance.countryOwnerID = Country.findByName(params.countryOwnerID?.name)
-        if (!supplierInstance.save(flush: true)) {
-            render(view: "create", model: [supplierInstance: supplierInstance])
-            return
+        
+        def findexist = Supplier.createCriteria().list(){
+            eq('code',params.code)
+            eq('countryOwnerID',supplierInstance.countryOwnerID)   
         }
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'supplier.label', default: 'Supplier'), supplierInstance.id])
-        redirect(action: "show", id: supplierInstance.id)
+        println findexist 
+        if(findexist){
+            flash.error = message(code: 'default.exist.message', args: [message(code: 'supplier.label', default: 'Supplier'), params.code])
+            redirect(action: "create", model: [supplierInstance: supplierInstance])
+        }else{
+            if (!supplierInstance.save(flush: true)) {
+                render(view: "create", model: [supplierInstance: supplierInstance])
+                return
+            }
+
+            syncDatabaseService.insertSupplierToProxy(supplierInstance)
+
+            flash.message = message(code: 'default.created.message', args: [message(code: 'supplier.label', default: 'Supplier'), supplierInstance.name])
+            redirect(action: "show", id: supplierInstance.id)    
+        }
+
+        
     }
 
     def show() {
@@ -52,6 +90,12 @@ class SupplierController {
     }
 
     def edit() {
+        def countryList = Country.createCriteria().list(){
+            if(session.userRole != 'ALL'){
+                eq('name',session.country)
+            }
+        }
+       
         def supplierInstance = Supplier.get(params.id)
         if (!supplierInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'supplier.label', default: 'Supplier'), params.id])
@@ -59,7 +103,7 @@ class SupplierController {
             return
         }
 
-        [supplierInstance: supplierInstance]
+        [supplierInstance: supplierInstance,countryList:countryList]
     }
 
     def update() {
@@ -87,6 +131,8 @@ class SupplierController {
             render(view: "edit", model: [supplierInstance: supplierInstance])
             return
         }
+        
+        syncDatabaseService.updateSupplierToProxy(supplierInstance)
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'supplier.label', default: 'Supplier'), supplierInstance.id])
         redirect(action: "show", id: supplierInstance.id)
@@ -145,17 +191,31 @@ class SupplierController {
     }
 
     def jlist() {
+        println params
         if(params.masterField){
             def c = Supplier.createCriteria()
             def results = c.list {
-                eq(params.masterField.name+'.id',params.masterField.id.toLong())    
+                eq(params.masterField.name+'.name',params.masterField.id)    
             }
             render results as JSON
 
+        }else if(params.countryOwnerID){
+            def c = Supplier.createCriteria()
+            def list = []
+            list.push('Indonesia')
+            list.push(params.countryOwnerID)
+            list.unique()
+            
+            def results = c.list {
+               countryOwnerID{
+                    'in'('name',list)
+               }
+            }
+            render results as JSON
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+          //  params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render Supplier.list(params) as JSON           
         }
         

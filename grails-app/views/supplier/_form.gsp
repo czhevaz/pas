@@ -4,7 +4,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: supplierInstance, field: 'countryOwnerID', 'error')} required">
 				<label for="countryOwnerID" class="col-sm-3 control-label"><g:message code="supplier.countryOwnerID.label" default="Country Owner ID" /><span class="required-indicator">*</span></label>
 				<div class="col-sm-9">
-					<g:select id="countryOwnerID" name="countryOwnerID.name" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${supplierInstance?.countryOwnerID?.name}" class="many-to-one form-control chosen-select"/>
+					<g:select id="countryOwnerID" name="countryOwnerID.name" from="${countryList}" optionKey="name" required="" value="${supplierInstance?.countryOwnerID?.name}" class="many-to-one form-control chosen-select"/>
 					<span class="help-inline">${hasErrors(bean: supplierInstance, field: 'countryOwnerID', 'error')}</span>
 				</div>
 			</div>
@@ -12,7 +12,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: supplierInstance, field: 'code', 'error')} ">
 				<label for="code" class="col-sm-3 control-label"><g:message code="supplier.code.label" default="Code" /></label>
 				<div class="col-sm-9">
-					<g:textField name="code" class="form-control" value="${supplierInstance?.code}"/>
+					<g:textField name="code" class="form-control" value="${supplierInstance?.code}" disabled="${supplierInstance?.code?true:false}" required='true'/>
 					<span class="help-inline">${hasErrors(bean: supplierInstance, field: 'code', 'error')}</span>
 				</div>
 			</div>
@@ -20,7 +20,7 @@
 			<div class="form-group fieldcontain ${hasErrors(bean: supplierInstance, field: 'name', 'error')} ">
 				<label for="name" class="col-sm-3 control-label"><g:message code="supplier.name.label" default="Name" /></label>
 				<div class="col-sm-9">
-					<g:textField name="name" class="form-control" value="${supplierInstance?.name}"/>
+					<g:textField name="name" class="form-control" value="${supplierInstance?.name}" required='true'/>
 					<span class="help-inline">${hasErrors(bean: supplierInstance, field: 'name', 'error')}</span>
 				</div>
 			</div>
@@ -99,5 +99,20 @@
 				</div>
 			</div>
 
+			<div class="form-group fieldcontain ${hasErrors(bean: supplierInstance, field: 'contactPerson', 'error')} ">
+				<label for="contactPerson" class="col-sm-3 control-label"><g:message code="supplier.telex.label" default="Contact Person" /></label>
+				<div class="col-sm-9">
+					<g:textField name="contactPerson" class="form-control" value="${supplierInstance?.contactPerson}"/>
+					<span class="help-inline">${hasErrors(bean: supplierInstance, field: 'contactPerson', 'error')}</span>
+				</div>
+			</div>
 
+			<div class="form-group fieldcontain ${hasErrors(bean: supplierInstance, field: 'mobileNo', 'error')} ">
+				<label for="mobileNo" class="col-sm-3 control-label"><g:message code="supplier.mobileNo.label" default="Mobile No" /></label>
+				<div class="col-sm-9">
+					<g:textField name="mobileNo" class="form-control" value="${supplierInstance?.mobileNo}"/>
+					<span class="help-inline">${hasErrors(bean: supplierInstance, field: 'mobileNo', 'error')}</span>
+				</div>
+			</div>
+			
 

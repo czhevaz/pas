@@ -19,8 +19,13 @@ class TransactionGroupController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def results = TransactionGroup.createCriteria().list(params){}
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def results = TransactionGroup.createCriteria().list(params){
+            if(session.userRole != 'ALL'){
+                eq('country',session.userRole)    
+            }
+            
+        }
         [transactionGroupInstanceList: results, transactionGroupInstanceTotal: results.totalCount]
     }
 
@@ -29,8 +34,11 @@ class TransactionGroupController {
     }
 
     def save() {
-        def transactionGroupInstance = new TransactionGroup(params)
+        def transactionGroupInstance = new TransactionGroup()
+        transactionGroupInstance.properties  = params
+        
         if (!transactionGroupInstance.save(flush: true)) {
+            println transactionGroupInstance.errors
             render(view: "create", model: [transactionGroupInstance: transactionGroupInstance])
             return
         }
@@ -151,6 +159,44 @@ class TransactionGroupController {
             }
             render results as JSON
 
+        }else if(params.login){
+            def appDetailsTrType = ApprovalDetail.createCriteria().list(){
+                creator{
+                    eq('login',params.login)
+                }
+                country{
+                    eq('name',params.country)
+                }
+                projections{
+                    groupProperty('transactionType')
+                }
+
+            }
+
+            def results = []
+            if(appDetailsTrType){
+                println "session.trType " + session.trType
+
+                results = TransactionGroup.createCriteria().list(){
+                    'in'('transactionType', appDetailsTrType)
+                    
+                    if(session.trType){
+                        transactionType{
+                            eq('code',session.trType)
+                        }
+                    }else{
+                        transactionType{
+                            ne('code','RFP')
+                        }
+                    }
+
+                    if(params.country){
+                        eq('country',params.country)
+                    }
+                }  
+            }
+            
+            render results as JSON
         }
         else
         {

@@ -40,15 +40,15 @@
 					<span class="help-inline">${hasErrors(bean: transactionGroupInstance, field: 'width', 'error')}</span>
 				</div>
 			</div>
-			
-			<div class="form-group fieldcontain ${hasErrors(bean: transactionGroupInstance, field: 'approval', 'error')} required">
-				<label for="approval" class="col-sm-3 control-label"><g:message code="transactionGroup.approval.label" default="Approval" /><span class="required-indicator">*</span></label>
+
+			<div class="form-group ${hasErrors(bean: transactionGroupInstance, field: 'country', 'error')}  required">
+				<label for="country" class="col-sm-3 control-label"><g:message code="register.country.label" default="Country" /></label>
 				<div class="col-sm-3">
-					<g:select id="approval" name="approval.id" from="${com.smanggin.Approval.list()}" optionKey="id"  value="${transactionGroupInstance?.approval?.id}" class="many-to-one form-control chosen-select"/>
-					<span class="help-inline">${hasErrors(bean: transactionGroupInstance, field: 'approval', 'error')}</span>
+					<g:select id="country" name="country" from="${com.smanggin.Country.list()}" optionKey="name" required="" value="${transactionGroupInstance?.country}" class="many-to-one form-control chosen-select" />
+					<span class="help-inline">${hasErrors(bean: transactionGroupInstance, field: 'country', 'error')}</span>
 				</div>
 			</div>
-
+			
 
 
 

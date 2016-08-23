@@ -3,7 +3,7 @@
 <html lang="${session.'org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE'}">
 
 <head>
-	<title><g:layoutTitle default="${meta(name:'app.name')}" /></title>
+	<title><g:layoutTitle default="${meta(name:'app.title')}" /></title>
 	
     <meta charset="utf-8">
     <meta name="viewport"		content="width=device-width, initial-scale=1.0">
@@ -48,18 +48,21 @@
 </head>
 
 <body style="background-color:#cce9ee">
+	<auth:ifLoggedIn>
 	<g:render template="/_menu/navbar"/>														
-
+	</auth:ifLoggedIn>
 	<!-- Enable to overwrite Header by individual page -->
 	<div id="wrapper">
 		
-		<g:if test="${ pageProperty(name:'page.header') }">
-	   		<g:pageProperty name="page.header" />
-		</g:if>
-		<g:else>
-			<g:render template="/layouts/header"/>														
-		</g:else>
 		
+			<g:if test="${ pageProperty(name:'page.header') }">
+		   		<g:pageProperty name="page.header" />
+			</g:if>
+			<g:else>
+				<g:render template="/layouts/header"/>														
+			</g:else>
+		
+
 		<g:render template="/layouts/content"/>														
 
 		<g:if test="${ pageProperty(name:'page.footer') }">
@@ -79,9 +82,13 @@
 			<!-- Insert a modal dialog for registering (for an open site registering is possible on any page) -->
 			<g:render template="/_common/modals/registerDialog" model="[item: item]"/>
 		</g:else> --%>
+
+		
 	</div>
 	<!-- Included Javascript files and other resources -->
+	
 	<r:layoutResources />
+	
 </body>
 
 </html>

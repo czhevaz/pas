@@ -8,8 +8,11 @@ if (typeof jQuery !== 'undefined') {
 	})(jQuery);
 }
 
+
 var table;
+
 $(document).ready(function () {
+
 
 	var config = {
 	'.chosen-select'           : {},
@@ -18,6 +21,7 @@ $(document).ready(function () {
 	'.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
 	'.chosen-select-width'     : {width:"95%"}
 	}
+    
 	for (var selector in config) {
 		$(selector).chosen(config[selector]);
 	}
@@ -60,6 +64,10 @@ $(document).ready(function () {
     });
     }
 
+/*    $('#chat-box').slimScroll({
+        height: '150px'
+    });*/
+
 });
 
 function formatNumber(val,row){
@@ -70,4 +78,28 @@ function formatNumber(val,row){
         return numeral(val).format('0,0.00');
     }
 }
+
+if ($('#back-to-top').length) {
+    var scrollTrigger = 100, // px
+        backToTop = function () {
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop > scrollTrigger) {
+                $('#back-to-top').addClass('show');
+            } else {
+                $('#back-to-top').removeClass('show');
+            }
+        };
+    backToTop();
+    $(window).on('scroll', function () {
+        backToTop();
+    });
+    $('#back-to-top').on('click', function (e) {
+        e.preventDefault();
+        $('html,body').animate({
+            scrollTop: 0
+        }, 700);
+    });
+}
+
+
 

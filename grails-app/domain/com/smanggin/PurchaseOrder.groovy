@@ -5,7 +5,7 @@ package com.smanggin
  * A domain class describes the data object and it's mapping to the database
  */
 class PurchaseOrder {
-
+	def grailsApplication
 	/* Default (injected) attributes of GORM */
 //	Long	id
 //	Long	version
@@ -24,8 +24,13 @@ class PurchaseOrder {
 	Date dateVoid
 	String voidBy
 
+	String woNotes
 	Date dateWO
 	String woBy
+
+	String rejectNotes
+	Date dateReject
+	String rejectedBy
 
 	String	country
 	String	lob
@@ -54,10 +59,35 @@ class PurchaseOrder {
 	Boolean isWriteOff//1= void, 0 = not written off. Default = 0
 
 	String triggerDomain
+	RateDetail rateDetail
+
+	/* field tambahan not Mandatory */
+	String deliveryPlace
+	Date deliveryDate
+	String paymentTerms
+
+	
+	String objective
+	String scheme
+	String mechanics
+	String activitiesComponent
+	String programTittle
+
+	String addIntructions
+	Integer year
+	Integer month
+
+	String toString() { return number } 	
 
 	static	belongsTo	= [TransactionGroup,Supplier,Currency]	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
-	static	hasMany		= [purchaseOrderDetails:PurchaseOrderDetail, purchaseOrderComments:PurchaseOrderComment,purchaseOrderApprovers:PurchaseOrderApprover]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
+	static	hasMany		= [purchaseOrderDetails:PurchaseOrderDetail, 
+	purchaseOrderComments:PurchaseOrderComment,
+	purchaseOrderApprovers:PurchaseOrderApprover,
+	purchaseOrderAllocations:PurchaseOrderAllocation,
+	purchaseOrderBalances:PurchaseOrderBalance,
+	attachments:Attachment
+	]	// tells GORM to associate other domain objects for a 1-n or n-m mapping
 //	static	mappedBy	= []	// specifies which property should be used in a mapping 
 	
     static	mapping = {
@@ -65,10 +95,12 @@ class PurchaseOrder {
     	version true
     	isVoid defaultValue:'0'
     	isWriteOff defaultValue:'0'
-    	
+    	year formula: 'YEAR(purchase_order_date)'
+    	month formula: 'MONTH(purchase_order_date)'
     }
     
 	static	constraints = {
+		number nullable:true	
 		updatedBy nullable:true	
 		reasonforInvestment nullable :true
 		currency1 nullable:true 
@@ -91,9 +123,27 @@ class PurchaseOrder {
 	 	approver1 nullable:true
 	 	approver2 nullable:true
 	 	mustApprovedBy nullable:true
+	 	rejectNotes nullable:true
+		dateReject nullable:true
+		rejectedBy nullable:true
+		rateDetail nullable:true
+
+		deliveryPlace nullable:true
+		deliveryDate nullable:true
+		paymentTerms nullable:true
+		objective nullable:true
+		scheme nullable:true
+		mechanics nullable:true
+		activitiesComponent nullable:true		
+		programTittle nullable:true
+		addIntructions nullable :true
+		woNotes nullable :true
+		year nullable:true
+		month nullable:true
+
     }
 
-	static transients =['total']
+	static transients =['total','pppRemain','pppRemainBrand','PORemain1','PORemain2']
 
 	Float getTotal() {
 		def total = 0
@@ -104,9 +154,23 @@ class PurchaseOrder {
 		return total
 	}
 	
-	def beforeValidate(){
-		Integer count= PurchaseOrder.countByTransactionGroup(transactionGroup)+1
+	def beforeInsert(){
+		//Integer count= PurchaseOrder.countByTransactionGroup(transactionGroup)+1
+		
+		def po = PurchaseOrder.createCriteria().list(){
+            order("dateCreated", "desc")
+            eq('transactionGroup',transactionGroup)
+            
+        }
+
+		Integer count =1
 		Integer width= transactionGroup.width
+		
+		if(po){
+        	def lastnumber = po[0].number.reverse().take(width).reverse().replaceFirst('^0+(?!$)', '')
+        	count = lastnumber.toInteger() + 1
+        }
+
 		String  prefix = transactionGroup.prefix
 
 		
@@ -115,5 +179,76 @@ class PurchaseOrder {
 		number = prefix+now.format(transactionGroup.format)+c
 	}
 
+
+	Float getPppRemain(){
+		def domainClassName = "com.smanggin." + triggerDomain
+    	def domainClassInstance = grailsApplication.getDomainClass(domainClassName).clazz
+        def ppp = domainClassInstance.findByNumber(pppNumber)
+        def pppDetail    = PppDetail.findAllByPppNumber(ppp?.number)
+        Float totalRemain = 0
+
+        pppDetail.each{
+        	totalRemain = totalRemain + it.remainCreditLimit
+        }
+
+        return totalRemain
+	}
 	
+	Float getPppRemainBrand(){
+		
+        def pppDetail    = PppDetail.findByPppNumberAndBrand(pppNumber,brand)
+        return pppDetail?.remainCreditLimit?:0
+	}
+
+	Float getPORemain1(){
+		def rfpDetails = RfpDetail.createCriteria().list(){
+			eq('purchaseOrder', this)
+			rfp{
+				not { 'in'('state',['Rejected','Void']) }
+			}
+		}
+
+		def poWO = PurchaseOrderWriteOff.createCriteria().list(){
+			eq('purchaseOrder', this)
+			projections{
+                sum('woValue1')
+            }			
+		}
+		
+		def totaRfp1 = 0
+		rfpDetails.each{
+			totaRfp1 = totaRfp1 + it.totalCost1
+		}
+		
+		def remainTotal = this.total - totaRfp1 - (poWO[0]?:0)
+		return remainTotal
+	}
+
+	Float getPORemain2(){
+		def rfpDetails = RfpDetail.createCriteria().list(){
+			eq('purchaseOrder', this)
+			rfp{
+				not { 'in'('state',['Rejected','Void']) }
+			}	
+		}
+		
+		def poWO = PurchaseOrderWriteOff.createCriteria().list(){
+			eq('purchaseOrder', this)
+			projections{
+                sum('woValue2')
+            }			
+		}
+
+		def totaRfp2 = 0
+		rfpDetails.each{
+			totaRfp2 = totaRfp2 + it.totalCost2
+		}
+		
+		def totalWoPO2 = poWO[0]?poWO[0].round(2):0
+		
+
+		def remainTotal = (this.total/this.rate).round(2) - totaRfp2 - totalWoPO2
+
+		return remainTotal
+	}
 }

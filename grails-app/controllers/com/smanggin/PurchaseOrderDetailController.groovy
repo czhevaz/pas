@@ -145,19 +145,25 @@ class PurchaseOrderDetailController {
         	purchaseOrderDetailInstance.supplier = Supplier.get(params.supplierId)
         }
 
+        if(params.currencyCode){
+            purchaseOrderDetailInstance.currency1 = Currency.findByCode(params.currencyCode)
+            purchaseOrderDetailInstance.purchaseOrder.currency1 = purchaseOrderDetailInstance.currency1
+            purchaseOrderDetailInstance.purchaseOrder.rate = purchaseOrderDetailInstance.rate
+        }
+
         def check = checkLimit(purchaseOrderDetailInstance.purchaseOrder,params.totalCost)
 
-        if(check){
+        //if(check){
             if (!purchaseOrderDetailInstance.save(flush: true)) {
                 println "errors" + purchaseOrderDetailInstance.errors
                 render([success: false, messages: purchaseOrderDetailInstance.errors] as JSON)
                 return
             }
                             
-            render([success: true] as JSON)    
-        }else{
+            render([success: true,purchaseOrderDetailInstance:purchaseOrderDetailInstance] as JSON)    
+        /*}else{
             render([success: false, limit:true,messages:"total can'not larger than  PPP value"] as JSON)    
-        }
+        }*/
         
     }
 
@@ -232,11 +238,27 @@ class PurchaseOrderDetailController {
         def grandtotalPO = totalPO + totalCost.toFloat()
         def grandtotalPO2 = grandtotalPO/purchaseOrder.rate
         def result = false
-        if(grandtotalPO2 <= pppLimit){
+
+        println "grandtotalPO2 = " +grandtotalPO2
+        println "pppLimit= " +pppLimit
+        if(grandtotalPO2.round(2) <= pppLimit){
             result = true
         }
 
         return result
 
+    }
+
+    def deleteAllDetail(){
+        def purchaseOrderInstance = PurchaseOrder.get(params.id)
+        if (!purchaseOrderInstance)
+            render([success: false] as JSON)
+        else {
+            def purchaseOrderDetails = PurchaseOrderDetail.findAllByPurchaseOrder(purchaseOrderInstance)
+            purchaseOrderDetails?.each{
+                it.delete()             
+            }
+            render([success: true] as JSON)
+        }   
     }
 }

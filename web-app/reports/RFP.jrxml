@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RFP" language="groovy" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="15" bottomMargin="15" uuid="2fd1561b-4468-4119-b5d5-ef62a0359a88">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="rfp_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paymentType" class="java.lang.String"/>
+	<parameter name="remarks" class="java.lang.String"/>
+	<parameter name="paidBy" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     M_PAS_COA."active" AS M_PAS_COA_active,
+     M_PAS_COA."code" AS M_PAS_COA_code,
+     M_PAS_COA."description" AS M_PAS_COA_description,
+     T_PAS_RFP."country" AS T_PAS_RFP_country,
+     T_PAS_RFP."currency1_id" AS T_PAS_RFP_currency1_id,
+     T_PAS_RFP."currency2_id" AS T_PAS_RFP_currency2_id,
+     T_PAS_RFP."number" AS T_PAS_RFP_number,
+     T_PAS_RFP."payment_option" AS T_PAS_RFP_payment_option,
+T_PAS_RFP."payment_type" AS T_PAS_RFP_payment_type,
+     T_PAS_RFP."rate" AS T_PAS_RFP_rate,
+     T_PAS_RFP."rfp_date" AS T_PAS_RFP_rfp_date,
+     T_PAS_RFP."state" AS T_PAS_RFP_state,
+     T_PAS_RFP."supplier_id" AS T_PAS_RFP_supplier_id,
+     T_PAS_RFP."transaction_group_id" AS T_PAS_RFP_transaction_group_id,
+     T_PAS_RFP."note" AS T_PAS_RFP_note,
+     T_PAS_RFP_Detail."ppp_number" AS T_PAS_RFP_Detail_ppp_number,
+     T_PAS_RFP_Detail."total_cost1" AS T_PAS_RFP_Detail_total_cost1,
+     T_PAS_RFP_Detail."total_cost2" AS T_PAS_RFP_Detail_total_cost2,
+     T_PAS_PO."number" AS T_PAS_PO_number,
+     M_PAS_Supplier."code" AS M_PAS_Supplier_code,
+     M_PAS_Supplier."address" AS M_PAS_Supplier_address,
+     M_PAS_Supplier."contact_person" AS M_PAS_Supplier_contact_person,
+     M_PAS_Supplier."name" AS M_PAS_Supplier_name,
+     M_PAS_Supplier."created_by" AS M_PAS_Supplier_created_by,
+     T_PAS_RFP."created_by" AS T_PAS_RFP_created_by
+FROM
+     "dbo"."T_PAS_RFP" T_PAS_RFP INNER JOIN "T_PAS_RFP_Detail" T_PAS_RFP_Detail ON T_PAS_RFP."id" = T_PAS_RFP_Detail."rfp_id"
+     INNER JOIN "dbo"."T_PAS_PO" T_PAS_PO ON T_PAS_RFP_Detail."purchase_order_id" = T_PAS_PO."id"
+     INNER JOIN "dbo"."M_PAS_COA" M_PAS_COA ON T_PAS_RFP_Detail."coa_id" = M_PAS_COA."id"
+     INNER JOIN "dbo"."M_PAS_Supplier" M_PAS_Supplier ON T_PAS_PO."supplier_id" = M_PAS_Supplier."id"
+     AND M_PAS_Supplier."id" = T_PAS_RFP."supplier_id"
+WHERE
+     T_PAS_RFP."id" = $P{rfp_id}]]>
+	</queryString>
+	<field name="M_PAS_COA_active" class="java.lang.String"/>
+	<field name="M_PAS_COA_code" class="java.lang.String"/>
+	<field name="M_PAS_COA_description" class="java.lang.String"/>
+	<field name="T_PAS_RFP_country" class="java.lang.String"/>
+	<field name="T_PAS_RFP_currency1_id" class="java.lang.String"/>
+	<field name="T_PAS_RFP_currency2_id" class="java.lang.String"/>
+	<field name="T_PAS_RFP_number" class="java.lang.String"/>
+	<field name="T_PAS_RFP_payment_option" class="java.lang.Integer"/>
+	<field name="T_PAS_RFP_rate" class="java.lang.Double"/>
+	<field name="T_PAS_RFP_rfp_date" class="java.sql.Timestamp"/>
+	<field name="T_PAS_RFP_state" class="java.lang.String"/>
+	<field name="T_PAS_RFP_supplier_id" class="java.math.BigDecimal"/>
+	<field name="T_PAS_RFP_transaction_group_id" class="java.math.BigDecimal"/>
+	<field name="T_PAS_RFP_note" class="java.lang.String"/>
+	<field name="T_PAS_RFP_Detail_ppp_number" class="java.lang.String"/>
+	<field name="T_PAS_RFP_Detail_total_cost1" class="java.lang.Double"/>
+	<field name="T_PAS_RFP_Detail_total_cost2" class="java.lang.Double"/>
+	<field name="T_PAS_PO_number" class="java.lang.String"/>
+	<field name="M_PAS_Supplier_code" class="java.lang.String"/>
+	<field name="M_PAS_Supplier_address" class="java.lang.String"/>
+	<field name="M_PAS_Supplier_contact_person" class="java.lang.String"/>
+	<field name="M_PAS_Supplier_name" class="java.lang.String"/>
+	<field name="M_PAS_Supplier_created_by" class="java.lang.String"/>
+	<field name="T_PAS_RFP_created_by" class="java.lang.String"/>
+	<variable name="T_PAS_RFP_Detail_total_cost1_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{T_PAS_RFP_Detail_total_cost1}]]></variableExpression>
+	</variable>
+	<variable name="T_PAS_RFP_Detail_total_cost2_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{T_PAS_RFP_Detail_total_cost2}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="219" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="238" height="26" uuid="3bad6737-795e-46fb-9c6c-31ffb67cd1e7"/>
+				<box leftPadding="5"/>
+				<text><![CDATA[REQUEST FOR PAYMENT EXTRACT SYSTEM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="37" width="73" height="20" uuid="2884e59a-f5c4-41d0-9a55-e2721476c16c"/>
+				<box leftPadding="5"/>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="57" width="578" height="1" uuid="2da27e04-d2db-484e-9895-f4bb81fa2bcc"/>
+			</line>
+			<staticText>
+				<reportElement x="395" y="38" width="53" height="20" uuid="dca29eff-9305-4b9e-8444-3c37a3557157"/>
+				<text><![CDATA[NO. RFP :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="448" y="37" width="114" height="20" uuid="a408aa7e-cb6a-40dd-b165-1fe33521aca0"/>
+				<textElement>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="112" y="71" width="174" height="20" uuid="2ad06315-d850-49d1-916a-f2e7ab2e6891"/>
+				<box leftPadding="3"/>
+				<textFieldExpression><![CDATA[$F{M_PAS_Supplier_code}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="71" width="112" height="20" uuid="5fa23ea9-5b87-4833-9f89-871e6c23458d"/>
+				<box leftPadding="5"/>
+				<text><![CDATA[Supplier Id                :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="91" width="112" height="20" uuid="34a5ab2a-0f76-41b6-aa6a-9d72e2480490"/>
+				<box leftPadding="5"/>
+				<text><![CDATA[Supplier Name          :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="111" width="112" height="20" uuid="91ff97ac-2654-4d75-9438-246524b386c3"/>
+				<box leftPadding="5"/>
+				<text><![CDATA[Supplier Address       :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="112" y="91" width="174" height="20" uuid="7bf08aa9-80e4-41d6-b5dd-de221bf4118f"/>
+				<box leftPadding="3"/>
+				<textFieldExpression><![CDATA[$F{M_PAS_Supplier_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="112" y="111" width="174" height="63" uuid="70812273-a30b-4d4b-9067-0c17ef1c3f00"/>
+				<box leftPadding="3"/>
+				<textFieldExpression><![CDATA[$F{M_PAS_Supplier_address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="112" y="190" width="174" height="20" uuid="73e05831-9fb1-4eed-b343-bfd44cef3262"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_currency1_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="190" width="112" height="20" uuid="39041427-662f-466a-8daa-038e4106d324"/>
+				<box leftPadding="5"/>
+				<text><![CDATA[Currency                       :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="209" width="578" height="1" uuid="9b806626-53a1-4989-9eed-f3a554ccba6a"/>
+			</line>
+			<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+				<reportElement x="73" y="37" width="100" height="20" uuid="eb609ca6-d765-4bbc-aee0-97a57af2c533"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_rfp_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="426" height="20" backcolor="#CCCCCC" uuid="bbdd9c36-9ba8-43c8-bbf0-407fdcfceea6"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[COA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="426" y="2" width="139" height="20" backcolor="#CCCCCC" uuid="10df3a94-06c7-49fd-8fe6-67b358d8247e"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Transaction Value]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="60" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="426" height="20" uuid="216fdd22-f026-4617-b4db-7ed5f6421ab6"/>
+				<box leftPadding="5">
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{M_PAS_COA_code}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="465" y="0" width="100" height="60" uuid="73a1e874-9a78-45e4-820c-269a1b529fef"/>
+				<box leftPadding="1" rightPadding="1">
+					<leftPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_Detail_total_cost1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="426" height="40" uuid="5d395e4a-bdeb-47d9-a275-bd879bf26d86"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{M_PAS_COA_description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="0" width="39" height="60" uuid="97f64f69-8f87-46e0-8d07-d00a316f0c10"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_currency1_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="339" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="37" width="565" height="69" uuid="ee72faac-ad7d-4270-bfbd-9e0ad37b10fd"/>
+				<box leftPadding="5"/>
+				<text><![CDATA[Note :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="147" y="193" width="139" height="81" uuid="2318d9a6-acf2-4578-bfa6-7f69bda912b4"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Marketing / Sales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="194" width="124" height="80" uuid="a083ba26-5f0e-4796-be5e-243cfc4b78a5"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Country Manager / LOB Head]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="194" width="140" height="80" uuid="4feb149b-f76e-483a-8810-27d8db6c1289"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[Finance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="174" width="140" height="20" uuid="17b10ae3-184b-48a4-8d5f-846f9beca92d"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Checked By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="147" y="174" width="139" height="20" uuid="ad2b7c3d-9df4-48da-b336-bccc53f33d6e"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Requested & Reviewed By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="174" width="130" height="20" uuid="204cbcfb-a6b3-4bf6-b287-9056582fe5da"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Prepared By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="193" width="130" height="81" uuid="b3638d0c-bfab-4a0e-a3cb-b5d8b99ca8af"/>
+				<box leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="174" width="124" height="20" uuid="f08166a9-e184-4368-96e3-feb7418a748e"/>
+				<box leftPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Approved By]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="29" y="254" width="107" height="20" uuid="12111791-da2f-4044-84ba-3e11dc2e8210"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_created_by}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="465" y="1" width="100" height="20" backcolor="#CCCCCC" uuid="dfc25545-c302-4dba-9ae9-cc9de25ab2f4"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{T_PAS_RFP_Detail_total_cost1_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="426" y="1" width="39" height="20" backcolor="#CCCCCC" uuid="421fcc7b-4865-4cde-b69e-0bcd4538af4b"/>
+				<box rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_currency1_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="1" width="426" height="20" backcolor="#CCCCCC" uuid="59187d2f-e911-4d20-b7e0-0b2c50c74da8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="54" width="565" height="52" uuid="a47a6faa-7714-40a1-8e7b-4c31bca4f4b8"/>
+				<box leftPadding="5"/>
+				<textFieldExpression><![CDATA[$F{T_PAS_RFP_note}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="106" width="83" height="20" uuid="ec1f5702-49d1-4a47-b4e6-ad48207a3c14"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Paid By           :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="126" width="467" height="20" uuid="f0016a91-7699-45ff-8e45-ed417ee770a2"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paymentType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="17" y="278" width="533" height="45" uuid="26e02544-3629-475e-868b-6ab71c9a6815"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{remarks}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="126" width="83" height="20" uuid="86683c92-62db-4c96-9ea2-56bbdd21d7de"/>
+				<box leftPadding="5"/>
+				<text><![CDATA[Paymen Type :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="106" width="467" height="20" uuid="95d4ed6c-42ef-42bc-bcfb-ca62632e9e35"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paidBy}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -62,7 +62,7 @@ class RateDetailController {
     }
 
     def update() {
-        println params 
+        
         def rateDetailInstance = RateDetail.get(params.id)
         if (!rateDetailInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rateDetail.label', default: 'RateDetail'), params.id])
@@ -82,6 +82,8 @@ class RateDetailController {
         }
 
         rateDetailInstance.properties = params
+
+
 
         if (!rateDetailInstance.save(flush: true)) {
             render(view: "edit", model: [rateDetailInstance: rateDetailInstance])
@@ -120,6 +122,8 @@ class RateDetailController {
             render([success: false, messages: [errors:[error]] ] as JSON)       
             return
         }
+
+
         
         if (params.version)
         {
@@ -135,17 +139,48 @@ class RateDetailController {
             }            
         }
         
-        rateDetailInstance.properties = params
-        rateDetailInstance.currency1 = Currency.findByCode(params.currency1Code)
-        rateDetailInstance.currency2 = Currency.findByCode(params.currency2Code)
-        rateDetailInstance.rate = Rate.get(params.rateId)
-               
-        if (!rateDetailInstance.save(flush: true)) {
-            render([success: false, messages: rateDetailInstance.errors] as JSON)
-            return
+        def rate = Rate.get(params.rateId)
+        def ratedetails = RateDetail.createCriteria().list(params){
+            eq('rate',rate)
+            eq('currency1', Currency.findByCode(params.currency1Code))
+            eq('currency2', Currency.findByCode(params.currency2Code))
+            if(params.id){
+                ne('id',params?.id?.toLong())
+            }
         }
-                        
-        render([success: true] as JSON)
+
+
+        
+        if(ratedetails){
+            rateDetailInstance.errors.rejectValue("currency1", "default.currency1.unique.failure",
+                      [message(code: 'rateDetail.label', default: 'RateDetail')] as Object[],
+                      "Currency1 must be Unique")
+            render([success: false, messages: rateDetailInstance.errors] as JSON)
+        }else{
+            rateDetailInstance.properties = params
+             if (params.id) {
+                rateDetailInstance.updatedBy = session.user
+                rateDetailInstance.lastUpdated = new Date()
+            
+            }else{
+                rateDetailInstance.createdBy = session.user
+                rateDetailInstance.dateCreated = new Date()
+            }
+            
+            rateDetailInstance.currency1 = Currency.findByCode(params.currency1Code)
+            rateDetailInstance.currency2 = Currency.findByCode(params.currency2Code)
+            rateDetailInstance.rate = Rate.get(params.rateId)
+            
+
+            if (!rateDetailInstance.save(flush: true)) {
+                render([success: false, messages: rateDetailInstance.errors] as JSON)
+                return
+            }
+                            
+            render([success: true] as JSON)
+        }
+
+        
     }
 
     def jlist() {
@@ -167,9 +202,15 @@ class RateDetailController {
 
     def jdelete(Long id) {
         def rateDetailInstance = RateDetail.get(id)
-        if (!rateDetailInstance)
+        def rateInPO = PurchaseOrder.findByRateDetail(rateDetailInstance)
+        println "rateInPO " +rateInPO
+        if (!rateDetailInstance){
             render([success: false] as JSON)
-        else {
+      
+        }else if(rateInPO){
+            def error = [message: message(code: 'default.cannot.delete.message', args: [message(code: 'rateDetail.label', default: 'RateDetail'), params.id])]
+            render([success: false, messages: error.message] as JSON)
+        }else {
             try {
                 rateDetailInstance.delete(flush: true)             
                 render([success: true] as JSON)

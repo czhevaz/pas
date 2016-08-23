@@ -15,7 +15,7 @@ class LobMarshaller {
 				
 				name :it.name,
 				code :it.code,		
-				country :it.country,
+				countryName :it.country,
 				active :it.active,						
 				version     : it.version?:0,
 				

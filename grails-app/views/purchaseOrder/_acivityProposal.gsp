@@ -3,21 +3,32 @@
 		<table class="table table-bordered table-view margin-top-medium">
 			<thead>
 				<tr>
-					<th><g:message code="purchaseOrderInstance.edit.label" default="Edit" /></th>
-					<th><g:message code="purchaseOrderInstance.edit.label" default="delete" /></th>
-					<th><g:message code="purchaseOrderInstance.edit.label" default="Save" /></th>
-					<th><g:message code="purchaseOrderInstance.edit.label" default="Cancel" /></th>
+					<th><g:message code="purchaseOrderInstance.edit.label" default="Created" /></th>
+					<th><g:message code="purchaseOrderInstance.edit.label" default="Last Edited" /></th>
+					<th><g:message code="purchaseOrderInstance.edit.label" default="Deleted" /></th>
+					
+					<th><g:message code="purchaseOrderInstance.edit.label" default="Canceled" /></th>
 					<th><g:message code="purchaseOrderInstance.edit.label" default="Reviewer Approved" /></th>
 					<th><g:message code="purchaseOrderInstance.edit.label" default="Print" /></th>
 				</tr>
 			</thead>
 			<tbody>
-				<td><g:formatDate date="${purchaseOrderInstance.lastUpdated}" /></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>	
-				<td></td>	
+				<tr>
+					<td>${purchaseOrderInstance.createdBy}</td>
+					<td>${purchaseOrderInstance.updatedBy}</td>
+					<td></td>
+					<td></td>
+					<td></td>	
+					<td></td>
+				</tr>
+				<tr>
+					<td><g:formatDate date="${purchaseOrderInstance.dateCreated}"  format="dd MMMM yyyy"/></td>
+					<td><g:formatDate date="${purchaseOrderInstance.lastUpdated}" format="dd MMMM yyyy" /></td>
+					<td></td>
+					<td></td>
+					<td></td>	
+					<td></td>
+				</tr>	
 			</tbody>		
 		</table>	
 	</div><!--/.box-body -->

@@ -19,6 +19,8 @@ class User {
 	String isMaster 
 	Integer status
 	boolean enabled
+
+	String userRole
 	String toString(){ return login}	
 
 	static constraints = {
@@ -29,6 +31,7 @@ class User {
 		email nullable:true
 		version nullable:true
 		status nullable:true
+		userRole nullable:true
 	}
 
 	static mapping = {
@@ -51,7 +54,7 @@ class User {
 	    sex column:'usr_Sex'
 	    role1 column: 'usr_level1'
 	    isMaster column: 'usr_master'
-
+	    userRole column: 'Usr_Role'
 		
 	}
 

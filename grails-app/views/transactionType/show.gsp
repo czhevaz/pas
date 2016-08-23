@@ -60,8 +60,9 @@
 						
 				</div><!--/.box-footer clearfix -->
 			</div><!--/.box-body table-responsive -->
-
+		
 			<g:render template="detail"/> 
+		
 		</div><!--/.box box-primary -->
 	</div><!--/.row -->
 </section>

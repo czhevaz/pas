@@ -8,19 +8,19 @@
       		<h3 class="box-title"><g:message code="default.show.label" args="[entityName]" /></h3>
       </div>
       <div class="col-sm-4">
-      	<table class="table table-bordered no-margin">
+      	<table class="table table-bordered no-margin" id="table-approver">
       		<thead>
       			<tr>
-      				<td colspan="2"><b>Document State</b> : ${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	
+      				<td colspan="2"><b>Document Status</b> : ${fieldValue(bean: purchaseOrderInstance, field: "state")}</td>	
       			</tr>	
       			<tr>
       				<td><b>Approver</b> : </td>
-      				<td><b>Approval State</b></td>
+      				<td><b>Approval Status</b></td>
       			</tr>
       			
       		</thead>
       		<tbody>
-      			<g:each in="${purchaseOrderInstance.purchaseOrderApprovers}" status="i" var="approver">
+      			<g:each in="${purchaseOrderInstance.purchaseOrderApprovers.sort{ it.noSeq}}" status="i" var="approver">
           			<tr>
           				<td>${approver.noSeq} . ${approver.approver}</td>
           				<td>${globalService.approvalStatus(approver.status)}</td>	

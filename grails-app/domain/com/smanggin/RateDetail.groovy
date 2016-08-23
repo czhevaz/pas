@@ -11,12 +11,17 @@ class RateDetail {
 //	Long	version
 	
 	/* Automatic timestamping of GORM */
-//	Date	dateCreated
-//	Date	lastUpdated
+	Date	dateCreated
+	Date	lastUpdated
+	String  createdBy
+	String  updatedBy
+
 	Rate rate
 	Currency currency1
 	Currency currency2
 	Float value
+	Long xrperiod
+	String countryCode
 	
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping
@@ -30,6 +35,12 @@ class RateDetail {
     
 	static	constraints = {
 		version nullable: true
+		updatedBy nullable: true
+		lastUpdated nullable: true
+		createdBy nullable: true
+		dateCreated nullable: true
+		xrperiod nullable:true
+		countryCode nullable:true
     }
 	
 	/*
@@ -40,3 +51,4 @@ class RateDetail {
 //		return "${name}";
 //	}
 }
+

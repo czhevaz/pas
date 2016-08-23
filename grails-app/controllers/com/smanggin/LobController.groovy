@@ -144,11 +144,12 @@ class LobController {
     }
 
     def jlist() {
+
         if(params.masterField){
 
             def c = Lob.createCriteria()
             def results = c.list {
-                eq(params.masterField.name+'.name',params.masterField.id)    
+                eq(params.masterField.name,params.masterField.id)    
             }
             
             render results as JSON
@@ -156,7 +157,7 @@ class LobController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            //params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render Lob.list(params) as JSON           
         }
         

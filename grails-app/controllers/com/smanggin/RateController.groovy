@@ -13,12 +13,15 @@ import org.springframework.dao.DataIntegrityViolationException
 class RateController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-
+    def globalService
+    def syncDatabaseService
+        
     def index() {
         redirect(action: "list", params: params)
     }
 
     def list() {
+//        syncDatabaseService.syncRateDetailFromProxy()
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = Rate.createCriteria().list(params){}
         [rateInstanceList: results, rateInstanceTotal: results.totalCount]
@@ -30,17 +33,34 @@ class RateController {
 
     def save() {
         def rateInstance = new Rate(params)
-        if (!rateInstance.save(flush: true)) {
-            render(view: "create", model: [rateInstance: rateInstance])
-            return
-        }
+        
+        rateInstance.properties = params
+        def filterDate = globalService.filterDate(rateInstance.starDate,rateInstance.endDate)
+        def startDate = filterDate.start
+        def endDate = filterDate.end
+        
+        rateInstance.starDate = startDate
+        rateInstance.endDate = endDate
+        
+        def check = checkPeriode(startDate, endDate,null)
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'rate.label', default: 'Rate'), rateInstance.id])
-        redirect(action: "show", id: rateInstance.id)
+        if(check){
+            flash.error = 'overlap with other Period ' 
+            render(view: "create", model: [rateInstance: rateInstance])
+        }else{
+            if (!rateInstance.save(flush: true)) {
+                render(view: "create", model: [rateInstance: rateInstance])
+                return
+            }
+
+    		flash.message = message(code: 'default.created.message', args: [message(code: 'rate.label', default: 'Rate'), rateInstance.id])
+            redirect(action: "show", id: rateInstance.id)
+        }
     }
 
     def show() {
         def rateInstance = Rate.get(params.id)
+        //syncDatabaseService.syncRateFromProxy()
         if (!rateInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'rate.label', default: 'Rate'), params.id])
             redirect(action: "list")
@@ -52,6 +72,7 @@ class RateController {
 
     def edit() {
         def rateInstance = Rate.get(params.id)
+        
         if (!rateInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rate.label', default: 'Rate'), params.id])
             redirect(action: "list")
@@ -63,6 +84,8 @@ class RateController {
 
     def update() {
         def rateInstance = Rate.get(params.id)
+
+        
         if (!rateInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rate.label', default: 'Rate'), params.id])
             redirect(action: "list")
@@ -81,14 +104,26 @@ class RateController {
         }
 
         rateInstance.properties = params
+        def filterDate = globalService.filterDate(rateInstance.starDate,rateInstance.endDate)
+        def startDate = filterDate.start
+        def endDate = filterDate.end
 
-        if (!rateInstance.save(flush: true)) {
-            render(view: "edit", model: [rateInstance: rateInstance])
-            return
-        }
+        rateInstance.starDate = startDate
+        rateInstance.endDate = endDate
+        def check = checkPeriode(startDate, endDate,params.id?.toLong())
+        
+        if(check){
+                flash.error = ' overlap with other Period ' 
+                render(view: "edit", model: [rateInstance: rateInstance])
+        }else{
+            if (!rateInstance.save(flush: true)) {
+                render(view: "edit", model: [rateInstance: rateInstance])
+                return
+            }
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'rate.label', default: 'Rate'), rateInstance.id])
-        redirect(action: "show", id: rateInstance.id)
+    		flash.message = message(code: 'default.updated.message', args: [message(code: 'rate.label', default: 'Rate'), rateInstance.id])
+            redirect(action: "show", id: rateInstance.id)
+        }    
     }
 
     def delete() {
@@ -185,5 +220,28 @@ class RateController {
         else {
             render([rateInstance : rateInstance ] as JSON)
         }
+    }
+
+     def checkPeriode(startDate,endDate,id){
+
+     
+        def rate = Rate.withCriteria{    
+            if(id){
+                ne('id',id)
+            }
+
+            gt('endDate',startDate)
+            /*or{
+               between('starDate',startDate,endDate) 
+               between('endDate',startDate,endDate)
+            } */   
+               
+        }
+        def state = false
+        if(rate.size() > 0){
+            state = true
+        }
+
+        return state
     }
 }

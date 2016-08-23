@@ -17,19 +17,6 @@ if(actionName=='edit' || actionName=='show') {
                 <thead>
                     <tr>
                     
-                        <th data-options="field:'currency1Code',width:200,
-                            formatter:function(value,row){
-                                return row.currency1Code;
-                            },
-                            editor:{
-                                type:'combobox',
-                                options:{
-                                    valueField:'code',
-                                    textField:'name',
-                                    url:'/${meta(name:'app.name')}/currency/jlist',
-                                    required:true,
-                                }
-                        }">Currency1</th>
                                     
                         <th data-options="field:'currency2Code',width:200,
                             formatter:function(value,row){
@@ -43,14 +30,30 @@ if(actionName=='edit' || actionName=='show') {
                                     url:'/${meta(name:'app.name')}/currency/jlist',
                                     required:true,
                                 }
-                        }">Currency2</th>
+                        }">Base Currency</th>
+
+                         <th data-options="field:'currency1Code',width:200,
+                            formatter:function(value,row){
+                                return row.currency1Code;
+                            },
+                            editor:{
+                                type:'combobox',
+                                options:{
+                                    valueField:'code',
+                                    textField:'name',
+                                    url:'/${meta(name:'app.name')}/currency/jlist',
+                                    required:true,
+                                }
+                        }">Target Currency</th>
+                       
                                     
                         <th data-options="field:'rateId',hidden:true">Rate</th>
-                                 
-                        
-                        <th data-options="field:'value',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:2}}">Value</th>
-                        
 
+                        <th data-options="field:'value',align:'right',formatter:formatNumber,  width:200,editor:{type:'numberbox',options:{precision:2}}">Exchange rate value </th>
+                        <th data-options="field:'updatedBy',width:200">Updated By</th>
+
+                        <th data-options="field:'lastUpdated',width:200">Last Updated</th>
+                        
                     
                     </tr>
                 </thead>
@@ -103,6 +106,7 @@ if(actionName=='edit' || actionName=='show') {
                       url: "/${meta(name:'app.name')}/rateDetail/jsave",
                       data: row,
                       success: function(data){ 
+                           $('#dg-rateDetails').datagrid('reload');  
                           if(!data.success)
                           {
                             alert(data.messages.errors[0].message)
@@ -150,6 +154,7 @@ if(actionName=='edit' || actionName=='show') {
                   url: "/${meta(name:'app.name')}/rateDetail/jdelete/" + row['id'],
                   data: row,
                   success: function(data){ 
+                      $('#dg-rateDetails').datagrid('reload');
                       if(!data.success)
                       {
                             alert(data.messages)

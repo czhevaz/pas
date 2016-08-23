@@ -13,7 +13,7 @@ class Brand {
 	String 		country
 	String  	lob 
 	String  	active
-	String toString() { return code+" - "+ name } 
+	String toString() { return code+" - "+ name +" - "+ lob } 
 	
 //	static	belongsTo	= []	// tells GORM to cascade commands: e.g., delete this object if the "parent" is deleted.
 //	static	hasOne		= []	// tells GORM to associate another domain object as an owner in a 1-1 mapping

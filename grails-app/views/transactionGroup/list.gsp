@@ -35,9 +35,7 @@
 
 								<g:sortableColumn property="format" title="${message(code: 'transactionGroup.format.label', default: 'Format')}" />
 
-								<g:sortableColumn property="format" title="${message(code: 'transactionGroup.width.label', default: 'Width')}" />
-									
-								<th><g:message code="transactionGroup.approval.label" default="Approval" /></th>
+								<g:sortableColumn property="format" title="${message(code: 'transactionGroup.width.label', default: 'Width')}" />	
 							
 							</tr>
 						</thead>
@@ -45,7 +43,6 @@
 						<g:each in="${transactionGroupInstanceList}" status="i" var="transactionGroupInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								
 								<td><g:link action="show" id="${transactionGroupInstance.id}">${fieldValue(bean: transactionGroupInstance, field: "description")}</g:link></td>
 
 								<td>${fieldValue(bean: transactionGroupInstance, field: "transactionType")}</td>
@@ -55,8 +52,6 @@
 								<td>${fieldValue(bean: transactionGroupInstance, field: "format")}</td>
 
 								<td>${fieldValue(bean: transactionGroupInstance, field: "width")}</td>
-							
-								<td>${fieldValue(bean: transactionGroupInstance, field: "approval")}</td>
 							
 							</tr>
 						</g:each>

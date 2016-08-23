@@ -12,6 +12,7 @@ class ApprovalDetailMarshaller {
     void register() {
         JSON.registerObjectMarshaller( ApprovalDetail ) { ApprovalDetail it ->
             return [
+            	id:it.id,
 				transactionTypeId : it.transactionType?.id,
 				countryName : it.country?.name,
 				lobCode :it.lob,
@@ -20,6 +21,8 @@ class ApprovalDetailMarshaller {
 				creatorId:it.creator?.login,
 				approverId:it.approver?.login,
 				isSequential : it.isSequential, 
+				inActive : it.inActive,
+				dateInActive : it.dateInActive,
 				version     : it.version?:0,
 			]
         }

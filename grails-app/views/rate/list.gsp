@@ -27,9 +27,11 @@
 						<thead>
 							<tr>
 							
-								<g:sortableColumn property="endDate" title="${message(code: 'rate.endDate.label', default: 'End Date')}" />
-							
 								<g:sortableColumn property="starDate" title="${message(code: 'rate.starDate.label', default: 'Star Date')}" />
+	
+								<g:sortableColumn property="endDate" title="${message(code: 'rate.endDate.label', default: 'End Date')}" />
+								
+								<g:sortableColumn property="ID" title="${message(code: 'rate.country.label', default: 'Country ID')}" />
 							
 							</tr>
 						</thead>
@@ -37,9 +39,13 @@
 						<g:each in="${rateInstanceList}" status="i" var="rateInstance">
 							<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 							
-								<td><g:link action="show" id="${rateInstance.id}">${fieldValue(bean: rateInstance, field: "endDate")}</g:link></td>
+								<td><g:link action="show" id="${rateInstance.id}"><g:formatDate date="${rateInstance.starDate}" format="dd MMMM yyyy" /></g:link></td>
+
+								<td><g:formatDate date="${rateInstance.endDate}" format="dd MMMM yyyy" /></td>
+
+								<td>${rateInstance.countryCode}</td>
 							
-								<td><g:formatDate date="${rateInstance.starDate}" /></td>
+								
 							
 							</tr>
 						</g:each>

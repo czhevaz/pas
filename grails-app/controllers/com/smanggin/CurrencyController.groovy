@@ -12,7 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class CurrencyController {
 
-	def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
+	def globalService
+    def baseCurrency = Currency.findByBaseCurrencyAndActive(true,'Yes')
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -81,8 +82,33 @@ class CurrencyController {
         def currencyInstance = Currency.findByCode(params.code)
 
         
+        if(params.baseCurrency){
+            def baseCurrency = Currency.findAllByBaseCurrency(true)    
+            println "baseCurrency" +baseCurrency
+            baseCurrency.each{
+                it.baseCurrency =false
+                if(!it.save(validate:false)){
+                    println it.errors
+                }    
+
+            }
+        }else{
+            def baseCurrency = Currency.createCriteria().list(){
+                ne('code',params.code)
+                eq('baseCurrency',true)
+            }
+            println " false baseCurrency" + baseCurrency
+            if(baseCurrency.size() == 0){
+                currencyInstance.errors.rejectValue("baseCurrency", "default.baseCurrency.haveOne.failure",
+                          [message(code: 'currency.label', default: 'Currency')] as Object[],
+                          "Currency must have one Base Currency")
+                render(view: "edit", model: [currencyInstance: currencyInstance])
+                return
+            }
+        }
+        
         if (!currencyInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'currency.label', default: 'Currency'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'currency.label', default: 'Currency'), params.code])
             redirect(action: "list")
             return
         }
@@ -98,23 +124,18 @@ class CurrencyController {
             }
         }
 
+        
         currencyInstance.properties = params
         currencyInstance.active = (params.active=="on"?"Yes":"No")
-        if (!currencyInstance.save(flush: true)) {
+        currencyInstance.name = params.name
+       
+        if (!currencyInstance.save(validate:false)) {
+
             render(view: "edit", model: [currencyInstance: currencyInstance])
             return
         }
 
-        if(params.baseCurrency){
-            def currencys = Currency.createCriteria().list(){
-                ne('code',currencyInstance.code)
-            }
-
-            currencys.each{
-                it.baseCurrency = false
-                it.save()
-            }
-        }
+        
 
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'currency.label', default: 'Currency'), currencyInstance.code])
@@ -174,6 +195,13 @@ class CurrencyController {
     }
 
     def jlist() {
+        
+        
+        def date = globalService.stringToDate(params.date,'yyyy-MM-dd')
+        println "params" +params
+        println "date" + date
+        
+
         if(params.masterField){
             def c = Currency.createCriteria()
             def results = c.list {
@@ -183,31 +211,90 @@ class CurrencyController {
 
         }else if(params.code){
         	def value=1
-        	def date = new Date()
+            def rateDetailId
+            def country = Country.findByName(params.countryCode)
         	def localCurrency = Currency.findByCodeAndActive(params.code,'Yes')
         	def rate = Rate.createCriteria().list(params){
-        	
+        	    if(params.countryCode){
+                    //eq('countryCode',country.code)    
+                }
+                
 	        	le('starDate',date)
 	        	ge('endDate',date)
 	        	maxResults(1)
 	        }
 
-	        
+	        println "rate code" +rate
+            /*println "localCurrency" + localCurrency
+            println "baseCurrency" + baseCurrency
+            println " poId" +params.poId*/
 	        if(rate){
 	        	def rateDetail = RateDetail.createCriteria().list(){
-		        	eq('rate.id',rate[0].id)
-		        	eq('currency1',localCurrency)
-		        	eq('currency2',baseCurrency)
+		        	eq('rate.id',rate[0]?.id)
+		        	eq('currency1.code',localCurrency.code)
+		        	eq('currency2.code',baseCurrency.code)
 		        	maxResults(1)
 		        }
 		    
 		        
 		        if(rateDetail){
 		        	value = rateDetail[0]?.value
-		        }	
+                    rateDetailId = rateDetail[0]?.id
+		        }
+
+                //println "exchange rate"+rateDetail	
 	        }
-	        println value  
-	        render ([value:value]  as JSON)
+
+            if(params.poId){
+                def po = PurchaseOrder.get(params.poId)
+                def tCostDetail = PppDetail.findByPppNumberAndBrand(po?.pppNumber,po?.brand)
+
+                def pppRemain= tCostDetail.remainCreditLimit
+                
+                render ([value:value,rateDetailId:rateDetailId,pppRemain:pppRemain]  as JSON)
+            }else{
+                render ([value:value,rateDetailId:rateDetailId]  as JSON)
+            }
+	         
+	        
+        }else if(params.country){
+
+            println " country "
+
+            println "params "+params 
+            def country = Country.findByName(params.country)
+            if(params.country == "Indonesia"){
+                params.country = "Head Office"
+            }
+            def value=1
+            def rateDetailId
+        
+            def localCurrency = Currency.findByCountryAndActive(params.country,'Yes')
+            def rate = Rate.createCriteria().list(params){
+              //  eq('countryCode', country.code)
+                le('starDate',date)
+                ge('endDate',date)
+                maxResults(1)
+            }
+            
+            if(rate){
+                def rateDetail = RateDetail.createCriteria().list(){
+                    eq('rate.id',rate[0].id)
+                    eq('currency1',localCurrency)
+                    eq('currency2',baseCurrency)
+                    maxResults(1)
+                }
+                //println "rateDetail " +rateDetail
+                
+                if(rateDetail){
+                    value = rateDetail[0]?.value
+                    rateDetailId = rateDetail[0]?.id
+                }   
+            }
+
+            
+
+            render ([value:value,code:localCurrency?.code,rateDetailId:rateDetailId]  as JSON)    
         }
         else
         {

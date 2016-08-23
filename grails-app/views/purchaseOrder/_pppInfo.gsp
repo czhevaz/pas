@@ -1,4 +1,4 @@
-<div id="table-ppp">
+<div id="table-ppp" class = "table-responsive">
 	<table class="table table-bordered  table-striped  table-hover margin-top-medium">
 		<thead>
 			<tr>
@@ -17,6 +17,11 @@
 
 				<th><g:message code="ppp.remain.label" default="PPP LIMIT REMAINING (USD)" /></th>
 				
+				<th><g:message code="ppp.amountTotal.label" default="PPP LIMIT(USD)" />(${purchaseOrderInstance?.currency2?.code})</th>
+
+				<th><g:message code="ppp.remainTotal.label" default="PPP LIMIT REMAINING (USD)" />
+				(${purchaseOrderInstance?.currency2?.code})</th>
+								
 				<g:sortableColumn property="pppDate" title="${message(code: 'ppp.pppDate.label', default: 'PPP Date')}" />
 											
 			
@@ -25,32 +30,40 @@
 		<tbody>
 		
 			<tr class="odd">
-			
-				<td><g:link controller="${session?.domainPPP}" action="show" id="${pppInstance?.id}">${pppInstance?.number}</g:link></td>
 
-				<td>${pppInstance?.pppProgram}</td>
+				<td><g:link controller="${com.smanggin.Country.findByName(purchaseOrderInstance?.country)?.domainPPP}" action="show" params="['number':purchaseOrderInstance?.pppNumber]">${pppInstance?.pppNumber}</g:link></td>
 
-				<td>${pppInstance?.lob}</td>
+				<td>${pppInstance?.pppDescription}</td>
 
-				<td>${pppInstance?.brand}</td>
+				<td>${pppInstance?.lobName}</td>
 
-				<td>${pppInstance?.requestor}</td>
+				<td>${pppInstance?.brandName}</td>
+
+				<td>${pppInstance?.requestorName}</td>
 
 
 				<td style="text-align:right">
-					<g:formatNumber number="${(pppInstance?.pppCost)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+					<g:formatNumber number="${(pppInstance?.amount)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
 				</td>
 			
 				<td style="text-align:right">
-				<g:if test ="${purchaseOrderInstance.state=="Approved"}">
+					<span id="remain">
+					<g:formatNumber number="${(pppInstance?.remainCreditLimit)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+					</span>
+				</td>
+
+				<td style="text-align:right">
+					<g:formatNumber number="${(pppInstance?.ammountTotalPPP)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
+				</td>
+			
+				<td style="text-align:right">
+					<span id="remainTotal">
+					<g:formatNumber number="${(pppInstance?.remainCreditLimitTotalPPP)}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
 					
-				</g:if>
-				<g:if test ="${purchaseOrderInstance.state=="Draft"}">
-					<g:formatNumber number="${(pppInstance.remainCreditLimit - (purchaseOrderInstance.total/(purchaseOrderInstance?.rate?:1)))}" type="number" maxFractionDigits="2" roundingMode="HALF_DOWN" />
-				</g:if>
+					</span>
 				</td>
 
-				<td><g:formatDate date="${pppInstance?.pppDate}" /></td>
+				<td><g:formatDate date="${pppInstance?.pppDate}" format="dd MMMM yyyy"/></td>
 
 				
 			</tr>

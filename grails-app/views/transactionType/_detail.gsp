@@ -3,21 +3,121 @@
 				<%
 if(actionName=='edit' || actionName=='show') { 
 %>
-<div class="easyui-tabs table" style="height:300px">
+<div class="easyui-tabs table" style="height:800px">
             
         <div title='<g:message code="transactionType.approvalDetails.label" default="Approval Details" />' style="padding:10px">
 
-            <table id="dg-approvalDetails" class="easyui-datagrid" style="height:240px"
+            <table id="dg-approvalDetails" class="easyui-datagrid" style="height:740px" enableFilter
             data-options="
        		toolbar: '#tb-approvalDetails',    
             singleSelect:true, 
             collapsible:true, 
+            rownumbers: true,
+            onBeforeEdit: function(rowIndex, rowData) {
+                //var idColumn = $(this).datagrid('getColumnOption', 'id');
+                var id= $(this).datagrid('getRows')[rowIndex]['id'];
+                var inActive= $(this).datagrid('getRows')[rowIndex]['inActive'];
+                
+                console.log('inActive' + inActive);
+                var colcountry = $(this).datagrid('getColumnOption', 'countryName');
+                var colcreatorId = $(this).datagrid('getColumnOption', 'creatorId');
+                var colapproverId = $(this).datagrid('getColumnOption', 'approverId');
+                var countryName = $(this).datagrid('getRows')[rowIndex]['countryName'];
+
+                var colinActive = $(this).datagrid('getColumnOption', 'inActive');
+                var colisSequential = $(this).datagrid('getColumnOption', 'isSequential');
+                var colnoSeq = $(this).datagrid('getColumnOption', 'noSeq');                
+
+            <g:if test="${transactionTypeInstance?.code !='RFP'}">                
+                var collobCode = $(this).datagrid('getColumnOption', 'lobCode');
+                var colbrandCode = $(this).datagrid('getColumnOption', 'brandCode');
+                var lobCode = $(this).datagrid('getRows')[rowIndex]['lobCode'];
+            </g:if>    
+
+                if(id == undefined){
+                <g:if test="${transactionTypeInstance?.code !='RFP'}">                
+                    collobCode.editor.type = 'combobox';
+                    collobCode.editor.options.valueField ='code';
+                    collobCode.editor.options.textField = 'code';
+                    collobCode.editor.options.url = '/${meta(name:'app.name')}/lob/jlist?masterField.name=country&masterField.id='+countryName;
+                    collobCode.editor.options.required ='true'
+                    
+                    colbrandCode.editor.type = 'combobox';
+                    colbrandCode.editor.options.valueField ='code';
+                    colbrandCode.editor.options.textField = 'code';
+                    colbrandCode.editor.options.url = '/${meta(name:'app.name')}/brand/jlist?country='+countryName+'&masterField.name=lob&masterField.id='+lobCode;
+                    colbrandCode.editor.options.required ='true'
+                
+                </g:if>                
+                
+                console.log(id);
+                
+                    colcreatorId.editor.type = 'combobox';
+                    colcreatorId.editor.options.valueField ='login';
+                    colcreatorId.editor.options.textField = 'login';
+                    colcreatorId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
+                    colcreatorId.editor.options.required ='true'
+
+                    colapproverId.editor.type = 'combobox';
+                    colapproverId.editor.options.valueField ='login';
+                    colapproverId.editor.options.textField = 'login';
+                    colapproverId.editor.options.url = '/${meta(name:'app.name')}/user/jlist?country='+countryName;
+                    colapproverId.editor.options.required ='true'                    
+
+                    colcountry.editor.type = 'combobox';
+                    colcountry.editor.options.valueField ='name';
+                    colcountry.editor.options.textField = 'name';
+                    colcountry.editor.options.url = '/${meta(name:'app.name')}/country/jlist';
+                    colcountry.editor.options.required ='true'
+
+                    colinActive.editor.type = 'checkbox';
+                    colinActive.editor.options.on ='1';
+                    colinActive.editor.options.off ='0';
+
+                    colisSequential.editor.type = 'checkbox';
+                    colisSequential.editor.options.on ='1';
+                    colisSequential.editor.options.off ='0';
+                    
+                    colnoSeq.editor.type = 'numberbox';
+                    colnoSeq.editor.options.precision = 0;
+
+                }else{
+                    colcountry.editor.type = null;
+                    <g:if test="${transactionTypeInstance?.code !='RFP'}">                
+                    collobCode.editor.type = null;
+                    colbrandCode.editor.type= null;
+                    </g:if>
+                    colcreatorId.editor.type = null;
+                    colapproverId.editor.type = null;
+                    if(inActive){
+
+                        colinActive.editor.type = null;      
+                        colisSequential.editor.type = null;    
+                        colnoSeq.editor.type = null;  
+
+                    }else{
+
+                        colinActive.editor.type = 'checkbox';
+                        colinActive.editor.options.on ='1';
+                        colinActive.editor.options.off ='0';
+
+                        colisSequential.editor.type = 'checkbox';
+                        colisSequential.editor.options.on ='1';
+                        colisSequential.editor.options.off ='0';
+
+                        colnoSeq.editor.type = 'numberbox';
+                        colnoSeq.editor.options.precision = 0;
+                    }
+                }
+                
+            },
             onClickRow: approvalDetailsOnClickRow,
+            
             url:'/${meta(name:'app.name')}/approvalDetail/jlist?masterField.name=transactionType&masterField.id=${transactionTypeInstance?.id}'">
                 <thead>
                     <tr>
                          
-                        <th data-options="field:'countryName',width:200,
+                        <th data-options="field:'countryName',width:150,sortable:true,
                             formatter:function(value,row){
                                 return row.countryName;
                             },
@@ -45,7 +145,8 @@ if(actionName=='edit' || actionName=='show') {
                                 }
                         }">Country</th>
 
-                        <th data-options="field:'lobCode',width:200,
+                        <g:if test="${transactionTypeInstance?.code !='RFP'}">
+                        <th data-options="field:'lobCode',width:100,sortable:true,
                             formatter:function(value,row){
                                 return row.lobCode;
                             },
@@ -62,13 +163,13 @@ if(actionName=='edit' || actionName=='show') {
 
 	                                    var a = $('#dg-approvalDetails').datagrid('getEditor', {index:editIndex, field:'brandCode'});
 
-	                                    $(a.target).combobox('reload', '/${meta(name:'app.name')}/brand/jlist?lobCode='+rec.code+'&masterField.name=country&masterField.id='+country);                                    
-
-	                                }
+	                                    $(a.target).combobox('reload', '/${meta(name:'app.name')}/brand/jlist?country='+country+'&masterField.name=lob&masterField.id='+rec.code);                                    
+                                                
+	                                }  
                                 }
-                        }">Lob</th>
+                        }">LOB</th>
                         
-                        <th data-options="field:'brandCode',width:200,
+                        <th data-options="field:'brandCode',width:100,sortable:true,
                             formatter:function(value,row){
                                 return row.brandCode;
                             },
@@ -82,8 +183,9 @@ if(actionName=='edit' || actionName=='show') {
                                    
                                 }
                         }">Brand</th>
-                             
-                        <th data-options="field:'creatorId',width:200,
+                        </g:if>     
+
+                        <th data-options="field:'creatorId',width:150,sortable:true,
                             formatter:function(value,row){
                                 return row.creatorId;
                             },
@@ -98,9 +200,11 @@ if(actionName=='edit' || actionName=='show') {
                                 }
                         }">Creator</th>
 
-                        <th data-options="field:'noSeq',align:'right',formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:0}}">No Sequential</th>
+                        <th data-options="field:'noSeq',align:'right',sortable:true,formatter:formatNumber,  width:100,editor:{type:'numberbox',options:{precision:0}}">Sequential No</th>
+
+
                         	
-                        <th data-options="field:'approverId',width:200,
+                        <th data-options="field:'approverId',width:200,sortable:true,
                             formatter:function(value,row){
                                 return row.approverId;
                             },
@@ -116,10 +220,15 @@ if(actionName=='edit' || actionName=='show') {
                         }">Approver</th>
                         
                         
-                        <th data-options="field:'isSequential',align:'right', width:100,editor:{type:'checkbox',options:{on:'1',off:'0'}}">Is Sequential</th>
+                        <th data-options="field:'isSequential',align:'right', width:50,sortable:true,editor:{type:'checkbox',options:{on:'1',off:'0'}}">Is Sequential</th>
+
+                        <th data-options="field:'inActive',align:'right', width:50, sortable:true,editor:{type:'checkbox',options:{on:'1',off:'0'}}">InActive</th>
+
+                        <th data-options="field:'dateInActive',align:'right', width:200, sortable:true">Date InActive</th>
                    
                     	<th data-options="field:'transactionTypeId',hidden:true">transactionType</th>
 
+                        <th data-options="field:'id',hidden:true">id</th>
                                     
              
                     
@@ -134,10 +243,6 @@ if(actionName=='edit' || actionName=='show') {
     
 </div>
 
-
-
-    
-
         <div id="tb-approvalDetails" style="height:auto">
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false" onclick="approvalDetailsAppend()">Add</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:false" onclick="approvalDetailsRemoveit()">Remove</a>
@@ -145,7 +250,14 @@ if(actionName=='edit' || actionName=='show') {
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:false" onclick="approvalDetailsRefresh()">Refresh</a>
         </div>
             
-        <r:script>     
+        <r:script>
+        
+           
+            $(document).ready(function () {
+$('#dg-approvalDetails').datagrid('enableFilter');
+});
+           
+        
             var editIndex = undefined;
             function approvalDetailsEndEditing(){
                 if (editIndex == undefined){return true}
@@ -153,9 +265,6 @@ if(actionName=='edit' || actionName=='show') {
 
         
                     //countryName
-                    var ed = $('#dg-approvalDetails').datagrid('getEditor', {index:editIndex,field:'countryName'});
-                    var countryName = $(ed.target).combobox('getText');
-                    $('#dg-approvalDetails').datagrid('getRows')[editIndex]['countryName'] = countryName;
                     
         
 
@@ -166,6 +275,7 @@ if(actionName=='edit' || actionName=='show') {
                       url: "/${meta(name:'app.name')}/approvalDetail/jsave",
                       data: row,
                       success: function(data){ 
+                          $('#dg-approvalDetails').datagrid('reload');
                           if(!data.success)
                           {
                             alert(data.messages.errors[0].message)
@@ -179,9 +289,13 @@ if(actionName=='edit' || actionName=='show') {
                     return false;
                 }
             }
+
             function approvalDetailsOnClickRow(index){
                 if (editIndex != index){
+
                     if (approvalDetailsEndEditing()){
+                        //var colapproverId = $(this).datagrid('getColumnOption', 'approverId');
+                        //colapproverId.editor = null;
                         $('#dg-approvalDetails').datagrid('selectRow', index)
                                 .datagrid('beginEdit', index);
                         editIndex = index;
@@ -190,6 +304,7 @@ if(actionName=='edit' || actionName=='show') {
                     }
                 }
             }
+
             function approvalDetailsAppend(){
                 if (approvalDetailsEndEditing()){
                     $('#dg-approvalDetails').datagrid('appendRow',
@@ -198,6 +313,7 @@ if(actionName=='edit' || actionName=='show') {
                     $('#dg-approvalDetails').datagrid('selectRow', editIndex).datagrid('beginEdit', editIndex);
                 }
             }
+
             function approvalDetailsRemoveit(){
                 if (editIndex == undefined){return}
                 if (!confirm('Are you sure to delete this record?')){ return }
@@ -213,6 +329,7 @@ if(actionName=='edit' || actionName=='show') {
                   url: "/${meta(name:'app.name')}/approvalDetail/jdelete/" + row['id'],
                   data: row,
                   success: function(data){ 
+                      $('#dg-approvalDetails').datagrid('reload');
                       if(!data.success)
                       {
                             alert(data.messages)

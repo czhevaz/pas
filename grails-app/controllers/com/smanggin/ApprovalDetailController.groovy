@@ -134,26 +134,73 @@ class ApprovalDetailController {
             }            
         }
         
-        approvalDetailInstance.properties = params
-        approvalDetailInstance.country = Country.findByName(params.countryName)
-        approvalDetailInstance.transactionType = TransactionType.get(params.transactionTypeId)
-        approvalDetailInstance.lob = params.lobCode
-        approvalDetailInstance.brand = params.brandCode
-        approvalDetailInstance.creator = User.findByLogin(params.creatorId)
-        approvalDetailInstance.approver = User.findByLogin(params.approverId)
-                       
-        if (!approvalDetailInstance.save(flush: true)) {
+        
+            
+        if(checkApprover(params)){
+
+            approvalDetailInstance.properties = params
+            approvalDetailInstance.country = Country.findByName(params.countryName)
+            approvalDetailInstance.transactionType = TransactionType.get(params.transactionTypeId)
+            if(params.lobCode){
+                approvalDetailInstance.lob = params.lobCode
+                approvalDetailInstance.brand = params.brandCode    
+            }
+            
+            approvalDetailInstance.creator = User.findByLogin(params.creatorId)
+            approvalDetailInstance.approver = User.findByLogin(params.approverId)
+            
+            if(!params.id){
+                approvalDetailInstance.inActive = false    
+            }
+            
+            if(params.inActive == '1'){
+                approvalDetailInstance.dateInActive = new Date()
+            }
+            /*else{
+                approvalDetailInstance.dateInActive = null
+            }*/
+
+            if (!approvalDetailInstance.save(flush: true)) {
+                render([success: false, messages: approvalDetailInstance.errors] as JSON)
+                return
+            }
+                            
+            render([success: true] as JSON)    
+
+        }else{
+            approvalDetailInstance.errors.rejectValue("version", "default.approvalDetail.unique.failure",
+                              [message(code: 'approvalDetail.label', default: 'ApprovalDetail')] as Object[],
+                              "Country , Lob, Brand , no Sequential, and Approver must be Unique")
             render([success: false, messages: approvalDetailInstance.errors] as JSON)
-            return
-        }
-                        
-        render([success: true] as JSON)
+        }               
+        
     }
 
     def jlist() {
+        println params
+        if(params.sort == 'creatorId'){
+            params.sort  = 'creator'
+        }
+        if(params.sort == 'approverId'){
+            params.sort  = 'approver'
+        }
+
+        if(params.sort == 'brandCode'){
+            params.sort  = 'brand'
+        }
+
+        if(params.sort == 'lobCode'){
+            params.sort  = 'lob'
+        }
+        if(params.sort == 'countryName'){
+            params.sort  = 'country'
+        }
+
+        params.order = params.order ?: 'asc' 
+        params.sort = params.sort ?: 'inActive' 
         if(params.masterField){
             def c = ApprovalDetail.createCriteria()
-            def results = c.list {
+            def results = c.list(params) {
                 eq(params.masterField.name+'.id',params.masterField.id.toLong())    
             }
             render results as JSON
@@ -161,16 +208,23 @@ class ApprovalDetailController {
         }
         else
         {
-            params.max = Math.min(params.max ? params.int('max') : 10, 100)
+            //params.max = Math.min(params.max ? params.int('max') : 10, 100)
             render ApprovalDetail.list(params) as JSON           
         }
         
     }   
 
     def jdelete(Long id) {
+       // println params
         def approvalDetailInstance = ApprovalDetail.get(id)
-        if (!approvalDetailInstance)
+        def poApprover = PurchaseOrderApprover.findByApprovalDetail(approvalDetailInstance)
+
+        if (!approvalDetailInstance){
             render([success: false] as JSON)
+        }else if(poApprover){
+            def error = [message: message(code: 'default.cannot.delete.message', args: [message(code: 'approvalDetail.label', default: 'ApprovalDetail'), params.id])]
+            render([success: false, messages: error.message] as JSON)
+        }
         else {
             try {
                 approvalDetailInstance.delete(flush: true)             
@@ -191,6 +245,49 @@ class ApprovalDetailController {
         }
         else {
             render([approvalDetailInstance : approvalDetailInstance ] as JSON)
+        }
+    }
+
+    def checkApprover(params){
+        
+        def transactionType = TransactionType.get(params.transactionTypeId)
+        def approvalDetail = ApprovalDetail.createCriteria().list(){
+            and{
+                country{
+                    like('name',params.countryName)
+                }
+
+                if(transactionType.code != 'RFP'){
+                    like('lob',params.lobCode)
+                    like('brand',params.brandCode)    
+                }
+                
+                eq('noSeq',params.noSeq?.toLong())
+                
+                eq('transactionType',transactionType)
+
+                eq('inActive',false)
+
+                if(params.id){
+                    ne('id',params.id.toLong())   
+                }
+
+                creator{
+                    eq('login',params.creatorId)
+                }
+
+                /*approver{
+                    eq('login',params.approverId)
+                }*/
+                
+            }
+        }
+
+        println '(approvalDetail)  >>>. ' + approvalDetail
+        if(approvalDetail.size() > 0){
+            return false
+        }else{
+            return true
         }
     }
 }

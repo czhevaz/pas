@@ -10,6 +10,7 @@
 	<title><g:message code="default.show.label" args="[entityName]" /></title>
 	<g:set var="canCreate" value="true" scope="request" />
 	<g:set var="canEdit" value="true" scope="request" />
+		<g:set var="canDelete" value="true" scope="request" />
 </head>
 
 <body>
@@ -117,6 +118,20 @@
 							</tr>
 
 							<tr class="prop">
+								<td valign="top" class="name"><g:message code="supplier.mobileNo.label" default="Contact Person" /></td>
+								
+								<td valign="top" class="value">${supplierInstance?.contactPerson}</td>
+								
+							</tr>
+
+							<tr class="prop">
+								<td valign="top" class="name"><g:message code="supplier.mobileNo.label" default="Mobile No" /></td>
+								
+								<td valign="top" class="value">${supplierInstance?.mobileNo}</td>
+								
+							</tr>
+
+							<tr class="prop">
 								<td valign="top" class="name"><g:message code="supplier.dateCreated.label" default="Date Created" /></td>
 								
 								<td valign="top" class="value"><g:formatDate date="${supplierInstance?.dateCreated}" /></td>
@@ -129,6 +144,8 @@
 								<td valign="top" class="value"><g:formatDate date="${supplierInstance?.lastUpdated}" /></td>
 								
 							</tr>
+
+							
 						
 						
 						

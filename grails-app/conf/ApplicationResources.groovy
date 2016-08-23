@@ -8,10 +8,16 @@ modules = {
         resource url:'js/jquery-easyui/jquery.easyui.min.js'
         resource url:'js/jquery-easyui/themes/bootstrap/easyui.css'
         resource url:'js/jquery-easyui/datagrid-detailview.js'
-        
+        resource url:'js/jquery-easyui/datagrid-filter.js'
 
         resource url:'js/numeral/min/numeral.min.js'	
-        
+        resource url:'js/slimScroll/jquery.slimscroll.min.js'
+
+        resource url:'js/bootstrap-datetimepicker.min.js'
+        resource url:'css/bootstrap-datetimepicker.min.css'
+
+        resource url:'js/jquery.browser.js'
+        resource url:'addPlugins/stupidtable.js'
     }
 
     fileUpload{
@@ -28,5 +34,8 @@ modules = {
         
         resource url:'addPlugins/datatables/jquery.dataTables.min.js'
         resource url:'addPlugins/datatables/dataTables.bootstrap.min.js'        
+
+        //resource url:'addPlugins/slimScroll/jquery.slimscroll.js'
+        
     }
 }

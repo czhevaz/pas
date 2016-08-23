@@ -14,7 +14,7 @@ class PppPhilippineMarshaller {
             return [
 				
 				requestorName :it.requestor,
-				pppDate :it.pppDate,
+				pppDate :it.pppDate?.format('yyyy-MM-dd'),
 				pppNumber :it.number,
 				pppDescription :it.pppProgram,
 				countryName:it.country?.name,
@@ -23,9 +23,10 @@ class PppPhilippineMarshaller {
 				state:it.state,
 				amount: it.pppCost,
 				//amount2: it.amount2,
-				//remainCreditLimit:it.remainCreditLimit,
+				remainCreditLimit:it.remainCreditLimit,
 				//remainCreditLimit2:it.remainCreditLimit2,
 				version     : it.version,
+				year: it.year,
 				
 			]
         }

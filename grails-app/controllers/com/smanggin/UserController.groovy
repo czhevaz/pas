@@ -11,8 +11,11 @@ import org.springframework.dao.DataIntegrityViolationException
  */
 
 class UserController {
+    def globalService
+    def syncDatabaseService
 	def authenticationService
-
+    def connectDBService
+    def grailsApplication
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
@@ -20,7 +23,7 @@ class UserController {
     }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        //params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def results = User.createCriteria().list(params){}
         [userInstanceList: results, userInstanceTotal: results.totalCount]
     }
@@ -41,7 +44,10 @@ class UserController {
     }
 
     def show() {
+        
         def userInstance = User.get(params.id)
+       println "syncDatabaseService " +syncDatabaseService.syncRateDetailFromProxy()
+       // println globalService.yearList('PppPhilippine',grailsApplication)
         if (!userInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
             redirect(action: "list")
@@ -197,12 +203,15 @@ class UserController {
     }
 
     def postLogin() {
-		println "postlogin >>>>>>>>>> " +auth.user()
-		def user = User.findByLogin( auth.user() )
+		//println "postlogin >>>>>>>>>> " +auth.user()
+		def user = User.findByLogin(auth.user().trim())
+        session['user'] = user?.login 
 		session['email'] = user?.email
-		//session['country'] = user?.country
+		session['country'] = user?.country
+        session['isAdmin'] = user?.isAdmin
+        session['userRole'] = user?.userRole
 		//session['domainPPP'] = Country.findByName(user?.country).domainPPP 	
-		//session['country'] = user?.country
+		
         redirect(action: "index", controller:"home",params: params)
     }
 

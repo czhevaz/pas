@@ -60,14 +60,14 @@
 								<td valign="top" class="value">${fieldValue(bean: transactionGroupInstance, field: "width")}</td>
 								
 							</tr>
-
 							<tr class="prop">
-								<td valign="top" class="name"><g:message code="transactionGroup.approval.label" default="Approval" /></td>
+								<td valign="top" class="name"><g:message code="transactionGroup.country.label" default="Country" /></td>
 								
-								<td valign="top" class="value"><g:link controller="approval" action="show" id="${transactionGroupInstance?.approval?.id}">${transactionGroupInstance?.approval?.encodeAsHTML()}</g:link></td>
+								<td valign="top" class="value">${fieldValue(bean: transactionGroupInstance, field: "country")}</td>
 								
 							</tr>
 
+							
 							<tr class="prop">
 								<td valign="top" class="name"><g:message code="transactionGroup.dateCreated.label" default="Date Created" /></td>
 								
@@ -81,6 +81,8 @@
 								<td valign="top" class="value"><g:formatDate date="${transactionGroupInstance?.lastUpdated}" /></td>
 								
 							</tr>
+
+							
 						
 						</tbody>
 					</table>
